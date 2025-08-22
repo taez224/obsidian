@@ -1,0 +1,87 @@
+---
+tags:
+  - type/timeline/monthly
+month: <% tp.date.now("YYYY-MM") %>
+---
+<%*
+
+const now = tp.date.now("YYYY-MM-DD");
+
+const startOfMonth = moment(now).startOf('month').format("YYYY-MM-DD");
+
+const endOfMonth = moment(now).endOf('month').format("YYYY-MM-DD");
+
+%>
+# 📆 Monthly Review - |<% moment(tp.file.title).format("MMMM, YYYY") %>
+
+  
+
+> [!important] Highlight of the Month  
+> 가장 기억에 남는 성과, 사건, 배운 점
+
+---
+
+## 🎯 **이번 달 주요 목표**
+- [ ]
+
+## 📋 이번 달 할 일
+
+> [!todo] 이번 달 남은 Tasks
+>```tasks
+not done
+due this month
+sort by priority desc
+
+> [!success] 이번 달 완료된 Tasks
+> ```tasks
+> done this month
+> sort by done desc
+> ```
+
+> [!question] No due date
+>```tasks
+not done
+no due date
+
+> [!fail] Overdue
+> ```tasks
+> not done
+> due before this month
+> ```
+
+---
+
+## 📝 **이번 달 작성/수정된 노트**
+
+```dataview
+TABLE WITHOUT ID file.link as "노트", file.cday as "생성일", file.mtime as "마지막 수정"
+FROM ""
+WHERE (startswith(file.folder, "01_") OR startswith(file.folder, "20_") OR startswith(file.folder, "30_"))
+AND (
+  dateformat(file.cday, "yyyy-MM") = dateformat(this.file.cday, "yyyy-MM")
+  OR dateformat(file.mtime, "yyyy-MM") = dateformat(this.file.cday, "yyyy-MM")
+)
+SORT file.ctime DESC
+```
+
+## 🗓 Notes 링크
+
+> [!info] 이번 연도 Note
+> `=link(dateformat(date(this.file.name, "yyyy-MM"), "yyyy"))`
+
+> [!summary] 이번 달 Weekly Notes
+> ```dataview
+> LIST
+FROM "10_Periodic Notes" and #type/timeline/weekly
+WHERE month = date(this.file.name, "yyyy-MM")
+SORT file.name ASC
+>```
+
+
+## **📝 이번 달 회고**
+
+- 성과:
+    
+- 배운 점:
+    
+- 개선할 점:
