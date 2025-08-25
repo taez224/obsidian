@@ -1,0 +1,113 @@
+
+/* 기존 cards 스타일 기반으로 dataviewjs용 카드 스타일 적용 */
+.book-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 열 너비 최소 200px */
+	gap: 0.75rem;
+}
+
+.book-cards > div {
+	background-color: transparent;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.book-cards > div:hover {
+	border: 1px solid var(--background-modifier-border-hover);
+	box-shadow: 0 8px 16px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05);
+	transform: translateY(-4px);
+}
+
+.book-cards img {
+	aspect-ratio: 11/16;
+	width: 100%;
+	object-fit: cover;
+	cursor: pointer;
+	transition: transform 0.2s
+}
+
+.book-card img:hover {
+    transform: scale(1.03);
+}
+
+.book-cards .content {
+	padding: calc(1.2em / 2);
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.book-cards .title {
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    font-weight: var(--bold-weight);
+	display: -webkit-box;
+    -webkit-line-clamp: 2; /* 최대 2줄 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	word-break: break-word;
+	line-clamp: 2;
+	height: 3.5rem;
+	color: var(--text-accent)
+}
+
+.book-cards .title:hover {
+	color: var(--text-accent-hover);
+    text-decoration: underline;
+    transition: transform 0.2s, color 0.2s;
+}
+
+
+.book-cards .rating {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #ccc;
+	.star {
+		position: relative;
+		display: inline-block;
+		margin-right: 2px;
+		color: #ccc;
+		.filled {
+			position: absolute;
+			top: 0;
+			left: 0;
+			overflow: hidden;
+			color: gold;
+			white-space: nowrap;
+		}
+	}
+} 
+
+.book-cards .note {
+	font-size: calc(var(--table-text-size) * 0.85);
+	font-style: italic;
+	color: var(--text-muted);
+	background-color: var(--background-secondary);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    margin: 0.5rem 0;
+    position: relative;
+	display: -webkit-box;
+	line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+  
+
+.book-cards .meta div {
+	font-size: var(--font-smallest);
+	color: var(--text-muted);
+    margin: 0.2rem 0;
+}
+
+.book-cards .meta div.author::before { content: "✍️ "; }
+.book-cards .meta div.publisher::before { content: "🏢 "; }
+.book-cards .meta div.status::before { content: "📖 "; }

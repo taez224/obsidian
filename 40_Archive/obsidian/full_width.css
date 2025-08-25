@@ -1,0 +1,44 @@
+/*
+1. 노트의 frontmatter에 추가 (Add to the Frontmatter of the notes you want)
+cssclass: width-100
+2. "Settings ＞ Appearance ＞ CSS Snippets"에 설정 (Set to "Settings ＞ Appearance ＞ CSS Snippets")
+    my_style.css에 추가 (Add to my_style.css)
+*/
+
+.view-content > .width-100.markdown-source-view.mod-cm6 > .cm-editor > .cm-scroller {
+    /* padding: var(--file-margins); */
+    padding-inline: 30px; /* for Minimal */
+}
+
+.width-100.markdown-source-view.mod-cm6.is-readable-line-width .cm-sizer {
+    --line-width-adaptive: 100%; /* for Minimal */
+    max-width: inherit;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.width-100.markdown-source-view.mod-cm6.is-readable-line-width .cm-content {
+    max-width: inherit;
+}
+
+.width-100.markdown-source-view.mod-cm6.is-readable-line-width .cm-line {
+    max-width: inherit;
+    margin-left: auto !important; /* for Minimal */
+}
+
+.width-100.markdown-preview-view.is-readable-line-width .markdown-preview-section {
+    width: inherit;
+    max-width: inherit;
+}
+
+.width-100.markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+    --max-width: 100%; /* for Minimal */
+    max-width: inherit;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.width-100.markdown-preview-view.is-readable-line-width .markdown-preview-section > div {
+    margin-inline: auto;
+    width: inherit;
+}
