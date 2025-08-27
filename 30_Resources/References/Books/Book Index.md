@@ -2,12 +2,28 @@
 cssclasses:
   - width-100
 ---
+```dataview
+TABLE WITHOUT ID
+	Tier,
+    join(rows.file.link, ", ") as "책 목록"
+FROM #📚독서
+SORT my_rate DESC
+GROUP BY choice(floor(my_rate) = 5, "S",
+         choice(floor(my_rate) = 4, "A",
+         choice(floor(my_rate) = 3, "B",
+         choice(floor(my_rate) = 2, "C",
+         choice(floor(my_rate) = 1, "D", "미분류"))))) as "Tier"
+SORT rows.my_rate DESC
+```
+
+---
+
 
 ```dataviewjs
 // 1️⃣ Dataview 페이지 가져오기 (정렬: 별점 -> 생성일)
 const currentFolder = dv.current().file.folder;
 const pages = dv.pages(`"${currentFolder}"`)
-    .where(p => p.file.name != dv.current().file.name)
+    .where(p => p.file.tags.includes("#📚독서"))
     .sort(p => [p.my_rate ?? 0, p.file.cday], 'desc');
 
 // 2️⃣ 카드 컨테이너 생성
@@ -16,14 +32,14 @@ container.className = "book-cards";
 
 // 3️⃣ 카드 생성
 pages.forEach(p => {
-    const titleDisplay = p.file.name.length > 30 ? p.file.name.slice(0,30) + "..." : p.file.name;
+    
     const rate = p.my_rate ?? 0;
 
     // 카드
     const card = document.createElement("div");
     card.className = "book-card";
 
-    // 이미지
+    // 이미지 (클릭 시 이동)
     const img = document.createElement("img");
     img.src = p.cover_url ?? "";
     img.alt = "표지";
@@ -42,7 +58,7 @@ pages.forEach(p => {
 	titleDiv.className = "title";
 	
 	const titleLink = document.createElement("a");
-	titleLink.textContent = titleDisplay;
+	titleLink.textContent = p.file.name;
 	titleLink.href = "#"; 
 	titleLink.style.textDecoration = "none"; 
 	titleLink.style.color = "inherit"; 
@@ -126,5 +142,3 @@ pages.forEach(p => {
 // 4️⃣ DataviewJS에 container 삽입
 dv.container.appendChild(container);
 ```
-
-	
