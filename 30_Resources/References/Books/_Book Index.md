@@ -2,6 +2,7 @@
 cssclasses:
   - width-100
 ---
+
 ```dataview
 TABLE WITHOUT ID
 	Tier,

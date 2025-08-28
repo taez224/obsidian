@@ -17,6 +17,13 @@ tags:
 
 ---
 
+## ✅ Daily Checklist
+
+- [ ] #task/daily Inbox or Slipbox 노트 작성
+- [ ] #task/daily 8000+보 걷기
+- [ ] #task/daily 운동 or 링피트!
+
+
 ## **🎯 오늘의 주요 목표**
 - [ ] 
 
