@@ -1,0 +1,56 @@
+filters:
+  and:
+    - file.inFolder("01_Slipbox")
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+formulas:
+  connections: file.links.length + file.backlinks.length
+  updated: file.mtime.relative()
+  created_date: file.ctime.format("YYYY-MM-DD")
+  word_count: (file.size / 5).round(0)
+properties:
+  file.name:
+    displayName: 노트
+  file.tags:
+    displayName: 태그
+  formula.connections:
+    displayName: 연결
+  formula.updated:
+    displayName: 수정
+  formula.created_date:
+    displayName: 생성일
+  formula.word_count:
+    displayName: 단어수
+views:
+  - type: table
+    name: 전체 노트
+    groupBy:
+      property: file.tags
+      direction: ASC
+    order:
+      - file.name
+      - file.tags
+      - formula.connections
+      - formula.updated
+  - type: table
+    name: 최근 수정순
+    order:
+      - file.name
+      - formula.updated
+      - formula.connections
+      - formula.word_count
+  - type: table
+    name: 연결 많은 순
+    order:
+      - file.name
+      - formula.connections
+      - file.tags
+      - formula.updated
+    summaries:
+      formula.connections: Sum
+  - type: cards
+    name: 갤러리
+    order:
+      - file.name
+      - file.tags
+      - formula.updated

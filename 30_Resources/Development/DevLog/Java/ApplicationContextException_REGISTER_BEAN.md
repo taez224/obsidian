@@ -1,8 +1,8 @@
 ---
 tags:
-  - devlog
-  - java
-  - troubleshooting
+  - 개발/DevLog
+  - 개발/Java
+  - 개발/트러블슈팅
 created: 2025-08-13
 type:
   - java

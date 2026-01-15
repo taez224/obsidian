@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"b2c3d4e5f6a7b8c9","type":"group","x":-150,"y":-50,"width":350,"height":280,"color":"6","label":"🔥 AI의 본질"},
+		{"id":"e5f6a7b8c9d0e1f2","type":"group","x":650,"y":-50,"width":350,"height":180,"color":"4","label":"🏢 조직/플랫폼"},
+		{"id":"a7b8c9d0e1f2a3b4","type":"group","x":650,"y":300,"width":350,"height":180,"color":"3","label":"🌱 성장/마인드셋"},
+		{"id":"f6a7b8c9d0e1f2a3","type":"file","file":"01_Slipbox/AI 시대 플랫폼팀은 어떻게 진화하는가.md","x":670,"y":0,"width":310,"height":100},
+		{"id":"b8c9d0e1f2a3b4c5","type":"file","file":"01_Slipbox/성장은 '해야 하는 것'이 아니다..md","x":670,"y":350,"width":310,"height":100},
+		{"id":"c9d0e1f2a3b4c5d6","type":"text","text":"## 💡 핵심 인사이트\n\n- AI는 **능력의 증폭기** (지수 제곱)\n- 준비된 자에게는 도구, 그렇지 않으면 위협\n- 조직의 지능을 설계하는 시대","x":-150,"y":350,"width":350,"height":130,"color":"2"},
+		{"id":"c3d4e5f6a7b8c9d0","type":"file","file":"01_Slipbox/AI, 능력을 지수 제곱하는 마법의 거울.md","x":-130,"y":0,"width":310,"height":100},
+		{"id":"d4e5f6a7b8c9d0e1","type":"file","file":"01_Slipbox/AI와 프로메테우스 - 인간이 쥔 불의 시대.md","x":-130,"y":110,"width":310,"height":100},
+		{"id":"a1b2c3d4e5f6a7b8","type":"text","text":"# 🤖 AI 시대\n\n**핵심 질문**\n- AI는 도구인가, 파트너인가?\n- 어떻게 활용할 것인가?","x":300,"y":150,"width":280,"height":200,"color":"5"}
+	],
+	"edges":[
+		{"id":"d0e1f2a3b4c5d6e7","fromNode":"c3d4e5f6a7b8c9d0","fromSide":"right","toNode":"a1b2c3d4e5f6a7b8","toSide":"left","color":"6"},
+		{"id":"e1f2a3b4c5d6e7f8","fromNode":"d4e5f6a7b8c9d0e1","fromSide":"right","toNode":"a1b2c3d4e5f6a7b8","toSide":"left","color":"6"},
+		{"id":"f2a3b4c5d6e7f8a9","fromNode":"a1b2c3d4e5f6a7b8","fromSide":"right","toNode":"f6a7b8c9d0e1f2a3","toSide":"left","color":"4","label":"조직 적용"},
+		{"id":"a3b4c5d6e7f8a9b0","fromNode":"a1b2c3d4e5f6a7b8","fromSide":"right","toNode":"b8c9d0e1f2a3b4c5","toSide":"left","color":"3","label":"개인 적용"},
+		{"id":"b4c5d6e7f8a9b0c1","fromNode":"c3d4e5f6a7b8c9d0","fromSide":"bottom","toNode":"d4e5f6a7b8c9d0e1","toSide":"top","color":"6","label":"연결"},
+		{"id":"c5d6e7f8a9b0c1d2","fromNode":"f6a7b8c9d0e1f2a3","fromSide":"bottom","toNode":"b8c9d0e1f2a3b4c5","toSide":"top","color":"4","label":"인재상"},
+		{"id":"d6e7f8a9b0c1d2e3","fromNode":"c9d0e1f2a3b4c5d6","fromSide":"top","toNode":"d4e5f6a7b8c9d0e1","toSide":"bottom","toEnd":"none","color":"2"}
+	]
+}

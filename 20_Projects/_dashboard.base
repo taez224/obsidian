@@ -1,0 +1,76 @@
+filters:
+  and:
+    - file.inFolder("20_Projects")
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+formulas:
+  updated: file.mtime.relative()
+  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
+  days_since_update: ((now() - file.mtime) / 86400000).round(0)
+  project_folder: file.folder.replace("20_Projects/", "").split("/").slice(0, 1).join("")
+  sub_project: if(file.folder.replace("20_Projects/", "").split("/").length > 1, file.folder.replace("20_Projects/", "").split("/").slice(1).join("/"), "-")
+  status_icon: if(status == "active", "🟢", if(status == "completed", "✅", if(status == "on-hold", "⏸️", "📋")))
+properties:
+  file.name:
+    displayName: 노트
+  formula.project_folder:
+    displayName: 프로젝트
+  formula.sub_project:
+    displayName: 서브
+  status:
+    displayName: 상태
+  formula.updated:
+    displayName: 수정
+  formula.created_date:
+    displayName: 생성일
+  formula.days_since_update:
+    displayName: 경과일
+views:
+  - type: table
+    name: 전체 프로젝트
+    groupBy:
+      property: formula.project_folder
+      direction: ASC
+    order:
+      - formula.status_icon
+      - file.name
+      - formula.sub_project
+      - status
+      - formula.updated
+    columnSize:
+      file.name: 102
+  - type: table
+    name: 상태별
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - formula.status_icon
+      - file.name
+      - formula.project_folder
+      - formula.updated
+  - type: table
+    name: 최근 활동
+    order:
+      - file.name
+      - formula.project_folder
+      - formula.updated
+      - formula.days_since_update
+    limit: 20
+  - type: table
+    name: 오래된 노트
+    filters:
+      and:
+        - formula.days_since_update > 14
+    order:
+      - file.name
+      - formula.project_folder
+      - formula.days_since_update
+      - formula.updated
+  - type: cards
+    name: 갤러리
+    order:
+      - file.name
+      - formula.project_folder
+      - status
+      - formula.updated

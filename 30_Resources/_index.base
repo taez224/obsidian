@@ -1,0 +1,81 @@
+filters:
+  and:
+    - file.inFolder("30_Resources")
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+formulas:
+  updated: file.mtime.relative()
+  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
+  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("etc"), "📁 기타", "📄 기타"))))
+  subfolder: file.folder.replace("30_Resources/", "").replace("References/", "")
+  rating_display: if(my_rate, "⭐".repeat(my_rate), "-")
+  read_status: if(status == "완독", "✅", if(status == "읽는중", "📖", if(status == "예정", "📋", "-")))
+properties:
+  file.name:
+    displayName: 노트
+  formula.resource_type:
+    displayName: 유형
+  formula.subfolder:
+    displayName: 분류
+  author:
+    displayName: 저자
+  formula.rating_display:
+    displayName: 평점
+  formula.read_status:
+    displayName: 상태
+  formula.updated:
+    displayName: 수정
+  formula.created_date:
+    displayName: 생성일
+views:
+  - type: table
+    name: 전체 리소스
+    groupBy:
+      property: formula.resource_type
+      direction: ASC
+    order:
+      - file.name
+      - formula.subfolder
+      - author
+      - formula.updated
+  - type: table
+    name: 📚 도서 목록
+    filters:
+      and:
+        - file.folder.contains("Books")
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - formula.read_status
+      - file.name
+      - author
+      - formula.rating_display
+      - formula.updated
+  - type: table
+    name: 🔧 DevLog
+    filters:
+      and:
+        - file.folder.contains("DevLog")
+    order:
+      - file.name
+      - file.tags
+      - formula.created_date
+      - formula.updated
+  - type: table
+    name: 📰 아티클 & 기타
+    filters:
+      or:
+        - file.folder.contains("Articles")
+        - file.folder.contains("etc")
+    order:
+      - file.name
+      - formula.resource_type
+      - formula.updated
+  - type: table
+    name: 최근 수정
+    order:
+      - file.name
+      - formula.resource_type
+      - formula.updated
+    limit: 15
