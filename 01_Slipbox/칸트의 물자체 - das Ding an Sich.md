@@ -1,7 +1,6 @@
 ---
 tags:
   - 철학
-  - slipbox
 ---
 
 # 🧠 물자체 - das Ding an Sich 

@@ -6,10 +6,11 @@ filters:
 formulas:
   updated: file.mtime.relative()
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
-  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("etc"), "📁 기타", "📄 기타"))))
-  subfolder: file.folder.replace("30_Resources/", "").replace("References/", "")
+  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))
+  subfolder: file.folder.replace("30_Resources/", "").replace("References/", "").replace("Development/", "")
   rating_display: if(my_rate, "⭐".repeat(my_rate), "-")
   read_status: if(status == "완독", "✅", if(status == "읽는중", "📖", if(status == "예정", "📋", "-")))
+  connections: file.links.length + file.backlinks.length
 properties:
   file.name:
     displayName: 노트
@@ -27,6 +28,8 @@ properties:
     displayName: 수정
   formula.created_date:
     displayName: 생성일
+  formula.connections:
+    displayName: 연결
 views:
   - type: table
     name: 전체 리소스
@@ -38,11 +41,15 @@ views:
       - formula.subfolder
       - author
       - formula.updated
+    sort: []
+    columnSize:
+      formula.subfolder: 101
+      note.author: 189
   - type: table
     name: 📚 도서 목록
     filters:
       and:
-        - file.folder.contains("Books")
+        - file.inFolder("30_Resources/References/Books")
     groupBy:
       property: status
       direction: ASC
@@ -52,26 +59,79 @@ views:
       - author
       - formula.rating_display
       - formula.updated
+    sort:
+      - property: formula.read_status
+        direction: DESC
+    filter: file.folder.contains("Books")
+    columnSize:
+      formula.read_status: 56
+      note.author: 189
+      formula.rating_display: 82
+  - type: table
+    name: ⭐ 평점 높은 순
+    filters:
+      and:
+        - file.inFolder("30_Resources/References/Books")
+    order:
+      - file.name
+      - author
+      - formula.rating_display
+      - formula.updated
+    sort:
+      - property: formula.rating_display
+        direction: DESC
+    filter: file.folder.contains("Books") && my_rate >= 1
+    sortBy:
+      property: my_rate
+      direction: DESC
+    columnSize:
+      file.name: 267
+      note.author: 210
   - type: table
     name: 🔧 DevLog
     filters:
       and:
-        - file.folder.contains("DevLog")
+        - file.inFolder("30_Resources/Development")
     order:
       - file.name
       - file.tags
       - formula.created_date
       - formula.updated
+    filter: file.folder.contains("DevLog")
+    sortBy:
+      property: file.mtime
+      direction: DESC
   - type: table
     name: 📰 아티클 & 기타
     filters:
-      or:
-        - file.folder.contains("Articles")
-        - file.folder.contains("etc")
+      and:
+        - file.inFolder("30_Resources/References")
+        - '!file.inFolder("30_Resources/References/Books")'
     order:
       - file.name
       - formula.resource_type
       - formula.updated
+    sort:
+      - property: file.name
+        direction: ASC
+      - property: formula.resource_type
+        direction: ASC
+    filter: file.folder.contains("Articles") || file.folder.contains("etc")
+    columnSize:
+      file.name: 375
+      formula.resource_type: 189
+      formula.updated: 126
+  - type: table
+    name: 🔗 자주 참조됨
+    order:
+      - file.name
+      - formula.resource_type
+      - formula.connections
+      - formula.updated
+    filter: formula.connections >= 2
+    sortBy:
+      property: formula.connections
+      direction: DESC
   - type: table
     name: 최근 수정
     order:
@@ -79,3 +139,6 @@ views:
       - formula.resource_type
       - formula.updated
     limit: 15
+    sortBy:
+      property: file.mtime
+      direction: DESC

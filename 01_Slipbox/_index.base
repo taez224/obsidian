@@ -5,9 +5,12 @@ filters:
     - '!file.name.startsWith("_")'
 formulas:
   connections: file.links.length + file.backlinks.length
+  outlinks: file.links.length
+  backlinks: file.backlinks.length
   updated: file.mtime.relative()
   created_date: file.ctime.format("YYYY-MM-DD")
   word_count: (file.size / 5).round(0)
+  is_orphan: file.links.length == 0 && file.backlinks.length == 0
 properties:
   file.name:
     displayName: 노트
@@ -15,6 +18,10 @@ properties:
     displayName: 태그
   formula.connections:
     displayName: 연결
+  formula.outlinks:
+    displayName: 링크
+  formula.backlinks:
+    displayName: 백링크
   formula.updated:
     displayName: 수정
   formula.created_date:
@@ -29,28 +36,52 @@ views:
       direction: ASC
     order:
       - file.name
-      - file.tags
       - formula.connections
       - formula.updated
+  - type: table
+    name: 고립된 노트
+    order:
+      - file.name
+      - formula.created_date
+      - formula.updated
+    filter: formula.is_orphan == true
+  - type: table
+    name: 허브 노트
+    order:
+      - file.name
+      - formula.connections
+      - formula.outlinks
+      - formula.backlinks
+    filter: formula.connections >= 3
+    sortBy:
+      property: formula.connections
+      direction: DESC
+    columnSize:
+      file.name: 250
+      formula.outlinks: 167
   - type: table
     name: 최근 수정순
     order:
       - file.name
       - formula.updated
       - formula.connections
-      - formula.word_count
+    sortBy:
+      property: file.mtime
+      direction: DESC
   - type: table
-    name: 연결 많은 순
+    name: 연결 분석
     order:
       - file.name
+      - formula.outlinks
+      - formula.backlinks
       - formula.connections
-      - file.tags
-      - formula.updated
     summaries:
       formula.connections: Sum
+      formula.outlinks: Sum
+      formula.backlinks: Sum
   - type: cards
     name: 갤러리
     order:
       - file.name
       - file.tags
-      - formula.updated
+      - formula.connections

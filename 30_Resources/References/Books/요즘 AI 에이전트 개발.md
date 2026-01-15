@@ -10,7 +10,7 @@ publisher: 골든래빗
 total_page: 400
 publish_date: 2025-08-20
 cover_url: https://image.yes24.com/goods/150701473/XL
-status: 읽는 중
+status: 완독
 start_read_date: 2025-12-18
 finish_read_date: 2025-12-18
 my_rate: 4.3

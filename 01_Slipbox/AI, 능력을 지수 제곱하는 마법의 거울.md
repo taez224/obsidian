@@ -2,7 +2,6 @@
 tags:
   - AI
   - blog
-  - slipbox
 ---
 
 # 🌌 AI, 능력을 지수 제곱하는 마법의 거울

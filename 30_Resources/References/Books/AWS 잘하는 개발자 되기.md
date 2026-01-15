@@ -11,7 +11,7 @@ category: eBook
 total_page: 0
 publish_date: 2025-10-29
 cover_url: https://image.yes24.com/goods/163025497/XL
-status: 읽는 중
+status: 완독
 start_read_date: 2025-12-02
 finish_read_date: 2025-12-18
 my_rate: 3.6

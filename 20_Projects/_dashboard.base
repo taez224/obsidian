@@ -10,6 +10,7 @@ formulas:
   project_folder: file.folder.replace("20_Projects/", "").split("/").slice(0, 1).join("")
   sub_project: if(file.folder.replace("20_Projects/", "").split("/").length > 1, file.folder.replace("20_Projects/", "").split("/").slice(1).join("/"), "-")
   status_icon: if(status == "active", "🟢", if(status == "completed", "✅", if(status == "on-hold", "⏸️", "📋")))
+  is_stale: status == "active" && ((now() - file.mtime) / 86400000) > 14
 properties:
   file.name:
     displayName: 노트
@@ -37,8 +38,28 @@ views:
       - formula.sub_project
       - status
       - formula.updated
-    columnSize:
-      file.name: 102
+  - type: table
+    name: 진행 중
+    filter: status == "active"
+    sortBy:
+      property: file.mtime
+      direction: DESC
+    order:
+      - file.name
+      - formula.project_folder
+      - formula.updated
+      - formula.days_since_update
+  - type: table
+    name: 방치된 프로젝트
+    filter: formula.is_stale == true
+    sortBy:
+      property: formula.days_since_update
+      direction: DESC
+    order:
+      - file.name
+      - formula.project_folder
+      - formula.days_since_update
+      - formula.updated
   - type: table
     name: 상태별
     groupBy:
@@ -51,22 +72,15 @@ views:
       - formula.updated
   - type: table
     name: 최근 활동
+    sortBy:
+      property: file.mtime
+      direction: DESC
     order:
       - file.name
       - formula.project_folder
       - formula.updated
       - formula.days_since_update
     limit: 20
-  - type: table
-    name: 오래된 노트
-    filters:
-      and:
-        - formula.days_since_update > 14
-    order:
-      - file.name
-      - formula.project_folder
-      - formula.days_since_update
-      - formula.updated
   - type: cards
     name: 갤러리
     order:
