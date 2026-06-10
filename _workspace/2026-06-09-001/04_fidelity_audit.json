@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "run_id": "2026-06-09-001",
+    "audit": "content fidelity"
+  },
+  "verdict": "pass",
+  "preserved": {
+    "names": true,
+    "dates": true,
+    "numbers": true,
+    "source_attribution": true,
+    "claim_direction": true,
+    "markdown_structure": true,
+    "wikilinks": true,
+    "image_links": true
+  },
+  "notes": [
+    "CircleCI 수치와 방법론 설명은 변경하지 않음",
+    "HBR/BetterUp 귀속 유지",
+    "주장 방향과 결론 유지"
+  ]
+}

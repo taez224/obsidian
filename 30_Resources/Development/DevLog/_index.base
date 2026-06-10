@@ -1,0 +1,49 @@
+filters:
+  and:
+    - file.inFolder("30_Resources/Development/DevLog")
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+    - '!file.inFolder("30_Resources/Development/DevLog/Java")'
+formulas:
+  tier: if(file.basename.length == 7, "🗓 Monthly", if(file.basename.length == 8 && file.basename.contains("W"), "📆 Weekly", if(file.basename.length == 10, "📅 Daily", "❓ Other")))
+  year_month: if(file.basename.length == 7, file.basename, if(file.basename.length == 10, file.basename.slice(0, 7), "-"))
+  word_count: (file.size / 5).round(0)
+  updated: file.mtime.relative()
+properties:
+  file.name:
+    displayName: 노트
+  formula.tier:
+    displayName: 계층
+  formula.year_month:
+    displayName: 연-월
+  formula.word_count:
+    displayName: 단어수
+  formula.updated:
+    displayName: 수정
+views:
+  - type: table
+    name: 📊 3계층 한눈에 (Monthly · Weekly · Daily)
+    groupBy:
+      property: formula.tier
+      direction: ASC
+    order:
+      - file.name
+      - formula.year_month
+      - formula.word_count
+      - formula.updated
+    sortBy:
+      property: file.basename
+      direction: DESC
+  - type: table
+    name: 📅 Daily — 월별 비교 (어느 달이 활발했나)
+    filter: file.basename.length == 10
+    groupBy:
+      property: formula.year_month
+      direction: DESC
+    order:
+      - file.name
+      - formula.word_count
+      - formula.updated
+    sortBy:
+      property: file.basename
+      direction: DESC

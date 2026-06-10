@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "run_id": "2026-06-02-002",
+    "input_length": 13473,
+    "rewritten_length": 13371,
+    "estimated_genre": "technical_blog",
+    "detected_count": 3,
+    "ai_tell_density": 0.223,
+    "severity_weighted_score": 4,
+    "category_summary": {
+      "H": 1,
+      "J": 1,
+      "E": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "D-1",
+      "category": "H",
+      "category_label": "문두 접속어 반복",
+      "severity": "S2",
+      "scope": "lines 49,79,125,133,135,153",
+      "text_span": "그래서/이런 이유로 반복",
+      "reason": "섹션 전환부에서 접속사가 문단을 기계적으로 여는 패턴이 반복됨",
+      "suggested_fix": "인과가 문맥상 자명한 곳은 접속사를 삭제"
+    },
+    {
+      "id": "J-1",
+      "category": "J",
+      "category_label": "편집 잔여 주석",
+      "severity": "S1",
+      "scope": "opening section",
+      "text_span": "<!-- 이미지 자리 ... -->",
+      "reason": "발행 본문에 남으면 초안 흔적이 그대로 노출됨",
+      "suggested_fix": "이미지가 확정된 상태이므로 자리표시 주석 삭제"
+    },
+    {
+      "id": "E-1",
+      "category": "E",
+      "category_label": "종결 리듬 단조",
+      "severity": "S3",
+      "scope": "conclusion",
+      "text_span": "... 만들 것입니다. ... 빨라질 것입니다.",
+      "reason": "가까운 두 문장이 같은 추정형 종결을 반복함",
+      "suggested_fix": "한 문장으로 합쳐 리듬 완화"
+    }
+  ]
+}

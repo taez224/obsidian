@@ -1,0 +1,20 @@
+{
+  "run_id": "2026-06-07-001",
+  "decision": "accept",
+  "quality_grade": "A",
+  "self_check": {
+    "preservation": "pass",
+    "change_rate": "pass",
+    "genre": "pass",
+    "register": "pass",
+    "s1_residuals": "pass",
+    "no_artificial_expression": "pass"
+  },
+  "residual_findings": [],
+  "highlights": [
+    "Opening paragraphs now read less like a report summary and more like a blog argument.",
+    "Several conclusion-pivot words were removed without changing the thesis.",
+    "The harness section keeps the existing conceptual structure but reduces overloaded clauses.",
+    "The final practical recommendation is split into clearer execution steps."
+  ]
+}

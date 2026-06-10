@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "run_id": "2026-06-05-002"
+  },
+  "decision": "accept_with_note",
+  "residual_findings": [
+    {
+      "category": "B",
+      "note": "영어 병기와 전문용어가 많지만 기술블로그 장르상 허용됩니다."
+    },
+    {
+      "category": "C",
+      "note": "표와 참고문헌 구조는 유지했습니다."
+    }
+  ],
+  "grade": "A-"
+}

@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "run_id": "2026-06-09-001",
+    "input_length": 5620,
+    "estimated_genre": "markdown technical blog",
+    "detected_count": 8,
+    "ai_tell_density": "low-medium",
+    "severity_weighted_score": 9
+  },
+  "category_summary": {
+    "A_translationese": 2,
+    "C_structural_ai_pattern": 1,
+    "D_signature_phrase": 1,
+    "E_rhythm": 1,
+    "I_formal_noun_or_obligation": 3
+  },
+  "findings": [
+    {
+      "id": "F001",
+      "category": "I",
+      "category_label": "formal closure",
+      "severity": "S2",
+      "scope": "summary",
+      "text_span": "팀에는 ... 능력이 필요합니다",
+      "reason": "보고서식 필요성 종결이 frontmatter summary에서 글맛을 낮춤",
+      "suggested_fix": "팀은 ... 받아들일 수 있어야 합니다"
+    },
+    {
+      "id": "F002",
+      "category": "I",
+      "category_label": "formal noun ending",
+      "severity": "S2",
+      "scope": "opening",
+      "text_span": "것이 아니었습니다 / 것이었습니다",
+      "reason": "같은 문단 안에서 형식명사 종결이 반복되어 AI식 정리문처럼 읽힘",
+      "suggested_fix": "문장 하나는 직접 서술로 환원"
+    },
+    {
+      "id": "F003",
+      "category": "D",
+      "category_label": "over-neat contrast",
+      "severity": "S2",
+      "scope": "CircleCI interpretation",
+      "text_span": "이 수치는 ... 값은 아닙니다",
+      "reason": "방어형 설명이 보고서 발표체로 들림",
+      "suggested_fix": "이 수치가 ... 말해주지는 않습니다"
+    },
+    {
+      "id": "F004",
+      "category": "E",
+      "category_label": "rhythm",
+      "severity": "S2",
+      "scope": "회수 definition",
+      "text_span": "판단할 수 있고 ... 따라갈 수 있고 ... 남아 있어야 합니다",
+      "reason": "긴 병렬문이 한 번에 이어져 리듬이 평평함",
+      "suggested_fix": "문장 분리"
+    },
+    {
+      "id": "F005",
+      "category": "H",
+      "category_label": "meta phrase",
+      "severity": "S2",
+      "scope": "workslop paragraph",
+      "text_span": "이 글에서 말하는",
+      "reason": "글 자체를 설명하는 메타 표현이 문장을 딱딱하게 만듦",
+      "suggested_fix": "개발팀으로 좁혀 보면"
+    },
+    {
+      "id": "F006",
+      "category": "I",
+      "category_label": "obligation closure",
+      "severity": "S2",
+      "scope": "responsibility boundary",
+      "text_span": "중요한 건 ... 입니다",
+      "reason": "정리형 결론문이 후반부에서 반복됨",
+      "suggested_fix": "짧은 단문으로 분리"
+    },
+    {
+      "id": "F007",
+      "category": "B",
+      "category_label": "English term density",
+      "severity": "S3",
+      "scope": "body",
+      "text_span": "AI-assisted",
+      "reason": "기술블로그 독자에게 허용 가능한 영어 용어지만 한글 문장 흐름에서는 약간 튐",
+      "suggested_fix": "필요하면 'AI를 쓴 변경'으로 2차 조정"
+    },
+    {
+      "id": "F008",
+      "category": "C",
+      "category_label": "markdown checklist",
+      "severity": "S3",
+      "scope": "PR checklist",
+      "text_span": "markdown code block",
+      "reason": "마크다운 기술블로그에서는 유용한 장치라 유지 가능",
+      "suggested_fix": "유지"
+    }
+  ]
+}

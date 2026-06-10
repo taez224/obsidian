@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(~/.config/claude-code/hooks/session-start.sh:*)",
+      "Bash(~/.config/claude-code/hooks/session-end.sh:*)",
+      "Read(//Users/taez/.config/claude-code/hooks/**)",
+      "Read(//private/tmp/**)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Skill(obsidian:obsidian-markdown)",
+      "Skill(obsidian:obsidian-bases)",
+      "Skill(obsidian:json-canvas)",
+      "Bash(ls:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== SESSION: $f ===\" cat \"$f\")",
+      "Bash(do echo:*)",
+      "Read(//Users/taez/Projects/obsidian/**)",
+      "Bash(done)",
+      "Bash(defuddle parse *)",
+      "Bash(defuddle --version)",
+      "Bash(npm install *)",
+      "Bash(pdftotext /Users/taez/.claude/projects/-Users-taez-Projects-obsidian/a6c5ffaf-3b51-43dc-93cc-a0a486582c5e/tool-results/webfetch-1780572446127-7yvfox.pdf -)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enabledPlugins": {
+    "obsidian@obsidian-skills": true
+  }
+}

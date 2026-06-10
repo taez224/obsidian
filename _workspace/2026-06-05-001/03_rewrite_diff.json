@@ -1,0 +1,20 @@
+{
+  "run_id": "2026-06-05-001",
+  "change_policy": "Preserve markdown tables, lists, headings, citations, links, dates, numbers, and claims. Rewrite sentence rhythm and word choice only.",
+  "changed_areas": [
+    "opening",
+    "recovery_definition",
+    "three_reasons",
+    "recovery_example_intro",
+    "harness_section",
+    "conclusion"
+  ],
+  "preserved": [
+    "all headings",
+    "all markdown tables",
+    "all markdown lists",
+    "all cited names and years",
+    "all numeric claims",
+    "all wikilinks and URLs"
+  ]
+}

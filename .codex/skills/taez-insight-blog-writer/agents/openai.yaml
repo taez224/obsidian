@@ -1,0 +1,4 @@
+interface:
+  display_name: "TaeZ Insight Blog Writer"
+  short_description: "실전 경험을 인사이트 글로 바꾸는 블로그 스킬"
+  default_prompt: "Use $taez-insight-blog-writer to turn my rough AI/dev experience into a publishable Korean technical blog post with original insight."

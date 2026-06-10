@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "run_id": "2026-06-05-003",
+    "edit_count": 25,
+    "change_rate": 0.0051
+  },
+  "edits": [
+    {
+      "id": "E01",
+      "before": "AI는 개인과 조직의 강점만 키우지 않습니다. 그동안 감춰져 있던 약점과 허점도 함께 증폭합니다.",
+      "after": "AI는 개인과 조직의 강점만 키우지 않습니다. 그동안 묻혀 있던 약점과 허점도 함께 키웁니다.",
+      "category": "D-4/H-3",
+      "reason": "quote 직후 같은 계열 단어가 반복되어 문장 힘이 떨어짐",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E02",
+      "before": "머지 직전에 리뷰어가 눈으로 버그를 잡아내 주길 바라는 기존 방식은, AI 에이전트가 쏟아내는 압도적인 변경량 앞에서 쉽게 무력화됩니다.",
+      "after": "머지 직전에 리뷰어가 눈으로 버그를 잡아내 주길 바라는 기존 방식은, AI 에이전트가 쏟아내는 변경량 앞에서 쉽게 무력화됩니다.",
+      "category": "D-4",
+      "reason": "압도적인은 근거 없이 과한 수식",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E03",
+      "before": "이 글에서는 그 변환 과정을 **'지식 회수'** 라고 부르겠습니다.",
+      "after": "이 글에서는 그 변환 과정을 **'지식 회수'**라고 부르겠습니다.",
+      "category": "J-1",
+      "reason": "마크다운 강조 뒤 불필요한 띄어쓰기",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E04",
+      "before": "이 차이를 개인의 '센스'로만 두면, 팀 안에는 보이지 않는 격차가 쌓입니다.",
+      "after": "이 차이를 개인의 감각으로만 두면, 팀 안에는 보이지 않는 격차가 쌓입니다.",
+      "category": "B-2/J-2",
+      "reason": "불필요한 따옴표와 구어적 외래어 느낌 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E05",
+      "before": "단편적인 요구사항만 입력해 결과물을 만들고, 눈앞의 해피패스만 확인한 뒤 코드를 넘깁니다.",
+      "after": "단편적인 요구사항만 입력해 결과물을 만들고, 당장의 해피패스만 확인한 뒤 코드를 넘깁니다.",
+      "category": "E-1",
+      "reason": "눈앞의가 다소 구어적이고 모호함",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E06",
+      "before": "하지만 팀의 진척은 작성 이후의 비용에서 갈립니다. 코드를 이해하고, 검증하고, 책임지는 일입니다.",
+      "after": "하지만 팀의 진척은 작성 이후의 비용에서 갈립니다. 코드를 이해하고, 검증하고, 책임지는 쪽입니다.",
+      "category": "I-1",
+      "reason": "일입니다 반복을 줄여 리듬 개선",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E07",
+      "before": "안 해도 티 안 나던 이 일이 갑자기 병목이 된 겁니다.",
+      "after": "안 해도 티 안 나던 이 일이 갑자기 병목으로 드러난 셈입니다.",
+      "category": "I-1",
+      "reason": "구어적 종결을 줄이고, 사용자가 선호한 '드러남' 뉘앙스로 보정",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E08",
+      "before": "개발 생산성 분석 업체 Faros가 2025년 자사 텔레메트리로 분석한 리포트도 같은 그림을 보여줍니다.",
+      "after": "개발 생산성 분석 업체 Faros가 2025년 자사 텔레메트리로 분석한 리포트도 비슷한 패턴을 보여줍니다.",
+      "category": "A-15",
+      "reason": "같은 그림은 관용적이나 추상적이라 근거 문맥에 맞춰 조정",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E09",
+      "before": "이건 개인의 산출이 팀이 이어받을 수 있는 변경으로 정리되지 않는 문제입니다.",
+      "after": "개인의 산출이 팀이 이어받을 수 있는 변경으로 정리되지 않는 문제입니다.",
+      "category": "H-3",
+      "reason": "문두 이건 제거",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E10",
+      "before": "공백이 크다는 겁니다.",
+      "after": "공백이 크다고 봅니다.",
+      "category": "I-1",
+      "reason": "구어적 종결 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E11",
+      "before": "좋은 팀은 모든 사람이 모든 것을 아는 팀이 아닙니다. 누가 무엇을 알고, 어떤 문서와 코드에 판단 근거가 남아 있는지 아는 팀입니다.",
+      "after": "좋은 팀은 모든 사람이 모든 것을 아는 팀이 아닙니다. 누가 무엇을 알고, 어떤 문서와 코드에 판단 근거가 남아 있는지 알고 있는 팀입니다.",
+      "category": "E-1",
+      "reason": "아는 팀 반복 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E12",
+      "before": "코드베이스가 요구하는 수준과 팀이 집단적으로 보유한 이해도 사이의 누적 격차이고, 이 부채는 코드베이스보다 팀의 집단 인지와 공유 정신모델에 쌓입니다.",
+      "after": "이는 코드베이스가 요구하는 수준과 팀이 집단적으로 보유한 이해도 사이의 누적 격차이며, 코드베이스보다 팀의 집단 인지와 공유 정신모델에 쌓입니다.",
+      "category": "E-1/I-1",
+      "reason": "앞 문장과의 연결을 보강하고 중복 주어 제거",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E13",
+      "before": "그렇다고 모든 변경에 다 걸 필요도 없습니다.",
+      "after": "그렇다고 모든 변경에 적용할 필요도 없습니다.",
+      "category": "E-1",
+      "reason": "구어적 '다 걸다' 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E14",
+      "before": "AI가 작성한 코드를 개발자 자신의 언어로 다시 설명하게 하고, 성공 케이스보다 실패 조건을 먼저 보게 만드는 것입니다.",
+      "after": "AI가 작성한 코드를 개발자 자신의 언어로 다시 설명하게 하고, 성공 케이스보다 실패 조건을 먼저 보게 합니다.",
+      "category": "I-1",
+      "reason": "~것입니다 종결 제거",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E15",
+      "before": "전체 유형을 모두 옮기기보다, 회수 관점에서 대비가 뚜렷한 세 패턴만 추리면 이렇습니다.",
+      "after": "전체 유형을 모두 가져오기보다, 회수 관점에서 대비가 뚜렷한 세 패턴만 추리면 이렇습니다.",
+      "category": "A-15",
+      "reason": "논문 표를 '옮긴다'보다 '가져온다'가 자연스러움",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E16",
+      "before": "발행 전에 이 원고도 한 번 검증 루프에 태웠습니다.",
+      "after": "발행 전에 이 원고도 한 번 검증 루프에 통과시켰습니다.",
+      "category": "E-1",
+      "reason": "문맥상 은유보다 기술 블로그 톤을 우선",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E17",
+      "before": "부끄럽지만 이게 바로 앞에서 말한 인식 부채입니다.",
+      "after": "부끄럽지만 이것이 바로 앞에서 말한 인식 부채입니다.",
+      "category": "E-1",
+      "reason": "구어적 지시어 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E18",
+      "before": "경계는 도구가 똑똑해서가 아니라, 빠져나갈 수 없게 둔 그 자리가 제 실수를 잡아준 셈입니다.",
+      "after": "경계는 도구가 똑똑해서가 아니라, 반드시 거치게 둔 그 자리가 제 실수를 잡아준 셈입니다.",
+      "category": "E-1",
+      "reason": "빠져나갈 수 없게 둔이 다소 부자연스러움",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E19",
+      "before": "흩어진 부분 위임보다 전략적 위임이 중요하다는 것이죠.",
+      "after": "흩어진 부분 위임보다 전략적 위임이 중요하다는 뜻입니다.",
+      "category": "E-1/I-1",
+      "reason": "구어적 종결 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E20",
+      "before": "작은 팀에서는 효과가 있었지만, 이 방식을 전사로 확장하면 각 개발자가 가진 문제 풀이 방식까지 표준화하려는 유혹에 빠집니다.",
+      "after": "작은 팀에서는 효과가 있었지만, 이 방식을 전사로 확장하면 각 개발자의 문제 풀이 방식까지 표준화하려는 유혹에 빠집니다.",
+      "category": "F-4",
+      "reason": "불필요한 '가진' 제거",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E21",
+      "before": "실행 구조마저 그때그때 AI가 짠다면, 팀이 고정할 수 있는 건 그 구조가 통과해야 할 경계뿐입니다. 어떤 구조가 만들어지더라도 팀 코드가 되기 전에 통과해야 할 설명·검증·기록의 경계 말입니다.",
+      "after": "실행 구조마저 그때그때 AI가 짠다면, 팀이 고정할 수 있는 것은 그 구조가 통과해야 할 경계뿐입니다. 어떤 구조가 만들어지더라도 팀 코드가 되기 전에 통과해야 할 설명·검증·기록의 경계입니다.",
+      "category": "E-1",
+      "reason": "건/말입니다 종결을 기술 블로그 톤으로 정리",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E22",
+      "before": "도메인 맥락을 모델에 넘기는 요령, 좋은 입력 예시, 리뷰 질문, 검증 장치 같은 것들 말입니다.",
+      "after": "도메인 맥락을 모델에 넘기는 요령, 좋은 입력 예시, 리뷰 질문, 검증 장치 같은 것들입니다.",
+      "category": "E-1",
+      "reason": "말입니다 종결 반복 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E23",
+      "before": "얇아야 하는 건 하네스 전체가 아니라 '경계'이고, 두꺼워야 하는 건 그 경계 안에서 굴러가는 팀의 회수 습관입니다.",
+      "after": "얇아야 하는 것은 하네스 전체가 아니라 '경계'이고, 두꺼워야 하는 것은 그 경계 안에서 굴러가는 팀의 회수 습관입니다.",
+      "category": "E-1",
+      "reason": "건 반복 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E24",
+      "before": "도구를 더 좋은 걸로 바꾼다고 풀리지 않습니다.",
+      "after": "도구를 더 좋은 것으로 바꾼다고 풀리지 않습니다.",
+      "category": "E-1",
+      "reason": "구어적 '걸로' 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    },
+    {
+      "id": "E25",
+      "before": "이번 주, 팀 PR 템플릿에 '왜'와 '어디서 깨지나' 두 줄을 더하는 것 — 회수는 거기서 시작합니다. 우리 팀의 PR에는 지금 무엇이 남고 있는지부터 보면 됩니다.",
+      "after": "이번 주, 팀 PR 템플릿에 '왜'와 '어디서 깨지는가' 두 줄을 더하는 것 — 회수는 거기서 시작합니다. 우리 팀의 PR에는 지금 무엇이 남고 있는지부터 살펴보면 됩니다.",
+      "category": "E-1",
+      "reason": "마지막 문장 구어감 완화",
+      "meaning_change": "none",
+      "structure_change": "none"
+    }
+  ]
+}

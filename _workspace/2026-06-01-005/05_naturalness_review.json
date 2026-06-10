@@ -1,0 +1,23 @@
+{
+  "run_id": "2026-06-01-005",
+  "decision": "accept",
+  "quality_grade": "A-",
+  "self_check": {
+    "preservation": "pass",
+    "change_rate": "pass",
+    "genre_register": "pass",
+    "residual_s1_patterns": "pass",
+    "over_polish": "pass",
+    "artificial_expression": "pass"
+  },
+  "high_signal_improvements": [
+    "본문 전체를 기술블로그에 맞는 ~입니다/~합니다 체로 정리",
+    "평어체 전환부를 격식체로 바꾸면서도 제목의 문제 제기 톤 유지",
+    "일부 어색한 기계식 변환을 '작성보다 회수가 병목'처럼 자연스러운 문장으로 조정",
+    "긴장감 있는 원래 논지와 수치 근거는 보존"
+  ],
+  "residual_patterns": [
+    "참고문헌 주석과 연결된 노트 설명은 문장이라기보다 메타데이터 성격이어서 일부 명사형을 유지",
+    "인용문과 질문형 문장은 원문 의미 보존을 위해 평서체로 강제 변환하지 않음"
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "run_id": "2026-06-05-003",
+    "input_length": 16008,
+    "estimated_genre": "technical blog post / Korean",
+    "detected_count": 25,
+    "ai_tell_density": 1.562,
+    "severity_weighted_score": 3.248,
+    "category_summary": {
+      "D-4/H-3": 1,
+      "D-4": 1,
+      "J-1": 1,
+      "B-2/J-2": 1,
+      "E-1": 11,
+      "I-1": 4,
+      "A-15": 2,
+      "H-3": 1,
+      "E-1/I-1": 2,
+      "F-4": 1
+    },
+    "preserve_markdown_structures": true
+  },
+  "findings": [
+    {
+      "id": "F01",
+      "category": "D-4/H-3",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "AI는 개인과 조직의 강점만 키우지 않습니다. 그동안 감춰져 있던 약점과 허점도 함께 증폭합니다.",
+      "reason": "quote 직후 같은 계열 단어가 반복되어 문장 힘이 떨어짐",
+      "suggested_fix": "AI는 개인과 조직의 강점만 키우지 않습니다. 그동안 묻혀 있던 약점과 허점도 함께 키웁니다."
+    },
+    {
+      "id": "F02",
+      "category": "D-4",
+      "category_label": "localized style/tone finding",
+      "severity": "S1",
+      "scope": "span",
+      "text_span": "머지 직전에 리뷰어가 눈으로 버그를 잡아내 주길 바라는 기존 방식은, AI 에이전트가 쏟아내는 압도적인 변경량 앞에서 쉽게 무력화됩니다.",
+      "reason": "압도적인은 근거 없이 과한 수식",
+      "suggested_fix": "머지 직전에 리뷰어가 눈으로 버그를 잡아내 주길 바라는 기존 방식은, AI 에이전트가 쏟아내는 변경량 앞에서 쉽게 무력화됩니다."
+    },
+    {
+      "id": "F03",
+      "category": "J-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S1",
+      "scope": "span",
+      "text_span": "이 글에서는 그 변환 과정을 **'지식 회수'** 라고 부르겠습니다.",
+      "reason": "마크다운 강조 뒤 불필요한 띄어쓰기",
+      "suggested_fix": "이 글에서는 그 변환 과정을 **'지식 회수'**라고 부르겠습니다."
+    },
+    {
+      "id": "F04",
+      "category": "B-2/J-2",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "이 차이를 개인의 '센스'로만 두면, 팀 안에는 보이지 않는 격차가 쌓입니다.",
+      "reason": "불필요한 따옴표와 구어적 외래어 느낌 완화",
+      "suggested_fix": "이 차이를 개인의 감각으로만 두면, 팀 안에는 보이지 않는 격차가 쌓입니다."
+    },
+    {
+      "id": "F05",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "단편적인 요구사항만 입력해 결과물을 만들고, 눈앞의 해피패스만 확인한 뒤 코드를 넘깁니다.",
+      "reason": "눈앞의가 다소 구어적이고 모호함",
+      "suggested_fix": "단편적인 요구사항만 입력해 결과물을 만들고, 당장의 해피패스만 확인한 뒤 코드를 넘깁니다."
+    },
+    {
+      "id": "F06",
+      "category": "I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "하지만 팀의 진척은 작성 이후의 비용에서 갈립니다. 코드를 이해하고, 검증하고, 책임지는 일입니다.",
+      "reason": "일입니다 반복을 줄여 리듬 개선",
+      "suggested_fix": "하지만 팀의 진척은 작성 이후의 비용에서 갈립니다. 코드를 이해하고, 검증하고, 책임지는 쪽입니다."
+    },
+    {
+      "id": "F07",
+      "category": "I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "안 해도 티 안 나던 이 일이 갑자기 병목이 된 겁니다.",
+      "reason": "구어적 종결을 줄이고, 사용자가 선호한 '드러남' 뉘앙스로 보정",
+      "suggested_fix": "안 해도 티 안 나던 이 일이 갑자기 병목으로 드러난 셈입니다."
+    },
+    {
+      "id": "F08",
+      "category": "A-15",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "개발 생산성 분석 업체 Faros가 2025년 자사 텔레메트리로 분석한 리포트도 같은 그림을 보여줍니다.",
+      "reason": "같은 그림은 관용적이나 추상적이라 근거 문맥에 맞춰 조정",
+      "suggested_fix": "개발 생산성 분석 업체 Faros가 2025년 자사 텔레메트리로 분석한 리포트도 비슷한 패턴을 보여줍니다."
+    },
+    {
+      "id": "F09",
+      "category": "H-3",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "이건 개인의 산출이 팀이 이어받을 수 있는 변경으로 정리되지 않는 문제입니다.",
+      "reason": "문두 이건 제거",
+      "suggested_fix": "개인의 산출이 팀이 이어받을 수 있는 변경으로 정리되지 않는 문제입니다."
+    },
+    {
+      "id": "F10",
+      "category": "I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "공백이 크다는 겁니다.",
+      "reason": "구어적 종결 완화",
+      "suggested_fix": "공백이 크다고 봅니다."
+    },
+    {
+      "id": "F11",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "좋은 팀은 모든 사람이 모든 것을 아는 팀이 아닙니다. 누가 무엇을 알고, 어떤 문서와 코드에 판단 근거가 남아 있는지 아는 팀입니다.",
+      "reason": "아는 팀 반복 완화",
+      "suggested_fix": "좋은 팀은 모든 사람이 모든 것을 아는 팀이 아닙니다. 누가 무엇을 알고, 어떤 문서와 코드에 판단 근거가 남아 있는지 알고 있는 팀입니다."
+    },
+    {
+      "id": "F12",
+      "category": "E-1/I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "코드베이스가 요구하는 수준과 팀이 집단적으로 보유한 이해도 사이의 누적 격차이고, 이 부채는 코드베이스보다 팀의 집단 인지와 공유 정신모델에 쌓입니다.",
+      "reason": "앞 문장과의 연결을 보강하고 중복 주어 제거",
+      "suggested_fix": "이는 코드베이스가 요구하는 수준과 팀이 집단적으로 보유한 이해도 사이의 누적 격차이며, 코드베이스보다 팀의 집단 인지와 공유 정신모델에 쌓입니다."
+    },
+    {
+      "id": "F13",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "그렇다고 모든 변경에 다 걸 필요도 없습니다.",
+      "reason": "구어적 '다 걸다' 완화",
+      "suggested_fix": "그렇다고 모든 변경에 적용할 필요도 없습니다."
+    },
+    {
+      "id": "F14",
+      "category": "I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "AI가 작성한 코드를 개발자 자신의 언어로 다시 설명하게 하고, 성공 케이스보다 실패 조건을 먼저 보게 만드는 것입니다.",
+      "reason": "~것입니다 종결 제거",
+      "suggested_fix": "AI가 작성한 코드를 개발자 자신의 언어로 다시 설명하게 하고, 성공 케이스보다 실패 조건을 먼저 보게 합니다."
+    },
+    {
+      "id": "F15",
+      "category": "A-15",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "전체 유형을 모두 옮기기보다, 회수 관점에서 대비가 뚜렷한 세 패턴만 추리면 이렇습니다.",
+      "reason": "논문 표를 '옮긴다'보다 '가져온다'가 자연스러움",
+      "suggested_fix": "전체 유형을 모두 가져오기보다, 회수 관점에서 대비가 뚜렷한 세 패턴만 추리면 이렇습니다."
+    },
+    {
+      "id": "F16",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "발행 전에 이 원고도 한 번 검증 루프에 태웠습니다.",
+      "reason": "문맥상 은유보다 기술 블로그 톤을 우선",
+      "suggested_fix": "발행 전에 이 원고도 한 번 검증 루프에 통과시켰습니다."
+    },
+    {
+      "id": "F17",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "부끄럽지만 이게 바로 앞에서 말한 인식 부채입니다.",
+      "reason": "구어적 지시어 완화",
+      "suggested_fix": "부끄럽지만 이것이 바로 앞에서 말한 인식 부채입니다."
+    },
+    {
+      "id": "F18",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "경계는 도구가 똑똑해서가 아니라, 빠져나갈 수 없게 둔 그 자리가 제 실수를 잡아준 셈입니다.",
+      "reason": "빠져나갈 수 없게 둔이 다소 부자연스러움",
+      "suggested_fix": "경계는 도구가 똑똑해서가 아니라, 반드시 거치게 둔 그 자리가 제 실수를 잡아준 셈입니다."
+    },
+    {
+      "id": "F19",
+      "category": "E-1/I-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "흩어진 부분 위임보다 전략적 위임이 중요하다는 것이죠.",
+      "reason": "구어적 종결 완화",
+      "suggested_fix": "흩어진 부분 위임보다 전략적 위임이 중요하다는 뜻입니다."
+    },
+    {
+      "id": "F20",
+      "category": "F-4",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "작은 팀에서는 효과가 있었지만, 이 방식을 전사로 확장하면 각 개발자가 가진 문제 풀이 방식까지 표준화하려는 유혹에 빠집니다.",
+      "reason": "불필요한 '가진' 제거",
+      "suggested_fix": "작은 팀에서는 효과가 있었지만, 이 방식을 전사로 확장하면 각 개발자의 문제 풀이 방식까지 표준화하려는 유혹에 빠집니다."
+    },
+    {
+      "id": "F21",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "실행 구조마저 그때그때 AI가 짠다면, 팀이 고정할 수 있는 건 그 구조가 통과해야 할 경계뿐입니다. 어떤 구조가 만들어지더라도 팀 코드가 되기 전에 통과해야 할 설명·검증·기록의 경계 말입니다.",
+      "reason": "건/말입니다 종결을 기술 블로그 톤으로 정리",
+      "suggested_fix": "실행 구조마저 그때그때 AI가 짠다면, 팀이 고정할 수 있는 것은 그 구조가 통과해야 할 경계뿐입니다. 어떤 구조가 만들어지더라도 팀 코드가 되기 전에 통과해야 할 설명·검증·기록의 경계입니다."
+    },
+    {
+      "id": "F22",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "도메인 맥락을 모델에 넘기는 요령, 좋은 입력 예시, 리뷰 질문, 검증 장치 같은 것들 말입니다.",
+      "reason": "말입니다 종결 반복 완화",
+      "suggested_fix": "도메인 맥락을 모델에 넘기는 요령, 좋은 입력 예시, 리뷰 질문, 검증 장치 같은 것들입니다."
+    },
+    {
+      "id": "F23",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "얇아야 하는 건 하네스 전체가 아니라 '경계'이고, 두꺼워야 하는 건 그 경계 안에서 굴러가는 팀의 회수 습관입니다.",
+      "reason": "건 반복 완화",
+      "suggested_fix": "얇아야 하는 것은 하네스 전체가 아니라 '경계'이고, 두꺼워야 하는 것은 그 경계 안에서 굴러가는 팀의 회수 습관입니다."
+    },
+    {
+      "id": "F24",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "도구를 더 좋은 걸로 바꾼다고 풀리지 않습니다.",
+      "reason": "구어적 '걸로' 완화",
+      "suggested_fix": "도구를 더 좋은 것으로 바꾼다고 풀리지 않습니다."
+    },
+    {
+      "id": "F25",
+      "category": "E-1",
+      "category_label": "localized style/tone finding",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "이번 주, 팀 PR 템플릿에 '왜'와 '어디서 깨지나' 두 줄을 더하는 것 — 회수는 거기서 시작합니다. 우리 팀의 PR에는 지금 무엇이 남고 있는지부터 보면 됩니다.",
+      "reason": "마지막 문장 구어감 완화",
+      "suggested_fix": "이번 주, 팀 PR 템플릿에 '왜'와 '어디서 깨지는가' 두 줄을 더하는 것 — 회수는 거기서 시작합니다. 우리 팀의 PR에는 지금 무엇이 남고 있는지부터 살펴보면 됩니다."
+    }
+  ]
+}

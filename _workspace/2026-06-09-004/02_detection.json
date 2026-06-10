@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "run_id": "2026-06-09-004",
+    "input_length": 7503,
+    "estimated_genre": "company_technical_blog",
+    "mode": "strict",
+    "metrics_risk_band": "medium",
+    "detected_count": 7,
+    "category_summary": {
+      "D": 1,
+      "E": 2,
+      "F": 1,
+      "G": 1,
+      "H": 1,
+      "I": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "f001",
+      "category": "F-4",
+      "category_label": "과도한 명사화와 정의문 리듬",
+      "severity": "S2",
+      "scope": "span",
+      "line": 46,
+      "text_span": "형식상 완성된 것처럼 보이지만 실제 과업을 진전시키지 못하고, 받는 사람에게 해석과 검증의 책임을 전가하는 저품질 AI 산출물",
+      "reason": "회사 기술블로그에는 허용 가능한 정의지만 문장이 길고 설명문 냄새가 강해 초반 흡입력을 조금 낮춘다.",
+      "suggested_fix": "정의를 한 호흡 줄이고 개발팀 사례를 바로 붙인다."
+    },
+    {
+      "id": "f002",
+      "category": "E-2",
+      "category_label": "정의 섹션의 동일 종결 반복",
+      "severity": "S2",
+      "scope": "span",
+      "line": 78,
+      "text_span": "능력입니다 / 뜻이 아닙니다 / 드러나야 합니다",
+      "reason": "Reviewability 정의 문단이 교과서식 리듬으로 닫힌다. 개념 설명이므로 심각하지는 않지만 세 능력 정의가 이어질 때 AI식 설명문처럼 보일 수 있다.",
+      "suggested_fix": "첫 문장은 유지하되 두 번째 문장을 더 직접적으로 줄인다."
+    },
+    {
+      "id": "f003",
+      "category": "I-3",
+      "category_label": "상태를 말합니다 반복",
+      "severity": "S2",
+      "scope": "span",
+      "line": 84,
+      "text_span": "상태를 말합니다",
+      "reason": "Traceability와 Recoverability가 같은 정의문 틀로 시작한다.",
+      "suggested_fix": "한쪽은 '상태입니다' 또는 직접 서술로 바꿔 리듬을 분산한다."
+    },
+    {
+      "id": "f004",
+      "category": "I-2",
+      "category_label": "중요한 것은 ... 하는 것입니다",
+      "severity": "S2",
+      "scope": "span",
+      "line": 88,
+      "text_span": "중요한 것은 최종 결과물이 어떤 문제에서 출발했고, 어떤 제약을 고려했으며, 왜 이 선택을 받아들였는지 따라갈 수 있게 하는 것입니다.",
+      "reason": "형식명사 결말이 보고서식이다.",
+      "suggested_fix": "주어를 바로 세우고 평서형으로 닫는다."
+    },
+    {
+      "id": "f005",
+      "category": "I-2",
+      "category_label": "그렇기 때문에 중요한 것은 ... 역량입니다",
+      "severity": "S2",
+      "scope": "span",
+      "line": 94,
+      "text_span": "그렇기 때문에 중요한 것은 실수를 완전히 막는 것이 아니라, 실수가 들어와도 팀이 감당 가능한 범위 안에서 발견하고 복구할 수 있는 역량입니다.",
+      "reason": "앞 finding과 같은 '중요한 것은' 구조가 반복된다.",
+      "suggested_fix": "목표를 부정형 단문으로 먼저 놓고 복구 역량을 뒤에 둔다."
+    },
+    {
+      "id": "f006",
+      "category": "G-1",
+      "category_label": "미래 단정 완곡",
+      "severity": "S2",
+      "scope": "span",
+      "line": 140,
+      "text_span": "앞으로 산출물은 더 빨리 쌓일 것입니다.",
+      "reason": "결론에서 '~것입니다'가 약간 일반론처럼 들린다.",
+      "suggested_fix": "현재형 또는 단언형으로 바꾼다."
+    },
+    {
+      "id": "f007",
+      "category": "H-3",
+      "category_label": "메타 지시어 반복",
+      "severity": "S3",
+      "scope": "span",
+      "line": 122,
+      "text_span": "이 원칙을 PR에 남기는 최소 형식은 더 단순할 수 있습니다.",
+      "reason": "나쁘지는 않지만 '할 수 있습니다'가 실천 섹션의 힘을 낮춘다.",
+      "suggested_fix": "'더 단순합니다'로 줄인다."
+    }
+  ]
+}

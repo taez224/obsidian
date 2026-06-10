@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "run_id": "2026-06-09-001",
+    "audit": "naturalness"
+  },
+  "verdict": "accept_with_note",
+  "quality_grade": "A-",
+  "self_check": {
+    "preservation": "pass",
+    "change_rate": "pass",
+    "genre_register": "pass",
+    "s1_residual": "pass",
+    "artificial_expression": "pass"
+  },
+  "remaining_patterns": [
+    {
+      "category": "I-4",
+      "severity": "S3",
+      "note": "기준 제시 불릿에서 '~해야 합니다/남아야 합니다'가 일부 남아 있으나 마크다운 기술블로그의 운영 기준 문맥이라 허용"
+    },
+    {
+      "category": "B-2",
+      "severity": "S3",
+      "note": "'AI-assisted'는 기술 독자 대상이라 유지 가능. 필요하면 'AI를 쓴 변경'으로 낮출 수 있음"
+    }
+  ]
+}

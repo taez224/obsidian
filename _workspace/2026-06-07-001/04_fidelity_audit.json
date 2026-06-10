@@ -1,0 +1,20 @@
+{
+  "run_id": "2026-06-07-001",
+  "decision": "full_pass",
+  "checks": {
+    "names_preserved": true,
+    "numbers_preserved": true,
+    "dates_preserved": true,
+    "direct_quotes_preserved": true,
+    "links_preserved": true,
+    "reference_list_preserved": true,
+    "claim_direction_preserved": true,
+    "causality_preserved": true,
+    "no_new_examples": true,
+    "no_source_mutation": true
+  },
+  "notes": [
+    "Changed '감사와 검증 비용' to '검토와 검증 비용' as a Korean-style correction for audit/review wording; the cost category remains unchanged.",
+    "Changed vague or redundant style spans only; no cited fact, date, number, product, institution, or direct quote was edited."
+  ]
+}

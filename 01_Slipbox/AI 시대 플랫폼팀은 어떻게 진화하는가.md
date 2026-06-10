@@ -1,7 +1,11 @@
 ---
+created: 2026-01-15
 tags:
   - AI
   - 개발/플랫폼
+  - slipbox
+type: permanent
+status: evergreen
 ---
 
 # AI 시대, 플랫폼 팀은 어떻게 진화하는가

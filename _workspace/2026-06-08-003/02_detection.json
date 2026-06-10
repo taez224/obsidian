@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "run_id": "2026-06-08-003",
+    "input_length": 7864,
+    "estimated_genre": "markdown_technical_blog",
+    "detected_count": 8,
+    "ai_tell_density": "low_to_medium",
+    "severity_weighted_score": 12
+  },
+  "category_summary": {
+    "A_translationese": 2,
+    "C_structural_ai_pattern": 2,
+    "D_signature_phrase": 1,
+    "E_rhythm": 2,
+    "J_visual_markdown": 1
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "category": "E",
+      "severity": "S2",
+      "scope": "opening",
+      "text_span": "도입부 첫 문단과 둘째 문단이 긴 설명문으로 이어짐",
+      "reason": "마크다운 기술블로그 첫 화면에서 호흡이 길어져 개인 경험의 장면성이 약해짐",
+      "suggested_fix": "도입 경험과 문제 발견을 문단으로 분리"
+    },
+    {
+      "id": "F-002",
+      "category": "D",
+      "severity": "S2",
+      "scope": "line 22",
+      "text_span": "이 글의 칼끝을 먼저 박아두겠습니다",
+      "reason": "회사 기술블로그 톤에서는 공격적 은유가 주장보다 먼저 튐",
+      "suggested_fix": "주장을 못 박는 표현으로 완화"
+    },
+    {
+      "id": "F-003",
+      "category": "C-10",
+      "severity": "S1",
+      "scope": "heading",
+      "text_span": "회수하지 않으면: 이해 부채와 워크슬롭",
+      "reason": "콜론형 헤딩이 리포트식 요약처럼 읽힘",
+      "suggested_fix": "본문 주장형 헤딩으로 변경"
+    },
+    {
+      "id": "F-004",
+      "category": "C-10",
+      "severity": "S1",
+      "scope": "heading",
+      "text_span": "결론: 팀의 속도는 회수 경계에서 결정된다",
+      "reason": "마지막 섹션 자체가 결론이므로 라벨이 중복됨",
+      "suggested_fix": "결론 라벨 제거"
+    },
+    {
+      "id": "F-005",
+      "category": "A/C-11",
+      "severity": "S1",
+      "scope": "middle sentences",
+      "text_span": "리포트에서는, AI를 / AI를, 이번엔 / 추적은, 드러난",
+      "reason": "연결부 쉼표가 번역투와 AI식 끊어 읽기 신호를 만듦",
+      "suggested_fix": "불필요한 쉼표 제거"
+    },
+    {
+      "id": "F-006",
+      "category": "E",
+      "severity": "S2",
+      "scope": "section transition",
+      "text_span": "그 시행착오 끝에 도달한 결론은, AI에게 필요한 건...",
+      "reason": "주장 문장이 길고 설명식으로 늘어짐",
+      "suggested_fix": "단문으로 나눠 결론을 선명하게 만듦"
+    },
+    {
+      "id": "F-007",
+      "category": "A",
+      "severity": "S2",
+      "scope": "boundary section",
+      "text_span": "책임 경계가 실제로 붙잡아야 하는 건",
+      "reason": "주어 반복으로 문장이 무거움",
+      "suggested_fix": "앞 문맥의 경계를 받도록 축약"
+    },
+    {
+      "id": "F-008",
+      "category": "J",
+      "severity": "S2",
+      "scope": "markdown heading",
+      "text_span": "본문 헤딩 일부가 요약 라벨처럼 기능",
+      "reason": "기술블로그 스캔성에는 좋지만 보고서 인상이 남을 수 있음",
+      "suggested_fix": "핵심 주장형 헤딩만 남김"
+    }
+  ]
+}

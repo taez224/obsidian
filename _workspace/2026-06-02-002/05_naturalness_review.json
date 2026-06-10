@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "run_id": "2026-06-02-002"
+  },
+  "decision": "accept",
+  "quality_grade": "A",
+  "residual_patterns": [
+    {
+      "pattern": "그런데/그렇다면",
+      "reason": "논지 전환 기능이 있어 유지"
+    },
+    {
+      "pattern": "입니다 종결 밀도",
+      "reason": "기술 블로그 격식체 요구와 일치해 유지"
+    }
+  ],
+  "review": "발행 전 문장 단위 AI-tell은 낮음. 구조와 인용 밀도는 글의 장르상 의도된 것으로 판단."
+}

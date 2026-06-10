@@ -12,7 +12,7 @@ publish_date: 2025-08-20
 cover_url: https://image.yes24.com/goods/150701473/XL
 status: 완독
 start_read_date: 2025-12-18
-finish_read_date: 2025-12-18
+finish_read_date: 2025-12-20
 my_rate: 4.3
 book_note: 나도 AI 에이전트 개발 할래!
 ---

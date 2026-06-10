@@ -1,0 +1,25 @@
+{
+  "run_id": "2026-06-08-003",
+  "decision": "accept",
+  "grade": "A-",
+  "self_check": {
+    "preservation": "pass",
+    "change_rate_under_30_percent": "pass",
+    "genre_preserved": "pass",
+    "register_preserved": "pass",
+    "s1_residuals": "pass_with_minor_contextual_exceptions",
+    "no_artificial_expression_added": "pass"
+  },
+  "residual_patterns": [
+    {
+      "pattern": "첫째/둘째/셋째",
+      "severity": "low",
+      "reason": "기술블로그 운영 경계 설명에서는 스캔성을 위해 허용"
+    },
+    {
+      "pattern": "bold emphasis",
+      "severity": "low",
+      "reason": "마크다운 블로그의 핵심 문장 강조로 허용 가능한 범위"
+    }
+  ]
+}

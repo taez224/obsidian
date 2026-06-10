@@ -1,0 +1,142 @@
+filters:
+  and:
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+    - '!file.inFolder("40_Archive")'
+    - '!file.inFolder("99_Templates")'
+    - '!file.inFolder(".obsidian")'
+    - '!file.inFolder(".smart-env")'
+formulas:
+  days_in_inbox: (now() - if(created, date(created), file.ctime)).days
+  days_since_update: (now() - file.mtime).days
+  connections: file.links.length + file.backlinks.length
+  is_orphan: file.links.length == 0 && file.backlinks.length == 0
+  is_stale_project: status == "active" && (now() - file.mtime).days > 14
+  is_inbox_overdue: file.inFolder("00_Inbox") && (now() - if(created, date(created), file.ctime)).days > 7
+  updated: file.mtime.relative()
+  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
+  location: file.folder.split("/").slice(0, 1).join("")
+properties:
+  file.name:
+    displayName: 노트
+  formula.location:
+    displayName: 위치
+  formula.days_in_inbox:
+    displayName: 체류일
+  formula.days_since_update:
+    displayName: 경과일
+  formula.connections:
+    displayName: 연결
+  formula.updated:
+    displayName: 수정
+  formula.created_date:
+    displayName: 생성일
+  status:
+    displayName: 상태
+views:
+  - type: table
+    name: 📥 Inbox 정리 부채
+    filters:
+      and:
+        - file.inFolder("00_Inbox")
+    order:
+      - file.name
+      - formula.days_in_inbox
+      - formula.created_date
+      - formula.updated
+    sortBy:
+      property: file.ctime
+      direction: ASC
+  - type: table
+    name: 🪦 고립된 Slipbox
+    filters:
+      and:
+        - file.inFolder("01_Slipbox")
+    order:
+      - file.name
+      - formula.created_date
+      - formula.updated
+      - formula.connections
+    filter: formula.is_orphan == true
+    sortBy:
+      property: file.ctime
+      direction: ASC
+  - type: table
+    name: 🟢 방치된 활성 프로젝트 (14일+)
+    filters:
+      and:
+        - file.inFolder("20_Projects")
+        - status == "active"
+    order:
+      - file.name
+      - formula.location
+      - formula.days_since_update
+      - formula.updated
+    filter: formula.is_stale_project == true
+    sortBy:
+      property: file.mtime
+      direction: ASC
+  - type: table
+    name: 📰 미처리 Clippings (unread)
+    filters:
+      and:
+        - file.inFolder("30_Resources/References/Clippings")
+        - status == "unread"
+    order:
+      - file.name
+      - formula.created_date
+      - formula.connections
+      - formula.updated
+    sortBy:
+      property: file.ctime
+      direction: ASC
+  - type: table
+    name: 🌱 Slipbox 성숙도
+    filters:
+      and:
+        - file.inFolder("01_Slipbox")
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - type
+      - formula.connections
+      - formula.updated
+  - type: table
+    name: 🔥 최근 활동 전체 (vault-wide)
+    order:
+      - file.name
+      - formula.location
+      - formula.updated
+      - formula.days_since_update
+    limit: 20
+    sortBy:
+      property: file.mtime
+      direction: DESC
+  - type: table
+    name: 🧊 오래 안 건드린 노트 (90일+)
+    filters:
+      and:
+        - '!file.inFolder("10_Periodic Notes")'
+        - '!file.inFolder("30_Resources/Development/DevLog")'
+    order:
+      - file.name
+      - formula.location
+      - formula.days_since_update
+      - formula.updated
+    limit: 30
+    filter: formula.days_since_update > 90
+    sortBy:
+      property: file.mtime
+      direction: ASC
+  - type: cards
+    name: 📊 한눈에 보기
+    order:
+      - file.name
+      - formula.location
+      - status
+      - formula.connections
+      - formula.updated
+    limit: 12

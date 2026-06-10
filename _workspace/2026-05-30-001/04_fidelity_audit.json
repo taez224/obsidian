@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "run_id": "2026-05-30-001",
+    "status": "full_pass"
+  },
+  "checks": {
+    "names_preserved": true,
+    "numbers_dates_preserved": true,
+    "direct_quotes_preserved": true,
+    "claim_direction_preserved": true,
+    "causality_preserved": true,
+    "ordering_preserved": true,
+    "no_omission": true,
+    "no_addition": true
+  },
+  "notes": [
+    "All edits are local style, rhythm, or word-choice changes.",
+    "No facts, dates, numbers, sources, image paths, or quoted questions were changed."
+  ]
+}

@@ -1,6 +1,10 @@
 ---
+created: 2025-08-28
 tags:
   - 철학
+  - slipbox
+type: permanent
+status: seedling
 ---
 
 # 🧠 물자체 - das Ding an Sich 

@@ -1,0 +1,59 @@
+{
+  "run_id": "2026-06-01-005",
+  "summary": {
+    "original_length_chars": 10325,
+    "rewritten_length_chars": 10541,
+    "length_delta_percent": 2.1,
+    "estimated_semantic_change": "low",
+    "register_change": "plain_blog_to_formal_technical_blog"
+  },
+  "edit_groups": [
+    {
+      "finding_id": "F-001",
+      "action": "converted_sentence_endings",
+      "examples": [
+        {
+          "before": "이 이득은 착시가 아니다.",
+          "after": "이 이득은 착시가 아닙니다."
+        },
+        {
+          "before": "팀은 각자의 강점이 팀 안에 남도록 장치를 만들어야 한다.",
+          "after": "팀은 각자의 강점이 팀 안에 남도록 장치를 만들어야 합니다."
+        }
+      ]
+    },
+    {
+      "finding_id": "F-002",
+      "action": "reduced_stiff_nominal_endings",
+      "examples": [
+        {
+          "before": "병목이 작성에서 회수로 옮겨간 것이다.",
+          "after": "작성보다 회수가 병목이 된 것입니다."
+        },
+        {
+          "before": "자리를 옮긴다.",
+          "after": "자리를 옮길 뿐입니다."
+        }
+      ]
+    },
+    {
+      "finding_id": "F-003",
+      "action": "smoothed_technical_blog_rhythm",
+      "examples": [
+        {
+          "before": "개인이 다 빨라졌는데 팀은 그만큼 강해지지 않는다.",
+          "after": "각자는 빨라졌는데 팀은 그만큼 강해지지 않습니다."
+        }
+      ]
+    },
+    {
+      "finding_id": "F-005",
+      "action": "preserved_facts",
+      "examples": [
+        {
+          "preserved": "1,174명, 4분의 3, 912명, 약 6천 명, DORA 2025, Faros AI 2025, NBER 2026, Science 2026"
+        }
+      ]
+    }
+  ]
+}

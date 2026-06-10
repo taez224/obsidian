@@ -1,0 +1,52 @@
+{
+  "run_id": "2026-06-08-003",
+  "change_summary": {
+    "original_length": 7864,
+    "rewritten_length": 7809,
+    "estimated_change_rate": "about 6-9%",
+    "mode": "strict",
+    "genre": "markdown_technical_blog"
+  },
+  "edits": [
+    {
+      "finding_id": "F-001",
+      "type": "paragraph_split",
+      "reason": "도입부 장면과 문제 발견을 분리해 첫 화면 스캔성을 높임"
+    },
+    {
+      "finding_id": "F-002",
+      "type": "tone_adjustment",
+      "reason": "회사 기술블로그 톤에 맞춰 공격적 은유를 완화"
+    },
+    {
+      "finding_id": "F-003",
+      "type": "heading_rewrite",
+      "reason": "콜론형 요약 헤딩을 주장형 헤딩으로 변경"
+    },
+    {
+      "finding_id": "F-004",
+      "type": "heading_rewrite",
+      "reason": "결론 라벨 제거"
+    },
+    {
+      "finding_id": "F-005",
+      "type": "punctuation_cleanup",
+      "reason": "불필요한 중간 쉼표 제거"
+    },
+    {
+      "finding_id": "F-006",
+      "type": "sentence_rhythm",
+      "reason": "긴 설명문을 단문으로 나눔"
+    },
+    {
+      "finding_id": "F-007",
+      "type": "local_simplification",
+      "reason": "반복 주어를 줄여 문장 밀도 완화"
+    },
+    {
+      "finding_id": "F-008",
+      "type": "markdown_structure",
+      "reason": "마크다운 스캔성은 유지하되 보고서식 라벨 감각을 낮춤"
+    }
+  ]
+}

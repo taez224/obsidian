@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "run_id": "2026-05-30-001",
+    "input_length": 7252,
+    "estimated_genre": "blog",
+    "detected_count": 5,
+    "ai_tell_density": "low",
+    "severity_weighted_score": 6,
+    "category_summary": {
+      "A": 2,
+      "C": 1,
+      "E": 1,
+      "I": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "category": "A-15",
+      "category_label": "추상 주어와 어색한 만능 동사",
+      "severity": "S2",
+      "scope": "line 43",
+      "text_span": "답변은 오래됐을 수 있고 버전이 달랐고",
+      "reason": "가능 표현과 반복 접속이 겹쳐 문장이 느슨하게 읽힌다.",
+      "suggested_fix": "오래됐거나 버전이 달랐고"
+    },
+    {
+      "id": "F-002",
+      "category": "I-3",
+      "category_label": "어색한 명사 대체",
+      "severity": "S2",
+      "scope": "line 51",
+      "text_span": "냈어야 할 값을",
+      "reason": "비용 은유 안에서 '값'이 계산값처럼 읽혀 문맥과 어긋난다.",
+      "suggested_fix": "치렀어야 할 비용을"
+    },
+    {
+      "id": "F-003",
+      "category": "A-7",
+      "category_label": "조사 생략으로 인한 건조한 표현",
+      "severity": "S1",
+      "scope": "line 97",
+      "text_span": "AI 도움을 받은 그룹",
+      "reason": "보고서식 축약이어서 문장 호흡이 거칠다.",
+      "suggested_fix": "AI의 도움을 받은 그룹"
+    },
+    {
+      "id": "F-004",
+      "category": "C-11",
+      "category_label": "호흡 분절 부족",
+      "severity": "S1",
+      "scope": "line 121",
+      "text_span": "해석하고 검증하고 문서화하고",
+      "reason": "동사 나열이 길어져 읽는 호흡이 밀린다.",
+      "suggested_fix": "해석하고, 검증하고, 문서화하고"
+    },
+    {
+      "id": "F-005",
+      "category": "E-1",
+      "category_label": "나열 리듬 단조",
+      "severity": "S2",
+      "scope": "line 143",
+      "text_span": "무엇을 판단했고 무엇을 확인했고 무엇을 아직 모르는지",
+      "reason": "반복되는 의문사 구가 쉼 없이 이어져 기계적인 리듬을 만든다.",
+      "suggested_fix": "무엇을 판단했고, 무엇을 확인했고, 무엇을 아직 모르는지"
+    }
+  ]
+}

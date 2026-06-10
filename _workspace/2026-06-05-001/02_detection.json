@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "run_id": "2026-06-05-001",
+    "estimated_genre": "technical_blog",
+    "detected_count": 5,
+    "ai_tell_density": "low",
+    "severity_weighted_score": "low"
+  },
+  "category_summary": {
+    "D": "과한 평가 표현 일부",
+    "A": "번역투 명사화 일부",
+    "E": "긴 문장과 단조로운 리듬 일부",
+    "F": "추상 명사 표현 일부"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "category": "D",
+      "severity": "S2",
+      "scope": "opening_and_gap_section",
+      "reason": "완전히, 철저한, 기계적으로 등 평가 강도가 글의 기술블로그 톤보다 높음"
+    },
+    {
+      "id": "F2",
+      "category": "A",
+      "severity": "S2",
+      "scope": "recovery_definition",
+      "reason": "변환하는 작업, 확장하자는 의미 등 번역투 명사화가 남음"
+    },
+    {
+      "id": "F3",
+      "category": "E",
+      "severity": "S2",
+      "scope": "middle_sections",
+      "reason": "긴 문장 일부가 설명문처럼 굳어짐"
+    },
+    {
+      "id": "F4",
+      "category": "F",
+      "severity": "S2",
+      "scope": "harness_section",
+      "reason": "문장 압축과 연결어 정리가 필요함"
+    },
+    {
+      "id": "F5",
+      "category": "D",
+      "severity": "S2",
+      "scope": "conclusion",
+      "reason": "결론부 공식 표현 일부를 자연스럽게 완화할 여지"
+    }
+  ]
+}

@@ -1,7 +1,12 @@
 ---
+created: 2025-08-28
 tags:
   - AI
   - blog
+  - 철학
+  - slipbox
+type: permanent
+status: growing
 ---
 
 문득, 오래전 들었던 이야기 하나를 떠올린다.

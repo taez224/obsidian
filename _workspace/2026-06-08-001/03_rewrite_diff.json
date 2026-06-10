@@ -1,0 +1,31 @@
+{
+  "run_id": "2026-06-08-001",
+  "change_scope": "localized_style_and_flow",
+  "markdown_preserved": true,
+  "frontmatter_preserved": true,
+  "links_preserved": true,
+  "images_preserved": true,
+  "references_preserved": true,
+  "notable_edits": [
+    {
+      "before": "다들 한 번쯤 겪어보셨을 겁니다",
+      "after": "AI 코딩 도구를 팀에 들여온 뒤 이런 장면을 한 번쯤 봤을 겁니다",
+      "reason": "도입을 더 구체적인 장면으로 전환"
+    },
+    {
+      "before": "초안을 팀이 이어받을 수 있는 형태로 바꾸는 데는 별도의 비용이 들거든요",
+      "after": "초안을 팀이 이어받을 수 있는 형태로 바꾸려면 별도의 비용이 듭니다",
+      "reason": "구어 종결을 줄이고 기술블로그 톤에 맞춤"
+    },
+    {
+      "before": "AI가 뱉은 코드는",
+      "after": "AI가 내놓은 코드는",
+      "reason": "불필요하게 강한 구어 표현 완화"
+    },
+    {
+      "before": "두 개의 못 / 첫 못",
+      "after": "두 개의 고정점 / 첫 고정점",
+      "reason": "하네스 은유와 충돌하는 표현 정리"
+    }
+  ]
+}

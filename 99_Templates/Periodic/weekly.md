@@ -1,19 +1,13 @@
 ---
+created: <% moment(tp.file.title, "gggg-[W]WW").format("YYYY-MM-DD") %>
+type: weekly
+week: <% tp.file.title %>
+month: <% moment(tp.file.title, "gggg-[W]WW").format("YYYY-MM") %>
 tags:
   - type/timeline/weekly
-month: <% tp.date.now("YYYY-MM") %>
 ---
-<%*
-const now = tp.date.now("YYYY-MM-DD");
-const day = moment(now).day();  // 0=Sunday, 1=Monday, ..., 6=Saturday
 
-// 이번 주 일요일 (주 시작)
-const sunday = moment(now).subtract(day, 'days').format("YYYY-MM-DD");
-
-// 이번 주 토요일 (주 끝)
-const saturday = moment(sunday).add(6, 'days').format("YYYY-MM-DD");
-%>
-# 📆 Weekly Review - <% tp.date.now("gggg [W]WW") %>
+# 📆 Weekly Review - <% moment(tp.file.title, "gggg-[W]WW").format("gggg [W]WW") %>
 
 
 > [!important]  Highlight of the week  
@@ -40,14 +34,16 @@ const saturday = moment(sunday).add(6, 'days').format("YYYY-MM-DD");
 > ```
 
 > [!question] No due date
->```tasks
-not done
-no due date
+> ```tasks
+> not done
+> no due date
+> ```
 
 > [!fail] Overdue
 > ```tasks
 > not done
 > due before this week
+> ```
 
 ---
 ## **✅ Checklist Summary**
@@ -81,27 +77,76 @@ Object.keys(weeks).sort((a,b) => a-b).forEach(week => {
 
 ## **📝 이번 주 작성/수정된 노트**
 ```dataview
-TABLE WITHOUT ID file.link as "노트", file.cday as "생성일", file.mtime as "마지막 수정"
+TABLE WITHOUT ID file.link as "노트", default(date(created), file.cday) as "생성일", file.mtime as "마지막 수정"
 FROM ""
 WHERE (startswith(file.folder, "01_") OR startswith(file.folder, "20_") OR startswith(file.folder, "30_"))
 AND (
-  dateformat(file.cday, "yyyy-WW") = dateformat(this.file.cday, "yyyy-WW")
-  OR dateformat(file.mtime, "yyyy-WW") = dateformat(this.file.cday, "yyyy-WW")
+  dateformat(default(date(created), file.cday), "kkkk-'W'WW") = "<% tp.file.title %>"
+  OR dateformat(file.mtime, "kkkk-'W'WW") = "<% tp.file.title %>"
 )
 SORT file.mtime DESC
 ```
 
+---
 
-## 🗓 Monthly Note 링크  
+## **🌱 Slipbox 승격 후보**
+
+> 이번 주 발견한 "정제하면 영구 노트가 될 만한 아이디어"를 모은다.
+> 정리 가이드: [[_inbox.base|_inbox]] 의 "🟡 정리 부채" view와 [[_global-health.base|_global-health]] 의 "📥 Inbox 정리 부채" view 함께 참조.
+
+### 📥 Inbox에서 (7일+ 체류)
+
+> 단일 진실 원천: [[_inbox.base|_inbox]] base의 "🟡 정리 부채 (7일+)" view를 embed.
+
+![[_inbox.base#🟡 정리 부채 (7일+)]]
+
+### 🔧 DevLog에서 (이번 주 작성, 재사용 가치 있는 인사이트)
+```dataview
+LIST
+FROM "30_Resources/Development/DevLog"
+WHERE file.ext = "md"
+AND dateformat(default(date(created), file.cday), "kkkk-'W'WW") = "<% tp.file.title %>"
+SORT default(date(created), file.cday) DESC
+```
+
+> [!tip] 승격 기준
+> 1. **재사용 가능성**: 다른 맥락에서도 인용될 만한 개념인가?
+> 2. **자기 언어로 정제 가능?**: 외부 인용 없이 본인 언어로 설명 가능?
+> 3. **연결점**: 기존 Slipbox 노트와 최소 1개 이상 연결 가능?
+> 3개 다 ✅면 → `01_Slipbox/`에 새 노트 작성 (`type: permanent`, `status: seedling`)
+
+### 📰 이번 주 처리한 Clippings
+```dataview
+LIST
+FROM "30_Resources/References/Clippings"
+WHERE file.ext = "md"
+AND status != "unread"
+AND dateformat(file.mtime, "kkkk-'W'WW") = "<% tp.file.title %>"
+SORT file.mtime DESC
+```
+
+---
+
+## **🧹 주간 정리 체크리스트**
+
+- [ ] [[_inbox.base|_inbox]] 열어서 7일+ 체류 노트 분류 (승격/Resources/삭제)
+- [ ] [[_global-health.base|_global-health]] 에서 "🟢 방치된 활성 프로젝트" 확인 → 상태 업데이트 또는 on-hold 전환
+- [ ] [[01_Slipbox/_index.base|Slipbox _index]] 의 "고립된 노트" view에서 최소 1개 노트에 링크 추가
+- [ ] 이번 주 DevLog 훑어보고 Slipbox 승격 후보 1개 이상 선정
+- [ ] Clippings 중 `status: unread` 1개 이상 처리
+
+
+## 🗓 Monthly Note 링크  
 
 > [!info] 이번 달 Monthly Note
-> `=link(dateformat(date(this.file.name, "kkkk-'W'WW"), "yyyy-MM"))`
+> [[<% moment(tp.file.title, "gggg-[W]WW").format("YYYY-MM") %>|🗓 이번 달]]
 
 ## 🗓 Daily Notes 링크  
 
 > [!summary] 이번 주 Daily Notes
 > ```dataview
 > LIST
-FROM "10_Periodic Notes" and #type/timeline/daily
-WHERE week = "<%tp.date.now('YYYY')%>-W<%tp.date.now('ww')%>"
-SORT file.name ASC
+> FROM "10_Periodic Notes" AND #type/timeline/daily
+> WHERE week = "<% tp.file.title %>"
+> SORT file.name ASC
+> ```

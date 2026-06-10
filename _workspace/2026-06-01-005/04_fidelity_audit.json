@@ -1,0 +1,18 @@
+{
+  "run_id": "2026-06-01-005",
+  "decision": "pass",
+  "checks": {
+    "facts_numbers_dates_preserved": true,
+    "source_names_preserved": true,
+    "links_preserved": true,
+    "claim_direction_preserved": true,
+    "causality_preserved": true,
+    "no_new_examples_added": true,
+    "no_removed_sections": true
+  },
+  "notes": [
+    "평어체를 격식체로 바꿨지만 핵심 주장과 근거 구조는 유지됨",
+    "직접 인용 내부 문장인 \"AI는 증폭기다\"와 \"AI에 맡기면 개발자의 장기 역량이 줄어든다\"는 원문 형태 유지",
+    "참고문헌 링크와 연구명은 변경하지 않음"
+  ]
+}

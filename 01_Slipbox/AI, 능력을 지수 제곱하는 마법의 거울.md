@@ -1,7 +1,11 @@
 ---
+created: 2025-08-22
 tags:
   - AI
   - blog
+  - slipbox
+type: permanent
+status: growing
 ---
 
 # 🌌 AI, 능력을 지수 제곱하는 마법의 거울

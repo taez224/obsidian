@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "run_id": "2026-06-01-004",
+    "audit_type": "content_fidelity",
+    "decision": "full_pass"
+  },
+  "checks": {
+    "names_preserved": true,
+    "numbers_preserved": true,
+    "dates_preserved": true,
+    "direct_quotes_preserved": true,
+    "claim_direction_preserved": true,
+    "causality_preserved": true,
+    "citation_set_preserved": true,
+    "frontmatter_preserved": true
+  },
+  "notes": [
+    "수치 29%, 3.6%, 1,174명, 4분의 3, 912명, 6천 명은 그대로 보존했다.",
+    "직접 인용문은 변경하지 않았다.",
+    "AI 사용 자체가 아니라 회수 실패가 위험하다는 주장 방향을 유지했다."
+  ]
+}

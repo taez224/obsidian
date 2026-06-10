@@ -9,7 +9,7 @@ formulas:
   resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))
   subfolder: file.folder.replace("30_Resources/", "").replace("References/", "").replace("Development/", "")
   rating_display: if(my_rate, "⭐".repeat(my_rate), "-")
-  read_status: if(status == "완독", "✅", if(status == "읽는중", "📖", if(status == "예정", "📋", "-")))
+  read_status: if(status == "완독", "✅", if(status == "읽는 중", "📖", if(status == "예정", "📋", "-")))
   connections: file.links.length + file.backlinks.length
 properties:
   file.name:
@@ -60,6 +60,8 @@ views:
       - formula.rating_display
       - formula.updated
     sort:
+      - property: formula.rating_display
+        direction: DESC
       - property: formula.read_status
         direction: DESC
     filter: file.folder.contains("Books")

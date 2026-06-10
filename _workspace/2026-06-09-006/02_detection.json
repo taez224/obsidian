@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "run_id": "2026-06-09-006",
+    "input_length": 6696,
+    "estimated_genre": "blog",
+    "detected_count": 4,
+    "ai_tell_density": "low",
+    "severity_weighted_score": 4,
+    "category_summary": {
+      "A": 1,
+      "H": 2,
+      "I": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "F001",
+      "category": "A",
+      "category_label": "번역투",
+      "severity": "S2",
+      "scope": "sentence",
+      "text_span": "조직 이론의 흡수 역량을 개발팀의 작업 경계로 옮겨온 표현입니다.",
+      "reason": "옮겨온 표현입니다가 번역투에 가깝고 설명문 리듬이 딱딱함",
+      "suggested_fix": "가져온 말입니다"
+    },
+    {
+      "id": "F002",
+      "category": "H",
+      "category_label": "메타 설명 표지",
+      "severity": "S2",
+      "scope": "paragraph",
+      "text_span": "이 현상이 위험한 이유는 단순히 코드 품질 문제로 끝나지 않기 때문입니다.",
+      "reason": "문단 첫머리에서 이유를 라벨링하는 설명문 리듬",
+      "suggested_fix": "이 문제는 코드 품질에서 끝나지 않습니다."
+    },
+    {
+      "id": "F003",
+      "category": "I",
+      "category_label": "형식명사",
+      "severity": "S2",
+      "scope": "sentence",
+      "text_span": "팀이 AI 산출물을 자기 코드로 받아들일 수 있는 상태란 무엇일까요.",
+      "reason": "상태란 무엇일까요가 추상 명사 중심이라 문장이 무거움",
+      "suggested_fix": "자기 코드로 받아들인다는 말은 무엇일까요."
+    },
+    {
+      "id": "F004",
+      "category": "H",
+      "category_label": "반복 셋업",
+      "severity": "S2",
+      "scope": "sentence",
+      "text_span": "앞의 세 조건을 PR에서 확인하려면 다음 원칙으로 옮겨볼 수 있습니다.",
+      "reason": "세 조건/다음 원칙 식의 안내문이 기계적으로 읽힘",
+      "suggested_fix": "앞의 조건은 PR에서 다음 원칙으로 옮겨볼 수 있습니다."
+    }
+  ]
+}

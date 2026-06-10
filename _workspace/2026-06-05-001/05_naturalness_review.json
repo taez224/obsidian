@@ -1,0 +1,13 @@
+{
+  "run_id": "2026-06-05-001",
+  "status": "accept",
+  "grade": "A",
+  "residual_findings": [
+    {
+      "type": "intentional_technical_terms",
+      "items": ["지식 회수", "하네스", "인식 부채", "인지 부채"],
+      "reason": "Core concepts of the article; preserved intentionally."
+    }
+  ],
+  "self_check_passed": 6
+}

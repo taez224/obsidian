@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "run_id": "2026-06-08-002"
+  },
+  "result": "accept",
+  "quality_grade": "A-",
+  "self_check_passed": 6,
+  "self_check_total": 6,
+  "residual_patterns": [
+    "The article still uses repeated conceptual nouns such as 회수, 흡수, 경계, but these are deliberate article terms rather than AI tells.",
+    "The markdown structure remains report-like in places, but this is appropriate for a technical blog."
+  ]
+}

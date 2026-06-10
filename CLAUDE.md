@@ -10,16 +10,24 @@ This is an **Obsidian Vault** - a personal knowledge management system based on 
 
 ```
 00_Inbox/          빠른 캡처, 미분류 아이디어 (정기적으로 정리 필요)
-01_Slipbox/        영구 보관용 노트 (Zettelkasten 방식, 상호 연결)
+01_Slipbox/        영구 보관용 노트 (Zettelkasten, 상호 연결)
+  └─ _index.base   Slipbox 헬스 / 고립 노트 / 허브 노트 대시보드
 10_Periodic Notes/ 시간 기반 노트 (일간/주간/월간)
   └─ YYYY/W##/     주차별 폴더 (2025-W01.md, 2025-01-01.md)
 20_Projects/       진행 중인 프로젝트별 폴더
+  └─ _dashboard.base  프로젝트 상태 / 방치된 프로젝트 / 최근 활동
 30_Resources/      참고 자료
-  ├─ Development/  개발 자료 (DevLog, Codebase, Career)
-  └─ References/   외부 자료 (Books, Articles)
+  ├─ Development/  개발 자료 (DevLog, Tools)
+  ├─ References/   외부 자료 (Books, Articles, Clippings, etc)
+  └─ _index.base   리소스 전반 / 도서 평점 / DevLog
 40_Archive/        완료/보관 자료
 99_Templates/      노트 템플릿 (Templater 문법 사용)
+  └─ _property-schema.md  frontmatter 표준 (필수 참조)
+00_Inbox/_inbox.base 정리 부채 가시화 (7일+/30일+ 체류 노트)
+_global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노트, stale 프로젝트)
 ```
+
+> **Frontmatter 작성 시 [[_property-schema]] 를 반드시 참조**할 것. Bases 쿼리가 이 스키마를 전제로 동작.
 
 ## Workflow (Knowledge Flow)
 

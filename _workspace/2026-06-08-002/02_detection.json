@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "run_id": "2026-06-08-002",
+    "estimated_genre": "markdown technical blog",
+    "mode": "strict",
+    "detected_count": 27
+  },
+  "category_summary": {
+    "A_translationese": 8,
+    "D_signature_phrases": 6,
+    "E_rhythm": 4,
+    "F_overabstract_nouns": 4,
+    "H_connectors": 3,
+    "I_formal_nouns": 2
+  },
+  "findings": [
+    {
+      "id": "D-4",
+      "reason": "hype words such as 치명적인, 압도적으로, 명확한 통찰 were stronger than the surrounding technical-blog register"
+    },
+    {
+      "id": "A-15",
+      "reason": "abstract subjects and heavy nominal phrases made several claims sound generated or translated"
+    },
+    {
+      "id": "I-1/I-3",
+      "reason": "some endings used explanation formulas where direct statements were clearer"
+    },
+    {
+      "id": "E-2",
+      "reason": "several adjacent paragraphs had a similar assertive rhythm and were lightly varied"
+    }
+  ]
+}

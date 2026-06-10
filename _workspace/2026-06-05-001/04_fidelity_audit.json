@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-06-05-001",
+  "status": "full_pass",
+  "checks": {
+    "names_preserved": true,
+    "dates_preserved": true,
+    "numbers_preserved": true,
+    "links_preserved": true,
+    "tables_preserved": true,
+    "claim_direction_preserved": true,
+    "no_new_claims_added": true
+  },
+  "notes": "All edits were stylistic. No factual claim, cited source, date, number, or table structure was changed."
+}

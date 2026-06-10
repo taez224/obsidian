@@ -1,0 +1,76 @@
+filters:
+  and:
+    - file.inFolder("00_Inbox")
+    - file.ext == "md"
+    - '!file.name.startsWith("_")'
+formulas:
+  days_in_inbox: (now() - if(created, date(created), file.ctime)).days
+  age_label: if((now() - if(created, date(created), file.ctime)).days > 30, "🔴 30일+", if((now() - if(created, date(created), file.ctime)).days > 7, "🟡 7일+", "🟢 fresh"))
+  is_overdue: (now() - if(created, date(created), file.ctime)).days > 7
+  is_critical: (now() - if(created, date(created), file.ctime)).days > 30
+  next_action: if(next_action, next_action, if((now() - if(created, date(created), file.ctime)).days > 30, "❗ 결정 필요 (삭제 or 승격)", "분류 대기"))
+  word_count: (file.size / 5).round(0)
+  updated: file.mtime.relative()
+  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
+properties:
+  file.name:
+    displayName: 노트
+  formula.age_label:
+    displayName: 연령
+  formula.days_in_inbox:
+    displayName: 체류일
+  formula.next_action:
+    displayName: 다음 액션
+  formula.word_count:
+    displayName: 단어수
+  formula.created_date:
+    displayName: 생성일
+  formula.updated:
+    displayName: 수정
+views:
+  - type: table
+    name: 🔴 결정 필요 (30일+)
+    order:
+      - file.name
+      - formula.days_in_inbox
+      - formula.next_action
+      - formula.created_date
+    filter: formula.is_critical == true
+    sortBy:
+      property: file.ctime
+      direction: ASC
+  - type: table
+    name: 🟡 정리 부채 (7일+)
+    order:
+      - file.name
+      - formula.age_label
+      - formula.days_in_inbox
+      - formula.next_action
+      - formula.created_date
+    filter: formula.is_overdue == true
+    sortBy:
+      property: file.ctime
+      direction: ASC
+  - type: table
+    name: 📥 전체 Inbox
+    order:
+      - file.name
+      - formula.age_label
+      - formula.days_in_inbox
+      - formula.word_count
+      - formula.created_date
+      - formula.updated
+    sortBy:
+      property: file.ctime
+      direction: DESC
+  - type: cards
+    name: 🃏 분류 도우미 (한 장씩 처리)
+    order:
+      - file.name
+      - formula.age_label
+      - formula.days_in_inbox
+      - formula.word_count
+    limit: 5
+    sortBy:
+      property: file.ctime
+      direction: ASC

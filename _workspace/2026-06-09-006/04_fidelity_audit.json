@@ -1,0 +1,19 @@
+{
+  "run_id": "2026-06-09-006",
+  "status": "pass",
+  "checked_items": {
+    "facts": "preserved",
+    "claims": "preserved",
+    "dates": "preserved",
+    "numbers": "preserved",
+    "names": "preserved",
+    "links": "preserved",
+    "frontmatter": "preserved",
+    "markdown_syntax": "preserved",
+    "obsidian_syntax": "preserved"
+  },
+  "notes": [
+    "Only local style spans were rewritten.",
+    "No new claim, source, example, or argument was added."
+  ]
+}

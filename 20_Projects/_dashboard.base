@@ -40,26 +40,26 @@ views:
       - formula.updated
   - type: table
     name: 진행 중
+    order:
+      - file.name
+      - formula.project_folder
+      - formula.updated
+      - formula.days_since_update
     filter: status == "active"
     sortBy:
       property: file.mtime
       direction: DESC
+  - type: table
+    name: 방치된 프로젝트
     order:
       - file.name
       - formula.project_folder
-      - formula.updated
       - formula.days_since_update
-  - type: table
-    name: 방치된 프로젝트
+      - formula.updated
     filter: formula.is_stale == true
     sortBy:
       property: formula.days_since_update
       direction: DESC
-    order:
-      - file.name
-      - formula.project_folder
-      - formula.days_since_update
-      - formula.updated
   - type: table
     name: 상태별
     groupBy:
@@ -72,15 +72,15 @@ views:
       - formula.updated
   - type: table
     name: 최근 활동
-    sortBy:
-      property: file.mtime
-      direction: DESC
     order:
       - file.name
       - formula.project_folder
       - formula.updated
       - formula.days_since_update
     limit: 20
+    sortBy:
+      property: file.mtime
+      direction: DESC
   - type: cards
     name: 갤러리
     order:
