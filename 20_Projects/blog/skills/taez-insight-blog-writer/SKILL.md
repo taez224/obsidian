@@ -81,7 +81,7 @@ Search the vault before writing. Prefer these anchors when relevant:
 
 - `20_Projects/blog/60일간의 AI 에이전틱 워크플로.md`
 - `01_Slipbox/AI 시대 플랫폼팀은 어떻게 진화하는가.md`
-- latest `20_Projects/blog/AI로 개인은 빨라졌는데, 팀 진척은 그대로인 이유*.md`
+- latest `20_Projects/blog/AI로 개인은 빨라졌는데, 왜 팀의 속도는 그대로일까.md`
 
 Extract:
 

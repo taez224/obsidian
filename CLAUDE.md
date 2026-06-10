@@ -114,3 +114,22 @@ Zettelkasten 원칙에 따라 노트 간 연결을 적극 활용합니다.
 - Wikilinks `[[]]`로 노트 간 연결 유지
 - Frontmatter (YAML) 형식 준수
 - 한글 파일명 사용 가능 (URL 인코딩 불필요)
+
+## Maintenance Rules (유지보수 규약, 2026-06-10 제정)
+
+### 첨부파일
+
+- 붙여넣기 이미지 등 일반 첨부는 `_attachments/` (Obsidian 설정 `attachmentFolderPath`로 강제)
+- 프로젝트 전용 에셋은 폴더 로컬 `assets/` 허용 (예: `20_Projects/blog/assets/`)
+- 루트에 떠도는 파일 금지 — 루트는 `CLAUDE.md`, `AGENTS.md`, `README.md`, `_global-health.base`만
+
+### _workspace 수명
+
+- 파이프라인 실행 산출물 폴더는 **7일 후 삭제** (상세: `_workspace/README.md`)
+- 삭제 전 git 커밋으로 복구 가능성 확보
+
+### 버전 관리
+
+- **파일명 버전 금지** (`v2`, `bkup`, `최종` 등) — 버전은 git이 관리한다
+- 글 시리즈는 **정본 1개**만 작업 폴더에 유지, 과거 반복본은 `40_Archive/blog-drafts/`
+- 큰 정리 작업 전에는 체크포인트 커밋을 먼저 만들 것
