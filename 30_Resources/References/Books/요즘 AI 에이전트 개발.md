@@ -2,7 +2,7 @@
 created: 2025-12-18 14:15
 tags:
   - 📚독서
-  - 프로그래밍언어
+  - AI/에이전트
 title: 요즘 AI 에이전트 개발, LLM RAG ADK MCP LangChain A2A LangGraph：60가지 예제로 배우는 인공지능 에이전트 개발, 싱글 Agent부터 멀티 Agent 시스템 설계 및 협업 방식까지
 author: 박승규
 category: 국내도서

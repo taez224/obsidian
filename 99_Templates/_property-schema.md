@@ -82,6 +82,41 @@ ended: null           # completed일 때만
 
 ---
 
+## 📝 Blog Posts (`20_Projects/blog/`)
+
+개인 글·기술 글의 **전문 정본**. 초안과 외부 발행본을 이 폴더에 한 번만 보관하고, `01_Slipbox/`에는 이 글에서 분리한 독립 개념만 둔다.
+
+```yaml
+---
+title: <글 제목>
+created: 2026-07-11             # vault 수집·작성일
+tags:
+  - blog
+  - <주제 태그>
+status: draft                   # draft | published
+author: TaeZ
+summary: <한두 문장 요약>
+publication: Velog              # 외부 발행본일 때
+source: https://...             # 외부 원문 URL
+published: 2025-08-29           # 원문 발행일을 확인한 경우에만
+series: <연재명>                # 연재일 때
+series_order: 1
+related:
+  - "[[관련 글 또는 프로젝트]]"
+---
+```
+
+| 규칙 | 설명 |
+|------|------|
+| 정본 위치 | 전문은 `20_Projects/blog/`에만 둔다. 프로젝트별 하위 `blog/` 폴더를 만들지 않는다. |
+| 발행본 | `status: published`에는 `publication`, `source`를 필수로 둔다. `published`는 발행일이 확인될 때만 기록한다. |
+| 초안 | `status: draft`를 사용한다. 과거 반복본은 `40_Archive/blog-drafts/`로 보낸다. |
+| 연재 | `series`, `series_order`와 앞·뒤 글 링크를 사용한다. |
+| 프로젝트 글 | `프로젝트/<project-id>` 태그와 프로젝트 노트 링크로 맥락을 남긴다. |
+| Slipbox | 블로그 전문을 복제하지 않는다. 재사용할 개념은 별도의 `type: permanent` 노트로 압축하고 블로그 글을 링크한다. |
+
+---
+
 ## 📚 Books (`30_Resources/References/Books/`)
 
 이미 잘 표준화되어 있음. 유지 + 마이너 정리.
@@ -91,8 +126,7 @@ ended: null           # completed일 때만
 created: 2025-08-12 18:40
 tags:
   - 📚독서
-  - <카테고리>
-  - <세부 분류>
+  - <주제 태그>               # 예: AI, 개발/인프라, 글쓰기
 title: <책 제목>
 author:
   - <저자>
@@ -108,6 +142,8 @@ my_rate: 0            # 0 ~ 5 (0.1 단위 허용)
 book_note: <한줄평>
 ---
 ```
+
+> `category`는 `국내도서`·`eBook`·`외서`처럼 도서 형식을 기록한다. 판매처의 세부 분류를 태그로 복사하지 말고 vault의 주제 태그 0~2개만 사용한다.
 
 ---
 

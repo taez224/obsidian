@@ -6,6 +6,10 @@ filters:
     - '!file.inFolder("99_Templates")'
     - '!file.inFolder(".obsidian")'
     - '!file.inFolder(".smart-env")'
+    - '!file.inFolder(".agents")'
+    - '!file.inFolder(".claude")'
+    - '!file.inFolder(".codex")'
+    - '!file.inFolder("_workspace")'
 formulas:
   days_in_inbox: (now() - if(created, date(created), file.ctime)).days
   days_since_update: (now() - file.mtime).days
@@ -44,6 +48,8 @@ views:
       - formula.days_in_inbox
       - formula.created_date
       - formula.updated
+    summaries:
+      formula.days_in_inbox: Average
     sortBy:
       property: file.ctime
       direction: ASC
@@ -52,12 +58,12 @@ views:
     filters:
       and:
         - file.inFolder("01_Slipbox")
+        - formula.is_orphan == true
     order:
       - file.name
       - formula.created_date
       - formula.updated
       - formula.connections
-    filter: formula.is_orphan == true
     sortBy:
       property: file.ctime
       direction: ASC
@@ -67,12 +73,12 @@ views:
       and:
         - file.inFolder("20_Projects")
         - status == "active"
+        - formula.is_stale_project == true
     order:
       - file.name
       - formula.location
       - formula.days_since_update
       - formula.updated
-    filter: formula.is_stale_project == true
     sortBy:
       property: file.mtime
       direction: ASC
@@ -104,6 +110,8 @@ views:
       - type
       - formula.connections
       - formula.updated
+    columnSize:
+      file.name: 283
   - type: table
     name: 🔥 최근 활동 전체 (vault-wide)
     order:
@@ -121,13 +129,13 @@ views:
       and:
         - '!file.inFolder("10_Periodic Notes")'
         - '!file.inFolder("30_Resources/Development/DevLog")'
+        - formula.days_since_update > 90
     order:
       - file.name
       - formula.location
       - formula.days_since_update
       - formula.updated
     limit: 30
-    filter: formula.days_since_update > 90
     sortBy:
       property: file.mtime
       direction: ASC

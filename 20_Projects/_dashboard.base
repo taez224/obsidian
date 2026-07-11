@@ -3,14 +3,15 @@ filters:
     - file.inFolder("20_Projects")
     - file.ext == "md"
     - '!file.name.startsWith("_")'
+    - project_id
 formulas:
   updated: file.mtime.relative()
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
-  days_since_update: ((now() - file.mtime) / 86400000).round(0)
+  days_since_update: (now() - file.mtime).days
   project_folder: file.folder.replace("20_Projects/", "").split("/").slice(0, 1).join("")
   sub_project: if(file.folder.replace("20_Projects/", "").split("/").length > 1, file.folder.replace("20_Projects/", "").split("/").slice(1).join("/"), "-")
   status_icon: if(status == "active", "🟢", if(status == "completed", "✅", if(status == "on-hold", "⏸️", "📋")))
-  is_stale: status == "active" && ((now() - file.mtime) / 86400000) > 14
+  is_stale: status == "active" && (now() - file.mtime).days > 14
 properties:
   file.name:
     displayName: 노트
@@ -40,23 +41,23 @@ views:
       - formula.updated
   - type: table
     name: 진행 중
+    filters: status == "active"
     order:
       - file.name
       - formula.project_folder
       - formula.updated
       - formula.days_since_update
-    filter: status == "active"
     sortBy:
       property: file.mtime
       direction: DESC
   - type: table
     name: 방치된 프로젝트
+    filters: formula.is_stale == true
     order:
       - file.name
       - formula.project_folder
       - formula.days_since_update
       - formula.updated
-    filter: formula.is_stale == true
     sortBy:
       property: formula.days_since_update
       direction: DESC
@@ -71,7 +72,7 @@ views:
       - formula.project_folder
       - formula.updated
   - type: table
-    name: 최근 활동
+    name: 최근 프로젝트
     order:
       - file.name
       - formula.project_folder

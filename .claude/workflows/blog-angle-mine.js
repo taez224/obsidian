@@ -30,7 +30,7 @@ const SOURCES = A.sources || ['01_Slipbox', '00_Inbox', '30_Resources/Developmen
 const COUNT = A.count || 5
 const FOCUS = A.focus || ''
 const AGENT = 'general-purpose'
-const VOICE = VAULT + '/20_Projects/blog/_voice-profile.md'
+const VOICE = VAULT + '/.agents/skills/taez-insight-blog-writer/references/voice-profile.md'
 const BLOG = VAULT + '/20_Projects/blog'
 
 // ── schemas ──────────────────────────────────────────────────────────────────

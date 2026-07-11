@@ -36,7 +36,7 @@ views:
       direction: DESC
   - type: table
     name: 📅 Daily — 월별 비교 (어느 달이 활발했나)
-    filter: file.basename.length == 10
+    filters: file.basename.length == 10
     groupBy:
       property: formula.year_month
       direction: DESC

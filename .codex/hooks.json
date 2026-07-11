@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "qmd update && qmd embed",
+            "timeout": 600,
+            "statusMessage": "Updating QMD index"
+          }
+        ]
+      }
+    ]
+  }
+}

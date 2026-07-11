@@ -129,11 +129,21 @@ SORT file.mtime DESC
 
 ## **🧹 주간 정리 체크리스트**
 
-- [ ] [[_inbox.base|_inbox]] 열어서 7일+ 체류 노트 분류 (승격/Resources/삭제)
-- [ ] [[_global-health.base|_global-health]] 에서 "🟢 방치된 활성 프로젝트" 확인 → 상태 업데이트 또는 on-hold 전환
-- [ ] [[01_Slipbox/_index.base|Slipbox _index]] 의 "고립된 노트" view에서 최소 1개 노트에 링크 추가
+> 모든 대상이 아래 embed로 바로 보인다 — base 파일을 따로 열 필요 없음.
+
+- [ ] Inbox 7일+ 체류 노트 분류 (승격/Resources/삭제) — 위 "📥 Inbox에서" embed 참조
+- [ ] 방치된 활성 프로젝트 → 상태 업데이트 또는 on-hold 전환
+
+![[_global-health.base#🟢 방치된 활성 프로젝트 (14일+)]]
+
+- [ ] 고립된 Slipbox 노트에 최소 1개 링크 추가
+
+![[01_Slipbox/_index.base#고립된 노트]]
+
 - [ ] 이번 주 DevLog 훑어보고 Slipbox 승격 후보 1개 이상 선정
-- [ ] Clippings 중 `status: unread` 1개 이상 처리
+- [ ] Clippings `status: unread` 1개 이상 처리
+
+![[_global-health.base#📰 미처리 Clippings (unread)]]
 
 
 ## 🗓 Monthly Note 링크  

@@ -20,7 +20,19 @@
       "Bash(defuddle parse *)",
       "Bash(defuddle --version)",
       "Bash(npm install *)",
-      "Bash(pdftotext /Users/taez/.claude/projects/-Users-taez-Projects-obsidian/a6c5ffaf-3b51-43dc-93cc-a0a486582c5e/tool-results/webfetch-1780572446127-7yvfox.pdf -)"
+      "Bash(pdftotext /Users/taez/.claude/projects/-Users-taez-Projects-obsidian/a6c5ffaf-3b51-43dc-93cc-a0a486582c5e/tool-results/webfetch-1780572446127-7yvfox.pdf -)",
+      "mcp__qmd__query",
+      "mcp__qmd__status",
+      "Bash(node \"/Users/taez/Projects/obsidian/.claude/workflows/blog-slop-lint.mjs\" \"/Users/taez/Projects/obsidian/20_Projects/blog/AI로 개인은 빨라졌는데, 왜 팀의 진척은 그대로일까?.md\")",
+      "WebFetch(domain:toss.tech)",
+      "WebFetch(domain:techblog.woowahan.com)",
+      "WebFetch(domain:tech.kakao.com)",
+      "WebFetch(domain:medium.com)",
+      "Bash(mv \"/Users/taez/Projects/obsidian/20_Projects/blog/AI로 개인은 빨라졌는데, 왜 팀의 진척은 그대로일까?.md\" \"/Users/taez/Projects/obsidian/20_Projects/blog/AI로 빨라진 개인, 소화하지 못한 팀.md\")",
+      "Bash(obsidian --version)",
+      "Bash(grep -n -A5 \"open\" /Users/taez/.claude/plugins/cache/obsidian-skills/obsidian/1.0.1/skills/obsidian-cli/SKILL.md | head -40)",
+      "Bash(ln -s ../../.agents/skills/permanent-note permanent-note)",
+      "Bash(python3 -c ' *)"
     ],
     "deny": [],
     "ask": []

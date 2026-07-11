@@ -1,0 +1,41 @@
+filters:
+  and:
+    - file.folder == this.file.folder
+    - file.ext == "md"
+    - file.path != this.file.path
+    - '!file.name.startsWith("_")'
+formulas:
+  updated: file.mtime.relative()
+  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
+  days_since_update: (now() - file.mtime).days
+properties:
+  file.name:
+    displayName: 노트
+  status:
+    displayName: 상태
+  formula.created_date:
+    displayName: 생성일
+  formula.updated:
+    displayName: 수정
+  formula.days_since_update:
+    displayName: 경과일
+views:
+  - type: table
+    name: 📂 이 폴더 노트
+    order:
+      - file.name
+      - status
+      - formula.created_date
+      - formula.updated
+    sortBy:
+      property: file.mtime
+      direction: DESC
+  - type: table
+    name: 🕸 오래된 것부터
+    order:
+      - file.name
+      - formula.days_since_update
+      - formula.updated
+    sortBy:
+      property: file.mtime
+      direction: ASC

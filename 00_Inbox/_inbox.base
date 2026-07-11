@@ -30,24 +30,26 @@ properties:
 views:
   - type: table
     name: 🔴 결정 필요 (30일+)
+    filters: formula.is_critical == true
     order:
       - file.name
       - formula.days_in_inbox
       - formula.next_action
       - formula.created_date
-    filter: formula.is_critical == true
     sortBy:
       property: file.ctime
       direction: ASC
   - type: table
     name: 🟡 정리 부채 (7일+)
+    filters: formula.is_overdue == true
     order:
       - file.name
       - formula.age_label
       - formula.days_in_inbox
       - formula.next_action
       - formula.created_date
-    filter: formula.is_overdue == true
+    summaries:
+      formula.days_in_inbox: Average
     sortBy:
       property: file.ctime
       direction: ASC
@@ -60,6 +62,9 @@ views:
       - formula.word_count
       - formula.created_date
       - formula.updated
+    summaries:
+      formula.days_in_inbox: Average
+      formula.word_count: Sum
     sortBy:
       property: file.ctime
       direction: DESC

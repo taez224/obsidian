@@ -1,0 +1,100 @@
+filters:
+  and:
+    - file.folder == "20_Projects/blog"
+    - file.ext == "md"
+    - file.name != "blog"
+formulas:
+  updated: file.mtime.relative()
+  metadata_status: if(status == "published", if(publication && source, if(published, "✅", "📅"), "⚠️"), "")
+properties:
+  title:
+    displayName: 제목
+  status:
+    displayName: 상태
+  published:
+    displayName: 발행일
+  publication:
+    displayName: 발행처
+  series:
+    displayName: 연재
+  series_order:
+    displayName: 순서
+  tags:
+    displayName: 태그
+  summary:
+    displayName: 요약
+  source:
+    displayName: 원문
+  formula.updated:
+    displayName: 수정
+  formula.metadata_status:
+    displayName: 메타데이터
+views:
+  - type: table
+    name: 📰 발행 글
+    filters: status == "published"
+    order:
+      - title
+      - published
+      - publication
+      - tags
+      - formula.metadata_status
+    sort:
+      - property: published
+        direction: DESC
+  - type: table
+    name: ✍️ 작성 중
+    filters: status == "draft"
+    order:
+      - title
+      - status
+      - tags
+      - formula.updated
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: 🔗 연재
+    filters: series != null
+    order:
+      - series
+      - series_order
+      - title
+      - published
+      - tags
+    sort:
+      - property: series
+        direction: ASC
+      - property: series_order
+        direction: ASC
+    columnSize:
+      note.series_order: 115
+      note.title: 323
+  - type: table
+    name: ⚠️ 메타데이터 점검
+    filters:
+      and:
+        - status == "published"
+        - or:
+            - publication == null
+            - source == null
+    order:
+      - title
+      - published
+      - publication
+      - source
+      - formula.metadata_status
+  - type: table
+    name: 📅 발행일 미확인
+    filters:
+      and:
+        - status == "published"
+        - published == null
+    order:
+      - title
+      - publication
+      - source
+      - tags
+    sort:
+      - property: file.mtime
+        direction: DESC

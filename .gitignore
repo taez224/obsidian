@@ -18,3 +18,7 @@
 
 # ide
 .idea
+/_workspace/
+
+# python venv (vault-lint 등 스크립트용)
+.venv/

@@ -38,21 +38,23 @@ views:
       - file.name
       - formula.connections
       - formula.updated
+    summaries:
+      formula.connections: Average
   - type: table
     name: 고립된 노트
+    filters: formula.is_orphan == true
     order:
       - file.name
       - formula.created_date
       - formula.updated
-    filter: formula.is_orphan == true
   - type: table
     name: 허브 노트
+    filters: formula.connections >= 3
     order:
       - file.name
       - formula.connections
       - formula.outlinks
       - formula.backlinks
-    filter: formula.connections >= 3
     sortBy:
       property: formula.connections
       direction: DESC

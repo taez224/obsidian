@@ -7,7 +7,6 @@ tags:
   - 개발/도구
   - 소프트웨어공학
 status: insight
-slop_check: draft
 author: TaeZ
 summary: 개인의 AI 활용은 자동으로 팀 생산성으로 이어지지 않습니다. AI가 개인의 작성 속도와 실험량을 끌어올릴수록, 팀은 그 변경을 설명하고 검증하고 복구 가능한 상태로 받아들일 수 있어야 합니다. 이 글은 그 변환을 '회수'라고 부릅니다.
 related:

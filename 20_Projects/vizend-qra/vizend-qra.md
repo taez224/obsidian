@@ -1,10 +1,13 @@
 ---
 title: Vizend QRA
 created: 2026-01-29
+project_id: vizend-qra
 tags:
   - project
   - 프로젝트/vizend-qra
 status: active
+started: 2026-01-29
+ended: null
 ---
 
 # Vizend QRA
@@ -20,16 +23,16 @@ Gallery(기존 배포 시스템)의 배포 모니터링 기능을 독립 서비�
 
 ## 기술 스택
 
-| 영역 | 기술 |
-|------|------|
-| 언어 | Java 17, Spring Boot 3.2 |
-| 빌드 | Gradle (멀티모듈) |
-| DB | PostgreSQL + Flyway |
-| 메시징 | Kafka (Vello) |
-| K8s | Fabric8 6.13.5, SharedInformer |
-| CI/CD | GitLab CI, ArgoCD |
-| Registry | Harbor, ECR, NCR |
-| 모니터링 | SSE 실시간 스트리밍 |
+| 영역       | 기술                             |
+| -------- | ------------------------------ |
+| 언어       | Java 21, Spring Boot 3.2       |
+| 빌드       | Gradle (멀티모듈)                  |
+| DB       | PostgreSQL + Flyway            |
+| 메시징      | Kafka (Vello)                  |
+| K8s      | Fabric8 6.13.5, SharedInformer |
+| CI/CD    | GitLab CI, ArgoCD              |
+| Registry | Harbor, ECR, NCR               |
+| 모니터링     | SSE 실시간 스트리밍                   |
 
 ## 모듈 구조
 

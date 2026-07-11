@@ -2,8 +2,7 @@
 created: 2025-12-02 14:30
 tags:
   - 📚독서
-  - IT모바일
-  - IT전문서
+  - 개발/인프라
 title: AWS 잘하는 개발자 되기：네트워크, 아마존 EC2, RDS, S3, 서버리스 람다, ECS, API 게이트웨이, 다이나모DB로 배우는 AWS 입문자를 위한 풀 패키지
 author: 김재욱
 publisher: 골든래빗

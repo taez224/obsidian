@@ -4,7 +4,7 @@
 // 사용법:
 //   node blog-slop-lint.mjs "<초안.md 절대경로>" [--lexicon <경로>] [--json]
 //
-// 단일 출처: 20_Projects/blog/_anti-slop-lexicon.md 의 ```json 블록(패턴/밀도/임계값).
+// 단일 출처: .agents/skills/taez-insight-blog-writer/references/anti-slop-lexicon.md 의 ```json 블록(패턴/밀도/임계값).
 // 이 파일은 패턴을 하드코딩하지 않는다 — lexicon 하나만 고치면 lint와 LLM 페르소나가 같이 따라온다.
 //
 // 검사 전 제외(오탐 방지): frontmatter, 코드펜스(``` ~ ```), 인라인 코드(`..`),
@@ -26,7 +26,7 @@ const flags = new Set(argv.filter((a) => a.startsWith('--')))
 const positional = argv.filter((a) => !a.startsWith('--'))
 const FILE = positional[0]
 const lexIdx = argv.indexOf('--lexicon')
-const LEXICON = lexIdx !== -1 ? argv[lexIdx + 1] : resolve(__dirname, '../../20_Projects/blog/_anti-slop-lexicon.md')
+const LEXICON = lexIdx !== -1 ? argv[lexIdx + 1] : resolve(__dirname, '../../.agents/skills/taez-insight-blog-writer/references/anti-slop-lexicon.md')
 const AS_JSON = flags.has('--json')
 
 if (!FILE) {

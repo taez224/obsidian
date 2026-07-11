@@ -2,11 +2,7 @@
 created: 2025-12-02 08:41
 tags:
   - 📚독서
-  - 국내도서
-  - IT모바일
-  - 생성형AI
-  - 개발방법론
-  - 프로그래밍언어
+  - AI
 title: 요즘 당근 AI 개발
 author: 당근 팀
 publisher: 골든래빗
