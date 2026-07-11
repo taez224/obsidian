@@ -2,7 +2,6 @@
 title: "W05: 프로젝트 킥오프"
 created: 2026-02-02
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W05

@@ -1,0 +1,4 @@
+interface:
+  display_name: "제텔카스텐 정원 관리"
+  short_description: "Inbox와 참고노트를 검토해 영구 노트와 연결로 발전"
+  default_prompt: "Use $review-zettelkasten to Inbox와 참고노트를 검토하고 영구 노트 승격과 연결 후보를 제안해줘."

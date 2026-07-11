@@ -152,7 +152,7 @@ When reviewing an existing draft:
 - Lead with structural problems, repeated claims, weak transitions, and unsupported leaps.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
-- For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, image links, and `## 연결된 노트`.
+- For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, image links, and `## 연관된 노트`.
 
 ## Output Formats
 

@@ -2,7 +2,6 @@
 title: "W08: 런타임 모니터링 & 장애 감지"
 created: 2026-02-23
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W08

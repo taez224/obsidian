@@ -1,4 +1,7 @@
 ---
+created: 2026-01-15
+tags:
+  - AI
 author:
   - 김대식
 ---

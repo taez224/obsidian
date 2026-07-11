@@ -3,7 +3,6 @@ title: Vizend QRA
 created: 2026-01-29
 project_id: vizend-qra
 tags:
-  - project
   - 프로젝트/vizend-qra
 status: active
 started: 2026-01-29

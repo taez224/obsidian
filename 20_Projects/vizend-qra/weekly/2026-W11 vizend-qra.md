@@ -2,7 +2,6 @@
 title: "W11: 레거시 정리 & 모니터링 재설계"
 created: 2026-03-16
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W11

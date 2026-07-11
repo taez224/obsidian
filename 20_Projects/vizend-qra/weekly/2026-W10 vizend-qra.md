@@ -2,7 +2,6 @@
 title: "W10: 배포 파이프라인 완성"
 created: 2026-03-09
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W10

@@ -30,7 +30,9 @@ Daily / 캡처 → 00_Inbox → (주간 정리) → 01_Slipbox 또는 30_Resourc
 
 - **매일**: Daily Note + Inbox 캡처
 - **주간**: Inbox → Slipbox/Resources 승격, `_global-health.base` 점검
-- **월간**: MOC 업데이트, Slipbox 성숙도(`seedling → growing → evergreen`) 검토
+- **월간**: MOC 필요성, 프로젝트 상태, Slipbox 성숙도(`seedling → growing → evergreen`) 검토
+
+> 실제 사용 방법과 AI 스킬의 역할은 [[Obsidian 운영 워크플로]]를 참조하세요.
 
 ## 📊 Bases 대시보드
 

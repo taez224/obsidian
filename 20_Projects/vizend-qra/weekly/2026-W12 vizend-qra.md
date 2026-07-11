@@ -2,7 +2,6 @@
 title: "W12: K8s 인프라 최적화"
 created: 2026-03-22
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W12

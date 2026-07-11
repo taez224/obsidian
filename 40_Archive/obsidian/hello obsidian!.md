@@ -3,7 +3,6 @@ uuid: 20241218135915
 created: 2024-12-18 13:59
 updated: 2024-12-18T13:59:15
 tags:
-  - technote
 ---
 # 📅 {{tp_date:YYYY-MM-DD}} Daily Note
 

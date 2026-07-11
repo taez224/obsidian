@@ -8,7 +8,7 @@ formulas:
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
   resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))
   subfolder: file.folder.replace("30_Resources/", "").replace("References/", "").replace("Development/", "")
-  rating_display: if(my_rate, "⭐".repeat(my_rate), "-")
+  rating_display: if(my_rate, "⭐".repeat(my_rate.floor()), "-")
   read_status: if(status == "완독", "✅", if(status == "읽는 중", "📖", if(status == "예정", "📋", "-")))
   connections: file.links.length + file.backlinks.length
   tier: if(my_rate >= 5, "① S", if(my_rate >= 4, "② A", if(my_rate >= 3, "③ B", if(my_rate >= 2, "④ C", if(my_rate >= 1, "⑤ D", "⑥ 미분류")))))

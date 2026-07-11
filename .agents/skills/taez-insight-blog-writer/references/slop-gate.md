@@ -60,7 +60,7 @@ aliases:
 - `status: insight` → polish 진입 가능
 - 막힌 항목은 노트 하단에 `## slop-gate 미통과` 메모로 남겨 다음 검사 때 추적
 
-## 연결된 노트
+## 연관된 노트
 
 - [[voice-profile]] - 검사 기준이 되는 목소리 DNA
 - [[anti-slop-lexicon]] - 6번 기계 선검사의 금지표현·문장부호 단일 출처

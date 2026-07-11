@@ -2,7 +2,6 @@
 title: "W09: 배포 생명주기 & 품질 체계"
 created: 2026-03-02
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W09

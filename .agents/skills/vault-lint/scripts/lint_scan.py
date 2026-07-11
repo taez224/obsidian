@@ -19,6 +19,10 @@ FOLDER_REQUIRED = {            # 폴더 prefix → 필수 frontmatter 키
     "30_Resources/References/Clippings/": ("status",),
 }
 DATE_INSTEAD_OF_CREATED = ("30_Resources/Development/DevLog/",)  # date 필드가 created 대체
+ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
+    "10_Periodic Notes/",
+    "30_Resources/Development/DevLog/",
+)
 # ───────────────────────────────────────────────────────────
 
 WIKILINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
@@ -141,6 +145,7 @@ def main():
         {"path": rel, "slipbox": rel.startswith("01_Slipbox/")}
         for rel in scanned
         if out_count.get(rel, 0) == 0 and in_degree.get(rel, 0) == 0
+        and not rel.startswith(ORPHAN_EXCLUDE)
     ]
 
     frontmatter_issues = []

@@ -80,6 +80,19 @@ ended: null           # completed일 때만
 | `status: on-hold` | 일시 중단 |
 | `status: completed` | 완료 → `40_Archive/`로 이동 검토 |
 
+### 프로젝트 하위 노트 (`20_Projects/<project>/weekly/` 등)
+
+프로젝트 진행 중 생기는 회고·기록 노트. 프로젝트 노트와 달리 `project_id`·`status`를 갖지 않는다.
+
+```yaml
+---
+created: 2026-02-02
+type: weekly-review    # 주간 회고. 다른 하위 노트 타입이 생기면 여기 등재
+tags:
+  - 프로젝트/<project-id>
+---
+```
+
 ---
 
 ## 📝 Blog Posts (`20_Projects/blog/`)
@@ -213,14 +226,14 @@ tags:
 
 1. **신규 노트**: 반드시 위 스키마 따른다. 템플릿(`99_Templates/`)이 자동 적용.
 2. **기존 노트**: 발견 시점에 점진적 보강. 빈 필드는 `null` 또는 생략 가능 — 단 **필수 필드는 채워야** Bases 쿼리에서 누락되지 않음.
-3. **스키마 변경**:
+3. **`40_Archive/`는 스키마 비적용**: 아카이브 노트의 frontmatter(비표준 `status` 등)는 역사 기록으로 그대로 두고 마이그레이션하지 않는다.
+4. **스키마 변경**:
    1. 이 문서 먼저 수정
    2. `99_Templates/` 영향 받는 템플릿 동기화
    3. `_*.base` 쿼리 영향 검토
    4. 기존 노트 마이그레이션 또는 폴백 로직 추가
 
-## 🔗 연결된 노트
-
+## 연관된 노트
 - [[CLAUDE]] - 태그 체계 원천
 - [[_dashboard]] - Projects base 쿼리
 - [[_index]] - Slipbox / Resources base 쿼리

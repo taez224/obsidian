@@ -2,7 +2,6 @@
 title: "W06: Gallery 마이그레이션"
 created: 2026-02-09
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W06

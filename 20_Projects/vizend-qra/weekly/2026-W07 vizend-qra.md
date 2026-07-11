@@ -2,7 +2,6 @@
 title: "W07: 안정화 & API 확장"
 created: 2026-02-16
 tags:
-  - project
   - 프로젝트/vizend-qra
 type: weekly-review
 week: 2026-W07
