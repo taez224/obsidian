@@ -1,8 +1,9 @@
 ---
-tags:
-  - devlog
 created: <% tp.date.now("YYYY-MM-DD") %>
-type:
+date: <% tp.date.now("YYYY-MM-DD") %>
+tags:
+  - 개발/DevLog
+  - 개발/트러블슈팅
 ---
 
 

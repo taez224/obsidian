@@ -2,7 +2,7 @@
 title: 
 source: 
 author: 
-publish_date: ""
+published: ""
 thumbnail: 
 created: 2026-06-08
 description: 

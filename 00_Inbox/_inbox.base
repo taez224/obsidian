@@ -68,6 +68,8 @@ views:
     sortBy:
       property: file.ctime
       direction: DESC
+    columnSize:
+      formula.word_count: 87
   - type: cards
     name: 🃏 분류 도우미 (한 장씩 처리)
     order:

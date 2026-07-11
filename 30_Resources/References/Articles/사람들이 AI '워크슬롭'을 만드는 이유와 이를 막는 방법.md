@@ -2,7 +2,7 @@
 title: Why People Create AI 'Workslop' — and How to Stop It
 source: https://mediapool.hm.edu/media/fk10/fk10_lokal/relaunch_3/masterstudiengaenge_1/hrm/eignungspruefung/why-people-create-ai-workslop-and-how-to-stop-it-EBSCO-FullText-01_30_2026.pdf
 author:
-publish_date: ""
+published: ""
 thumbnail:
 created: 2026-06-08
 description:

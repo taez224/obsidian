@@ -2,7 +2,7 @@
 title: 생성형 AI는 인사평가를 개선할 수도, 혹은 더 망칠 수도 있다
 source: https://hbr.org/2026/05/gen-ai-could-fix-performance-reviews-or-make-them-even-worse
 author:
-publish_date: ""
+published: ""
 thumbnail:
 created: 2026-06-08
 description:

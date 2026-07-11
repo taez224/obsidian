@@ -2,7 +2,7 @@
 title: AI 생산성 붐을 따라잡기 위해 고군분투하는 관리자들
 source: https://hbr.org/2026/05/managers-are-struggling-to-keep-up-with-the-ai-productivity-boom
 author:
-publish_date: ""
+published: ""
 thumbnail:
 created: 2026-06-08
 description:
