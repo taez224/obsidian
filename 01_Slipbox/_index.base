@@ -8,58 +8,87 @@ formulas:
   outlinks: file.links.length
   backlinks: file.backlinks.length
   updated: file.mtime.relative()
-  created_date: file.ctime.format("YYYY-MM-DD")
-  word_count: (file.size / 5).round(0)
+  days_since_update: (now() - file.mtime).days.floor()
   is_orphan: file.links.length == 0 && file.backlinks.length == 0
 properties:
   file.name:
     displayName: 노트
   file.tags:
     displayName: 태그
+  created:
+    displayName: 생성일
+  type:
+    displayName: 유형
+  status:
+    displayName: 성숙도
   formula.connections:
-    displayName: 연결
+    displayName: 전체 연결
   formula.outlinks:
-    displayName: 링크
+    displayName: 나가는 링크
   formula.backlinks:
     displayName: 백링크
   formula.updated:
-    displayName: 수정
-  formula.created_date:
-    displayName: 생성일
-  formula.word_count:
-    displayName: 단어수
+    displayName: 최근 수정
+  formula.days_since_update:
+    displayName: 미갱신일
 views:
   - type: table
     name: 전체 노트
     groupBy:
-      property: file.tags
+      property: status
       direction: ASC
     order:
       - file.name
+      - type
+      - status
+      - file.tags
       - formula.connections
       - formula.updated
+    sort:
+      - property: file.name
+        direction: ASC
     summaries:
       formula.connections: Average
   - type: table
-    name: 고립된 노트
-    filters: formula.is_orphan == true
+    name: seedling 검토
+    filters:
+      and:
+        - type == "permanent"
+        - status == "seedling"
     order:
       - file.name
-      - formula.created_date
+      - file.tags
+      - created
+      - formula.days_since_update
+      - formula.updated
+    sort:
+      - property: formula.days_since_update
+        direction: DESC
+  - type: table
+    name: 고립된 노트
+    filters:
+      and:
+        - type == "permanent"
+        - formula.is_orphan == true
+    order:
+      - file.name
+      - status
+      - created
       - formula.updated
   - type: table
-    name: 허브 노트
-    filters: formula.connections >= 3
+    name: MOC
+    filters: type == "hub"
     order:
       - file.name
-      - formula.connections
+      - status
       - formula.outlinks
       - formula.backlinks
-    sortBy:
-      property: formula.connections
-      direction: DESC
+      - formula.updated
+    sort:
+      - property: formula.outlinks
+        direction: DESC
     columnSize:
-      file.name: 250
+      file.name: 324
       formula.outlinks: 167
   - type: table
     name: 최근 수정순
@@ -67,23 +96,45 @@ views:
       - file.name
       - formula.updated
       - formula.connections
-    sortBy:
-      property: file.mtime
-      direction: DESC
+    sort:
+      - property: formula.updated
+        direction: DESC
+    columnSize:
+      file.name: 430
+      formula.updated: 89
   - type: table
-    name: 연결 분석
+    name: 연결 현황
     order:
       - file.name
+      - type
+      - status
       - formula.outlinks
       - formula.backlinks
       - formula.connections
+    sort:
+      - property: formula.connections
+        direction: DESC
     summaries:
       formula.connections: Sum
       formula.outlinks: Sum
       formula.backlinks: Sum
+  - type: table
+    name: 메타데이터 누락
+    filters:
+      or:
+        - created == null
+        - type == null
+        - status == null
+    order:
+      - file.name
+      - created
+      - type
+      - status
   - type: cards
     name: 갤러리
     order:
       - file.name
+      - type
+      - status
       - file.tags
       - formula.connections

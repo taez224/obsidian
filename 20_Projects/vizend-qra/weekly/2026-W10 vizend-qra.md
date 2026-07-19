@@ -42,6 +42,9 @@ status: active
 - US-2.6 undeploy git-first 재작성 (#135)
 - Sync tracking 확장 (#126)
 
+> [!warning] 2026-07-16 후속 정정
+> 이 주간 노트의 `NEW/DUPLICATE/CONFLICT`는 당시 작업을 요약한 구형 표현이다. 현재 코드의 target disposition은 `DEPLOY/ALREADY_DEPLOYED/CONFLICT`이며, batch `requestId` 중복 방어는 target 3상태와 별도 경계다. 경력 문서에는 [[QRA·Gallery 기술 경력 원장#3. 요청 멱등성과 충돌 구분]]을 사용한다.
+
 ## 데일리 로그
 
 - [[2026-03-03]] — 배포 가능성 검증, workloadType 필터링

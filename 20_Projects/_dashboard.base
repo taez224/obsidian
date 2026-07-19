@@ -4,39 +4,33 @@ filters:
     - file.ext == "md"
     - '!file.name.startsWith("_")'
     - project_id
+    - file.basename == project_id
 formulas:
   updated: file.mtime.relative()
-  created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
-  days_since_update: (now() - file.mtime).days
-  project_folder: file.folder.replace("20_Projects/", "").split("/").slice(0, 1).join("")
-  sub_project: if(file.folder.replace("20_Projects/", "").split("/").length > 1, file.folder.replace("20_Projects/", "").split("/").slice(1).join("/"), "-")
+  days_since_update: (now() - file.mtime).days.floor()
   status_icon: if(status == "active", "🟢", if(status == "completed", "✅", if(status == "on-hold", "⏸️", "📋")))
-  is_stale: status == "active" && (now() - file.mtime).days > 14
+  is_stale: status == "active" && (now() - file.mtime).days.floor() >= 14
 properties:
   file.name:
     displayName: 노트
-  formula.project_folder:
-    displayName: 프로젝트
-  formula.sub_project:
-    displayName: 서브
+  project_id:
+    displayName: 프로젝트 ID
   status:
     displayName: 상태
   formula.updated:
     displayName: 수정
-  formula.created_date:
-    displayName: 생성일
   formula.days_since_update:
     displayName: 경과일
 views:
   - type: table
     name: 전체 프로젝트
     groupBy:
-      property: formula.project_folder
+      property: status
       direction: ASC
     order:
       - formula.status_icon
       - file.name
-      - formula.sub_project
+      - project_id
       - status
       - formula.updated
   - type: table
@@ -44,48 +38,20 @@ views:
     filters: status == "active"
     order:
       - file.name
-      - formula.project_folder
-      - formula.updated
+      - project_id
       - formula.days_since_update
-    sortBy:
-      property: file.mtime
-      direction: DESC
+      - formula.updated
+    sort:
+      - property: formula.days_since_update
+        direction: DESC
   - type: table
-    name: 방치된 프로젝트
+    name: 프로젝트 허브 미갱신 (14일+)
     filters: formula.is_stale == true
     order:
       - file.name
-      - formula.project_folder
+      - project_id
       - formula.days_since_update
       - formula.updated
-    sortBy:
-      property: formula.days_since_update
-      direction: DESC
-  - type: table
-    name: 상태별
-    groupBy:
-      property: status
-      direction: ASC
-    order:
-      - formula.status_icon
-      - file.name
-      - formula.project_folder
-      - formula.updated
-  - type: table
-    name: 최근 프로젝트
-    order:
-      - file.name
-      - formula.project_folder
-      - formula.updated
-      - formula.days_since_update
-    limit: 20
-    sortBy:
-      property: file.mtime
-      direction: DESC
-  - type: cards
-    name: 갤러리
-    order:
-      - file.name
-      - formula.project_folder
-      - status
-      - formula.updated
+    sort:
+      - property: formula.days_since_update
+        direction: DESC

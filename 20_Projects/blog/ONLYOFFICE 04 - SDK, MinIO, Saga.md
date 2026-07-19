@@ -2,7 +2,7 @@
 title: "ONLYOFFICE 연동 4편: SDK, MinIO, Saga"
 created: 2026-01-22
 tags:
-  - 프로젝트/onlyoffice
+  - 프로젝트/onlyoffice-demo
   - blog
   - 개발/인프라
 status: published
@@ -13,7 +13,7 @@ series: ONLYOFFICE 연동 바이브코딩 기록
 series_order: 4
 summary: ONLYOFFICE Java SDK로 Config 생성을 고도화하고 MinIO와 Saga 패턴, 콜백 큐로 저장 정합성과 동시성을 다룬 구현 기록.
 related:
-  - "[[onlyoffice|ONLYOFFICE 연동]]"
+  - "[[onlyoffice-demo|ONLYOFFICE 연동]]"
   - "[[ONLYOFFICE 03 - key와 메타데이터 관리|3편: key와 메타데이터 관리]]"
 published: 2026-01-22
 ---

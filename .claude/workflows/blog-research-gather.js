@@ -1,6 +1,6 @@
 export const meta = {
   name: 'blog-research-gather',
-  description: '블로그 리서치 fan-out: 다학제 렌즈로 병렬 웹 리서치 + 반례 의무 수집 후, 재사용 리서치 노트(Slipbox literature)를 에이전트가 직접 생성한다.',
+  description: '블로그 리서치 fan-out: 다학제 렌즈로 병렬 웹 리서치 + 반례 의무 수집 후, 재사용 리서치 노트를 Resources에 생성한다.',
   whenToUse: '주제/seed에 대한 다학제 근거+반례를 모아 재사용 리서치 노트를 만들 때(파이프라인 ② research). args로 seed 경로 또는 주제, 렌즈 수를 넘긴다.',
   phases: [
     { title: 'Profile' },
@@ -23,7 +23,7 @@ export const meta = {
 //  - 반례 의무: 뒷받침 근거만 모으면 slop의 씨앗. "이 주장이 틀린다면?"을 별도 적대 에이전트로 강제 수집.
 //  - 웹 grounding: 기억·추측 금지, 실제로 연 URL만. (정확성은 발행 전 blog-review-polish factcheck가 한 번 더)
 //  - JS 합성: 거대 synthesis 에이전트 없음. 렌즈 결과를 JS로 brief 압축, raw도 항상 반환.
-//  - 노트 생성: Write 단계에서 에이전트가 결과를 자기 언어로(Feynman, 인용 덤프 금지) Slipbox literature 노트로 저장한다.
+//  - 노트 생성: Write 단계에서 에이전트가 결과를 자기 언어로(Feynman, 인용 덤프 금지) Resources 리서치 노트로 저장한다. 영구 노트 승격은 별도 승인 절차다.
 // ───────────────────────────────────────────────────────────────────────────
 
 let A = args || {}
@@ -124,15 +124,15 @@ lensFindings.forEach((f) => (f.sources || []).forEach((s) => sources.push(s)))
 if (counters) (counters.sources || []).forEach((s) => sources.push(s))
 const uniqSources = Array.from(new Set(sources))
 
-// ── stage: Write (에이전트가 리서치 노트를 Slipbox에 직접 저장) ──
+// ── stage: Write (에이전트가 다중 출처 리서치 노트를 Resources에 저장) ──
 const slug = (profile.claim || 'research').replace(/[\\/:*?"<>|\n]/g, ' ').replace(/\s+/g, ' ').slice(0, 40).trim()
-const notePath = VAULT + '/01_Slipbox/' + slug + ' — 리서치.md'
+const notePath = VAULT + '/30_Resources/References/etc/' + slug + ' — 리서치.md'
 const relatedSeed = SEED ? '[[' + SEED.split('/').pop().replace(/\.md$/, '') + ']]' : ''
 log('[Write] 리서치 노트 생성 → ' + notePath)
 await agent(
-  ['너는 파일 작성자다. 아래 리서치 결과를 *자기 언어로*(Feynman, 인용 덤프 금지) 정리해 ' + notePath + ' 를 Write 도구로 생성하라.', '',
-    'frontmatter: created(오늘 YYYY-MM-DD) / tags: [<주제 태그>, literature] / type: literature / status: growing' + (relatedSeed ? (' / related: ["' + relatedSeed + '"]') : ''), '',
-    '본문 섹션(필수): ## 핵심 주장과 근거  /  ## 반례·긴장(의무)  /  ## 재사용 데이터·인용  /  ## 출처', '',
+  ['너는 파일 작성자다. 아래 리서치 결과를 *자기 언어로*(Feynman, 인용 덤프 금지) 정리해 ' + notePath + ' 에 다중 출처 참고노트로 생성하라. 이 노트는 사용자의 영구 주장이 아니다.', '',
+    'frontmatter 필드: title("' + slug + ' — 리서치") / source: ""(다중 출처는 본문 ## 출처에 기록) / author: [] / published: "" / created(오늘 YYYY-MM-DD) / description(<핵심 주장 한 줄>) / tags: [📰article, <주제 태그>] / status: unread / my_take: ""' + (relatedSeed ? (' / related: ["' + relatedSeed + '"]') : ''), '',
+    '본문 섹션(필수): ## AI 종합  /  ## 핵심 주장과 근거  /  ## 반례·긴장(의무)  /  ## 재사용 데이터·인용  /  ## 출처', '',
     '핵심 주장: ' + profile.claim, '', '### 브리프', brief, '', '### 출처', uniqSources.join('\n')].join('\n'),
   { label: 'write-research-note', phase: 'Write', agentType: AGENT }
 )

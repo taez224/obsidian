@@ -22,3 +22,14 @@
 
 # python venv (vault-lint 등 스크립트용)
 .venv/
+
+# 개인 열람용 원문 스냅샷 — Git/GitHub에 배포하지 않음
+30_Resources/References/Clippings/_local-snapshots/
+
+# 회사 업무 맥락이 포함된 로컬 개발 기록 — QMD 검색에는 포함
+30_Resources/Development/DevLog/daily/
+30_Resources/Development/DevLog/weekly/
+30_Resources/Development/DevLog/monthly/
+
+# 개인 이직 준비 자료 — Git/GitHub에 배포하지 않음
+/20_Projects/job-search-2026/

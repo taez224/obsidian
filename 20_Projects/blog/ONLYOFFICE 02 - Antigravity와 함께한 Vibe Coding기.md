@@ -3,7 +3,7 @@ title: "Antigravity와 함께한 ONLYOFFICE 연동 Vibe Coding기 (Part 2: 구�
 created: 2025-11-28
 published: 2025-11-28
 tags:
-  - 프로젝트/onlyoffice
+  - 프로젝트/onlyoffice-demo
   - blog
   - 개발/인프라
 status: published
@@ -14,7 +14,7 @@ series: ONLYOFFICE 연동 바이브코딩 기록
 series_order: 2
 summary: Antigravity를 이용해 ONLYOFFICE Document Server와 Spring Boot·React 데모를 빠르게 연결하고, Config·JWT·콜백 흐름을 구현한 기록.
 related:
-  - "[[onlyoffice|ONLYOFFICE 연동]]"
+  - "[[onlyoffice-demo|ONLYOFFICE 연동]]"
   - "[[ONLYOFFICE 01 - 그냥 문서 편집기인 줄 알았는데|1편: ONLYOFFICE 개요]]"
   - "[[ONLYOFFICE 03 - key와 메타데이터 관리|3편: key와 메타데이터 관리]]"
 ---

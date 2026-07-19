@@ -104,11 +104,11 @@ SORT date(ended) DESC
 > - [ ] `40_Archive/`로 이동 검토
 > - [ ] 회고에서 학습 추출 → Slipbox 승격 후보
 
-### 🚨 방치된 활성 프로젝트 (14일+)
+### 🚨 프로젝트 허브 미갱신 (14일+)
 
-> SSOT: [[_dashboard.base|_dashboard]] 의 "방치된 프로젝트" view embed. 결정: 진행 재개 / on-hold / completed.
+> SSOT: [[_dashboard.base|_dashboard]] 의 "프로젝트 허브 미갱신 (14일+)" view embed. 허브의 현재 상태와 다음 액션을 갱신하고, 필요하면 on-hold / completed로 전환한다.
 
-![[_dashboard.base#방치된 프로젝트]]
+![[_dashboard.base#프로젝트 허브 미갱신 (14일+)]]
 
 ---
 

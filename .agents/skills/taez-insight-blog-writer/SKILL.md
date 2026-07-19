@@ -33,12 +33,19 @@ Default reader: practical software engineers. Default author position: 실전형
 | 단계 | 워크플로 | 핵심 산출 |
 | --- | --- | --- |
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
-| ② 리서치 | `blog-research-gather` | Slipbox 리서치와 반례 수집. |
+| ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
 | ③ 작곡 | `blog-recompose` | 선행글·초안 재작곡. |
 | ③' 직접 초안 | 이 스킬의 article spine | 새 글을 직접 쓴다. |
 | ④ 사람 게이트 | `references/slop-gate.md` | 7항목 사인오프. |
 | ⑤ 검수·윤문 | `blog-review-polish` | 사실 검증·6인 패널·윤문·최종 게이트. |
 | 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트. |
+
+### 런타임별 실행 경로
+
+- **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다.
+- **Codex**: 같은 evidence base와 article spine을 따르되, vault 검색 → 논지·구조 설계 → 초안/검토 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` → 사람 게이트 순서로 진행한다. Claude 전용 에이전트 워크플로를 직접 실행할 필요는 없다.
+
+두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
 ### 단일 출처 파일 (`references/`)
 
@@ -61,13 +68,16 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
+Before building the evidence base for a series article:
+
+- Inspect the target article frontmatter and the user request for a `series` name.
+- If a series is identified, read `20_Projects/blog/<series>.md` first. If that exact file does not exist, search project-note titles and aliases for the series name rather than inventing a new hub.
+- Treat the series hub as the editorial source of truth for the central question, article role, order, and unresolved follow-ups. Do not silently change the series plan; report a proposed hub update when the article reveals a meaningful change.
+- When a series article is marked `published` with a confirmed `published` date, sync the hub's `last_published` to the latest known publication date. Change the hub's `status` or `ended` only when the user explicitly decides to pause or complete the series.
+
 ### 2. Build the personal evidence base
 
-Search the vault before writing. Prefer these anchors when relevant:
-
-- `20_Projects/blog/60일간의 AI 에이전틱 워크플로.md`
-- `01_Slipbox/AI 시대 플랫폼팀은 어떻게 진화하는가.md`
-- latest `20_Projects/blog/AI로 빨라진 개인, 소화하지 못하는 팀.md`
+Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples. Do not rely on a fixed anchor list; find the evidence that fits this topic. The invariant is not the topic; the invariant is TaeZ's observed change in judgment.
 
 Extract:
 
@@ -76,8 +86,6 @@ Extract:
 - changed belief: what TaeZ thinks now
 - artifact evidence: commands, PRs, diagrams, workflow names, failed experiments
 - transferable implication: what other engineers can reuse
-
-If the topic is not AI/platform related, search for the topic-specific project notes, daily notes, resources, or slipbox entries instead. The invariant is not the topic; the invariant is TaeZ's observed change in judgment.
 
 ### 3. Deep research, but only after the thesis shape exists
 
@@ -123,6 +131,8 @@ Default structure:
 6. **Counterargument** - the strongest objection and the honest boundary.
 7. **Operating model** - what a team should do differently.
 8. **Landing** - a concise conclusion that returns to the opening question.
+
+Skip beats that do not serve this article, but if you drop Evidence or Counterargument, state why when presenting the draft — those two are what the slop gate leans on.
 
 ### 6. Apply the anti-slop tests
 
@@ -170,6 +180,14 @@ For a review, produce:
 - top 3 structural issues
 - concrete rewrite suggestions
 - optional direct patch
+
+For a new article or substantial revision, finish with a concise `지식 환류` report:
+
+- `사용한 Slipbox`: list only notes actually used in the article and state the usage context.
+- `새 영구 노트 후보`: report reusable claims that emerged while writing as candidates only.
+- If neither exists, state `환류 후보 없음` instead of forcing a link or claim.
+
+Do not create a permanent note or change `seedling / growing / evergreen` status from this report. Apply those changes only when the user explicitly requests them through `permanent-note` or `review-zettelkasten`.
 
 For reusable workflow work, update or create:
 

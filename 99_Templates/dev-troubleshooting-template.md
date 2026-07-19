@@ -1,8 +1,6 @@
 ---
 created: <% tp.date.now("YYYY-MM-DD") %>
-date: <% tp.date.now("YYYY-MM-DD") %>
 tags:
-  - 개발/DevLog
   - 개발/트러블슈팅
 ---
 

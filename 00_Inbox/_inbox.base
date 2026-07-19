@@ -4,12 +4,11 @@ filters:
     - file.ext == "md"
     - '!file.name.startsWith("_")'
 formulas:
-  days_in_inbox: (now() - if(created, date(created), file.ctime)).days
-  age_label: if((now() - if(created, date(created), file.ctime)).days > 30, "🔴 30일+", if((now() - if(created, date(created), file.ctime)).days > 7, "🟡 7일+", "🟢 fresh"))
-  is_overdue: (now() - if(created, date(created), file.ctime)).days > 7
-  is_critical: (now() - if(created, date(created), file.ctime)).days > 30
-  next_action: if(next_action, next_action, if((now() - if(created, date(created), file.ctime)).days > 30, "❗ 결정 필요 (삭제 or 승격)", "분류 대기"))
-  word_count: (file.size / 5).round(0)
+  days_in_inbox: (now() - if(created, date(created), file.ctime)).days.floor()
+  age_label: if((now() - if(created, date(created), file.ctime)).days.floor() >= 30, "🔴 30일+", if((now() - if(created, date(created), file.ctime)).days.floor() >= 7, "🟡 7일+", "🟢 신규"))
+  is_overdue: (now() - if(created, date(created), file.ctime)).days.floor() >= 7
+  is_critical: (now() - if(created, date(created), file.ctime)).days.floor() >= 30
+  next_action_display: if(next_action, next_action, if((now() - if(created, date(created), file.ctime)).days.floor() >= 30, "❗ 분류 결정 필요", "분류 대기"))
   updated: file.mtime.relative()
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
 properties:
@@ -19,10 +18,8 @@ properties:
     displayName: 연령
   formula.days_in_inbox:
     displayName: 체류일
-  formula.next_action:
+  formula.next_action_display:
     displayName: 다음 액션
-  formula.word_count:
-    displayName: 단어수
   formula.created_date:
     displayName: 생성일
   formula.updated:
@@ -34,50 +31,50 @@ views:
     order:
       - file.name
       - formula.days_in_inbox
-      - formula.next_action
+      - formula.next_action_display
       - formula.created_date
-    sortBy:
-      property: file.ctime
-      direction: ASC
+    sort:
+      - property: formula.days_in_inbox
+        direction: DESC
   - type: table
     name: 🟡 정리 부채 (7일+)
-    filters: formula.is_overdue == true
+    filters:
+      and:
+        - formula.is_overdue == true
+        - formula.is_critical == false
     order:
       - file.name
       - formula.age_label
       - formula.days_in_inbox
-      - formula.next_action
+      - formula.next_action_display
       - formula.created_date
     summaries:
       formula.days_in_inbox: Average
-    sortBy:
-      property: file.ctime
-      direction: ASC
+    sort:
+      - property: formula.days_in_inbox
+        direction: DESC
   - type: table
     name: 📥 전체 Inbox
     order:
       - file.name
       - formula.age_label
       - formula.days_in_inbox
-      - formula.word_count
+      - formula.next_action_display
       - formula.created_date
       - formula.updated
     summaries:
       formula.days_in_inbox: Average
-      formula.word_count: Sum
-    sortBy:
-      property: file.ctime
-      direction: DESC
-    columnSize:
-      formula.word_count: 87
+    sort:
+      - property: formula.days_in_inbox
+        direction: DESC
   - type: cards
     name: 🃏 분류 도우미 (한 장씩 처리)
     order:
       - file.name
       - formula.age_label
       - formula.days_in_inbox
-      - formula.word_count
+      - formula.next_action_display
     limit: 5
-    sortBy:
-      property: file.ctime
-      direction: ASC
+    sort:
+      - property: formula.days_in_inbox
+        direction: DESC

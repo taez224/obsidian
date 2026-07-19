@@ -3,11 +3,9 @@ filters:
     - file.inFolder("30_Resources/Development/DevLog")
     - file.ext == "md"
     - '!file.name.startsWith("_")'
-    - '!file.inFolder("30_Resources/Development/DevLog/Java")'
 formulas:
-  tier: if(file.basename.length == 7, "🗓 Monthly", if(file.basename.length == 8 && file.basename.contains("W"), "📆 Weekly", if(file.basename.length == 10, "📅 Daily", "❓ Other")))
+  tier: if(file.inFolder("30_Resources/Development/DevLog/daily"), "📅 Daily", if(file.inFolder("30_Resources/Development/DevLog/weekly"), "📆 Weekly", if(file.inFolder("30_Resources/Development/DevLog/monthly"), "🗓 Monthly", "❓ Other")))
   year_month: if(file.basename.length == 7, file.basename, if(file.basename.length == 10, file.basename.slice(0, 7), "-"))
-  word_count: (file.size / 5).round(0)
   updated: file.mtime.relative()
 properties:
   file.name:
@@ -16,8 +14,8 @@ properties:
     displayName: 계층
   formula.year_month:
     displayName: 연-월
-  formula.word_count:
-    displayName: 단어수
+  projects:
+    displayName: 프로젝트
   formula.updated:
     displayName: 수정
 views:
@@ -28,22 +26,54 @@ views:
       direction: ASC
     order:
       - file.name
-      - formula.year_month
-      - formula.word_count
+      - projects
       - formula.updated
-    sortBy:
-      property: file.basename
-      direction: DESC
+    sort:
+      - property: file.name
+        direction: DESC
+  - type: table
+    name: 🧭 프로젝트별 기록
+    groupBy:
+      property: projects
+      direction: ASC
+    order:
+      - file.name
+      - formula.tier
+      - projects
+      - formula.updated
+    sort:
+      - property: file.name
+        direction: DESC
   - type: table
     name: 📅 Daily — 월별 비교 (어느 달이 활발했나)
-    filters: file.basename.length == 10
+    filters: file.inFolder("30_Resources/Development/DevLog/daily")
     groupBy:
       property: formula.year_month
       direction: DESC
     order:
       - file.name
-      - formula.word_count
+      - projects
       - formula.updated
-    sortBy:
-      property: file.basename
-      direction: DESC
+    sort:
+      - property: file.name
+        direction: DESC
+  - type: table
+    name: 📆 Weekly
+    filters: file.inFolder("30_Resources/Development/DevLog/weekly")
+    order:
+      - file.name
+      - projects
+      - formula.updated
+    sort:
+      - property: file.name
+        direction: DESC
+  - type: table
+    name: 🗓 Monthly
+    filters: file.inFolder("30_Resources/Development/DevLog/monthly")
+    order:
+      - file.name
+      - projects
+      - formula.updated
+    sort:
+      - property: file.name
+        direction: DESC

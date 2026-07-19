@@ -27,15 +27,15 @@ views:
       - status
       - formula.created_date
       - formula.updated
-    sortBy:
-      property: file.mtime
-      direction: DESC
+    sort:
+      - property: file.mtime
+        direction: DESC
   - type: table
     name: 🕸 오래된 것부터
     order:
       - file.name
       - formula.days_since_update
       - formula.updated
-    sortBy:
-      property: file.mtime
-      direction: ASC
+    sort:
+      - property: file.mtime
+        direction: ASC

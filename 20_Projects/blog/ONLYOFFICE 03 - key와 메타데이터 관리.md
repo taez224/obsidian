@@ -3,7 +3,7 @@ title: "ONLYOFFICE 연동 3편: key와 메타데이터 관리"
 created: 2026-01-14
 published: 2026-01-14
 tags:
-  - 프로젝트/onlyoffice
+  - 프로젝트/onlyoffice-demo
   - blog
   - 개발/인프라
 status: published
@@ -14,7 +14,7 @@ series: ONLYOFFICE 연동 바이브코딩 기록
 series_order: 3
 summary: document.key와 referenceData.fileKey를 분리하고 SAVE·FORCESAVE를 구분해 문서 메타데이터와 버전을 관리한 구현 기록.
 related:
-  - "[[onlyoffice|ONLYOFFICE 연동]]"
+  - "[[onlyoffice-demo|ONLYOFFICE 연동]]"
   - "[[ONLYOFFICE 02 - Antigravity와 함께한 Vibe Coding기|2편: 기본 연동 구현]]"
   - "[[ONLYOFFICE 04 - SDK, MinIO, Saga|4편: SDK, MinIO, Saga]]"
 ---

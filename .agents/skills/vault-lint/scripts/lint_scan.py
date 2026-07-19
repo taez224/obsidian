@@ -2,7 +2,8 @@
 """vault-lint 기계 검사 스캐너 — 읽기 전용, vault 파일을 절대 수정하지 않는다.
 
 사용: python3 lint_scan.py [vault_root]   (기본: 현재 디렉토리)
-출력: JSON {stats, orphans, dead_links, frontmatter_issues}
+출력: JSON {stats, priorities, orphans, dead_links, periodic_placeholders, series_placeholders,
+           frontmatter_issues, base_issues}
 
 스키마 출처: 99_Templates/_property-schema.md — 스키마 변경 시 아래 설정 블록만 갱신.
 """
@@ -16,6 +17,7 @@ import unicodedata
 SCAN_EXCLUDE_TOP = {"40_Archive", "99_Templates", "_workspace", "_attachments"}
 FOLDER_REQUIRED = {            # 폴더 prefix → 필수 frontmatter 키
     "01_Slipbox/": ("type", "status"),
+    "30_Resources/References/Articles/": ("source", "published", "status"),
     "30_Resources/References/Clippings/": ("status",),
 }
 DATE_INSTEAD_OF_CREATED = ("30_Resources/Development/DevLog/",)  # date 필드가 created 대체
@@ -23,6 +25,7 @@ ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이
     "10_Periodic Notes/",
     "30_Resources/Development/DevLog/",
 )
+BASE_INVALID_KEYS = {"sortBy"}  # .base 파일에 없는 키인데 흔히 착각해서 쓰는 것들. 발견되는 대로 추가.
 # ───────────────────────────────────────────────────────────
 
 WIKILINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
@@ -30,6 +33,10 @@ FENCED_RE = re.compile(r"```.*?```", re.DOTALL)
 INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 KEY_RE = re.compile(r"^([A-Za-z_][\w-]*):\s*(.*)$")
 LIST_ITEM_RE = re.compile(r"^\s*-\s+(.+)$")
+BASE_KEY_RE = re.compile(r"^\s*([A-Za-z_][\w-]*)\s*:")
+PERIODIC_PLACEHOLDER_RE = re.compile(
+    r"^(?:\d{4}-\d{2}(?:-\d{2})?|\d{4}-W\d{2})$"
+)
 
 
 def nfc(s):
@@ -86,14 +93,56 @@ def is_scanned(rel):
     return not any(p.startswith("_") for p in parts)
 
 
+def is_base_scanned(rel):
+    # .base 대시보드는 관례상 파일명이 _로 시작하므로(_index.base 등) is_scanned의
+    # _ 제외 규칙을 그대로 쓰면 전부 걸러진다 — 최상위 제외 폴더만 적용한다.
+    parts = rel.split("/")
+    top = parts[0] if len(parts) > 1 else None
+    return top not in SCAN_EXCLUDE_TOP
+
+
+def is_periodic_placeholder(source, target):
+    return (
+        source.startswith("10_Periodic Notes/")
+        and PERIODIC_PLACEHOLDER_RE.fullmatch(target) is not None
+    )
+
+
+def is_series_placeholder(source, fm_cache):
+    """진행 중·잠정 중단 시리즈 허브의 미해결 링크는 예정 글로 취급한다."""
+    scalars, _ = fm_cache.get(source, (None, {}))
+    if scalars is None:
+        return False
+    note_type = scalars.get("type", "").strip("'\"")
+    status = scalars.get("status", "").strip("'\"")
+    return note_type == "series" and status != "completed"
+
+
+def scan_base_issues(root, all_base):
+    issues = []
+    for rel in all_base:
+        try:
+            with open(os.path.join(root, rel), encoding="utf-8") as f:
+                lines = f.read().splitlines()
+        except (OSError, UnicodeDecodeError):
+            continue
+        for i, line in enumerate(lines, start=1):
+            m = BASE_KEY_RE.match(line)
+            if m and m.group(1) in BASE_INVALID_KEYS:
+                issues.append({"path": rel, "line": i, "key": m.group(1)})
+    return issues
+
+
 def main():
     root = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
 
-    all_md, resolve, target_index = [], set(), {}
+    all_md, all_base, resolve, target_index = [], [], set(), {}
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if not d.startswith(".")]
         for fn in filenames:
             rel = nfc(os.path.relpath(os.path.join(dirpath, fn), root))
+            if fn.endswith(".base"):
+                all_base.append(rel)
             if fn.endswith(".md"):
                 all_md.append(rel)
                 keys = {nfc(fn[:-3]), rel, rel[:-3]}
@@ -126,7 +175,7 @@ def main():
 
     # 2차: 링크 그래프 (in-link는 Archive 포함 전체에서 수집)
     in_degree = {rel: 0 for rel in all_md}
-    out_count, dead_links = {}, []
+    out_count, dead_links, blog_to_slipbox_edges = {}, [], set()
     for rel in all_md:
         links = extract_links(body_cache.get(rel, ""))
         out_count[rel] = len(links)
@@ -136,6 +185,11 @@ def main():
                 for tgt in hit:
                     if tgt != rel:
                         in_degree[tgt] += 1
+                    if (
+                        rel.startswith("20_Projects/blog/")
+                        and tgt.startswith("01_Slipbox/")
+                    ):
+                        blog_to_slipbox_edges.add((rel, tgt))
             elif t not in resolve and is_scanned(rel):
                 dead_links.append({"source": rel, "target": t})
 
@@ -174,6 +228,27 @@ def main():
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
 
+    base_scanned = [rel for rel in all_base if is_base_scanned(rel)]
+    base_issues = scan_base_issues(root, base_scanned)
+
+    slipbox_orphans = sum(1 for orphan in orphans if orphan["slipbox"])
+    non_slipbox_orphans = len(orphans) - slipbox_orphans
+    periodic_placeholders = [
+        item for item in dead_links
+        if is_periodic_placeholder(item["source"], item["target"])
+    ]
+    series_placeholders = [
+        item for item in dead_links
+        if is_series_placeholder(item["source"], fm_cache)
+    ]
+    meaning_dead_links = [
+        item for item in dead_links
+        if not is_periodic_placeholder(item["source"], item["target"])
+        and not is_series_placeholder(item["source"], fm_cache)
+    ]
+    reused_blog_notes = {source for source, _ in blog_to_slipbox_edges}
+    reused_slipbox_notes = {target for _, target in blog_to_slipbox_edges}
+
     print(json.dumps({
         "stats": {
             "vault_root": root,
@@ -181,11 +256,38 @@ def main():
             "notes_scanned": len(scanned),
             "orphans": len(orphans),
             "dead_links": len(dead_links),
+            "periodic_placeholders": len(periodic_placeholders),
+            "series_placeholders": len(series_placeholders),
             "frontmatter_issues": len(frontmatter_issues),
+            "base_total": len(all_base),
+            "base_issues": len(base_issues),
+            "reuse": {
+                "blog_to_slipbox_edges": len(blog_to_slipbox_edges),
+                "blog_notes_with_slipbox_refs": len(reused_blog_notes),
+                "slipbox_notes_reused_by_blog": len(reused_slipbox_notes),
+            },
+        },
+        "priorities": {
+            "mechanical": {
+                "frontmatter_issues": len(frontmatter_issues),
+                "base_issues": len(base_issues),
+            },
+            "meaning_review": {
+                "slipbox_orphans": slipbox_orphans,
+                "dead_links": len(meaning_dead_links),
+            },
+            "informational": {
+                "non_slipbox_orphans": non_slipbox_orphans,
+                "periodic_placeholders": len(periodic_placeholders),
+                "series_placeholders": len(series_placeholders),
+            },
         },
         "orphans": orphans,
         "dead_links": dead_links,
+        "periodic_placeholders": periodic_placeholders,
+        "series_placeholders": series_placeholders,
         "frontmatter_issues": frontmatter_issues,
+        "base_issues": base_issues,
     }, ensure_ascii=False, indent=2))
 
 

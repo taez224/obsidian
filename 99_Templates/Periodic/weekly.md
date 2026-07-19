@@ -92,7 +92,7 @@ SORT file.mtime DESC
 ## **🌱 Slipbox 승격 후보**
 
 > 이번 주 발견한 "정제하면 영구 노트가 될 만한 아이디어"를 모은다.
-> 정리 가이드: [[_inbox.base|_inbox]] 의 "🟡 정리 부채" view와 [[_global-health.base|_global-health]] 의 "📥 Inbox 정리 부채" view 함께 참조.
+> 정리 가이드: [[_inbox.base|_inbox]] 의 "🟡 정리 부채 (7일+)" view와 [[_global-health.base|_global-health]] 의 "📥 Inbox 정리 부채 (7일+)" view 함께 참조.
 
 ### 📥 Inbox에서 (7일+ 체류)
 
@@ -103,10 +103,10 @@ SORT file.mtime DESC
 ### 🔧 DevLog에서 (이번 주 작성, 재사용 가치 있는 인사이트)
 ```dataview
 LIST
-FROM "30_Resources/Development/DevLog"
+FROM "30_Resources/Development/DevLog/daily"
 WHERE file.ext = "md"
-AND dateformat(default(date(created), file.cday), "kkkk-'W'WW") = "<% tp.file.title %>"
-SORT default(date(created), file.cday) DESC
+AND dateformat(file.day, "kkkk-'W'WW") = "<% tp.file.title %>"
+SORT file.day DESC
 ```
 
 > [!tip] 승격 기준
@@ -132,9 +132,9 @@ SORT file.mtime DESC
 > 모든 대상이 아래 embed로 바로 보인다 — base 파일을 따로 열 필요 없음.
 
 - [ ] Inbox 7일+ 체류 노트 분류 (승격/Resources/삭제) — 위 "📥 Inbox에서" embed 참조
-- [ ] 방치된 활성 프로젝트 → 상태 업데이트 또는 on-hold 전환
+- [ ] 프로젝트 허브 미갱신 → 현재 상태·다음 액션 갱신 또는 on-hold 전환
 
-![[_global-health.base#🟢 방치된 활성 프로젝트 (14일+)]]
+![[_global-health.base#🟢 프로젝트 허브 미갱신 (14일+)]]
 
 - [ ] 고립된 Slipbox 노트에 최소 1개 링크 추가
 
@@ -143,7 +143,7 @@ SORT file.mtime DESC
 - [ ] 이번 주 DevLog 훑어보고 Slipbox 승격 후보 1개 이상 선정
 - [ ] Clippings `status: unread` 1개 이상 처리
 
-![[_global-health.base#📰 미처리 Clippings (unread)]]
+![[_global-health.base#📰 오래된 Clippings (30일+)]]
 
 
 ## 🗓 Monthly Note 링크  

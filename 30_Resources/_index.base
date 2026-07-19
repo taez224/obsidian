@@ -3,36 +3,44 @@ filters:
     - file.inFolder("30_Resources")
     - file.ext == "md"
     - '!file.name.startsWith("_")'
+    - '!file.inFolder("30_Resources/References/Clippings/_local-snapshots")'
 formulas:
   updated: file.mtime.relative()
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
-  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))
+  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("Clippings"), "📎 Clipping", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Troubleshooting"), "🧯 Troubleshooting", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))))
   subfolder: file.folder.replace("30_Resources/", "").replace("References/", "").replace("Development/", "")
-  rating_display: if(my_rate, "⭐".repeat(my_rate.floor()), "-")
   read_status: if(status == "완독", "✅", if(status == "읽는 중", "📖", if(status == "예정", "📋", "-")))
-  connections: file.links.length + file.backlinks.length
+  backlinks: file.backlinks.length
   tier: if(my_rate >= 5, "① S", if(my_rate >= 4, "② A", if(my_rate >= 3, "③ B", if(my_rate >= 2, "④ C", if(my_rate >= 1, "⑤ D", "⑥ 미분류")))))
   stars: if(my_rate, "★".repeat(my_rate.floor()) + if((my_rate - my_rate.floor()) >= 0.5, "½", "") + " " + my_rate, "별점 없음")
   read_period: if(start_read_date, start_read_date.format("YYYY-MM-DD") + " ~ " + if(finish_read_date, finish_read_date.format("YYYY-MM-DD"), "…"), "-")
 properties:
   file.name:
     displayName: 노트
+  file.mtime:
+    displayName: 수정일
   formula.resource_type:
     displayName: 유형
   formula.subfolder:
     displayName: 분류
   author:
     displayName: 저자
-  formula.rating_display:
-    displayName: 평점
+  my_rate:
+    displayName: 점수
   formula.read_status:
     displayName: 상태
   formula.updated:
     displayName: 수정
   formula.created_date:
     displayName: 생성일
-  formula.connections:
-    displayName: 연결
+  formula.backlinks:
+    displayName: 참조 수
+  created:
+    displayName: 수집일
+  status:
+    displayName: 상태
+  description:
+    displayName: 설명
   formula.tier:
     displayName: Tier
   formula.stars:
@@ -67,18 +75,16 @@ views:
     order:
       - file.name
       - formula.stars
+      - my_rate
       - book_note
       - author
       - formula.read_period
     sort:
-      - property: formula.rating_display
-        direction: DESC
-      - property: formula.read_status
+      - property: my_rate
         direction: DESC
     columnSize:
       formula.read_status: 56
       note.author: 189
-      formula.rating_display: 82
     image: note.cover_url
     imageAspectRatio: 1.3
     imageFit: contain
@@ -94,11 +100,12 @@ views:
     order:
       - file.name
       - formula.stars
+      - my_rate
       - book_note
       - author
-    sortBy:
-      property: my_rate
-      direction: DESC
+    sort:
+      - property: my_rate
+        direction: DESC
   - type: table
     name: 📖 읽는 중 · 예정
     filters:
@@ -113,9 +120,9 @@ views:
       - formula.read_status
       - formula.read_period
       - formula.stars
-    sortBy:
-      property: start_read_date
-      direction: DESC
+    sort:
+      - property: formula.read_period
+        direction: DESC
   - type: table
     name: ⭐ 평점 높은 순
     filters:
@@ -124,17 +131,50 @@ views:
     order:
       - file.name
       - author
-      - formula.rating_display
+      - my_rate
       - formula.updated
     sort:
-      - property: formula.rating_display
+      - property: my_rate
         direction: DESC
-    sortBy:
-      property: my_rate
-      direction: DESC
     columnSize:
       file.name: 267
       note.author: 210
+  - type: table
+    name: ⚠️ 도서 메타데이터 점검
+    filters:
+      and:
+        - file.inFolder("30_Resources/References/Books")
+        - or:
+            - and:
+                - status == "완독"
+                - "!finish_read_date"
+            - and:
+                - status == "읽는 중"
+                - finish_read_date
+    order:
+      - file.name
+      - status
+      - start_read_date
+      - finish_read_date
+      - my_rate
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: table
+    name: 📎 읽기 대기 Clippings
+    filters:
+      and:
+        - file.inFolder("30_Resources/References/Clippings")
+        - status == "unread"
+    order:
+      - file.name
+      - created
+      - author
+      - description
+      - formula.updated
+    sort:
+      - property: created
+        direction: ASC
   - type: table
     name: 🔧 DevLog
     filters:
@@ -142,12 +182,12 @@ views:
         - file.inFolder("30_Resources/Development/DevLog")
     order:
       - file.name
-      - file.tags
-      - formula.created_date
+      - projects
+      - date
       - formula.updated
-    sortBy:
-      property: file.mtime
-      direction: DESC
+    sort:
+      - property: date
+        direction: DESC
   - type: table
     name: 📰 아티클 & 기타
     filters:
@@ -172,22 +212,22 @@ views:
       formula.updated: 126
   - type: table
     name: 🔗 자주 참조됨
-    filters: formula.connections >= 2
+    filters: formula.backlinks >= 2
     order:
       - file.name
       - formula.resource_type
-      - formula.connections
+      - formula.backlinks
       - formula.updated
-    sortBy:
-      property: formula.connections
-      direction: DESC
+    sort:
+      - property: formula.backlinks
+        direction: DESC
   - type: table
     name: 최근 수정
     order:
       - file.name
       - formula.resource_type
-      - formula.updated
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
     limit: 15
-    sortBy:
-      property: file.mtime
-      direction: DESC

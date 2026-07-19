@@ -20,8 +20,32 @@ aliases:
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
 | `created` | Date `YYYY-MM-DD` | ✅ | 노트 생성일 (file.ctime 폴백 금지 — 항상 명시) |
-| `tags` | List | ✅ | [[CLAUDE]] 태그 체계 준수. `#` 없이 작성 |
+| `tags` | List | ✅ | [[AGENTS]] 태그 체계 준수. `#` 없이 작성 |
 | `aliases` | List | ⬜ | 다른 이름으로도 wikilink 받기 위함 |
+
+> [!note] Bases 구현 규칙
+> `created` 누락은 스키마 위반이며 `vault-lint`가 탐지한다. Base의 `file.ctime` 폴백은 누락 노트를 숨기지 않기 위한 **표시용 방어**일 뿐, `created`를 대신하지 않는다. Inbox 7일·30일 기준은 `_inbox.base`와 `_global-health.base`, 프로젝트 14일 기준은 `_dashboard.base`와 `_global-health.base`에 중복 정의되므로 기준 변경 시 두 파일을 함께 수정한다.
+
+---
+
+## 📥 Inbox (`00_Inbox/`)
+
+빠른 포착 노트. 정리·연결·승격 판단은 나중으로 미루고 원문과 다음 처리 상태만 기록한다.
+
+```yaml
+---
+created: 2026-07-13
+tags:
+  - inbox
+next_action: ""
+---
+```
+
+| 필드 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+| `next_action` | Text | ⬜ | 기본값은 빈 문자열. `promote-slipbox`, `archive-resources`, `link-project/<id>` 중 하나를 사용하며 삭제 결정은 본문 체크박스로 남김 |
+
+본문 정본은 `99_Templates/quick-capture.md`를 따른다. `AI 생성`은 사용자의 주장이 아니며, 사용자가 명시적으로 채택하기 전에는 permanent note의 본문 근거로 사용하지 않는다.
 
 ---
 
@@ -35,7 +59,7 @@ created: 2026-01-15
 tags:
   - <주제 태그>
   - slipbox
-type: permanent       # permanent | literature | fleeting | hub(MOC)
+type: permanent       # permanent | fleeting | hub(MOC)
 status: seedling      # seedling | growing | evergreen
 aliases:
   - <대체 이름>
@@ -45,12 +69,11 @@ aliases:
 | 필드 | 값 | 의미 |
 |------|----|----|
 | `type: permanent` | 영구 노트 (자기 언어로 정제됨) | 기본값 |
-| `type: literature` | 외부 자료 요약 (책/아티클의 정리본) | |
 | `type: fleeting` | 단상/스케치 (곧 승격되거나 폐기) | |
 | `type: hub` | MOC (Map of Content) | |
-| `status: seedling` | 막 심은 씨앗 (< 200자, 연결 0~1개) | |
-| `status: growing` | 자라는 중 (내용·연결 추가되는 중) | |
-| `status: evergreen` | 성숙 (3+ 연결, 자기 글로 정제됨, 안정적) | |
+| `status: seedling` | 중심 주장은 명료하지만 아직 충분히 검토·적용되지 않은 생각 | 길이와 링크 수로 판정하지 않음 |
+| `status: growing` | 근거·반례·적용이 붙거나 실제 글과 판단에서 재사용되기 시작한 생각 | |
+| `status: evergreen` | 반복해서 검토·재사용했고 현재 판단 기준으로 안정된 생각 | 자동 판정하지 않음 |
 
 ---
 
@@ -74,20 +97,20 @@ ended: null           # completed일 때만
 
 | 필드 | 비고 |
 |------|------|
-| `project_id` | kebab-case, 폴더명과 일치 |
-| `status: active` | 진행 중 — 14일 미수정 시 `_dashboard.base`의 "방치된 프로젝트"에 표시 |
+| `project_id` | kebab-case, 폴더명과 일치. 여러 저장소를 건드려도 하나의 결과물을 향하면 같은 ID를 사용 |
+| `status: active` | 진행 중 — 프로젝트 허브가 14일 이상 미수정되면 `_dashboard.base`의 "프로젝트 허브 미갱신 (14일+)"에 표시 |
 | `status: planning` | 기획 단계 (아직 코드 안 씀) |
 | `status: on-hold` | 일시 중단 |
 | `status: completed` | 완료 → `40_Archive/`로 이동 검토 |
 
-### 프로젝트 하위 노트 (`20_Projects/<project>/weekly/` 등)
+### 프로젝트 하위 노트 (`20_Projects/<project>/`)
 
-프로젝트 진행 중 생기는 회고·기록 노트. 프로젝트 노트와 달리 `project_id`·`status`를 갖지 않는다.
+프로젝트에서 계속 참조할 결정·설계·산출물만 둔다. 시간순 업무 기록과 정기 회고의 정본은 중앙 `30_Resources/Development/DevLog/`이며 `projects` 속성으로 연결한다. 기존 프로젝트별 weekly 노트는 역사 자료로 유지하되 새 정기 기록은 중앙 DevLog에 작성한다. 하위 노트는 프로젝트 허브와 달리 `project_id`·`status`를 갖지 않는다.
 
 ```yaml
 ---
 created: 2026-02-02
-type: weekly-review    # 주간 회고. 다른 하위 노트 타입이 생기면 여기 등재
+type: project-note
 tags:
   - 프로젝트/<project-id>
 ---
@@ -128,6 +151,35 @@ related:
 | 프로젝트 글 | `프로젝트/<project-id>` 태그와 프로젝트 노트 링크로 맥락을 남긴다. |
 | Slipbox | 블로그 전문을 복제하지 않는다. 재사용할 개념은 별도의 `type: permanent` 노트로 압축하고 블로그 글을 링크한다. |
 
+### 연재 허브 (`20_Projects/blog/<series>.md`)
+
+연재명과 같은 파일명의 허브를 두고, 글의 `series` 값으로 연결한다. 허브 자체에는 `series`를 넣지 않아 실제 연재 글 목록과 섞이지 않게 한다.
+
+```yaml
+---
+title: Think with AI
+created: 2026-07-15
+type: series
+status: active                # active | on-hold | completed
+started: 2026-07-15
+ended: null                   # completed일 때만
+last_published: null          # 실제 최근 발행일, 발행 전이면 null
+next_action: 1화 발행
+tags:
+  - 프로젝트/blog
+---
+```
+
+| 필드 | 규칙 |
+|------|------|
+| `status` | `active`는 진행 의사가 있음, `on-hold`는 잠정 중단, `completed`는 기획한 흐름이 완결됨을 뜻한다. 공백 기간만으로 자동 전환하지 않는다. |
+| `started` | 연재를 시작했거나 연재로 관리하기로 결정한 날짜 |
+| `ended` | `completed`일 때만 완결일 기록 |
+| `last_published` | 최근 글을 실제 발행한 날짜. 새 글 발행 시 갱신하며 초안 작성일로 대신하지 않는다. |
+| `next_action` | 진행 중·잠정 중단 연재를 다시 열 때 판단할 한 가지 행동 |
+
+Blog Base는 `last_published` 또는 발행 전 `started`를 기준으로 30일·90일 공백을 표시한다. 이는 점검 신호일 뿐 `on-hold`나 `completed`를 자동 판정하지 않는다.
+
 ---
 
 ## 📚 Books (`30_Resources/References/Books/`)
@@ -162,7 +214,13 @@ book_note: <한줄평>
 
 ## 🔧 DevLog (`30_Resources/Development/DevLog/`)
 
-날짜 기반 일자 노트. 현 스키마 유지.
+회사 업무 맥락을 포함할 수 있는 로컬 개발 기록이다. Git에서는 제외하지만 본인이 작성한 경력·글쓰기 근거이므로 QMD 검색에는 포함한다.
+
+| 폴더 | 역할 | 작성 기준 |
+|------|------|-----------|
+| `daily/` | 사실과 작업 흐름 | 한 일·오류·명령·임시 판단을 편하게 기록 |
+| `weekly/` | 선택적 압축 | 프로젝트별 변화·결정·성과·다음 행동만 요약 |
+| `monthly/` | 장기 패턴 | 여러 주를 관통하는 패턴이나 블로그·이직 소재가 있을 때만 작성 |
 
 ```yaml
 ---
@@ -174,33 +232,40 @@ projects:
 ---
 ```
 
+`projects`는 `20_Projects/`의 canonical `project_id`와 맞춘다. 저장소·모듈·도구 이름을 별도 프로젝트 값으로 만들지 않고, 어떤 결과물을 위한 작업이었는지에 따라 귀속한다. Java·Spring·Kubernetes 같은 기술은 하위 폴더를 만들지 않고 `개발/*` 태그로 표현한다. 날짜에서 벗어나 재사용할 수 있는 문제 해결법은 `30_Resources/Development/Troubleshooting/`으로 분리한다.
+
 ---
 
 ## 📰 Articles & Clippings (`30_Resources/References/Articles/`, `30_Resources/References/Clippings/`)
 
-**Obsidian Web Clipper 호환 포맷** 사용. Clipper가 자동 생성하는 필드를 그대로 활용한다.
+Clippings는 아래의 공통 속성을 사용한다. Git 추적 카드에는 출처 메타데이터와 확인 가능한 요약만 남기며, 개인 열람용 원문 스냅샷은 Git에서 제외된 `_local-snapshots/`로 분리한다.
 
 ```yaml
 ---
 title: <원본 제목>
 source: https://...           # 원본 URL (Clipper 자동)
 author:
-  - "[[원작자]]"               # Clipper는 wikilink로 감쌈
+  - <원작자>                   # 기존 Clipper의 wikilink 값도 허용
 published: 2024-09-14         # 원본 발행일 (Clipper 자동)
 created: 2025-02-10           # vault 수집일 (Clipper 자동)
-description: <원본 요약>
+description: <원문에 근거한 한국어 식별 문장 1~2개> # 평가·시사점 추가 금지
 thumbnail: <이미지 URL>       # 선택
 tags:
   - clippings                 # 기본 (Clipper 자동)
-  - <주제 태그>                # 수동 추가 (예: 개발/Java, AI)
+  - <주제 태그>                # 읽은 뒤 필요할 때 수동 추가
 status: unread                # unread | read | archived
 my_take: ""                   # 내 한 줄 평 (정리 시 작성)
 ---
 ```
 
-> Clippings는 **literature note**의 일종. 정리 시 다음 둘 중 하나:
-> - **승격**: 핵심 인사이트 추출 → `01_Slipbox/` 에 새 permanent 노트 작성, clipping을 링크
-> - **참조용 보관**: `my_take` 한 줄만 채우고 `status: read`로 유지
+> Clippings는 **읽기 전 수집함**이며 literature note 자체가 아니다. 원문 제목을 한국어 파일명으로 옮기고, 출처 메타데이터와 원문에 근거한 한국어 식별 문장 1~2개, 저장 맥락을 남긴다. 원문을 충분히 확인했을 때만 핵심 주장·방법·사례를 보존하는 `## 내용 요약` 4~7개를 추가하고, 유료벽·로그인·불완전 추출로 사실 확인이 부족하면 이 섹션을 생략한다. `source`가 원문 URL의 정본이므로 본문의 `## 원문` 링크는 만들지 않는다. 전문·장문 번역은 Git 추적 카드에 넣지 않으며, 개인 열람용 원문은 명시적으로 요청한 경우에만 Git에서 제외된 `Clippings/_local-snapshots/`에 둔다.
+>
+> 읽은 뒤에는 다음 중 필요한 만큼만 진행한다:
+> - 반응이 한 줄이면 `my_take`를 채우고 `status: read`로 유지
+> - 인용과 생각을 남길 가치가 있으면 `Articles/`에 별도 literature note를 만들고 clipping을 링크
+> - 여러 맥락에 재사용할 내 주장이 생기면 이후 검토에서 `01_Slipbox/` 영구 노트로 승격
+
+> 기존 전문 번역형 Articles는 역사 기록으로 유지한다. `source`와 `status`처럼 확인 가능한 속성만 우선 보강하고, 본문은 실제로 다시 사용할 때만 `literature-note` 기준으로 재정리한다. 새 literature note에는 전문을 복제하지 않는다.
 
 ---
 
@@ -214,7 +279,7 @@ date: 2026-05-27      # daily: YYYY-MM-DD / weekly: 첫날 / monthly: 1일
 week: 2026-W22        # daily/weekly만 (gggg-[W]WW, ISO week)
 month: 2026-05        # weekly/monthly만 (YYYY-MM)
 tags:
-  - type/timeline/daily   # ⚠️ frontmatter tags에 # 금지 (CLAUDE.md 규약)
+  - type/timeline/daily   # ⚠️ frontmatter tags에 # 금지 (AGENTS.md 규약)
 ---
 ```
 
@@ -234,6 +299,6 @@ tags:
    4. 기존 노트 마이그레이션 또는 폴백 로직 추가
 
 ## 연관된 노트
-- [[CLAUDE]] - 태그 체계 원천
+- [[AGENTS]] - 태그 체계 원천
 - [[_dashboard]] - Projects base 쿼리
 - [[_index]] - Slipbox / Resources base 쿼리

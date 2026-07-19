@@ -1,13 +1,14 @@
 ---
-title: 
-source: 
+title: It's Hard to Use AI as a Team. These 3 Practices Can Help.
+source: https://hbr.org/2026/05/its-hard-to-use-ai-as-a-team-these-3-practices-can-help
 author: 
-published: ""
+published: 2026-05-13
 thumbnail: 
 created: 2026-06-08
 description: 
 tags:
   - 📰article
+status: unread
 ---
 하버드 비즈니스 리뷰(HBR)의 아티클 "It’s Hard to Use AI as a Team. These 3 Practices Can Help. (팀으로서 AI를 활용하기는 어렵다. 도움이 되는 3가지 관행.)"의 본문 전체 번역입니다. 팀 빌딩과 협업 관점에서 자연스럽게 읽히도록 매끄러운 어조로 번역했습니다.
 

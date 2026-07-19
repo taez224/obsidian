@@ -2,12 +2,18 @@ filters:
   and:
     - file.folder == "20_Projects/blog"
     - file.ext == "md"
-    - file.name != "blog"
+    - file.basename != "blog"
 formulas:
+  title_link: file.asLink(if(title, title, file.name))
   updated: file.mtime.relative()
+  days_since_update: (now() - file.mtime).days.floor()
+  is_stale_draft: status == "draft" && (now() - file.mtime).days.floor() >= 30
   metadata_status: if(status == "published", if(publication && source, if(published, "✅", "📅"), "⚠️"), "")
+  series_days_idle: if(type == "series" && status != "completed", if(last_published, (today() - date(last_published)).days.floor(), if(started, (today() - date(started)).days.floor(), "")), "")
+  series_health: if(type != "series", "", if(status == "completed", if(ended, "✅ 완결", "⚠️ 완결일 없음"), if(status == "on-hold", "⏸️ 잠정 중단", if(status != "active", "⚠️ 상태 필요", if(last_published, if((today() - date(last_published)).days >= 90, "🔴 90일+ 공백", if((today() - date(last_published)).days >= 30, "🟡 30일+ 공백", "🟢 진행 중")), if(started && (today() - date(started)).days >= 30, "🟡 첫 발행 지연", "🌱 발행 전"))))))
+  series_needs_review: type == "series" && ((status == "completed" && ended == null) || status == "on-hold" || status == null || next_action == null && status != "completed" || last_published != null && status == "active" && (today() - date(last_published)).days >= 30 || last_published == null && status == "active" && started != null && (today() - date(started)).days >= 30)
 properties:
-  title:
+  formula.title_link:
     displayName: 제목
   status:
     displayName: 상태
@@ -27,14 +33,59 @@ properties:
     displayName: 원문
   formula.updated:
     displayName: 수정
+  formula.days_since_update:
+    displayName: 미갱신일
   formula.metadata_status:
     displayName: 메타데이터
+  started:
+    displayName: 시작일
+  ended:
+    displayName: 완결일
+  last_published:
+    displayName: 최근 발행
+  next_action:
+    displayName: 다음 행동
+  formula.series_days_idle:
+    displayName: 공백일
+  formula.series_health:
+    displayName: 상태 신호
 views:
+  - type: table
+    name: 📚 시리즈 현황
+    filters: type == "series"
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - formula.title_link
+      - formula.series_health
+      - status
+      - started
+      - last_published
+      - formula.series_days_idle
+      - next_action
+      - ended
+    sort:
+      - property: last_published
+        direction: DESC
+  - type: table
+    name: ⏳ 연재 점검
+    filters: formula.series_needs_review == true
+    order:
+      - formula.title_link
+      - formula.series_health
+      - status
+      - last_published
+      - formula.series_days_idle
+      - next_action
+    sort:
+      - property: formula.series_days_idle
+        direction: DESC
   - type: table
     name: 📰 발행 글
     filters: status == "published"
     order:
-      - title
+      - formula.title_link
       - published
       - publication
       - tags
@@ -46,12 +97,24 @@ views:
     name: ✍️ 작성 중
     filters: status == "draft"
     order:
-      - title
+      - formula.title_link
       - status
       - tags
+      - formula.days_since_update
       - formula.updated
     sort:
-      - property: file.mtime
+      - property: formula.days_since_update
+        direction: ASC
+  - type: table
+    name: 🧊 방치된 초안 (30일+)
+    filters: formula.is_stale_draft == true
+    order:
+      - formula.title_link
+      - tags
+      - formula.days_since_update
+      - formula.updated
+    sort:
+      - property: formula.days_since_update
         direction: DESC
   - type: table
     name: 🔗 연재
@@ -59,7 +122,7 @@ views:
     order:
       - series
       - series_order
-      - title
+      - formula.title_link
       - published
       - tags
     sort:
@@ -69,7 +132,7 @@ views:
         direction: ASC
     columnSize:
       note.series_order: 115
-      note.title: 323
+      formula.title_link: 323
   - type: table
     name: ⚠️ 메타데이터 점검
     filters:
@@ -79,11 +142,15 @@ views:
             - publication == null
             - source == null
     order:
-      - title
+      - formula.title_link
       - published
       - publication
       - source
+      - formula.days_since_update
       - formula.metadata_status
+    sort:
+      - property: formula.days_since_update
+        direction: DESC
   - type: table
     name: 📅 발행일 미확인
     filters:
@@ -91,10 +158,11 @@ views:
         - status == "published"
         - published == null
     order:
-      - title
+      - formula.title_link
       - publication
       - source
       - tags
+      - formula.days_since_update
     sort:
-      - property: file.mtime
+      - property: formula.days_since_update
         direction: DESC

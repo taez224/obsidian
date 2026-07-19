@@ -93,7 +93,7 @@ const mineThunks = SOURCES.map((src) => () => agent(
   { label: 'mine:' + src.split('/').pop(), phase: 'Mine', schema: MINE_SCHEMA, agentType: AGENT }
 ))
 const coverageThunk = () => agent(
-  ['너는 중복 점검자다. ' + BLOG + ' 의 기존 글(.md)을 Glob/Read로 훑어, 이미 다룬 각도를 한 줄씩(제목+논지) 나열하라. 새 앵글이 이를 반복하지 않게 쓸 dedup 목록이다.'].join('\n'),
+  ['너는 중복 점검자다. ' + BLOG + ' 의 Markdown 중 frontmatter가 status: draft 또는 status: published인 실제 글만 Glob/Read로 훑어, 이미 다룬 각도를 한 줄씩(제목+논지) 나열하라. type: series인 시리즈 허브와 project_id: blog인 프로젝트 허브는 기존 글로 세지 않는다. 새 앵글이 실제 글을 반복하지 않게 쓸 dedup 목록이다.'].join('\n'),
   { label: 'coverage', phase: 'Mine', schema: COVERAGE_SCHEMA, agentType: AGENT }
 )
 

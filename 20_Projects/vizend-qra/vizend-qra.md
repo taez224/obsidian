@@ -11,11 +11,11 @@ ended: null
 
 # Vizend QRA
 
-> GitOps 기반 배포 오케스트레이션 & 런타임 모니터링 플랫폼
+> Gallery에 있던 배포·모니터링 기능을 QRA로 분리해 독립 개발한 뒤, 검증한 기능과 운영 경험을 다시 Gallery에 통합한 연속 프로젝트다.
 
 ## 목표
 
-Gallery(기존 배포 시스템)의 배포 모니터링 기능을 독립 서비스로 분리하여:
+Gallery의 배포·모니터링 기능을 독립 서비스로 분리해 개발하고, 운영 검증을 거쳐 다시 Gallery에 통합하여:
 - GitOps 상태 → ArgoCD → K8s Pod 전체 배포 파이프라인을 관측
 - 런타임 이상 신호 감지 및 알림
 - 구독(Subscription) 기반 멀티테넌트 배포 관리
@@ -31,7 +31,7 @@ Gallery(기존 배포 시스템)의 배포 모니터링 기능을 독립 서비�
 | K8s      | Fabric8 6.13.5, SharedInformer |
 | CI/CD    | GitLab CI, ArgoCD              |
 | Registry | Harbor, ECR, NCR               |
-| 모니터링     | SSE 실시간 스트리밍                   |
+| 모니터링     | 초기 SSE 스트리밍 구현 후 API polling으로 전환 |
 
 ## 모듈 구조
 
@@ -84,5 +84,7 @@ qra-store-jpa ← JPA 영속 계층
 
 ## 관련 링크
 
-- 코드베이스: `/Users/taez/Projects/nextree/vizend/qra-backend`
+- QRA 개발 코드베이스: `/Users/taez/Projects/nextree/vizend/qra-backend`
+- Gallery 재통합 이후 기록도 `project_id: vizend-qra`로 함께 관리
+- 이직 준비 기술 근거: [[QRA·Gallery 기술 경력 원장]]
 - DevLog: [[2026-02-04|DevLog 시작]] ~ [[2026-03-20|최근]]

@@ -4,7 +4,7 @@ aliases:
   - ONLYOFFICE 서버 구축기 - 1. 그냥 문서 에디터가 아니네?
 created: 2025-11-24
 tags:
-  - 프로젝트/onlyoffice
+  - 프로젝트/onlyoffice-demo
   - blog
   - 개발/인프라
 status: published
@@ -16,7 +16,7 @@ series: ONLYOFFICE 연동 바이브코딩 기록
 series_order: 1
 summary: ONLYOFFICE Docs를 서비스에 통합할 때 단순한 에디터 연결을 넘어 문서 권한, 저장 콜백, JWT 검증, 온프레미스 운영까지 함께 설계해야 하는 이유를 정리한 글이다.
 related:
-  - "[[onlyoffice|ONLYOFFICE 연동]]"
+  - "[[onlyoffice-demo|ONLYOFFICE 연동]]"
   - "[[ONLYOFFICE 02 - Antigravity와 함께한 Vibe Coding기|2편: 기본 연동 구현]]"
 ---
 
