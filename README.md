@@ -8,7 +8,7 @@
 
 - [생각의 정원](./01_Slipbox/%EC%83%9D%EA%B0%81%EC%9D%98%20%EC%A0%95%EC%9B%90.md) - 핵심 질문의 입구
 - [AI 활용](./01_Slipbox/AI%20%ED%99%9C%EC%9A%A9.md) - AI 활용에 관한 생각
-- [나의 일하는 방식.md](01_Slipbox/%EB%82%98%EC%9D%98%20%EC%9D%BC%ED%95%98%EB%8A%94%20%EB%B0%A9%EC%8B%9D.md) - 강점과 지속 가능성
+- [나의 일하는 방식](01_Slipbox/%EB%82%98%EC%9D%98%20%EC%9D%BC%ED%95%98%EB%8A%94%20%EB%B0%A9%EC%8B%9D.md) - 강점과 지속 가능성
 - [세컨드 브레인은 퍼스트 브레인의 사고를 보조해야 한다](./01_Slipbox/%EC%84%B8%EC%BB%A8%EB%93%9C%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%9D%80%20%ED%8D%BC%EC%8A%A4%ED%8A%B8%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%9D%98%20%EC%82%AC%EA%B3%A0%EB%A5%BC%20%EB%B3%B4%EC%A1%B0%ED%95%B4%EC%95%BC%20%ED%95%9C%EB%8B%A4.md) - AI와 지식관리의 경계
 - [Think with AI](./20_Projects/blog/Think%20with%20AI.md) - AI와 함께 생각하기
 - [블로그 글](./20_Projects/blog/) - 블로그 글 모음
