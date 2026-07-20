@@ -1,74 +1,73 @@
-# 🧠 Second Brain — Obsidian Vault
+# 🧠 Second Brain — Thinking Garden
 
-> 개발자를 위한 개인 지식 관리 시스템 (PARA + Zettelkasten + Obsidian Bases)
+개인 기록과 소프트웨어 개발, AI 활용을 오가며 생긴 생각을 연결해 가는 개인 지식 정원입니다.
 
-이 vault는 학습·프로젝트·독서·개발 일지를 한 곳에서 축적하고 자동 집계하는 개인 지식 베이스입니다.
+완성된 글뿐 아니라 아직 발전 중인 주장과 참고자료도 있습니다. 하나의 결론을 찾기보다, 노트마다 다른 역할과 상태를 살피며 생각이 이어지는 과정을 따라 읽어 주세요.
 
----
+## 🌱 처음 읽는다면
 
-## 📂 폴더 구조
+- [생각의 정원](./01_Slipbox/%EC%83%9D%EA%B0%81%EC%9D%98%20%EC%A0%95%EC%9B%90.md) - 핵심 질문의 입구
+- [AI 활용](./01_Slipbox/AI%20%ED%99%9C%EC%9A%A9.md) - AI 활용에 관한 생각
+- [나의 일하는 방식](나의%20일하는%20방식.md) - 강점과 지속 가능성
+- [세컨드 브레인은 퍼스트 브레인의 사고를 보조해야 한다](./01_Slipbox/%EC%84%B8%EC%BB%A8%EB%93%9C%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%9D%80%20%ED%8D%BC%EC%8A%A4%ED%8A%B8%20%EB%B8%8C%EB%A0%88%EC%9D%B8%EC%9D%98%20%EC%82%AC%EA%B3%A0%EB%A5%BC%20%EB%B3%B4%EC%A1%B0%ED%95%B4%EC%95%BC%20%ED%95%9C%EB%8B%A4.md) - AI와 지식관리의 경계
+- [Think with AI](./20_Projects/blog/Think%20with%20AI.md) - AI와 함께 생각하기
+- [블로그 글](./20_Projects/blog/) - 블로그 글 모음
+- [개발 문제 해결 기록](./30_Resources/Development/Troubleshooting/) - 재사용 가능한 해결 기록
 
+## 🧭 이 저장소를 읽는 방법
+
+| 위치                          | 역할                              | 해석 기준                                          |
+| --------------------------- | ------------------------------- | ---------------------------------------------- |
+| `20_Projects/blog/`         | 외부 독자를 염두에 두고 쓴 글과 연재            | 초안과 발행본이 함께 있을 수 있으므로 frontmatter의 `status` 확인 |
+| `01_Slipbox/`               | 다시 쓰려고 정리한 독립적인 주장과 주제 지도        | 지금 채택해 발전시키는 생각이지만 완결된 정답은 아님                  |
+| `30_Resources/References/`  | 책·아티클·발표 같은 외부 자료를 읽고 남긴 기록      | 출처의 주장, 인용, 작성자의 반응을 나눠서 읽기                     |
+| `30_Resources/Development/` | 개발 도구와 다시 쓸 수 있는 문제 해결 기록         | 특정 프로젝트 경험에서 시작했어도 공개 가능한 일반 지식으로 정리한 자료       |
+| `00_Inbox/`                 | 아직 검토되지 않은 개인 단상과 질문            | 현재 입장이나 확정된 주장으로 간주하지 않기                       |
+| `40_Archive/`               | 완료되었거나 과거 맥락으로 보관한 자료           | 현재 생각과 다를 수 있는 역사적 기록                          |
+
+노트의 `type`, `status`, `source`, `my_take` 같은 속성은 문서가 무슨 역할을 하고 어디까지 다듬어졌는지 보여줍니다. 링크가 많거나 글이 길다고 더 중요하거나 완성된 노트는 아닙니다.
+
+## 🤖 AI·자동화 도구를 위한 읽기 규칙
+
+- 작성자의 현재 생각을 찾는다면 `20_Projects/blog/`와 `01_Slipbox/`부터 읽습니다.
+- `References`의 요약과 인용은 원문의 내용일 수 있습니다. 작성자의 입장으로 바로 받아들이지 말고 `my_take`나 따로 표시한 해석을 확인합니다.
+- `Inbox`와 `Archive`는 탐색 단서로 쓸 수 있지만 현재 입장의 근거로 삼지 않습니다.
+- Quick Capture의 `AI 생성` 영역과 AI가 제안한 후보는 사용자가 명시적으로 채택하기 전까지 작성자의 주장이 아닙니다.
+- 중요한 판단은 검색 결과의 일부 문장만으로 내리지 않습니다. 원문 전체와 연결된 근거까지 확인합니다.
+- 노트를 인용하거나 요약할 때는 문서 제목과 경로를 함께 남기고, 확인한 내용과 해석을 나눠 적습니다.
+
+## 📂 Vault 구조
+
+```text
+00_Inbox/             빠른 캡처와 미분류 아이디어
+01_Slipbox/           영구 노트와 주제별 허브
+10_Periodic Notes/    일간·주간·월간 기록
+20_Projects/          진행 중인 결과물과 블로그
+30_Resources/         개발 지식과 외부 참고자료
+40_Archive/           완료·보관 자료
+99_Templates/         노트 템플릿과 속성 스키마
 ```
-00_Inbox/             빠른 캡처 (주간 정리)
-01_Slipbox/           영구 노트 (Zettelkasten)
-10_Periodic Notes/    Daily / Weekly / Monthly
-20_Projects/          진행 중인 프로젝트
-30_Resources/         Development (DevLog, Troubleshooting, Tools) + References
-40_Archive/           완료·보관
-99_Templates/         노트 템플릿 + property schema
-```
 
-작업 경계·태그·연결 규칙은 **[AGENTS.md](AGENTS.md)** 를, 사람이 반복할 운영 흐름은 [Obsidian 운영 워크플로](<30_Resources/Obsidian 운영 워크플로.md>)를 따른다. `CLAUDE.md`는 호환을 위한 심볼릭 링크다.
+이 Vault는 PARA와 Zettelkasten을 참고하지만, 폴더 분류 자체보다 다시 찾고 연결해 쓰는 데 초점을 둡니다.
 
-## 🔄 워크플로우
-
-```
+```text
 오늘의 기록 ───────────────→ 10_Periodic Notes
 개인 단상 ────────────────→ 00_Inbox ─────┐
-외부 자료 ────────────────→ 30_Resources ─┴─ 주간 검토 → 삭제 / 보관 / Project 흡수 / Slipbox 승격
+외부 자료 ────────────────→ 30_Resources ─┴─ 검토 → 보관 / Project 흡수 / Slipbox 승격
 완료할 결과물 ────────────→ 20_Projects
+재사용할 독립 주장 ───────→ 01_Slipbox
 ```
 
-- **매일**: 필요한 기록만 Daily Note 또는 Inbox에 포착. 같은 내용은 이중 기록하지 않음
-- **주간**: Inbox와 실제로 읽은 Resources를 삭제·보관·Project 흡수·Slipbox 승격으로 라우팅하고, `_global-health.base`의 큰 부채만 점검
-- **월간**: MOC 필요성, 프로젝트 상태, Slipbox의 실제 재사용과 성숙도 검토
+## ⚙️ 운영 원칙
 
-> 실제 사용 방법과 AI 스킬의 역할은 [Obsidian 운영 워크플로](<30_Resources/Obsidian 운영 워크플로.md>)를 참조하세요.
+- 사람이 반복할 운영 흐름: [Obsidian 운영 워크플로](./30_Resources/Obsidian%20%EC%9A%B4%EC%98%81%20%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C.md)
+- 에이전트의 검색·수정·승인 경계: [AGENTS.md](./AGENTS.md)
+- frontmatter 표준: [property schema](./99_Templates/_property-schema.md)
 
-## 📊 Bases 대시보드
-
-| Base | 위치 | 용도 |
-|------|------|------|
-| `_global-health.base` | vault root | Inbox 부채, 고립 Slipbox, 프로젝트 허브 미갱신, 오래된 Clippings |
-| `_inbox.base` | `00_Inbox/` | 정리 부채 (7일+/30일+ 체류), 분류 도우미 |
-| `_index.base` | `01_Slipbox/` | 고립 노트, 허브 노트, 연결 분석 |
-| `_dashboard.base` | `20_Projects/` | 프로젝트 상태, 진행 중, 프로젝트 허브 미갱신 |
-| `_index.base` | `20_Projects/blog/` | 초안·발행 글, 연재 상태, 장기 발행 공백 점검 |
-| `_index.base` | `30_Resources/` | 도서 평점·메타데이터, 읽기 대기 Clippings, DevLog, 자주 참조됨 |
-
-## 📐 노트 작성 표준
-
-**모든 frontmatter는 [99_Templates/_property-schema.md](99_Templates/_property-schema.md) 를 따른다.**
-
-타입별 필수 필드:
-
-- **Slipbox**: `created`, `tags`, `type` (`permanent`/`fleeting`/`hub`), `status` (`seedling`/`growing`/`evergreen`)
-- **Project**: `created`, `title`, `project_id`, `status` (`active`/`on-hold`/`completed`/`planning`), `started`
-- **Blog Series**: `created`, `title`, `type: series`, `status` (`active`/`on-hold`/`completed`), `started`, `last_published`, `next_action`
-- **Book**: `created`, `title`, `author`, `category`, `status`, `my_rate`, `start_read_date`, `finish_read_date`
-- **DevLog**: `date`, `tags`, `projects[]` — `daily/weekly/monthly`에 로컬 보관
-
-## 🛠️ 권장 플러그인
-
-- **Templater** — 동적 템플릿
-- **Periodic Notes** — 일/주/월간 자동 생성
-- **QuickAdd** — 빠른 캡처
-- **Obsidian Git** — GitHub 백업
-- **Tasks** — 체크박스 태스크 집계
-- **Smart Connections** — Obsidian 안에서 연관 노트 탐색 (에이전트의 정밀 검색은 QMD)
+Obsidian Bases로 Inbox 정리 부채, 프로젝트 상태, Slipbox 연결, 참고자료를 읽은 상태를 살펴봅니다. AI에는 검색·구조화·초안·검증을 맡기되, 어떤 연결을 남기고 영구 노트로 승격할지는 사용자가 검토하고 결정합니다.
 
 ## 🔗 참고
 
-- [PARA 방법론](https://fortelabs.co/blog/para/)
-- [Zettelkasten 방법론](https://zettelkasten.de/)
-- [Obsidian Bases 공식 문서](https://help.obsidian.md/bases)
+- [PARA](https://fortelabs.com/blog/para/)
+- [Zettelkasten](https://zettelkasten.de/)
+- [Obsidian Bases](https://help.obsidian.md/bases)
