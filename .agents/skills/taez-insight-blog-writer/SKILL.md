@@ -1,6 +1,6 @@
 ---
 name: taez-insight-blog-writer
-description: Use when TaeZ wants to turn rough Korean notes, work experiences, engineering decisions, research findings, or half-written drafts into a distinctive Korean technical blog post with personal branding, original insight, company-tech-blog polish, and anti-slop editorial standards. Trigger for requests about "내 글", "퍼스널 브랜딩", "인사이트 있는 글", "기술블로그", "회사 기술블로그", "국내 기술블로그", "초안", "윤문", "구조 리팩토링", "deep research 기반 글쓰기", "나만의 관점", or "발행 가능한 글".
+description: Use when TaeZ wants to turn rough Korean notes, work experiences, engineering decisions, research findings, or half-written drafts into a distinctive Korean technical blog post with personal branding, original insight, natural first-draft Korean, company-tech-blog polish, and anti-slop editorial standards. Trigger for requests about "내 글", "퍼스널 브랜딩", "인사이트 있는 글", "기술블로그", "회사 기술블로그", "국내 기술블로그", "초안", "윤문", "구조 리팩토링", "deep research 기반 글쓰기", "나만의 관점", or "발행 가능한 글".
 ---
 
 # TaeZ Insight Blog Writer
@@ -17,7 +17,8 @@ Default reader: practical software engineers. Default author position: 실전형
 - Preserve TaeZ's recurring lenses when relevant, but do not force them: platform-as-enablement, workflow as operating system, team capability over individual output, evidence-backed reflection, dogfooding, responsibility boundaries, learning loops.
 - Treat AI assistance as acceptable. Slop is not "AI was used"; slop is "no authorial judgment, no context, no accountable takeaway."
 - Structure before sentence polish. If the argument is weak, do not run a humanizing pass yet.
-- Keep Korean natural and technically literate. Avoid over-explaining familiar engineering ideas.
+- Draft natural Korean from the first pass. Do not rely on a later humanizing pass to repair translationese, templated pivots, or inflated abstraction.
+- Keep Korean technically literate. Avoid over-explaining familiar engineering ideas.
 
 ## 파이프라인 오케스트레이션
 
@@ -35,7 +36,7 @@ Default reader: practical software engineers. Default author position: 실전형
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
 | ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
 | ③ 작곡 | `blog-recompose` | 선행글·초안 재작곡. |
-| ③' 직접 초안 | 이 스킬의 article spine | 새 글을 직접 쓴다. |
+| ③' 직접 초안 | article spine + 한국어 초안 점검 | 새 글을 자연스러운 한국어로 쓴다. |
 | ④ 사람 게이트 | `references/slop-gate.md` | 7항목 사인오프. |
 | ⑤ 검수·윤문 | `blog-review-polish` | 사실 검증·6인 패널·윤문·최종 게이트. |
 | 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트. |
@@ -43,7 +44,7 @@ Default reader: practical software engineers. Default author position: 실전형
 ### 런타임별 실행 경로
 
 - **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다.
-- **Codex**: 같은 evidence base와 article spine을 따르되, vault 검색 → 논지·구조 설계 → 초안/검토 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` → 사람 게이트 순서로 진행한다. Claude 전용 에이전트 워크플로를 직접 실행할 필요는 없다.
+- **Codex**: 같은 evidence base와 article spine을 따르되, vault 검색 → 논지·구조 설계 → 한국어 초안 점검 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` → 사람 게이트 순서로 진행한다. Claude 전용 에이전트 워크플로를 직접 실행할 필요는 없다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -51,6 +52,7 @@ Default reader: practical software engineers. Default author position: 실전형
 
 - `voice-profile.md` — 지킬 목소리 DNA.
 - `anti-slop-lexicon.md` — 금지표현·문장부호의 단일 출처. lint와 AI-티 감별사가 함께 사용한다.
+- `korean-first-draft.md` — 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
 - `slop-gate.md` — 발행 전 사람 사인오프.
 - `amplifier-lenses.md` — 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
 
@@ -134,9 +136,23 @@ Default structure:
 
 Skip beats that do not serve this article, but if you drop Evidence or Counterargument, state why when presenting the draft — those two are what the slop gate leans on.
 
+### 5.1 Draft natural Korean before polishing
+
+새 글을 쓰거나 본문을 크게 다시 쓸 때는 먼저 `references/korean-first-draft.md`를 읽고 다음을 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이다.
+
+- 정의·프레임보다 실제 장면, 구체 주어, 행동 동사로 문단을 시작한다.
+- `~에 대해`, `~를 통해`, `~에 있어서`, `~와 관련하여`, 불필요한 피동과 긴 관형어를 그대로 옮기지 않는다. 자연스러운 조사·능동형·짧은 문장으로 다시 쓴다.
+- `중요한 것은`, `주목할 점은`, `따라서`, `결론적으로`, `X가 아니라 Y` 같은 문장 공식으로 논지를 운반하지 않는다. 비용·장면·인과를 직접 쓴다.
+- 문단마다 같은 길이·종결어미·접속사 리듬을 반복하지 않는다. 다만 일부러 문학적인 표현, 비유, 구어체를 덧붙여 해결하지도 않는다.
+- 고유명사·수치·날짜·직접 인용·기술 약어는 바꾸지 않는다. 목록은 실제 단계·비교·선택지를 보여줄 때만 사용한다.
+
+초안을 쓴 뒤 30초 동안 문단 첫 문장, 문두 접속사, 추상 명사 연쇄, 독립해도 의미가 남는 안내 문장을 훑는다. 발견한 문제만 고친다. 처음부터 모든 문장을 휴머나이즈하거나, 이 기준을 문장 길이·종결어미의 기계적 균일화 규칙으로 사용하지 않는다.
+
 ### 6. Apply the anti-slop tests
 
 먼저 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거하고, lint가 판단할 수 없는 깊이·1인칭·반례는 `references/slop-gate.md`에서 사람이 판단한다.
+
+`humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 실행한다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
 
 Before finalizing, check:
 

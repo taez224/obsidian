@@ -34,4 +34,7 @@
 # 개인 이직 준비 자료 — Git/GitHub에 배포하지 않음
 /20_Projects/job-search-2026/
 
-40_Archive/_attachments
+40_Archive/_attachments/
+
+# Serena project settings, memories, and cache — local tooling only
+/.serena/

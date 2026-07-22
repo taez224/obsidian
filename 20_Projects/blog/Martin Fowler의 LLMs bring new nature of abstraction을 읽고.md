@@ -10,6 +10,8 @@ author: TaeZ
 publication: Velog
 source: https://velog.io/@taez224/AI-%EC%8B%9C%EB%8C%80-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%8A%94-%EB%A7%A4%EC%9D%BC-%EC%A3%BC%EC%82%AC%EC%9C%84%EB%A5%BC-%EA%B5%B4%EB%A6%B0%EB%8B%A4
 summary: LLM의 비결정성이 개발의 추상화·테스트·품질 판단을 어떻게 바꾸는지 Martin Fowler 글을 바탕으로 성찰한 후기.
+related:
+  - "[[AI 시대 개발자는 매일 주사위를 굴린다]]"
 ---
 
 # Martin Fowler의 'LLMs bring new nature of abstraction'을 읽고..
