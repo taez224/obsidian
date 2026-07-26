@@ -1,20 +1,5 @@
 {
   "enabledPlugins": {
     "obsidian@obsidian-skills": true
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "qmd update && qmd embed",
-            "async": true,
-            "statusMessage": "Updating qmd index..."
-          }
-        ]
-      }
-    ]
   }
 }

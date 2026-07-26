@@ -1,0 +1,73 @@
+#!/bin/sh
+# post-commit — 커밋 후 QMD 인덱스를 백그라운드로 갱신한다.
+#
+# 왜 SessionStart가 아니라 post-commit인가:
+#   SessionStart 훅은 Claude Code 세션을 열 때만 돌아서, Obsidian에서만
+#   며칠 작업하면 의미 검색이 옛 인덱스를 본다. 커밋은 노트가 실제로
+#   바뀌었다는 더 정확한 신호다.
+#
+# 범위 주의:
+#   `qmd update`는 git diff가 아니라 컬렉션 전체를 재스캔한다. 따라서 git은
+#   트리거일 뿐이고, gitignore된 노트(DevLog daily, job-search-2026)도 이때
+#   함께 갱신된다. 대신 인덱스 신선도는 커밋 주기에 묶인다.
+#
+# 설치 (기기당 1회):
+#   git config core.hooksPath .agents/hooks
+
+set -u
+
+VAULT=$(git rev-parse --show-toplevel) || exit 0
+GIT_DIR=$(git rev-parse --absolute-git-dir) || exit 0
+LOCK="$GIT_DIR/qmd-index.lock"
+LOG="$GIT_DIR/qmd-index.log"
+
+# qmd 경로 해석 — 훅은 로그인 셸 PATH 없이 실행될 수 있다
+# (Obsidian Git 플러그인, GUI git 클라이언트 등은 nvm PATH를 모른다)
+#
+# qmd는 `#!/usr/bin/env node` 스크립트라서 절대 경로를 찾는 것만으로는 부족하다.
+# 폴백으로 찾았으면 그 bin 디렉터리를 PATH에 얹어 node도 같이 해석되게 한다.
+QMD=$(command -v qmd 2>/dev/null) || QMD=""
+if [ -z "$QMD" ]; then
+	for candidate in "$HOME"/.nvm/versions/node/*/bin/qmd \
+		/usr/local/bin/qmd \
+		/opt/homebrew/bin/qmd; do
+		if [ -x "$candidate" ]; then
+			QMD="$candidate"
+			PATH="$(dirname "$candidate"):$PATH"
+			export PATH
+			break
+		fi
+	done
+fi
+# qmd가 없으면 조용히 통과한다 — 색인은 커밋을 막을 이유가 되지 않는다
+[ -n "$QMD" ] || exit 0
+
+# 마크다운이 안 바뀐 커밋은 건너뛴다.
+# 목록이 비면(root/merge 커밋) 판단하지 않고 그냥 돌린다.
+CHANGED=$(git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null)
+if [ -n "$CHANGED" ] && ! printf '%s\n' "$CHANGED" | grep -q '\.md$'; then
+	exit 0
+fi
+
+# 중복 실행 방지 — mkdir는 원자적이라 lock 파일보다 경쟁에 안전하다
+mkdir "$LOCK" 2>/dev/null || exit 0
+
+# 백그라운드로 분리해 커밋이 임베딩을 기다리지 않게 한다
+(
+	trap 'rmdir "$LOCK" 2>/dev/null' EXIT INT TERM
+	cd "$VAULT" || exit 0
+	{
+		echo "--- $(date '+%Y-%m-%d %H:%M:%S') $(git rev-parse --short HEAD)"
+		"$QMD" update && "$QMD" embed
+		echo "--- exit=$?"
+	} >>"$LOG" 2>&1
+
+	# 로그가 무한정 자라지 않게 최근 분량만 남긴다
+	if tail -n 400 "$LOG" >"$LOG.tmp" 2>/dev/null; then
+		mv "$LOG.tmp" "$LOG"
+	else
+		rm -f "$LOG.tmp"
+	fi
+) </dev/null >/dev/null 2>&1 &
+
+exit 0
