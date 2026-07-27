@@ -17,12 +17,13 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 ```
 
 스캐너는 읽기 전용이며 JSON을 반환한다: `orphans`(고립 노트, `slipbox` 플래그 포함),
-`dead_links`(미해석 위키링크), `frontmatter_issues`(스키마 위반),
+`dead_links`(미해석 위키링크), `broken_anchors`(대상 문서는 해석되는데 그 블록 ID가 없는 `#^` 링크),
+`frontmatter_issues`(스키마 위반),
 `base_issues`(`.base` 파일의 미인식 키 — 현재는 `sortBy`, 실제 Bases 스키마엔 없고 `sort` 리스트가 맞음), `stats`,
 `periodic_placeholders`(Periodic Notes의 의도된 날짜·주차·월 링크),
 `series_placeholders`(진행 중·잠정 중단 시리즈 허브의 예정 글 링크),
 `priorities`(기계 수정 후보 / 의미 검토 후보 / 정보성 항목 수).
-`stats.reuse`는 블로그→Slipbox 고유 링크, 해당 블로그 수, 재사용된 Slipbox 수를 관찰용으로 제공한다. 목표 비율이나 품질 점수로 해석하지 않는다.
+`reuse_by_note`(영구 노트별 재사용 판정), `stats.reuse`(집계)를 관찰용으로 제공한다. 목표 비율이나 품질 점수로 해석하지 않는다.
 NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하므로 스캐너 결과를 기계 검사 후보의 기준으로 사용한다. 다만 실제 수정 전에는 영향받는 파일과 예상 밖 결과를 표본 확인해 스키마 드리프트나 파서 한계를 점검한다.
 
 ### 2. 판단 검사
@@ -37,11 +38,21 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 - **죽은 링크 처치**: 항목별로 "오타 수정 / 스텁 생성 / 링크 제거 / 의도적 placeholder 유지"
   중 하나를 근거와 함께 제안한다. Zettelkasten에서 미해결 링크는 "나중에 쓸 노트" 표시일 수
   있으므로 제거를 기본값으로 하지 않는다.
+- **블록 앵커 깨짐**: 대상 문서는 해석되므로 링크가 살아 있어 보이지만 지목한 문장 대신 문서
+  맨 위로 이동한다 — 출처 정밀도가 조용히 문서 단위로 퇴화하므로 `dead_links`와 같은 비중으로
+  다룬다. 원인이 "앵커가 줄 앞에 있음"(`^id 본문`)이면 앵커를 해당 블록 뒤 줄 끝으로 옮기는
+  수정을 제안한다 — 결정적이지만 자동 적용은 아니고 승인 후 적용. 앵커 자체가 없으면 어느
+  블록을 가리키려 했는지가 의미 판단이므로 후보만 보고한다.
 - **Periodic placeholder**: `10_Periodic Notes/`의 날짜·주차·월 패턴 미해결 링크는 전체
   `dead_links`에는 보존하되 `meaning_review`에서 제외하고 `informational`로만 보고한다.
 - **Series placeholder**: `type: series`이고 `status`가 `completed`가 아닌 허브의 미해결 링크는
   예정 글로 보고 전체 `dead_links`에는 보존하되 `meaning_review`에서 제외한다. 완결 시리즈의
   미해결 링크는 오타·누락 가능성이 있으므로 기존처럼 의미 검토 대상으로 남긴다.
+- **재사용(`used_in`) 후보 — 탐지·보고만**: `reuse_by_note`의 `reused_by`를 `used_in` 기록
+  후보로 제시한다. 판정 규칙은 `scripts/lint_scan.py`의 `classify_reuse_edge`가 정본이고,
+  무엇을 재사용으로 볼지의 기준은 `_property-schema.md`의 Slipbox 절에 있다 — 여기 복제하지 않는다.
+  `pending`(Inbox 출처)은 승인 대상이 아니라 다음 검토까지 보류로만 표시한다.
+  재사용 횟수로 `status` 승격을 제안하지 않는다. 승격은 `review-zettelkasten`의 판단이다.
 - **frontmatter 수정**: 제안값이 결정적으로 유도 가능한 항목만 승인 루프에 올린다 —
   `created` 누락은 `git log --diff-filter=A --follow --format=%as -1 -- <file>` 결과로,
   태그의 `#` 포함은 제거로 제안. 유도 불가 항목(type/status/태그 내용)은 리포트 전용.
@@ -54,7 +65,7 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 `_workspace/lint-YYYY-MM-DD/report.md` 에 작성한다 (7일 수명 규약 대상):
 우선순위 요약(`mechanical` → `meaning_review` → `informational`) → 카테고리별 발견 + 제안(이유 포함) → degraded 여부.
 고립 노트는 폴더별로 묶고, 연결 제안은 Slipbox 항목에만 첨부한다.
-`stats.reuse`는 현재 상태를 관찰하는 참고값으로만 표시하고 목표치·합격 조건·수정 후보를 만들지 않는다.
+재사용은 현재 상태를 관찰하는 참고값으로만 표시하고 목표치·합격 조건을 만들지 않는다. `used_in` 기록 후보와 재사용 0회 목록은 남기되, 0회를 결함으로 표기하지 않는다.
 
 ### 4. 승인
 

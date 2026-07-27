@@ -32,6 +32,43 @@ def build_fixture(root):
     write(root, "01_Slipbox/재사용 노트.md", slip_fm + "[[연결된 노트]]\n")
     write(root, "20_Projects/blog/재사용 글.md",
           fm + "---\n[[재사용 노트]] [[재사용 노트]]\n")
+    # ── 블록 앵커 픽스처 ────────────────────────────────────
+    # 앵커는 줄 끝에서만 유효하다: 단독 줄과 텍스트 뒤는 OK, 줄 앞은 블록 ID가 아니다
+    write(root, "01_Slipbox/앵커 대상.md", slip_fm +
+          "첫 문단\n\n^good-standalone\n\n둘째 문단 ^good-inline\n\n"
+          "^bad-leading 앵커가 줄 앞에 있으면 Obsidian이 블록 ID로 보지 않는다\n")
+    write(root, "30_Resources/앵커 참조.md", fm + "---\n"
+          "- [[앵커 대상#^good-standalone]] - 단독 줄 앵커\n"
+          "- [[앵커 대상#^good-inline]] - 텍스트 뒤 앵커\n"
+          "- [[앵커 대상#^missing-anchor]] - 없는 앵커\n"
+          "- [[앵커 대상#^bad-leading]] - 줄 앞이라 인식 안 됨\n"
+          "- [[앵커 대상#헤딩 링크]] - 헤딩 링크는 이 검사 대상 아님\n"
+          "- [[없는노트#^whatever]] - 문서 자체가 미해석이면 dead_links 소관\n"
+          "```\n- [[앵커 대상#^in-code]] - 코드블록은 무시\n```\n")
+    # ── 재사용 판정 픽스처 ──────────────────────────────────
+    # 출처 표지 문구가 붙은 단방향 링크 → 재사용에서 제외
+    write(root, "01_Slipbox/출처 있는 노트.md", slip_fm + "본문\n")
+    write(root, "30_Resources/References/Articles/원자료.md",
+          fm + "source: https://example.com\npublished: 2026-06-01\nstatus: read\n---\n"
+          "- [[출처 있는 노트]] - 이 자료에서 정제한 결과\n")
+    # Inbox에서 온 링크는 보류 (README: Inbox는 현재 입장의 근거가 아니다)
+    write(root, "00_Inbox/초안.md", fm + "---\n- [[출처 있는 노트]] - 이 생각의 출발점\n")
+    # 상호 + 읽은 자료 → 출처 관계로 보고 재사용에서 제외
+    write(root, "01_Slipbox/상호 노트.md", slip_fm + "- [[읽은 자료]] - 원문 근거\n")
+    write(root, "30_Resources/References/Books/읽은 자료.md",
+          fm + "---\n- [[상호 노트]] - 이 책이 다룬 개념\n")
+    # 블로그는 상호여도 재사용 (블로그가 노트를 낳기도 하고 인용하기도 해서 상호로 안 갈림)
+    write(root, "01_Slipbox/블로그 상호 노트.md", slip_fm + "- [[블로그 상호 글]] - 적용 사례\n")
+    write(root, "20_Projects/blog/블로그 상호 글.md",
+          fm + "---\n- [[블로그 상호 노트]] - 이 글에서 인용한 개념\n")
+    # 운영 문서는 상호여도 자료가 아니라 적용처 → 재사용
+    write(root, "01_Slipbox/운영 노트.md", slip_fm + "- [[운영 문서]] - 이 원칙을 적용한 기준\n")
+    write(root, "30_Resources/운영 문서.md", fm + "---\n- [[운영 노트]] - 운영 경계\n")
+    # 맨 "승격"은 본문 개념어일 뿐 출처 표지가 아니다 (마커 오탐 회귀)
+    write(root, "01_Slipbox/마커 오탐 노트.md", slip_fm + "본문\n")
+    write(root, "20_Projects/blog/승격 언급 글.md",
+          fm + "---\n- [[마커 오탐 노트]] - 조회 경로는 승격 때 설계해야 한다\n")
+    # ───────────────────────────────────────────────────────
     # 진행 중 시리즈 허브의 미래 글 링크는 의미 검토가 아닌 정보성 placeholder
     write(root, "20_Projects/blog/진행 중 연재.md",
           fm + "type: series\nstatus: active\n---\n[[다음 편]]\n")
@@ -136,17 +173,68 @@ def main():
         assert priorities["mechanical"]["frontmatter_issues"] == len(r["frontmatter_issues"])
         assert priorities["mechanical"]["base_issues"] == len(r["base_issues"])
         assert priorities["meaning_review"]["slipbox_orphans"] == 1
-        assert priorities["meaning_review"]["dead_links"] == 1
+        # 없는노트 2건: 평범한 링크 + 앵커 링크(문서 자체가 미해석이라 dead_links 소관)
+        assert priorities["meaning_review"]["dead_links"] == 2
         assert priorities["informational"]["periodic_placeholders"] == 1
         assert priorities["informational"]["series_placeholders"] == 1
         assert priorities["informational"]["non_slipbox_orphans"] == sum(
             1 for orphan in r["orphans"] if not orphan["slipbox"]
         )
 
+        # 블록 앵커: 없는 앵커와 줄 앞 앵커만 잡고, 유효한 형태는 오탐하지 않는다
+        broken = {b["anchor"] for b in r["broken_anchors"]}
+        assert broken == {"missing-anchor", "bad-leading"}, r["broken_anchors"]
+        assert all(
+            unicodedata.normalize("NFC", b["target"]) == "01_Slipbox/앵커 대상.md"
+            for b in r["broken_anchors"]
+        ), r["broken_anchors"]
+        assert r["stats"]["broken_anchors"] == 2
+        assert priorities["meaning_review"]["broken_anchors"] == 2
+
         reuse = r["stats"]["reuse"]
-        assert reuse["blog_to_slipbox_edges"] == 1, reuse
-        assert reuse["blog_notes_with_slipbox_refs"] == 1, reuse
-        assert reuse["slipbox_notes_reused_by_blog"] == 1, reuse
+        assert reuse["blog_to_slipbox_edges"] == 3, reuse
+        assert reuse["blog_notes_with_slipbox_refs"] == 3, reuse
+        assert reuse["slipbox_notes_reused_by_blog"] == 3, reuse
+
+        by_note = {unicodedata.normalize("NFC", e["path"]): e for e in r["reuse_by_note"]}
+
+        def reasons(note, bucket):
+            return {x["reason"] for x in by_note[unicodedata.normalize("NFC", note)][bucket]}
+
+        def count(note):
+            return by_note[unicodedata.normalize("NFC", note)]["reuse_count"]
+
+        # 출처 표지 문구가 붙은 링크는 재사용으로 세지 않는다
+        assert count("01_Slipbox/출처 있는 노트.md") == 0, by_note
+        assert reasons("01_Slipbox/출처 있는 노트.md", "excluded") == {"출처 표지 문구"}
+        # Inbox 링크는 보류 — 출처도 재사용도 아니다
+        assert reasons("01_Slipbox/출처 있는 노트.md", "pending") == {"Inbox 초안 — 근거로 세지 않음"}
+        # 상호 + 읽은 자료 → 출처
+        assert count("01_Slipbox/상호 노트.md") == 0, by_note
+        assert reasons("01_Slipbox/상호 노트.md", "excluded") == {"상호 + 읽은 자료"}
+        # 블로그는 상호여도 재사용 (상호 링크 규칙을 블로그에 적용하지 않는다)
+        assert count("01_Slipbox/블로그 상호 노트.md") == 1, by_note
+        assert reasons("01_Slipbox/블로그 상호 노트.md", "reused_by") == {"블로그 인용"}
+        # 운영 문서는 적용처라 상호여도 재사용
+        assert count("01_Slipbox/운영 노트.md") == 1, by_note
+        assert reasons("01_Slipbox/운영 노트.md", "reused_by") == {"상호지만 상대가 적용처"}
+        # 맨 "승격"은 출처 표지가 아니다
+        assert count("01_Slipbox/마커 오탐 노트.md") == 1, by_note
+        assert by_note[unicodedata.normalize("NFC", "01_Slipbox/마커 오탐 노트.md")]["excluded"] == []
+        # 고립 노트는 재사용 0이지만 목록에는 남는다 (0회가 이 지표의 핵심 산출물)
+        assert count("01_Slipbox/고립 노트.md") == 0, by_note
+
+        assert reuse["slipbox_notes_total"] == len(r["reuse_by_note"]), reuse
+        assert reuse["slipbox_notes_reused"] + reuse["slipbox_notes_unused"] == \
+            reuse["slipbox_notes_total"], reuse
+        assert reuse["pending_edges"] == 1, reuse
+        assert r["priorities"]["informational"]["pending_reuse_edges"] == 1
+        assert r["priorities"]["informational"]["seedling_with_reuse"] == \
+            sum(1 for e in r["reuse_by_note"]
+                if e["reuse_count"] > 0 and e["status"] == "seedling")
+        # 재사용 많은 순 정렬
+        counts = [e["reuse_count"] for e in r["reuse_by_note"]]
+        assert counts == sorted(counts, reverse=True), counts
 
         print("OK — all assertions passed")
 

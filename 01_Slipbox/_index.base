@@ -10,6 +10,7 @@ formulas:
   updated: file.mtime.relative()
   days_since_update: (now() - file.mtime).days.floor()
   is_orphan: file.links.length == 0 && file.backlinks.length == 0
+  reuse_count: if(used_in, used_in.length, 0)
 properties:
   file.name:
     displayName: 노트
@@ -31,6 +32,8 @@ properties:
     displayName: 최근 수정
   formula.days_since_update:
     displayName: 미갱신일
+  formula.reuse_count:
+    displayName: 재사용
 views:
   - type: table
     name: 전체 노트
@@ -64,6 +67,23 @@ views:
     sort:
       - property: formula.days_since_update
         direction: DESC
+  - type: table
+    name: 재사용됐지만 seedling
+    filters:
+      and:
+        - type == "permanent"
+        - status == "seedling"
+        - formula.reuse_count > 0
+    order:
+      - file.name
+      - formula.reuse_count
+      - created
+      - formula.updated
+    sort:
+      - property: formula.reuse_count
+        direction: DESC
+    summaries:
+      formula.reuse_count: Sum
   - type: table
     name: 고립된 노트
     filters:

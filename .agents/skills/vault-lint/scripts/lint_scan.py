@@ -26,6 +26,16 @@ ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이
     "30_Resources/Development/DevLog/",
 )
 BASE_INVALID_KEYS = {"sortBy"}  # .base 파일에 없는 키인데 흔히 착각해서 쓰는 것들. 발견되는 대로 추가.
+
+# 재사용 판정 — "이 영구 노트가 다른 맥락에서 다시 쓰였는가"를 센다.
+# 출처(이 자료에서 노트가 나왔다)는 재사용이 아니다. X에서 파생된 것은 X를 입증하지 못한다.
+REUSE_PROVENANCE_MARKERS = (   # 링크 옆 설명에 이 표현이 있으면 출처로 보고 재사용에서 뺀다
+    "로 승격", "으로 승격",
+    "압축한 영구 노트", "정제한 영구 노트", "정제한 결과",
+    "에서 출발한",
+)
+# 맨 "승격"·"출발점"은 마커에 넣지 않는다. 본문 개념어로도 쓰이고,
+# "출발점"은 화자가 누구냐에 따라 출처와 재사용이 뒤집힌다.
 # ───────────────────────────────────────────────────────────
 
 WIKILINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
@@ -37,6 +47,10 @@ BASE_KEY_RE = re.compile(r"^\s*([A-Za-z_][\w-]*)\s*:")
 PERIODIC_PLACEHOLDER_RE = re.compile(
     r"^(?:\d{4}-\d{2}(?:-\d{2})?|\d{4}-W\d{2})$"
 )
+# 블록 ID는 줄 끝에서만 인식된다 — 단독 줄(`^id`)과 텍스트 뒤(`본문 ^id`) 둘 다 유효하다.
+# 줄 앞에 두면(`^id 본문`) Obsidian이 블록 ID로 보지 않는다.
+BLOCK_ANCHOR_RE = re.compile(r"(?:^|\s)\^([A-Za-z0-9-]+)[ \t]*$")
+ANCHOR_LINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
 
 
 def nfc(s):
@@ -71,16 +85,84 @@ def parse_frontmatter(lines):
     return scalars, lists
 
 
-def extract_links(body):
+def extract_links_with_context(body):
+    """(target, 링크가 있던 줄) 목록.
+
+    재사용 판정은 링크 자체가 아니라 링크 옆에 적은 관계 설명을 봐야 해서
+    줄 텍스트가 필요하다 ("## 연관된 노트" 규칙이 이 문구를 보장한다).
+    """
     body = FENCED_RE.sub("", body)
     body = INLINE_CODE_RE.sub("", body)
     out = []
-    for m in WIKILINK_RE.finditer(body):
-        # 표 안의 위키링크는 파이프를 \| 로 이스케이프함 — 풀어준 뒤 분리
-        t = m.group(1).replace("\\|", "|").split("|")[0].split("#")[0].strip()
-        if t:
-            out.append(nfc(t))
+    for line in body.splitlines():
+        for m in WIKILINK_RE.finditer(line):
+            # 표 안의 위키링크는 파이프를 \| 로 이스케이프함 — 풀어준 뒤 분리
+            t = m.group(1).replace("\\|", "|").split("|")[0].split("#")[0].strip()
+            if t:
+                out.append((nfc(t), line.strip()))
     return out
+
+
+def extract_links(body):
+    return [t for t, _ in extract_links_with_context(body)]
+
+
+def extract_block_anchors(body):
+    """이 문서가 실제로 정의한 블록 ID 집합."""
+    body = FENCED_RE.sub("", body)
+    return {m.group(1) for line in body.splitlines()
+            for m in [BLOCK_ANCHOR_RE.search(line)] if m}
+
+
+def extract_anchor_links(body):
+    """(대상 문서, 블록 ID) 목록 — `[[문서#^id]]` 형태만.
+
+    블록 링크는 앵커가 없어도 문서로는 해석되므로 링크가 살아 있는 것처럼 보인다.
+    그래서 죽은 링크 검사만으로는 잡히지 않고 출처 정밀도가 조용히 문서 단위로 퇴화한다.
+    """
+    body = FENCED_RE.sub("", body)
+    body = INLINE_CODE_RE.sub("", body)
+    out = []
+    for m in ANCHOR_LINK_RE.finditer(body):
+        raw = m.group(1).replace("\\|", "|").split("|")[0].strip()
+        if "#^" not in raw:
+            continue
+        target, _, anchor = raw.partition("#^")
+        target, anchor = target.strip(), anchor.strip()
+        if target and anchor:
+            out.append((nfc(target), anchor))
+    return out
+
+
+def reuse_source_kind(rel):
+    if rel.startswith("00_Inbox/"):
+        return "inbox"
+    if rel.startswith("30_Resources/References/"):
+        return "reference"
+    if rel.startswith("20_Projects/blog/"):
+        return "blog"
+    if rel.startswith("20_Projects/"):
+        return "project"
+    return "operational"          # 운영 문서·MOC 등 — 자료가 아니라 적용처다
+
+
+def classify_reuse_edge(kind, marked, mutual):
+    """(판정, 사유). 판정은 reuse | excluded | pending."""
+    if kind == "inbox":
+        # README 원칙: Inbox는 탐색 단서일 뿐 현재 입장의 근거가 아니다.
+        # Inbox를 벗어나 승격·흡수될 때 다시 판정한다.
+        return "pending", "Inbox 초안 — 근거로 세지 않음"
+    if marked:
+        return "excluded", "출처 표지 문구"
+    if kind == "blog":
+        # 블로그는 노트를 낳기도 하고 인용하기도 해서 상호 여부로 갈리지 않는다.
+        # 표지 문구가 없으면 인용으로 본다.
+        return "reuse", "블로그 인용"
+    if mutual and kind == "reference":
+        return "excluded", "상호 + 읽은 자료"
+    if mutual:
+        return "reuse", "상호지만 상대가 적용처"
+    return "reuse", "단방향"
 
 
 def is_scanned(rel):
@@ -176,24 +258,48 @@ def main():
     # 2차: 링크 그래프 (in-link는 Archive 포함 전체에서 수집)
     in_degree = {rel: 0 for rel in all_md}
     out_count, dead_links, blog_to_slipbox_edges = {}, [], set()
+    out_targets = {rel: set() for rel in all_md}
+    slipbox_inbound = {}          # tgt → {src: [링크가 있던 줄]}
     for rel in all_md:
-        links = extract_links(body_cache.get(rel, ""))
+        links = extract_links_with_context(body_cache.get(rel, ""))
         out_count[rel] = len(links)
-        for t in links:
+        for t, line in links:
             hit = target_index.get(t)
             if hit:
                 for tgt in hit:
                     if tgt != rel:
                         in_degree[tgt] += 1
+                        out_targets[rel].add(tgt)
                     if (
                         rel.startswith("20_Projects/blog/")
                         and tgt.startswith("01_Slipbox/")
                     ):
                         blog_to_slipbox_edges.add((rel, tgt))
+                    if (
+                        tgt.startswith("01_Slipbox/")
+                        and not rel.startswith("01_Slipbox/")
+                        and is_scanned(rel)
+                    ):
+                        slipbox_inbound.setdefault(tgt, {}).setdefault(rel, []).append(line)
             elif t not in resolve and is_scanned(rel):
                 dead_links.append({"source": rel, "target": t})
 
     scanned = [rel for rel in all_md if is_scanned(rel)]
+
+    # 3차: 블록 앵커 — 대상 문서는 해석되는데 그 안에 블록 ID가 없는 링크
+    anchors = {rel: extract_block_anchors(body_cache.get(rel, "")) for rel in all_md}
+    broken_anchors = []
+    for rel in scanned:
+        for target, anchor in extract_anchor_links(body_cache.get(rel, "")):
+            hit = target_index.get(target)
+            if not hit:
+                continue          # 문서 자체가 미해석이면 dead_links가 이미 잡는다
+            if not any(anchor in anchors.get(tgt, set()) for tgt in hit):
+                broken_anchors.append({
+                    "source": rel,
+                    "target": sorted(hit)[0],
+                    "anchor": anchor,
+                })
 
     orphans = [
         {"path": rel, "slipbox": rel.startswith("01_Slipbox/")}
@@ -249,6 +355,47 @@ def main():
     reused_blog_notes = {source for source, _ in blog_to_slipbox_edges}
     reused_slipbox_notes = {target for _, target in blog_to_slipbox_edges}
 
+    # 재사용 판정 — 영구 노트가 Slipbox 밖에서 다시 쓰였는가.
+    # type 필터(permanent/hub)는 여기서 걸지 않는다. 기계 집계만 하고
+    # 의미 구분은 Base 뷰와 review-zettelkasten이 맡는다.
+    slipbox_notes = sorted(rel for rel in scanned if rel.startswith("01_Slipbox/"))
+    reuse_by_note = []
+    reuse_edges = excluded_edges = pending_edges = 0
+    for tgt in slipbox_notes:
+        scalars, _ = fm_cache.get(tgt, (None, {}))
+        entry = {
+            "path": tgt,
+            "status": (scalars or {}).get("status", "").strip("'\""),
+            "reuse_count": 0,
+            "reused_by": [],
+            "excluded": [],
+            "pending": [],
+        }
+        for src, lines in sorted(slipbox_inbound.get(tgt, {}).items()):
+            verdict, why = classify_reuse_edge(
+                reuse_source_kind(src),
+                any(m in " ".join(lines) for m in REUSE_PROVENANCE_MARKERS),
+                src in out_targets.get(tgt, set()),
+            )
+            record = {"path": src, "reason": why}
+            if verdict == "reuse":
+                entry["reused_by"].append(record)
+                reuse_edges += 1
+            elif verdict == "excluded":
+                entry["excluded"].append(record)
+                excluded_edges += 1
+            else:
+                entry["pending"].append(record)
+                pending_edges += 1
+        entry["reuse_count"] = len(entry["reused_by"])
+        reuse_by_note.append(entry)
+
+    reuse_by_note.sort(key=lambda e: (-e["reuse_count"], e["path"]))
+    notes_reused = sum(1 for e in reuse_by_note if e["reuse_count"] > 0)
+    seedling_with_reuse = sum(
+        1 for e in reuse_by_note if e["reuse_count"] > 0 and e["status"] == "seedling"
+    )
+
     print(json.dumps({
         "stats": {
             "vault_root": root,
@@ -259,12 +406,19 @@ def main():
             "periodic_placeholders": len(periodic_placeholders),
             "series_placeholders": len(series_placeholders),
             "frontmatter_issues": len(frontmatter_issues),
+            "broken_anchors": len(broken_anchors),
             "base_total": len(all_base),
             "base_issues": len(base_issues),
             "reuse": {
                 "blog_to_slipbox_edges": len(blog_to_slipbox_edges),
                 "blog_notes_with_slipbox_refs": len(reused_blog_notes),
                 "slipbox_notes_reused_by_blog": len(reused_slipbox_notes),
+                "slipbox_notes_total": len(slipbox_notes),
+                "slipbox_notes_reused": notes_reused,
+                "slipbox_notes_unused": len(slipbox_notes) - notes_reused,
+                "reuse_edges": reuse_edges,
+                "excluded_edges": excluded_edges,
+                "pending_edges": pending_edges,
             },
         },
         "priorities": {
@@ -275,15 +429,20 @@ def main():
             "meaning_review": {
                 "slipbox_orphans": slipbox_orphans,
                 "dead_links": len(meaning_dead_links),
+                "broken_anchors": len(broken_anchors),
             },
             "informational": {
                 "non_slipbox_orphans": non_slipbox_orphans,
                 "periodic_placeholders": len(periodic_placeholders),
                 "series_placeholders": len(series_placeholders),
+                "seedling_with_reuse": seedling_with_reuse,
+                "pending_reuse_edges": pending_edges,
             },
         },
+        "reuse_by_note": reuse_by_note,
         "orphans": orphans,
         "dead_links": dead_links,
+        "broken_anchors": broken_anchors,
         "periodic_placeholders": periodic_placeholders,
         "series_placeholders": series_placeholders,
         "frontmatter_issues": frontmatter_issues,
