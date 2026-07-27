@@ -258,8 +258,8 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 
 ## 정본과 대시보드
 
-- 구조·태그·에이전트 규칙: [[AGENTS]]
-- frontmatter 스키마: [[99_Templates/_property-schema|Property Schema]]
+- 구조·에이전트 경계: [[AGENTS]]
+- frontmatter·태그·연결 스키마: [[99_Templates/_property-schema|Property Schema]]
 - 빠른 포착 형식: [[99_Templates/quick-capture|Quick Capture Template]]
 - 영구 노트 형식: [[99_Templates/slipbox-template|Slipbox Template]]
 - MOC 형식: [[99_Templates/hub-note|Hub Note Template]]

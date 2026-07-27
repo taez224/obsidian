@@ -1,4 +1,4 @@
 interface:
   display_name: "자료 카드 포착"
-  short_description: "URL을 자료카드와 조건부 로컬 원문으로 저장"
-  default_prompt: "Use $capture-reference-card to 이 URL의 Git-safe 자료카드를 만들고, 공개 원문을 완전히 확보한 경우 로컬 스냅샷도 저장해줘."
+  short_description: "읽지 않은 URL을 Git-safe 자료카드로 저장"
+  default_prompt: "Use $capture-reference-card to 이 URL을 읽기 전 자료카드로 저장해줘."

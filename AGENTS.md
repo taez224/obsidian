@@ -52,11 +52,6 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 재사용 가능한 자기 주장 ───────→ 01_Slipbox
 ```
 
-- **매일**: 필요한 기록만 Daily Note 또는 Inbox에 포착. 같은 내용을 이중 기록하지 않음
-- **주간**: Inbox와 실제로 읽은 Resources를 삭제·보관·Project 흡수·Slipbox 승격으로 라우팅
-- **월간**: 프로젝트 상태, Slipbox 성숙도, MOC(Map of Content) 필요성 검토
-- **분기/필요 시**: Archive 정리와 `vault-lint` 기계 점검
-
 ### Development와 Project의 경계
 
 - 시간순 업무 기록은 중앙 `30_Resources/Development/DevLog/{daily,weekly,monthly}/`에 두고 `projects` 속성으로 프로젝트를 구분한다. `projects`에는 저장소명이 아니라 결과물 기준의 canonical `project_id`만 사용한다.
@@ -82,81 +77,13 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 - `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 현재 지식 연결 후보에서 제외한다.
 - structured query 작성법, rerank·후보 수 정책, 재색인 절차 등 실행 상세는 `qmd` 스킬(`.agents/skills/qmd/SKILL.md`)이 정본이다.
 
-## Tag System (태그 체계)
+## Frontmatter와 연결
 
-계층형 태그 구조를 사용합니다. Frontmatter에서 `#` 기호 없이 작성합니다.
-
-```yaml
-tags:
-  - AI
-  - 개발/Java
-  - 커리어/성장
-```
-
-### 주제별 태그
-
-| 카테고리 | 태그 예시 | 용도 |
-|----------|-----------|------|
-| `AI/` | `AI`, `AI/에이전트`, `AI/프롬프트` | AI 관련 콘텐츠 |
-| `개발/` | `개발/Java`, `개발/프론트엔드`, `개발/도구`, `개발/DevLog`, `개발/플랫폼`, `개발/트러블슈팅`, `개발/인프라` | 개발 관련 |
-| `커리어/` | `커리어/성장`, `커리어/동기부여`, `커리어/이직`, `커리어/시니어` | 커리어/자기계발 |
-| `프로젝트/` | `프로젝트/onlyoffice-demo` | 프로젝트별 구분 |
-| `심리/` | `심리/성격검사` | 심리·자기이해 (성격검사, 자기 분석) |
-| `철학` | `철학` | 철학/사상 |
-| `글쓰기` | `글쓰기` | 글쓰기·커뮤니케이션 |
-| `소프트웨어공학` | `소프트웨어공학` | 설계·품질·개발 방법론 |
-| `지식관리` | `지식관리` | Obsidian·PARA·Zettelkasten 등 개인 지식관리 운영 |
-
-### 노트 타입 태그
-
-| 태그 | 용도 |
-|------|------|
-| `slipbox` | 01_Slipbox 영구 노트 |
-| `blog` | 블로그 발행용 |
-| `📚독서` | 책 노트 (메타데이터용) |
-| `📰article` | 아티클/기사 스크랩 |
-| `clippings` | Web Clipper 스크랩 (Clipper 자동 부여) |
-| `TIL` | Periodic Notes의 Today-I-Learned 기록 |
-| `type/timeline/*` | Periodic Notes 계층 (daily/weekly/monthly) |
-
-### 태그 규칙
-
-- Frontmatter에서 `#` 기호 사용하지 않음 (❌ `"#ai"` → ✅ `AI`)
-- 계층 구분은 `/` 사용 (`개발/Java`)
-- 인라인 태그(`#task`, `#next`)는 본문에서만 사용
-
-## Linking Best Practices (노트 연결)
-
-Zettelkasten 원칙에 따라 노트 간 연결을 적극 활용합니다.
-
-### 핵심 규칙
-
-| 규칙 | 설명 |
-|------|------|
-| **관계 우선** | 근거·적용·반례·상하위 관계를 한 줄로 설명할 수 있는 링크만 추가 |
-| **출처 정밀도** | 특정 주장·인용은 블록 링크, 절 전체는 헤딩 링크, 문서 전체가 관련될 때만 문서 링크 사용 |
-| **1개 이상 목표** | 새 영구 노트는 의미 있는 연결을 찾되, 적합한 연결이 없으면 억지로 만들지 않고 seedling 상태로 보고 |
-| **연결 수는 성숙도가 아님** | 근거·반례·적용과 실제 재사용을 중심으로 상태를 판단하며 링크 개수만으로 `growing`·`evergreen`을 정하지 않음 |
-| **Backlinks 활용** | 역링크는 Backlinks 패널로 확인 (수동 역연결 불필요) |
-
-### 연관 섹션 형식
-
-노트 하단에 `## 연관된 노트` 섹션을 추가합니다:
-
-```markdown
-## 연관된 노트
-
-- [[관련 노트 1]] - 연관 이유 (간단한 설명)
-- [[관련 노트 2]] - 어떤 맥락에서 연관되는지
-```
-
-### 연결 유형
-
-| 유형 | 설명 | 예시 |
-|------|------|------|
-| **같은 주제** | 동일 개념의 다른 관점 | AI의 능력 ↔ AI의 책임 |
-| **상위/하위** | 추상화 수준 연결 | 성장 철학 → 구체적 실천법 |
-| **근거/적용** | 이론과 사례 | 철학 개념 → 실제 적용 사례 |
+- frontmatter·태그·노트 유형·성숙도는 `99_Templates/_property-schema.md`를 따른다.
+- 영구 노트 링크는 키워드보다 근거·적용·반례·상하위 관계를 우선한다.
+- 특정 주장·인용은 블록 링크, 절 전체는 헤딩 링크, 문서 전체가 관련될 때만 문서 링크를 사용한다.
+- 적합한 연결이 없으면 억지로 만들지 않는다. 연결 수만으로 성숙도를 올리지 않는다.
+- 영구 노트의 실제 형식은 `99_Templates/slipbox-template.md`, 허브는 `99_Templates/hub-note.md`를 따른다.
 
 ## Shared Agent Skills
 
@@ -166,21 +93,13 @@ Zettelkasten 원칙에 따라 노트 간 연결을 적극 활용합니다.
 
 ### 지식관리 스킬 라우팅
 
-다음 순서로 캡처 경계를 판단한다.
+세부 절차는 각 스킬이 정본이다. 캡처 경계만 다음 순서로 판단한다.
 
 1. 영구 노트·Slipbox 승격을 명시했으면 `permanent-note`를 사용한다.
 2. 외부 자료라면 아직 읽지 않은 보관은 `capture-reference-card`, 읽고 남긴 반응은 `literature-note`를 사용한다.
 3. 그 외의 개인 단상은 `capture-fleeting-note`를 사용한다.
 
-| 요청 | 사용할 스킬 | 경계 |
-|------|-------------|------|
-| 단순 메모·아이디어 저장 | `capture-fleeting-note` | 원문 해석·검색 없이 `00_Inbox`에 포착하고, 원문에서 발전시킨 AI 초기 해석·질문을 필요할 때 접어서 추가. 원문만 요청하면 생략 |
-| 읽지 않은 URL·외부 자료를 일단 보관 | `capture-reference-card` | 원문 제목·출처 메타데이터·한국어 식별 문장과, 사실 확인이 충분하면 내용 요약 4~7개를 `30_Resources/References/Clippings`에 포착. `source`가 URL의 정본이며 본문 원문 링크·전문·장문 번역은 넣지 않음. 개인용 전문 보관은 명시적 요청이 있을 때 Git에서 제외된 `_local-snapshots/`에만 저장 |
-| 읽은 외부 자료(영상·아티클)의 참고노트 작성 | `literature-note` | 사용자가 반응한 대목 중심으로 인용/생각을 분리해 `30_Resources/References/Articles`에 저장. 전체 요약·단순 대화 요약 파일 생성·전문 복제·자동 승격 금지 |
-| 생각·노트의 소크라테스식 문답 | `socratic-dialogue` | 사용자의 현재 입장을 확인한 뒤 답변에 따라 질문을 한 번에 하나씩 이어감. 대화 전문과 AI 결론은 저장하지 않고 채택한 변화만 후속 스킬의 입력 후보로 정리 |
-| 명시적인 영구 노트 승격·보강 | `permanent-note` | 기존 Slipbox와 대조하고 사용자 언어의 주장으로 정제 |
-| Inbox·Resources 승격, 병합, 연결, MOC 판단 | `review-zettelkasten` | 의미 판단 후보를 먼저 제안하고 승인된 항목만 적용 |
-| frontmatter·죽은 링크·고립 노트 검사 | `vault-lint` | 기계적 탐지 담당. 연결·승격·MOC 의미 판단은 하지 않음 |
+생각이나 판단을 질문으로 검토하려는 요청은 `socratic-dialogue`를 사용하고, 확인된 변화만 후속 노트 스킬의 입력 후보로 넘긴다.
 
 단순 메모를 자동으로 permanent note로 만들지 않는다. 삭제·이동·승격·병합·MOC 생성처럼 의미가 달라지는 변경은 사용자 승인 후 적용한다. 이 작업들은 후보 보고까지를 현재 작업의 완료로 보며, 승인 없이 적용을 계속 진행하지 않는다.
 

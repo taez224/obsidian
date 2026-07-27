@@ -1,19 +1,17 @@
 ---
 name: taez-insight-blog-writer
-description: Use when TaeZ wants to turn rough Korean notes, work experiences, engineering decisions, research findings, or half-written drafts into a distinctive Korean technical blog post with personal branding, original insight, natural first-draft Korean, company-tech-blog polish, and anti-slop editorial standards. Trigger for requests about "내 글", "퍼스널 브랜딩", "인사이트 있는 글", "기술블로그", "회사 기술블로그", "국내 기술블로그", "초안", "윤문", "구조 리팩토링", "deep research 기반 글쓰기", "나만의 관점", or "발행 가능한 글".
+description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a publishable Korean blog article, substantially restructure an article, or review it for publication. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for title-only suggestions, sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
 ---
 
 # TaeZ Insight Blog Writer
 
 ## Purpose
 
-Help TaeZ write Korean technical blog posts that feel earned, specific, and publishable: lived experience first, changed judgment second, reusable framework third, prose last.
-
-Default reader: practical software engineers. Default author position: 실전형 사상가 - someone who turns hands-on engineering, platform, workflow, team, career, or product experiences into reusable insight.
+Help TaeZ turn grounded experience and judgment into Korean articles that fit their actual publication surface. Structure and evidence serve the article; they are not fixed sections every article must contain.
 
 ## Operating Principles
 
-- Do not produce generic AI thought-leadership. A post needs a lived scene, a concrete tradeoff, and a claim that survives objections.
+- Do not produce generic AI thought-leadership. Use lived scenes, tradeoffs, and objections when the source material and genre call for them; never invent them to satisfy a format.
 - Preserve TaeZ's recurring lenses when relevant, but do not force them: platform-as-enablement, workflow as operating system, team capability over individual output, evidence-backed reflection, dogfooding, responsibility boundaries, learning loops.
 - Treat AI assistance as acceptable. Slop is not "AI was used"; slop is "no authorial judgment, no context, no accountable takeaway."
 - Structure before sentence polish. If the argument is weak, do not run a humanizing pass yet.
@@ -36,15 +34,15 @@ Default reader: practical software engineers. Default author position: 실전형
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
 | ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
 | ③ 작곡 | `blog-recompose` | 선행글·초안 재작곡. |
-| ③' 직접 초안 | article spine + 한국어 초안 점검 | 새 글을 자연스러운 한국어로 쓴다. |
-| ④ 사람 게이트 | `references/slop-gate.md` | 7항목 사인오프. |
-| ⑤ 검수·윤문 | `blog-review-polish` | 사실 검증·6인 패널·윤문·최종 게이트. |
+| ③' 직접 초안 | 글의 역할에 맞는 구조 + 한국어 초안 점검 | 새 글을 자연스러운 한국어로 쓴다. |
+| ④ 기본 검수 | `blog-review-polish`의 `light` | 결정론적 lint + 편집 관점 1회. |
+| ⑤ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
 | 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트. |
 
 ### 런타임별 실행 경로
 
 - **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다.
-- **Codex**: 같은 evidence base와 article spine을 따르되, vault 검색 → 논지·구조 설계 → 한국어 초안 점검 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` → 사람 게이트 순서로 진행한다. Claude 전용 에이전트 워크플로를 직접 실행할 필요는 없다.
+- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 한국어 초안 점검 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` 순서로 진행한다. 사람 게이트와 전체 검수는 발행 직전에만 사용하며 Claude 전용 워크플로를 직접 실행할 필요는 없다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -70,6 +68,12 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
+Choose the contract by publication surface before selecting a structure.
+
+- **Brunch·personal essay**: preserve the writer's question, lived texture, and reading rhythm. A named framework, research section, counterargument, or operating model is optional.
+- **Personal technical blog**: connect an actual technical decision or failure to a reusable criterion. Add artifact evidence where it carries the argument.
+- **Company technical blog**: prioritize reproducibility, factual accuracy, system context, and reader utility. Load the domestic benchmark only here or when explicitly requested.
+
 Before building the evidence base for a series article:
 
 - Inspect the target article frontmatter and the user request for a `series` name.
@@ -79,13 +83,12 @@ Before building the evidence base for a series article:
 
 ### 2. Build the personal evidence base
 
-Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples. Do not rely on a fixed anchor list; find the evidence that fits this topic. The invariant is not the topic; the invariant is TaeZ's observed change in judgment.
+Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples when the claim needs them. Do not rely on a fixed anchor list; find the evidence that fits this article. The invariant is source-grounded authorial judgment, whether it changed or became clearer.
 
-Extract:
+Extract only what the source material actually supports:
 
 - actual episode: what happened
-- prior belief: what TaeZ thought then
-- changed belief: what TaeZ thinks now
+- prior or changed belief, if there was one
 - artifact evidence: commands, PRs, diagrams, workflow names, failed experiments
 - transferable implication: what other engineers can reuse
 
@@ -99,15 +102,15 @@ Research should sharpen the user's claim, not turn the post into a literature re
 
 For company-facing Korean tech blog polish, or when the user mentions domestic tech blogs such as Toss, Woowahan, Banksalad, Kakao, Naver D2, LINE/LY, Daangn, or Hyperconnect, load `references/domestic-tech-blog-benchmark.md`. Use it as a rhythm and density benchmark, not as a template to imitate.
 
-### 4. Force an original thesis
+### 4. State the article's claim in plain language
 
-Before drafting, state the article's one-line thesis in this form:
+Before drafting, state what this article leaves with the reader in one sentence. Use the following contrast only when a genuine change of judgment or disagreement defines the article:
 
 ```text
-Most people say X. My experience suggests Y. The practical move is Z.
+People commonly see X. This experience showed Y. That changes Z.
 ```
 
-Reject theses that are only:
+Do not force a conventional view, personal turn, or practical move into a reflective essay. Reject claims that remain generic, such as:
 
 - "AI is useful but risky"
 - "Use AI responsibly"
@@ -117,24 +120,20 @@ Reject theses that are only:
 - "Culture matters"
 - "We need better process"
 
-Make the thesis more specific by adding: what changed, what cost moved, who pays it, what the user learned, and what structure prevents the failure.
+Make the claim specific with the subset that matters here: what changed, what cost moved, who pays it, what the user learned, or what structure prevents the failure.
 
 이 단계에서 `references/amplifier-lenses.md`의 생성형 렌즈(이해관계·통찰 독창성·브랜드)를 브레인스토밍으로 함께 돌린다. 이 요소들은 윤문으로 나중에 붙이지 않는다.
 
-### 5. Use the TaeZ article spine
+### 5. Build only the structure this article needs
 
-Default structure:
+Start with the smallest useful movement:
 
-1. **Scene** - a real engineering moment, not a generic trend opening.
-2. **Tension** - why the obvious interpretation is incomplete.
-3. **Personal turn** - what TaeZ tried, believed, or changed.
-4. **Framework** - name the reusable concept.
-5. **Evidence** - research, data, or artifact evidence that support or constrain the claim.
-6. **Counterargument** - the strongest objection and the honest boundary.
-7. **Operating model** - what a team should do differently.
-8. **Landing** - a concise conclusion that returns to the opening question.
+1. a scene or question that earns attention
+2. the observation or change in judgment
+3. the claim the article wants to leave
+4. a landing that closes the opening movement
 
-Skip beats that do not serve this article, but if you drop Evidence or Counterargument, state why when presenting the draft — those two are what the slop gate leans on.
+Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
 
 ### 5.1 Draft natural Korean before polishing
 
@@ -150,20 +149,20 @@ Skip beats that do not serve this article, but if you drop Evidence or Counterar
 
 ### 6. Apply the anti-slop tests
 
-먼저 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거하고, lint가 판단할 수 없는 깊이·1인칭·반례는 `references/slop-gate.md`에서 사람이 판단한다.
+먼저 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거한다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
 
 `humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 실행한다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
 
-Before finalizing, check:
+For a substantial draft or review, check only the applicable questions:
 
 - Could a reader get this by asking ChatGPT a broad question? If yes, add personal evidence or a sharper claim.
 - Does every research citation do work? Remove decorative citations.
-- Is there a before/after in TaeZ's thinking? If not, it may read like a report.
+- If the article claims a changed judgment, is the before/after visible?
 - Is the practical takeaway about behavior or structure, not just attitude?
 - Are output metrics separated from actual capability, learning, reliability, or user value?
 - Are AI-generated phrases flattened out without making the prose bland?
 
-For company-tech-blog publication checks, run a domestic-tech-blog rhythm pass:
+For company-tech-blog publication checks only, run a domestic-tech-blog rhythm pass:
 
 - Does the opening start from a concrete friction before naming a framework?
 - Does each paragraph do one job: scene, problem, cause, criterion, example, or landing?

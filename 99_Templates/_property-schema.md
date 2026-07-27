@@ -20,11 +20,44 @@ aliases:
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
 | `created` | Date `YYYY-MM-DD` | ✅ | 노트 생성일 (file.ctime 폴백 금지 — 항상 명시) |
-| `tags` | List | ✅ | [[AGENTS]] 태그 체계 준수. `#` 없이 작성 |
+| `tags` | List | ✅ | 아래 태그 체계를 따르고 `#` 없이 작성 |
 | `aliases` | List | ⬜ | 다른 이름으로도 wikilink 받기 위함 |
 
 > [!note] Bases 구현 규칙
 > `created` 누락은 스키마 위반이며 `vault-lint`가 탐지한다. Base의 `file.ctime` 폴백은 누락 노트를 숨기지 않기 위한 **표시용 방어**일 뿐, `created`를 대신하지 않는다. Inbox 7일·30일 기준은 `_inbox.base`와 `_global-health.base`, 프로젝트 14일 기준은 `_dashboard.base`와 `_global-health.base`에 중복 정의되므로 기준 변경 시 두 파일을 함께 수정한다.
+
+### 태그 체계
+
+계층형 태그는 `/`로 구분한다. Frontmatter에서는 `#`를 붙이지 않고, `#task`·`#next` 같은 인라인 태그만 본문에서 사용한다.
+
+```yaml
+tags:
+  - AI
+  - 개발/Java
+  - 커리어/성장
+```
+
+| 카테고리 | 태그 예시 | 용도 |
+|----------|-----------|------|
+| `AI/` | `AI`, `AI/에이전트`, `AI/프롬프트` | AI 관련 콘텐츠 |
+| `개발/` | `개발/Java`, `개발/프론트엔드`, `개발/도구`, `개발/DevLog`, `개발/플랫폼`, `개발/트러블슈팅`, `개발/인프라` | 개발 관련 |
+| `커리어/` | `커리어/성장`, `커리어/동기부여`, `커리어/이직`, `커리어/시니어` | 커리어·자기계발 |
+| `프로젝트/` | `프로젝트/onlyoffice-demo` | canonical project_id별 구분 |
+| `심리/` | `심리/성격검사` | 심리·자기이해 |
+| `철학` | `철학` | 철학·사상 |
+| `글쓰기` | `글쓰기` | 글쓰기·커뮤니케이션 |
+| `소프트웨어공학` | `소프트웨어공학` | 설계·품질·개발 방법론 |
+| `지식관리` | `지식관리` | Obsidian·PARA·Zettelkasten 운영 |
+
+| 노트 유형 태그 | 용도 |
+|----------------|------|
+| `slipbox` | `01_Slipbox` 영구 노트 |
+| `blog` | 블로그 발행용 |
+| `📚독서` | 책 노트 |
+| `📰article` | 아티클·기사 참고노트 |
+| `clippings` | 읽기 전 자료카드 |
+| `TIL` | Periodic Notes의 Today-I-Learned |
+| `type/timeline/*` | daily·weekly·monthly 계층 |
 
 ---
 
@@ -77,6 +110,14 @@ used_in:              # 선택 — 승인된 재사용 근거만 기록
 | `status: growing` | 근거·반례·적용이 붙거나 실제 글과 판단에서 재사용되기 시작한 생각 | |
 | `status: evergreen` | 반복해서 검토·재사용했고 현재 판단 기준으로 안정된 생각 | 자동 판정하지 않음 |
 | `used_in` | 이 노트를 **다른 맥락에서 다시 쓴** 글·문서 | 자동 기록하지 않음. `_index.base`의 재사용 뷰가 개수를 센다 |
+
+### 연결 규칙
+
+- 같은 키워드보다 근거·적용·반례·상하위 관계를 한 줄로 설명할 수 있는 링크를 우선한다.
+- 특정 주장·인용은 블록 링크, 절 전체는 헤딩 링크, 문서 전체가 관련될 때만 문서 링크를 사용한다.
+- 적합한 연결이 없으면 억지로 만들지 않는다. Backlinks가 보여주는 역연결을 본문에 중복하지 않는다.
+- 연결 수만으로 `growing`·`evergreen`을 판정하지 않는다.
+- 실제 `## 연관된 노트` 형식은 `99_Templates/slipbox-template.md`를 따른다.
 
 ### 재사용(`used_in`)에 무엇을 넣는가
 
@@ -294,7 +335,7 @@ date: 2026-05-27      # daily: YYYY-MM-DD / weekly: 첫날 / monthly: 1일
 week: 2026-W22        # daily/weekly만 (gggg-[W]WW, ISO week)
 month: 2026-05        # weekly/monthly만 (YYYY-MM)
 tags:
-  - type/timeline/daily   # ⚠️ frontmatter tags에 # 금지 (AGENTS.md 규약)
+  - type/timeline/daily   # ⚠️ frontmatter tags에 # 금지
 ---
 ```
 
@@ -314,6 +355,6 @@ tags:
    4. 기존 노트 마이그레이션 또는 폴백 로직 추가
 
 ## 연관된 노트
-- [[AGENTS]] - 태그 체계 원천
+- [[Obsidian 운영 워크플로]] - 사람이 주기적으로 실행하는 vault 운영 흐름
 - [[_dashboard]] - Projects base 쿼리
 - [[_index]] - Slipbox / Resources base 쿼리

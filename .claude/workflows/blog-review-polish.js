@@ -1,8 +1,9 @@
 export const meta = {
   name: 'blog-review-polish',
-  description: '한국어 기술블로그 검수·윤문 파이프라인: 사실검증 → 웹 리서치(경쟁 구조·트렌드 현재성·차별화) → 에디토리얼 진단 → (선택)윤문 루프 → 최종 게이트. 정확성 센티넬·통독 패스·구조 회귀검사 포함',
-  whenToUse: '블로그 초안을 발행 전 검수·윤문할 때. args로 대상 파일과 옵션을 넘긴다.',
+  description: '한국어 블로그 기본 검수와 선택적 발행 게이트. 기본은 결정론 lint와 편집 관점 1회이며, 사실검증·리서치·다중 관점·윤문 루프는 명시한 단계에서만 실행한다.',
+  whenToUse: '블로그 초안을 가볍게 점검하거나, 사용자가 발행 전 전체 검수를 명시적으로 요청했을 때. args로 대상 파일과 옵션을 넘긴다.',
   phases: [
+    { title: 'Light-review' },
     { title: 'Fact-check' },
     { title: 'Research' },
     { title: 'Editorial' },
@@ -15,12 +16,18 @@ export const meta = {
 // 사용법 (args 로 넘긴다):
 //   {
 //     file:        "<초안 절대경로>",                 // 필수
-//     workCopy:    "<윤문본을 쓸 절대경로>",            // polish 단계에 필요(없으면 file+" v2.md")
+//     workCopy:    "<윤문본을 쓸 절대경로>",            // polish 단계에 필수(자동 사본 생성 안 함)
 //     toneRef:     "<톤 레퍼런스 URL 또는 본문 일부>",   // 선택
-//     targetReader:"<목표 독자 한 줄>",               // 선택(기본: 5~10년차 백엔드/플랫폼 엔지니어)
-//     stages:      ["factcheck","research","editorial","polish","gate"], // 선택(기본 전체)
-//     maxRounds:   3                                  // 선택(윤문 루프 상한)
+//     targetReader:"<목표 독자 한 줄>",               // 선택
+//     publicationSurface:"brunch|personal-tech|company-tech", // 선택
+//     stages:      ["light"],                         // 선택(기본 light)
+//     mode:        "publish",                         // 선택: 전체 발행 게이트
+//     maxRounds:   2                                  // 선택(윤문 루프 상한)
 //   }
+//
+// 전체 발행 게이트:
+//   회사 기술 블로그 전체 검수: { file, mode: "publish", publicationSurface: "company-tech", workCopy: "<작업 사본 경로>" }
+//   또는 stages를 ["factcheck","research","editorial","polish","gate"]로 명시한다.
 //
 // 설계에 반영한 이전 결함 보정:
 //  - 정확성 센티넬: 윤문 루프가 과장/근거없는 주장을 새로 만들면 루프 안에서 잡는다.
@@ -35,14 +42,18 @@ let A = args || {}
 if (typeof A === 'string') { try { A = JSON.parse(A) } catch (e) { A = {} } } // 방어: 호출자가 args를 JSON 문자열로 넘겨도 견딘다
 const FILE = A.file
 if (!FILE) { log('❌ args.file 이 필요합니다. {file:"<절대경로>"} 객체로 넘기세요.'); return { error: 'args.file required', gotArgsType: typeof args } }
-const STAGES = A.stages || ['factcheck', 'research', 'editorial', 'polish', 'gate']
-const MAX_ROUNDS = A.maxRounds || 3
-const WORK = A.workCopy || FILE.replace(/\.md$/, '') + ' v2.md'
-const READER = A.targetReader || '트렌드는 따라가지만 과장에는 냉소적인 5~10년차 백엔드/플랫폼 엔지니어 + 테크리드'
+const FULL_STAGES = ['factcheck', 'research', 'editorial', 'polish', 'gate']
+const STAGES = A.stages || (A.mode === 'publish' ? FULL_STAGES : ['light'])
+const MAX_ROUNDS = A.maxRounds || 2
+const WORK = A.workCopy || ''
+const SURFACE = A.publicationSurface || 'unspecified'
+const READER = A.targetReader || (SURFACE === 'company-tech'
+  ? '과장보다 재현 가능한 근거와 실무 효용을 보는 기술 독자'
+  : '이 글이 실제로 상정하는 독자')
 const TONE = A.toneRef
   ? '톤 레퍼런스(이 톤에 맞춰라): ' + A.toneRef
-  : '톤 기준: 존댓말 대화체, 독자에게 직접 질문, 추상은 구체 비유로, 솔직한 1인칭 메타. 단 영어 병기 과다→현학/AI-티 실패를 피한다.'
-const GOAL = '목표: 독자가 "어 이거 내 얘긴데" 하고 재밌게 끄덕임 + 은근한 전문성(showing) + 트렌드는 양념. 반목표: 보고서체/현학/listicle/트렌드 name-drop/한국어 AI-티.'
+  : '톤 기준: 현재 초안과 발행 매체의 목소리를 보존한다. 존댓말·질문·비유·1인칭을 형식적으로 추가하지 않는다. 영어 병기 과다와 번역투는 피한다.'
+const GOAL = '목표: 글의 장르와 발행 매체 안에서 저자의 판단과 근거가 선명하게 읽힌다. 반목표: 보고서체 강요, listicle 강요, 트렌드 name-drop, 한국어 AI-티, 기술블로그 구조의 일괄 적용.'
 const AGENT = 'general-purpose'
 
 // ── schemas ────────────────────────────────────────────────────────────────
@@ -146,6 +157,30 @@ const SLOP_LINT_SCHEMA = {
   },
   required: ['verdict', 'high', 'medium', 'low', 'topHits'],
 }
+const LIGHT_REVIEW_SCHEMA = {
+  type: 'object', additionalProperties: false,
+  properties: {
+    readiness: { type: 'string', enum: ['ready', 'minor', 'needs-work'] },
+    strengths: { type: 'array', items: { type: 'string' } },
+    issues: {
+      type: 'array',
+      items: {
+        type: 'object', additionalProperties: false,
+        properties: {
+          line: { type: 'string' },
+          issue: { type: 'string' },
+          suggestion: { type: 'string' },
+        },
+        required: ['line', 'issue', 'suggestion'],
+      },
+    },
+    slopVerdict: { type: 'string', enum: ['pass', 'warn', 'fail', 'error'] },
+    slopHigh: { type: 'number' },
+    slopMedium: { type: 'number' },
+    slopHits: { type: 'array', items: { type: 'string' } },
+  },
+  required: ['readiness', 'strengths', 'issues', 'slopVerdict', 'slopHigh', 'slopMedium', 'slopHits'],
+}
 const DRAFT_PROFILE_SCHEMA = {
   type: 'object', additionalProperties: false,
   properties: {
@@ -233,6 +268,24 @@ function fileCtx(path) {
   return ['대상 파일을 Read 도구로 먼저 전문 읽기(line 번호 확인): ' + path, '', GOAL, '목표 독자: ' + READER, TONE].join('\n')
 }
 
+// ── stage: light review (기본: 편집 관점 1회 + 결정론 lint) ──────────────────
+async function runLightReview(path) {
+  log('[Light-review] 통독 1회 + 결정론 슬롭 린트')
+  const vaultRoot = path.includes('/20_Projects/') ? path.slice(0, path.indexOf('/20_Projects/')) : '/Users/taez/Projects/obsidian'
+  const lintScript = vaultRoot + '/.claude/workflows/blog-slop-lint.mjs'
+  return agent(
+    [fileCtx(path), '',
+      '한 명의 편집자로서 글을 처음부터 끝까지 한 번 읽어라. 웹 리서치, 별도 페르소나, 파일 수정은 하지 않는다.',
+      '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약만 최대 3개 issues에 적고, 보존할 강점은 strengths에 적는다.',
+      '',
+      '그 다음 Bash로 아래 결정론 lint를 정확히 한 번 실행하고 JSON 값을 그대로 옮겨라.',
+      'node "' + lintScript + '" "' + path + '" --json',
+      'verdict→slopVerdict, severityCount.high→slopHigh, severityCount.medium→slopMedium. high·medium hit만 slopHits에 "line:col [category] matched → fix" 형식으로 담는다. 명령 실패 시 slopVerdict="error".'
+    ].join('\n'),
+    { label: 'light-review', phase: 'Light-review', schema: LIGHT_REVIEW_SCHEMA, agentType: AGENT }
+  )
+}
+
 // ── stage: fact-check ────────────────────────────────────────────────────────
 async function runFactcheck(path) {
   log('[Fact-check] 검증 가능한 주장 추출 중...')
@@ -242,28 +295,16 @@ async function runFactcheck(path) {
   )
   const claims = (extracted && extracted.claims) || []
   if (!claims.length) { log('[Fact-check] 추출된 주장 없음'); return { claims: [], verdicts: [] } }
-  log('[Fact-check] ' + claims.length + '개 주장 → 웹 검증 + 교차검증')
+  log('[Fact-check] ' + claims.length + '개 주장 → 주장별 웹 검증')
 
-  const verdicts = await pipeline(
-    claims,
-    (c) => agent(
-      ['너는 적대적 팩트체커다. 오늘 기준 웹(WebSearch/WebFetch)으로 1차 출처를 찾아 검증하라. 기억·추측 금지, 블로그가 맞다고 가정 금지.', '',
-        '주장: ' + c.text, '귀속 출처: ' + c.source, '',
-        '출처가 실재하고 주장을 실제로 뒷받침하는지, 수치는 정확한지, 귀속(저자/연도/매체)이 맞는지 확인. verdict/근거/불일치/수정안 반환. id="' + c.id + '".'].join('\n'),
-      { label: 'verify:' + c.id, phase: 'Fact-check', schema: VERDICT_SCHEMA, agentType: AGENT }
-    ),
-    (v, c) => {
-      if (!v) return null
-      const flagged = v.verdict !== 'verified' || v.confidence !== 'high'
-      if (!c.critical && !flagged) return v // 비핵심 + 확실하면 통과
-      return agent(
-        ['독립 2차 팩트체커. 웹으로 직접 재검증해 1차 판정을 확정/뒤집어라.', '',
-          '주장: ' + c.text, '귀속: ' + c.source, '1차 판정: ' + v.verdict + ' / ' + v.discrepancy, '',
-          '네 판정을 같은 스키마로 반환. id="' + c.id + '".'].join('\n'),
-        { label: 'recheck:' + c.id, phase: 'Fact-check', schema: VERDICT_SCHEMA, agentType: AGENT }
-      ).then(cc => cc || v)
-    }
-  )
+  const verdicts = await parallel(claims.map(c => () => agent(
+    ['너는 팩트체커다. 오늘 기준 웹(WebSearch/WebFetch)으로 1차 출처를 찾아 검증하라. 기억·추측 금지, 블로그가 맞다고 가정 금지.', '',
+      '주장: ' + c.text, '귀속 출처: ' + c.source, '핵심 주장 여부: ' + c.critical, '',
+      '출처가 실재하고 주장을 실제로 뒷받침하는지, 수치는 정확한지, 귀속(저자/연도/매체)이 맞는지 확인한다.',
+      '핵심 수치·연구 귀속이면 같은 패스에서 독립적인 권위 출처를 하나 더 대조하고, 없으면 confidence를 낮춘다. 별도 검증 에이전트를 다시 호출하지 않는다.',
+      'verdict/근거/불일치/수정안 반환. id="' + c.id + '".'].join('\n'),
+    { label: 'verify:' + c.id, phase: 'Fact-check', schema: VERDICT_SCHEMA, agentType: AGENT }
+  )))
   return { claims, verdicts: verdicts.filter(Boolean) }
 }
 
@@ -439,6 +480,8 @@ async function runGate(targetPath) {
 // ── orchestrate ──────────────────────────────────────────────────────────────
 const out = { file: FILE, stages: STAGES }
 
+if (STAGES.includes('light')) out.light = await runLightReview(FILE)
+
 if (STAGES.includes('factcheck')) out.factcheck = await runFactcheck(FILE)
 
 if (STAGES.includes('research')) {
@@ -459,15 +502,20 @@ if (STAGES.includes('editorial')) {
 }
 
 if (STAGES.includes('polish')) {
-  const keepList = (out.editorial && out.editorial.keepList) ||
-    (await agent([fileCtx(FILE), '', '이 글에서 절대 보존해야 할 강점(구체 사례/데이터/의도된 핵심 개념어/1인칭 메타)을 줄 단위로 나열하라.'].join('\n'),
-      { label: 'derive-keep', phase: 'Polish', agentType: AGENT }))
-  const brief = (out.editorial && out.editorial.findings && out.editorial.findings.length)
-    ? ['## 이번 라운드 윤문 지시 — 아래 진단을 외과적으로 반영(우선순위: high→medium)',
-        out.editorial.findings.filter(f => f.severity !== 'low')
-          .map(f => '- [' + f.severity + '] line ' + f.line + ' "' + f.quote + '": ' + f.issue + ' → ' + f.suggestion).join('\n')].join('\n')
-    : '에디토리얼 진단이 없으니, 먼저 ' + WORK + ' 를 통독하며 목표/반목표 기준으로 톤·구조·AI-티 문제를 직접 찾아 외과적으로 고쳐라.'
-  out.polish = await runPolish(WORK, brief, typeof keepList === 'string' ? keepList : (keepList || ''))
+  if (!WORK) {
+    log('[Polish] args.workCopy가 없어 수정 단계를 건너뜁니다. 파일명 버전 사본을 자동 생성하지 않습니다.')
+    out.polish = { error: 'workCopy required for polish' }
+  } else {
+    const keepList = (out.editorial && out.editorial.keepList) ||
+      (await agent([fileCtx(FILE), '', '이 글에서 절대 보존해야 할 강점(구체 사례/데이터/의도된 핵심 개념어/1인칭 메타)을 줄 단위로 나열하라.'].join('\n'),
+        { label: 'derive-keep', phase: 'Polish', agentType: AGENT }))
+    const brief = (out.editorial && out.editorial.findings && out.editorial.findings.length)
+      ? ['## 이번 라운드 윤문 지시 — 아래 진단을 외과적으로 반영(우선순위: high→medium)',
+          out.editorial.findings.filter(f => f.severity !== 'low')
+            .map(f => '- [' + f.severity + '] line ' + f.line + ' "' + f.quote + '": ' + f.issue + ' → ' + f.suggestion).join('\n')].join('\n')
+      : '에디토리얼 진단이 없으니, 먼저 ' + WORK + ' 를 통독하며 목표/반목표 기준으로 톤·구조·AI-티 문제를 직접 찾아 외과적으로 고쳐라.'
+    out.polish = await runPolish(WORK, brief, typeof keepList === 'string' ? keepList : (keepList || ''))
+  }
 }
 
 if (STAGES.includes('gate')) {
