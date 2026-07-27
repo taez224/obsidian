@@ -28,7 +28,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 - 중요한 판단은 `rg`의 정확 후보와 QMD의 의미 후보를 병합한다. 검색 방식(CLI 정확 검색 / QMD structured query / MCP)을 결과에 명시한다.
 - 검색 snippet은 후보 탐색에만 사용하고, 판단하기 전에 상위 후보 원문을 MCP `get`·`multi_get`으로 가져와 읽는다.
 - `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 현재 지식 연결 후보에서 제외한다. 로컬 스냅샷은 검색 근거가 아니라 개인 열람용 원문 보관본이다.
-- 대량 이동·삭제·병합 후 같은 세션에서 검색할 때만 `qmd update && qmd embed`를 수동 실행한다. Codex에서 수동 실행이 필요하면 샌드박스 밖 실행 승인을 받고, 평소에는 post-commit hook에 맡긴다.
+- `qmd update && qmd embed` 수동 실행은 사용자가 QMD 갱신·재인덱싱을 직접 요청했을 때만 한다. 대량 이동·삭제·병합 뒤 검색 결과가 오래되었으면 갱신 필요성을 알리되, 요청 전에는 현재 파일과 `rg`로 확인하고 평소 갱신은 post-commit hook에 맡긴다.
 
 ### 재색인 트리거 — git post-commit
 
@@ -36,7 +36,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 
 - 새 기기에서는 한 번 등록해야 한다: `git config core.hooksPath .agents/hooks`
 - `qmd update`는 git diff가 아니라 컬렉션 전체를 재스캔하므로, gitignore된 노트(DevLog daily, job-search)도 이때 함께 갱신된다.
-- 대신 인덱스 신선도는 **커밋 주기에 묶인다.** 며칠 커밋 없이 Obsidian에서만 작업했다면 검색 전에 수동 실행을 고려한다.
+- 대신 인덱스 신선도는 **커밋 주기에 묶인다.** 며칠 커밋 없이 Obsidian에서만 작업해 검색 결과가 오래되었다면 현재 파일로 재확인하고, 필요하면 사용자에게 수동 갱신 요청 여부를 확인한다.
 - 실행 기록은 `.git/qmd-index.log`에 남는다. 검색 결과가 최신 노트를 놓치면 여기부터 확인한다.
 
 `sandbox_workspace_write.writable_roots`의 QMD 캐시 허용은 SQLite 읽기·쓰기를 위한 설정이며 Metal GPU 실행 권한과는 별개다. `qmd doctor`의 GPU 탐지 성공만으로 샌드박스 안 모델 실행 성공을 판단하지 않는다.

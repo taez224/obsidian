@@ -1,0 +1,4 @@
+interface:
+  display_name: "프로젝트 컨텍스트 Sweep"
+  short_description: "근거를 대조해 프로젝트 허브의 현재 상태와 다음 행동을 갱신"
+  default_prompt: "Use $sweep-project-context to 이 프로젝트의 DevLog와 연결 문서를 대조하고 허브 갱신 후보를 제안해줘."

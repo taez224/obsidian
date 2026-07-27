@@ -1,0 +1,4 @@
+interface:
+  display_name: "소크라테스식 문답"
+  short_description: "질문을 한 번에 하나씩 주고받으며 생각의 전제와 경계를 검토"
+  default_prompt: "Use $socratic-dialogue to 이 노트의 주장을 결론내리지 말고 한 번에 하나씩 질문하며 검토해줘."

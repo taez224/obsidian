@@ -74,7 +74,13 @@ frontmatter는 `99_Templates/References/article-template.md`를 따른다. `publ
 - 사용자의 반응이 저자의 주장처럼, 저자의 주장이 사용자의 생각처럼 쓰이지 않았는가?
 - 내부 링크가 실제로 존재하고, 키워드 일치가 아니라 설명 가능한 관계를 가지는가?
 
-### 5. 보고와 후속 검토
+### 5. 열고 보고하기
+
+가능하면 다음 명령으로 참고노트를 연다.
+
+```bash
+obsidian open path="30_Resources/References/Articles/<파일명>.md"
+```
 
 - 저장 경로와 원문 확보 방법을 짧게 보고한다.
 - 사용자의 반응 중 여러 맥락에서 재사용할 주장으로 발전할 수 있는 것이 보이면 `후속 검토 포인트`로만 보고한다. 승격은 `review-zettelkasten`·`permanent-note`의 몫이다.

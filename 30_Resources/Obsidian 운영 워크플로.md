@@ -114,7 +114,13 @@ Permanent note는 완성된 글이 아니라 다시 생각할 수 있을 만큼 
 
 ### 관심사 기반 재독 (선택)
 
-Inbox 정리와 별개로, 계속 마음에 남는 질문·글감이 있으면 관련 MOC 또는 Slipbox 노트 한두 개를 다시 읽는다. 새 노트를 만들어야 한다는 목표는 두지 않는다. 읽다가 판단이 바뀌거나 독립 주장·반례가 생기면 새 permanent note, 기존 노트 보강, 관계 링크 중 하나의 **후보**를 제안한다. 아무것도 생기지 않으면 기록하지 않는다.
+달력에 맞춰 모든 노트를 다시 검토하지 않는다. 다음 중 하나에 해당할 때 관련 MOC 또는 Slipbox 노트 하나를 고른다.
+
+- 블로그·프로젝트·판단에서 `seedling` 노트를 다시 쓰려 할 때
+- 같은 생각이 계속 마음에 남지만 주장이나 적용 경계가 모호할 때
+- `재사용됐지만 seedling` 중 현재 관심사와 맞는 노트가 있을 때
+
+선택한 노트는 `socratic-dialogue`로 한 번에 하나씩 질문을 주고받으며 전제·근거·반례·적용 경계를 검토할 수 있다. 새 노트를 만들거나 정해진 횟수를 채우는 것이 목표는 아니다. 판단이 바뀌거나 독립 주장·반례가 생기면 새 permanent note, 기존 노트 보강, 관계 링크 중 하나의 **후보**로 제안한다. 아무 변화가 없으면 기록하지 않는다.
 
 | 상태 | 의미 |
 | --- | --- |
@@ -161,6 +167,7 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 
 프로젝트의 현재 상태는 [[20_Projects/_dashboard.base|Project Dashboard]]에서 확인한다.
 연재의 `active / on-hold / completed` 상태와 발행 공백은 [[20_Projects/blog/_index.base|Blog Base]]에서 확인한다. 30일·90일 공백은 점검 신호일 뿐 중단이나 완결을 자동 판정하지 않는다.
+프로젝트 허브에서 맥락이 부족하거나 오래된 상태를 발견하면 `sweep-project-context`로 연결된 DevLog·문서와 필요시 실제 Repository를 대조한다. 허브는 원자료에서 파생된 현재 상태의 정본이므로, AI는 변경 후보와 근거를 먼저 제안하고 승인된 내용만 반영한다.
 
 ## 글쓰기
 
@@ -183,6 +190,7 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 - Project의 `active / on-hold / completed` 상태 확인
 - 진행 중·잠정 중단 연재의 최근 발행일과 다음 행동 확인
 - 최근 사용한 `seedling / growing` 노트만 검토
+- [[01_Slipbox/_index.base|Slipbox Base]]의 `재사용됐지만 seedling` 중 현재 관심사와 맞는 노트가 있으면 문답 대상으로 검토. 없으면 건너뜀
 - 반복 탐색하는 노트 군집에 MOC가 필요한지 확인
 - `_global-health.base`에서 큰 정리 부채만 확인
 - 여러 주를 관통하는 개발 패턴이나 블로그·이직 소재가 있을 때만 `DevLog/monthly`를 작성
@@ -209,7 +217,9 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 | `capture-fleeting-note` | 생각을 해석하지 않고 Inbox에 빠르게 저장 |
 | `capture-reference-card` | 아직 읽지 않은 URL을 Git-safe 자료카드로 저장하고, 요청한 개인용 스냅샷은 Git 제외 경로로 분리 |
 | `literature-note` | 읽은 외부 자료에서 사용자가 반응한 대목과 생각을 Articles에 기록 |
+| `socratic-dialogue` | 결론을 대신 내리지 않고 사용자의 답에 따라 질문을 하나씩 이어가며 생각의 전제·근거·반례·경계를 검토 |
 | `permanent-note` | 명시적으로 요청한 생각을 영구 노트로 정제·보강 |
+| `sweep-project-context` | DevLog·프로젝트 문서·Repository 근거를 대조해 프로젝트 허브의 현재 상태와 다음 행동 갱신 후보를 제안 |
 | `review-zettelkasten` | 승격·병합·연결·MOC를 의미 단위로 판단하고 승인 후 적용 |
 | `vault-lint` | frontmatter·죽은 링크·고립 노트를 기계적으로 검사 |
 | `rg` | 제목·파일명·정확한 문자열·부분 문자열을 현재 파일에서 즉시 검색 |
@@ -220,9 +230,9 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 
 ## QMD 갱신
 
-Codex 세션 시작 시 hook이 `qmd update && qmd embed`를 자동 실행한다. 평소에는 별도로 관리하지 않는다.
+평소에는 `.agents/hooks/post-commit`이 Markdown 변경 커밋 후 `qmd update && qmd embed`를 백그라운드로 실행한다. SessionStart에서는 자동 갱신하지 않는다.
 
-다음 경우에만 수동 갱신한다.
+수동 갱신은 사용자가 “QMD 갱신해줘” 또는 “재인덱싱해줘”라고 직접 요청했을 때만 한다. 다음은 갱신을 요청할 만한 상황이다.
 
 - 여러 노트를 이동·삭제·병합한 뒤
 - 블로그나 Resources를 대량 이관한 뒤

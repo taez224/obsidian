@@ -62,6 +62,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 - 시간순 업무 기록은 중앙 `30_Resources/Development/DevLog/{daily,weekly,monthly}/`에 두고 `projects` 속성으로 프로젝트를 구분한다. `projects`에는 저장소명이 아니라 결과물 기준의 canonical `project_id`만 사용한다.
 - Java·Spring·Kubernetes 같은 기술은 폴더가 아니라 `개발/*` 태그로 표현한다. 재사용 가능한 해결법은 `Development/Troubleshooting/`에 둔다.
 - `20_Projects/<project-id>/<project-id>.md`는 목표·현재 상태·다음 행동·주요 근거의 정본이다. 소스 저장소나 DevLog를 프로젝트 폴더에 복제하지 않는다.
+- 프로젝트의 현재 상태·남은 일·근거를 다시 모으거나 허브를 갱신할 때는 `sweep-project-context`를 사용한다. 원자료를 먼저 대조하고 의미 변경 후보를 제안한 뒤 승인된 내용만 허브에 반영한다.
 
 ## Blog와 Slipbox의 경계
 
@@ -176,6 +177,7 @@ Zettelkasten 원칙에 따라 노트 간 연결을 적극 활용합니다.
 | 단순 메모·아이디어 저장 | `capture-fleeting-note` | 원문 해석·검색 없이 `00_Inbox`에 포착하고, 원문에서 발전시킨 AI 초기 해석·질문을 필요할 때 접어서 추가. 원문만 요청하면 생략 |
 | 읽지 않은 URL·외부 자료를 일단 보관 | `capture-reference-card` | 원문 제목·출처 메타데이터·한국어 식별 문장과, 사실 확인이 충분하면 내용 요약 4~7개를 `30_Resources/References/Clippings`에 포착. `source`가 URL의 정본이며 본문 원문 링크·전문·장문 번역은 넣지 않음. 개인용 전문 보관은 명시적 요청이 있을 때 Git에서 제외된 `_local-snapshots/`에만 저장 |
 | 읽은 외부 자료(영상·아티클)의 참고노트 작성 | `literature-note` | 사용자가 반응한 대목 중심으로 인용/생각을 분리해 `30_Resources/References/Articles`에 저장. 전체 요약·단순 대화 요약 파일 생성·전문 복제·자동 승격 금지 |
+| 생각·노트의 소크라테스식 문답 | `socratic-dialogue` | 사용자의 현재 입장을 확인한 뒤 답변에 따라 질문을 한 번에 하나씩 이어감. 대화 전문과 AI 결론은 저장하지 않고 채택한 변화만 후속 스킬의 입력 후보로 정리 |
 | 명시적인 영구 노트 승격·보강 | `permanent-note` | 기존 Slipbox와 대조하고 사용자 언어의 주장으로 정제 |
 | Inbox·Resources 승격, 병합, 연결, MOC 판단 | `review-zettelkasten` | 의미 판단 후보를 먼저 제안하고 승인된 항목만 적용 |
 | frontmatter·죽은 링크·고립 노트 검사 | `vault-lint` | 기계적 탐지 담당. 연결·승격·MOC 의미 판단은 하지 않음 |
