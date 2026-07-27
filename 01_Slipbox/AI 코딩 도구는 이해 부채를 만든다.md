@@ -9,6 +9,11 @@ status: growing
 aliases:
   - AI 이해 부채
   - Comprehension Debt
+used_in:
+  - "[[AI 개발 운영체계]]"
+  - "[[Field Guide to Fable - Thariq Shihipar]]"
+  - "[[바이브 노팅과 본유적 부하 - Sian]]"
+  - "[[HEXACO 성격검사 결과 - 2026-07-09 (claude)]]"
 ---
 
 # AI 코딩 도구는 이해 부채를 만든다

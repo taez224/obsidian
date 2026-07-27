@@ -5,6 +5,8 @@ tags:
   - slipbox
 type: permanent
 status: seedling
+used_in:
+  - "[[AI와 프로메테우스 - 인간이 쥔 불의 시대]]"
 ---
 
 # 🧠 물자체 - das Ding an Sich 
