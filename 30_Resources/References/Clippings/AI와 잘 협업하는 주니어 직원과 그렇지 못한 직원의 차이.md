@@ -7,7 +7,7 @@ description: KPMG와 University of Texas at Austin이 초기 경력 전문가 52
 tags:
   - clippings
 status: read
-my_take: "AI Literacy나 Critical Thinking을 별도 역량으로 채점하는 것만으로는 코딩 테스트의 대리 지표 문제를 반복할 수 있다. 실제 업무와 닮은 상황에서 AI와 함께 판단·검증·복구하고 결과를 책임지는 행동을 봐야 한다. [[채용 과제에서 AI 사용 방식까지 확인하기]]"
+my_take: "AI Literacy나 Critical Thinking을 별도 역량으로 채점하는 것만으로는 코딩 테스트의 대리 지표 문제를 반복할 수 있다. 실제 업무와 닮은 상황에서 AI와 함께 판단·검증·복구하고 결과를 책임지는 행동을 봐야 한다. [[채용은 실제 업무 상황에서의 판단을 봐야 한다]]"
 ---
 
 ## 내용 요약
