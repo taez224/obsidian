@@ -37,7 +37,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 
 - 사람용 운영 흐름과 주기: [[Obsidian 운영 워크플로]]
 - frontmatter 스키마: [[_property-schema]]
-- 에이전트 작업 규칙: `AGENTS.md`
+- 에이전트 작업 규칙: 이 문서 (`CLAUDE.md`는 `AGENTS.md`를 가리키는 심볼릭 링크)
 - 개별 작업의 실행 절차: 해당 `.agents/skills/<skill-name>/SKILL.md`
 
 운영 문서의 상세 내용을 AGENTS나 스킬에 복제하지 않는다. 이 문서에는 에이전트가 잘못된 위치에 쓰거나 의미 판단을 자동 적용하지 않도록 하는 경계만 둔다.

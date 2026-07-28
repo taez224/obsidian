@@ -38,6 +38,7 @@
     "ask": []
   },
   "enabledPlugins": {
-    "obsidian@obsidian-skills": true
+    "obsidian@obsidian-skills": true,
+    "context7@claude-plugins-official": false
   }
 }
