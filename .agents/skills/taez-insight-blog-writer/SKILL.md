@@ -68,6 +68,8 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
+새 글 작성, 본문의 대규모 재작성, 발행 전 종합 검토에서는 `references/voice-profile.md`를 읽는다. 제목 제안이나 문장 단위 수정에는 불러오지 않는다.
+
 Choose the contract by publication surface before selecting a structure.
 
 - **Brunch·personal essay**: preserve the writer's question, lived texture, and reading rhythm. A named framework, research section, counterargument, or operating model is optional.
@@ -104,11 +106,16 @@ For company-facing Korean tech blog polish, or when the user mentions domestic t
 
 ### 4. State the article's claim in plain language
 
-Before drafting, state what this article leaves with the reader in one sentence. Use the following contrast only when a genuine change of judgment or disagreement defines the article:
+Before drafting, state what this article leaves with the reader in one sentence. Several framings are available; pick the one the material actually supports rather than reaching for the first:
 
 ```text
-People commonly see X. This experience showed Y. That changes Z.
+판단 전환:  People commonly see X. This experience showed Y. That changes Z.
+비용 노출:  X was the right call. It billed Y, paid by Z.
+경계 발견:  X holds here and breaks there. The line is Y.
+질문 교체:  I asked X. Answering it showed X was the wrong question. The better question was Y.
 ```
+
+The first framing fits only when a genuine change of judgment or disagreement defines the article. An article whose judgment never changed is not weaker — it is a different article, and forcing a reversal into it manufactures a fake turn.
 
 Do not force a conventional view, personal turn, or practical move into a reflective essay. Reject claims that remain generic, such as:
 
@@ -126,14 +133,26 @@ Make the claim specific with the subset that matters here: what changed, what co
 
 ### 5. Build only the structure this article needs
 
-Start with the smallest useful movement:
+Choose the movement the material supports. This is a menu, not a ranking — the list exists because a writer who reaches for the same movement every time produces articles that feel identical even when the evidence is different.
 
-1. a scene or question that earns attention
-2. the observation or change in judgment
-3. the claim the article wants to leave
-4. a landing that closes the opening movement
+- **판단이 바뀐 이야기** — 착각 → 부분 성공 인정 → 반전 → 원칙. 필자가 실제로 생각을 바꿨고 전후가 근거로 남아 있을 때.
+- **비용을 따라가는 이야기** — 결정 → 그 결정이 청구한 대가 → 대가를 감수할지 다시 고르기. 판단은 그대로인데 가격표가 보이기 시작했을 때.
+- **실패에서 시작하는 이야기** — 무너진 장면 → 무너진 이유 → 바꾼 것 → 아직 못 고친 것. 실제로 무언가 부러졌을 때.
+- **두 사례를 부딪히는 이야기** — 원칙이 통한 사례와 통하지 않은 사례 → 경계선 → 경계선의 근거. 진짜 반례가 재료에 있을 때.
+- **질문이 바뀌는 이야기** — 처음 던진 질문 → 답하다 질문이 틀렸음을 발견 → 새 질문. 글의 가치가 답이 아니라 재구성에 있을 때.
 
 Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
+
+#### 연재 글의 구조
+
+연재의 한 편을 쓸 때는 직전 1~2편을 목차가 아니라 **본문으로** 읽는다. 아래는 초안 전 선택이자 검수 시 확인 항목이며, 연재 관련 판단은 여기 모아 둔다.
+
+- **각 편은 서로 다른 국소 결론에 착지한다.** 시즌의 중심 주제를 함께 밀 수는 있지만, 앞 편의 국소 결론을 새 소재로 다시 증명하는 데 그치면 별도 회차보다 각주에 가깝다.
+- **이어짐은 재진술이 아니라 다음 문제로 표시한다.** "앞 편에서 말한 X가 여기서 이어집니다" 같은 문장으로 연결을 설명하기보다, 앞 편이 남긴 미해결 질문·비용·예외·모순 중 하나를 이번 편의 출발점으로 삼는다.
+- **같은 움직임이 연속되면 재료 때문인지 습관 때문인지 확인한다.** 재료가 실제로 그렇다면 연속해도 된다. 다만 도입 장면과 마지막 문단의 역할까지 같아지면 독자에게는 같은 글이므로 둘 중 하나를 바꾼다. 다양성을 만들려고 재료에 없는 움직임을 씌우지는 않는다.
+- **원자료의 마찰을 지우지 않는다.** 실패·비용·한계·미해결 지점이 실제로 있는데 원칙이 매번 통하는 장면만 남기지 않았는지 확인한다. 없으면 만들지 않는다.
+- 허브의 회차 역할과 실제 초안의 착지점이 어긋나면 허브 갱신 후보로 보고한다.
+- 파일 단위 lint는 편 사이의 반복을 보지 못한다. 이 확인은 사람이나 검수 단계에서만 걸린다.
 
 ### 5.1 Draft natural Korean before polishing
 
@@ -161,6 +180,8 @@ For a substantial draft or review, check only the applicable questions:
 - Is the practical takeaway about behavior or structure, not just attitude?
 - Are output metrics separated from actual capability, learning, reliability, or user value?
 - Are AI-generated phrases flattened out without making the prose bland?
+
+For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 다시 훑는다. 여기서 실제로 확인할 것은 하나다 — 직전 편과 이번 편을 이어 읽었을 때 같은 악장이 반복되는가. 소재만 바뀐 채 "오해 → 사실은 아니었다 → 원칙"이 다시 돌면 구조로 돌아간다.
 
 For company-tech-blog publication checks only, run a domestic-tech-blog rhythm pass:
 
