@@ -1,6 +1,6 @@
 ---
 name: taez-insight-blog-writer
-description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a publishable Korean blog article, substantially restructure an article, or review it for publication. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for title-only suggestions, sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
+description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a Korean blog outline or article, substantially restructure or review an article for publication, or review and select the title and section headings of an existing article. Default to an outline-first collaboration that leaves prose authorship to TaeZ; write a full draft only when explicitly requested. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for isolated sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
 ---
 
 # TaeZ Insight Blog Writer
@@ -15,6 +15,8 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - Preserve TaeZ's recurring lenses when relevant, but do not force them: platform-as-enablement, workflow as operating system, team capability over individual output, evidence-backed reflection, dogfooding, responsibility boundaries, learning loops.
 - Treat AI assistance as acceptable. Slop is not "AI was used"; slop is "no authorial judgment, no context, no accountable takeaway."
 - Structure before sentence polish. If the argument is weak, do not run a humanizing pass yet.
+- Default to outline-first collaboration. Leave the sentences, transitions, and final emphasis to TaeZ unless they explicitly request a full draft or a named-section rewrite.
+- Treat external research and editorial reviews as evidence and proposals, not authority. Check them against the article contract and TaeZ's actual thesis before applying them.
 - Draft natural Korean from the first pass. Do not rely on a later humanizing pass to repair translationese, templated pivots, or inflated abstraction.
 - Keep Korean technically literate. Avoid over-explaining familiar engineering ideas.
 
@@ -33,16 +35,17 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 | --- | --- | --- |
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
 | ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
-| ③ 작곡 | `blog-recompose` | 선행글·초안 재작곡. |
-| ③' 직접 초안 | 글의 역할에 맞는 구조 + 한국어 초안 점검 | 새 글을 자연스러운 한국어로 쓴다. |
-| ④ 기본 검수 | `blog-review-polish`의 `light` | 결정론적 lint + 편집 관점 1회. |
-| ⑤ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
+| ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 한 줄 논지, 절별 역할, 근거와 경계를 담은 사용자 집필용 아웃라인. |
+| ④ 사용자 집필 | 사람 게이트 | TaeZ가 아웃라인을 바탕으로 본문을 직접 쓴다. AI는 여기서 자동으로 전문을 이어 쓰지 않는다. |
+| ④' 공동 초안 | `blog-recompose`의 `writeFullDraft: true` 또는 직접 작성 | 사용자가 전문 초안을 명시적으로 요청했을 때만 실행한다. |
+| ⑤ 기본 검수 | `blog-review-polish`의 `light` | 사용자가 본문을 쓴 뒤 결정론적 lint + 편집 관점 1회. |
+| ⑥ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
 | 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트. |
 
 ### 런타임별 실행 경로
 
 - **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다.
-- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 한국어 초안 점검 → `node .claude/workflows/blog-slop-lint.mjs "<file>"` 순서로 진행한다. 사람 게이트와 전체 검수는 발행 직전에만 사용하며 Claude 전용 워크플로를 직접 실행할 필요는 없다.
+- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 사용자 집필에서 기본적으로 멈춘다. 사용자가 전문이나 패치를 요청했을 때만 한국어 초안 점검과 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 이어간다. 사람 게이트와 전체 검수는 발행 직전에만 사용하며 Claude 전용 워크플로를 직접 실행할 필요는 없다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -53,6 +56,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - `korean-first-draft.md` — 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
 - `slop-gate.md` — 발행 전 사람 사인오프.
 - `amplifier-lenses.md` — 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
+- `domestic-tech-blog-benchmark.md` — 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
 
 ## Workflow
 
@@ -68,7 +72,9 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
-새 글 작성, 본문의 대규모 재작성, 발행 전 종합 검토에서는 `references/voice-profile.md`를 읽는다. 제목 제안이나 문장 단위 수정에는 불러오지 않는다.
+If the user says they will write the article themselves, or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
+
+새 글 작성, 본문의 대규모 재작성, 발행 전 종합 검토, 기존 글의 제목·헤딩 종합 검토에서는 `references/voice-profile.md`를 읽는다. 단순 문장 단위 수정에는 불러오지 않는다.
 
 Choose the contract by publication surface before selecting a structure.
 
@@ -87,6 +93,13 @@ Before building the evidence base for a series article:
 
 Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples when the claim needs them. Do not rely on a fixed anchor list; find the evidence that fits this article. The invariant is source-grounded authorial judgment, whether it changed or became clearer.
 
+Before deep research or outlining, run an adjacency check regardless of whether the article belongs to a series:
+
+- Use exact title/term search and semantic claim search to shortlist the 1–3 nearest canonical blog posts. Exclude archives and duplicate drafts.
+- Read the shortlisted posts as bodies, not only headings or frontmatter. Record each post's local claim, opening scene, climax evidence, and landing conclusion.
+- Allow recurring lenses, vocabulary, and authorial character. Treat the new article as duplicative only when it repeats substantially the same local claim with the same scene or evidence and lands at the same conclusion.
+- If the publication contract calls for a self-contained adaptation on another surface, allow deliberate reuse and identify what is being adapted. Otherwise find a new question, boundary, counterexample, or piece of evidence before outlining.
+
 Extract only what the source material actually supports:
 
 - actual episode: what happened
@@ -97,6 +110,14 @@ Extract only what the source material actually supports:
 ### 3. Deep research, but only after the thesis shape exists
 
 Use current external research when claims are time-sensitive or trend-dependent. Prefer primary or high-signal sources: papers, official engineering posts, original case studies, standards, and respected practitioner essays.
+
+Verify claims before promoting them into the outline:
+
+- Confirm numbers, direct quotations, and named research findings in the primary source. A secondary source attaching an institution's name to a number is not enough.
+- Record the source publication date and, when relevant, the data-collection window, product or domain, sample, and stated limitations. Recent publication does not make a fast-changing product observation durable.
+- Treat 403 responses, JavaScript shells, paywalls, and missing search results as access failures, not evidence that a source or passage does not exist. Try an official PDF, DOI, repository, press release, RSS feed, or another first-party route; if still unresolved, label it `unresolved` rather than `false`.
+- For laws and policy schedules, distinguish proposal, provisional agreement, legislative adoption, final approval, official publication, entry into force, and application date. Verify the current stage in an official source.
+- A finding can be accurate and still be the wrong protagonist. Do not turn a source's observation into the article title or a section heading unless it expresses TaeZ's claim; otherwise keep it as nearby evidence with scope limits.
 
 Load `references/anti-slop-research.md` only when the topic touches AI slop, workslop, writing quality, developer content saturation, or "AI-generated but valuable" distinctions.
 
@@ -143,6 +164,45 @@ Choose the movement the material supports. This is a menu, not a ranking — the
 
 Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
 
+### 5.1 Stop at a writer-owned outline by default
+
+Build an outline that gives TaeZ enough structure to write without pre-writing the article for them. Use only the fields each section needs:
+
+```markdown
+## 한 줄 논지
+
+- 이 글이 독자에게 남길 판단 한 문장
+
+## 글의 움직임
+
+- 출발 질문 또는 장면
+- 글을 지나며 바뀌는 질문이나 드러나는 비용
+- 마지막에 남길 기준
+
+### 절 제목
+
+- 역할:
+- 직접 쓸 장면·경험:
+- 이 절의 주장:
+- 사용할 근거:
+- 경계·반론:
+- 다음 절로 넘길 질문:
+```
+
+- Do not require every field or impose a fixed number of sections.
+- Keep research as evidence notes attached to the claim it supports. Do not turn all gathered papers into body sections.
+- Mark missing personal evidence as a prompt for TaeZ to fill. Never invent a workplace scene, judgment change, result, or number.
+- Do not write polished opening paragraphs, transitions, or closing prose unless explicitly requested.
+- After TaeZ writes prose, review structure, evidence, repetition, and unsupported leaps first. Rewrite only the named section or sentence range they authorize; preserve manually written thought flow elsewhere.
+
+Run a title and heading pass before handing off the outline:
+
+- Make the article title promise the actual climax or landing, not only the opening scene or one supporting study.
+- Do not reuse the article title verbatim as a section title.
+- Let each section heading perform its local role: a scene heading can name the artifact or friction; a conceptual section can use a restrained thesis; a landing can be short and declarative.
+- Do not require a proper noun, question, contrast, or experience suffix. For a company technical blog, compare with a current sample from `references/domestic-tech-blog-benchmark.md` and explain fit by article type.
+- When options are useful, produce 2–3 meaningfully different strategies and state what part of the article each foregrounds. Do not generate a quota of cosmetic variants.
+
 #### 연재 글의 구조
 
 연재의 한 편을 쓸 때는 직전 1~2편을 목차가 아니라 **본문으로** 읽는다. 아래는 초안 전 선택이자 검수 시 확인 항목이며, 연재 관련 판단은 여기 모아 둔다.
@@ -154,9 +214,9 @@ Add a framework, technical evidence, counterargument, or operating model only wh
 - 허브의 회차 역할과 실제 초안의 착지점이 어긋나면 허브 갱신 후보로 보고한다.
 - 파일 단위 lint는 편 사이의 반복을 보지 못한다. 이 확인은 사람이나 검수 단계에서만 걸린다.
 
-### 5.1 Draft natural Korean before polishing
+### 5.2 Draft natural Korean before polishing
 
-새 글을 쓰거나 본문을 크게 다시 쓸 때는 먼저 `references/korean-first-draft.md`를 읽고 다음을 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이다.
+사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만 먼저 `references/korean-first-draft.md`를 읽고 다음을 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이다.
 
 - 정의·프레임보다 실제 장면, 구체 주어, 행동 동사로 문단을 시작한다.
 - `~에 대해`, `~를 통해`, `~에 있어서`, `~와 관련하여`, 불필요한 피동과 긴 관형어를 그대로 옮기지 않는다. 자연스러운 조사·능동형·짧은 문장으로 다시 쓴다.
@@ -185,6 +245,7 @@ For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 �
 
 For company-tech-blog publication checks only, run a domestic-tech-blog rhythm pass:
 
+- Does the title point to the article's real climax or landing, and do the section headings answer the reader's next question without repeating the title?
 - Does the opening start from a concrete friction before naming a framework?
 - Does each paragraph do one job: scene, problem, cause, criterion, example, or landing?
 - Are 350+ character paragraphs split unless they are code, tables, or intentional bullets?
@@ -196,19 +257,21 @@ For company-tech-blog publication checks only, run a domestic-tech-blog rhythm p
 When reviewing an existing draft:
 
 - Lead with structural problems, repeated claims, weak transitions, and unsupported leaps.
+- Treat an external review as a hypothesis. Verify its factual claims and reject changes that displace TaeZ's thesis, scene, or publication contract even when the suggested sentence is locally polished.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
 - For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, image links, and `## 연관된 노트`.
 
 ## Output Formats
 
-For a new article, produce:
+For a new article, produce by default:
 
 - one-line thesis
-- title options if needed
-- outline
-- draft or patch
-- source notes
+- title options only if needed
+- writer-owned outline
+- source notes attached to relevant claims
+
+Produce a full draft or prose patch only when explicitly requested. An outline request is complete when the structure, evidence placement, open decisions, and author prompts are clear.
 
 For a review, produce:
 

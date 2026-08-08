@@ -80,14 +80,18 @@ const VERDICT_SCHEMA = {
   type: 'object', additionalProperties: false,
   properties: {
     id: { type: 'string' },
-    verdict: { type: 'string', enum: ['verified', 'partially_correct', 'misattributed', 'wrong', 'unverifiable'] },
+    verdict: { type: 'string', enum: ['verified', 'partially_correct', 'misattributed', 'wrong', 'inaccessible', 'unresolved'] },
     confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
     whatSourceSays: { type: 'string' },
     discrepancy: { type: 'string' },
     recommendation: { type: 'string' },
     sourceUrl: { type: 'string' },
+    publishedDate: { type: 'string', description: '1차 출처 발행일, 확인 불가면 "unknown"' },
+    dataWindow: { type: 'string', description: '조사·관측 기간, 해당 없으면 "not_applicable"' },
+    scope: { type: 'string', description: '표본·제품·도메인·지역과 주요 한계, 해당 없으면 "not_applicable"' },
+    legalStatus: { type: 'string', description: '법·정책의 절차 단계와 적용일, 해당 없으면 "not_applicable"' },
   },
-  required: ['id', 'verdict', 'confidence', 'whatSourceSays', 'discrepancy', 'recommendation'],
+  required: ['id', 'verdict', 'confidence', 'whatSourceSays', 'discrepancy', 'recommendation', 'sourceUrl', 'publishedDate', 'dataWindow', 'scope', 'legalStatus'],
 }
 const PERSONA_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -277,6 +281,7 @@ async function runLightReview(path) {
     [fileCtx(path), '',
       '한 명의 편집자로서 글을 처음부터 끝까지 한 번 읽어라. 웹 리서치, 별도 페르소나, 파일 수정은 하지 않는다.',
       '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약만 최대 3개 issues에 적고, 보존할 강점은 strengths에 적는다.',
+      '제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 그대로 겹치는지, 소제목이 각 절의 역할을 정직하게 보여주는지도 본다. 고유명사·질문형·대구형 같은 특정 패턴을 의무화하지 않는다.',
       '',
       '그 다음 Bash로 아래 결정론 lint를 정확히 한 번 실행하고 JSON 값을 그대로 옮겨라.',
       'node "' + lintScript + '" "' + path + '" --json',
@@ -300,9 +305,12 @@ async function runFactcheck(path) {
   const verdicts = await parallel(claims.map(c => () => agent(
     ['너는 팩트체커다. 오늘 기준 웹(WebSearch/WebFetch)으로 1차 출처를 찾아 검증하라. 기억·추측 금지, 블로그가 맞다고 가정 금지.', '',
       '주장: ' + c.text, '귀속 출처: ' + c.source, '핵심 주장 여부: ' + c.critical, '',
-      '출처가 실재하고 주장을 실제로 뒷받침하는지, 수치는 정확한지, 귀속(저자/연도/매체)이 맞는지 확인한다.',
-      '핵심 수치·연구 귀속이면 같은 패스에서 독립적인 권위 출처를 하나 더 대조하고, 없으면 confidence를 낮춘다. 별도 검증 에이전트를 다시 호출하지 않는다.',
-      'verdict/근거/불일치/수정안 반환. id="' + c.id + '".'].join('\n'),
+      '수치·직접 인용·특정 연구 귀속은 원 논문, 공식 보고서, 공식 보도자료 등 귀속된 1차 출처를 직접 열어 확인한다. 2차 출처를 원 귀속의 대체 증거로 쓰지 않는다.',
+      '출처 발행일과 데이터 수집/관측 기간을 구분하고, 표본·제품·도메인·지역·주요 한계를 scope에 적는다. 빠르게 바뀌는 제품 관측은 발행일이 최근이어도 데이터 기간과 범위를 함께 판정한다.',
+      '403, JavaScript 셸, 페이월, 검색 실패는 틀렸다는 증거가 아니다. 공식 PDF·DOI·저장소·보도자료·RSS 같은 대체 1차 경로를 시도한다. 출처는 찾았으나 열 수 없으면 inaccessible, 대체 경로 뒤에도 진위를 결론내릴 수 없으면 unresolved로 둔다. 1차 출처가 실제로 반박할 때만 wrong을 쓴다.',
+      '법·정책은 제안, 잠정 합의, 입법 채택, 최종 승인, 관보 게재, 발효, 적용일을 구분해 legalStatus에 현재 단계를 적는다.',
+      '핵심 수치·연구 귀속이면 1차 출처 확인 뒤 독립적인 권위 출처를 하나 더 대조한다. 교차검증 자료가 없다는 이유만으로 1차 근거를 대체하거나 과장하지 말고 confidence에 반영한다.',
+      'verdict/근거/불일치/수정안과 sourceUrl/publishedDate/dataWindow/scope/legalStatus를 반환. 해당 없는 필드는 "not_applicable". id="' + c.id + '".'].join('\n'),
     { label: 'verify:' + c.id, phase: 'Fact-check', schema: VERDICT_SCHEMA, agentType: AGENT }
   )))
   return { claims, verdicts: verdicts.filter(Boolean) }
@@ -457,7 +465,7 @@ async function runGate(targetPath) {
   const lintScript = vaultRoot + '/.claude/workflows/blog-slop-lint.mjs'
   const [coherence, structure, slop] = await parallel([
     () => agent(['너는 이 글을 *처음 읽는* 목표 독자다: ' + READER + '. ' + targetPath + ' 를 Read로 끝까지 한 번에 읽어라.', '', GOAL, '',
-      '조각편집 누적으로 생긴 전체 차원의 문제만 본다: 전환/흐름 끊김, 편집 후 중복, 소제목-본문 불일치, 한 줄 TL;DR이 서는가. 그리고 윤문이 새로 만든 과장/근거없는 단정(factDeltas)도 함께 신고. coherenceVerdict/coherenceIssues/factDeltas 채우고 structure 항목은 임시로 true/빈값.'].join('\n'),
+      '조각편집 누적으로 생긴 전체 차원의 문제만 본다: 전환/흐름 끊김, 편집 후 중복, 소제목-본문 불일치, 한 줄 TL;DR이 서는가. 제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 겹쳐 무게중심을 앞당기지 않는지도 확인한다. 그리고 윤문이 새로 만든 과장/근거없는 단정(factDeltas)도 함께 신고. coherenceVerdict/coherenceIssues/factDeltas 채우고 structure 항목은 임시로 true/빈값.'].join('\n'),
       { label: 'fresh-read', phase: 'Final-gate', schema: GATE_SCHEMA, agentType: AGENT }),
     () => agent(['Bash 도구로 ' + targetPath + ' 의 구조 무결성을 점검하라. 확인: 프론트매터(--- 쌍), 위키링크 [[ ]] 짝, 이미지 ![](...) 임베드, 마크다운 표 헤더, 깨진 링크. grep/wc로 세고, structureOk(bool)와 structureNote(무엇을 확인했고 이상 있는지)만 채워라. 나머지 필드는 임시값.'].join('\n'),
       { label: 'structure-check', phase: 'Final-gate', schema: GATE_SCHEMA, agentType: AGENT }),

@@ -1,4 +1,4 @@
 interface:
   display_name: "영구 노트 만들기"
-  short_description: "개인 메모를 중복 없이 재사용 가능한 Slipbox 주장으로 정제"
-  default_prompt: "Use $permanent-note to 이 메모를 기존 Slipbox와 대조하고 자기 완결적인 영구 노트로 발전시켜줘."
+  short_description: "메모와 승인된 문답을 자연스러운 Slipbox 주장으로 정제"
+  default_prompt: "Use $permanent-note to 이 메모나 승인된 문답을 기존 Slipbox와 대조하고, 내 생각의 흐름을 평평하게 만들지 않는 자기 완결적인 영구 노트로 발전시켜줘."

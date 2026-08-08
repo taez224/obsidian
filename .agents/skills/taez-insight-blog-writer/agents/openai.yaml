@@ -1,4 +1,4 @@
 interface:
   display_name: "TaeZ Insight Blog Writer"
-  short_description: "자료와 경험을 매체에 맞는 한국어 글로 발전"
-  default_prompt: "Use $taez-insight-blog-writer to 이 자료를 발행 매체와 독자에 맞는 한국어 블로그 글로 발전시켜줘."
+  short_description: "자료와 경험을 검증된 글 구조와 제목으로 발전"
+  default_prompt: "Use $taez-insight-blog-writer to 이 자료를 기존 글과 대조하고 근거를 검증해, 내가 직접 쓸 수 있는 한국어 블로그 아웃라인과 제목으로 구조화해줘."
