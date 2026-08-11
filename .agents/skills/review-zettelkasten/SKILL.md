@@ -82,7 +82,7 @@ Quick Capture의 `AI 생성`은 사용자의 주장이 아니라 AI의 제안으
 - Books·Articles·Clippings 원본은 유지하고 permanent note에서 출처로 연결한다.
 - 참고노트의 특정 주장·인용에서 발전했다면 `99_Templates/_property-schema.md`의 Slipbox 연결 규칙에 따라 block ID를 추가해 직접 연결한다. 절 전체가 맥락이면 헤딩 링크를 사용한다.
 - Inbox 원본은 승격 후에도 자동 삭제하지 않는다. 승인 항목에 원본 처리가 포함된 경우에만 삭제하거나 보관한다.
-- 링크는 `99_Templates/slipbox-template.md`의 `## 연관된 노트` 형식으로 추가하고 관계를 한 줄로 설명한다.
+- 관계를 설명할 수 있으면 대상 노트의 본문 문장 안에 링크한다. 본문에 자연스럽게 넣기 어려운 관계만 `99_Templates/slipbox-template.md`의 `## 연관된 노트` 형식으로 추가하고 이유를 한 줄로 설명한다.
 - `seedling → growing`은 근거·반례·적용이 붙거나 실제 글과 판단에서 재사용되기 시작했을 때 검토한다. 길이나 링크 수만으로 변경하지 않는다. `evergreen`은 자동 판정하지 않는다.
 - 구조 노트는 설명문을 억지로 채우지 않고 링크 군집과 탐색 순서를 중심으로 작성한다.
   형식은 `99_Templates/hub-note.md`를 따른다 (frontmatter `type: hub`).

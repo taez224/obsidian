@@ -89,7 +89,8 @@ def extract_links_with_context(body):
     """(target, 링크가 있던 줄) 목록.
 
     재사용 판정은 링크 자체가 아니라 링크 옆에 적은 관계 설명을 봐야 해서
-    줄 텍스트가 필요하다 ("## 연관된 노트" 규칙이 이 문구를 보장한다).
+    줄 텍스트가 필요하다. 관계 설명은 본문 문장이나 ``## 연관된 노트``
+    항목 어느 쪽에도 있을 수 있다.
     """
     body = FENCED_RE.sub("", body)
     body = INLINE_CODE_RE.sub("", body)
@@ -319,8 +320,6 @@ def main():
             if not scalars.get(created_key):
                 issues.append(f"필수 필드 누락: {created_key}")
             tags = lists.get("tags", [])
-            if not tags:
-                issues.append("필수 필드 누락: tags")
             for t in tags:
                 if t.startswith("#"):
                     issues.append(f"태그에 # 포함: {t}")

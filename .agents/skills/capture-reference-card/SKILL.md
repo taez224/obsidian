@@ -65,8 +65,6 @@ published: <확인된 원본 공개일 또는 "">
 created: <오늘>
 description: <원문에 근거한 한국어 식별 문장 1~2개 또는 "">
 thumbnail: <확인된 대표 이미지 URL, 없으면 속성 생략>
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

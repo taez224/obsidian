@@ -20,15 +20,15 @@ aliases:
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
 | `created` | Date `YYYY-MM-DD` | ✅ | 노트 생성일 (file.ctime 폴백 금지 — 항상 명시) |
-| `tags` | List | ✅ | 아래 태그 체계를 따르고 `#` 없이 작성 |
+| `tags` | List | ⬜ | 실제 횡단 탐색·필터에 사용할 때만 아래 기준으로 작성 |
 | `aliases` | List | ⬜ | 다른 이름으로도 wikilink 받기 위함 |
 
 > [!note] Bases 구현 규칙
 > `created` 누락은 스키마 위반이며 `vault-lint`가 탐지한다. Base의 `file.ctime` 폴백은 누락 노트를 숨기지 않기 위한 **표시용 방어**일 뿐, `created`를 대신하지 않는다. Inbox 7일·30일 기준은 `_inbox.base`와 `_global-health.base`, 프로젝트 14일 기준은 `_dashboard.base`와 `_global-health.base`에 중복 정의되므로 기준 변경 시 두 파일을 함께 수정한다.
 
-### 태그 체계
+### 태그 사용 기준
 
-계층형 태그는 `/`로 구분한다. Frontmatter에서는 `#`를 붙이지 않고, `#task`·`#next` 같은 인라인 태그만 본문에서 사용한다.
+태그는 선택 필드다. 폴더·`type`·`status`로 이미 드러나는 노트의 역할을 다시 표기하지 않고, 서로 다른 폴더를 가로질러 실제로 검색하거나 필터링할 주제·프로젝트에만 사용한다. 계층형 태그는 `/`로 구분한다. Frontmatter에서는 `#`를 붙이지 않고, `#task`·`#next` 같은 인라인 태그만 본문에서 사용한다.
 
 ```yaml
 tags:
@@ -40,7 +40,7 @@ tags:
 | 카테고리 | 태그 예시 | 용도 |
 |----------|-----------|------|
 | `AI/` | `AI`, `AI/에이전트`, `AI/프롬프트` | AI 관련 콘텐츠 |
-| `개발/` | `개발/Java`, `개발/프론트엔드`, `개발/도구`, `개발/DevLog`, `개발/플랫폼`, `개발/트러블슈팅`, `개발/인프라` | 개발 관련 |
+| `개발/` | `개발/Java`, `개발/프론트엔드`, `개발/도구`, `개발/플랫폼`, `개발/인프라` | 개발 관련 |
 | `커리어/` | `커리어/성장`, `커리어/동기부여`, `커리어/이직`, `커리어/시니어` | 커리어·자기계발 |
 | `프로젝트/` | `프로젝트/onlyoffice-demo` | canonical project_id별 구분 |
 | `심리/` | `심리/성격검사` | 심리·자기이해 |
@@ -49,15 +49,7 @@ tags:
 | `소프트웨어공학` | `소프트웨어공학` | 설계·품질·개발 방법론 |
 | `지식관리` | `지식관리` | Obsidian·PARA·Zettelkasten 운영 |
 
-| 노트 유형 태그 | 용도 |
-|----------------|------|
-| `slipbox` | `01_Slipbox` 영구 노트 |
-| `blog` | 블로그 발행용 |
-| `📚독서` | 책 노트 |
-| `📰article` | 아티클·기사 참고노트 |
-| `clippings` | 읽기 전 자료카드 |
-| `TIL` | Periodic Notes의 Today-I-Learned |
-| `type/timeline/*` | daily·weekly·monthly 계층 |
+`inbox`, `slipbox`, `blog`, `📚독서`, `📰article`, `clippings`처럼 위치나 다른 속성과 역할이 겹치는 태그는 새 노트의 기본값으로 넣지 않는다. 기존 노트에서는 일괄 삭제하지 않고 실제로 다시 사용할 때만 점진적으로 정리한다. `type/timeline/*`처럼 현재 템플릿의 Dataview 쿼리가 실제로 사용하는 태그는 유지한다.
 
 ---
 
@@ -68,8 +60,6 @@ tags:
 ```yaml
 ---
 created: 2026-07-13
-tags:
-  - inbox
 next_action: ""
 ---
 ```
@@ -89,9 +79,6 @@ next_action: ""
 ```yaml
 ---
 created: 2026-01-15
-tags:
-  - <주제 태그>
-  - slipbox
 type: permanent       # permanent | fleeting | hub(MOC)
 status: seedling      # seedling | growing | evergreen
 aliases:
@@ -115,6 +102,7 @@ used_in:              # 선택 — 승인된 재사용 근거만 기록
 
 - 같은 키워드보다 근거·적용·반례·상하위 관계를 한 줄로 설명할 수 있는 링크를 우선한다.
 - 특정 주장·인용은 블록 링크, 절 전체는 헤딩 링크, 문서 전체가 관련될 때만 문서 링크를 사용한다.
+- 관계를 설명할 수 있는 본문 문장 안의 링크를 우선한다. 본문에 자연스럽게 넣기 어려운 관계만 `## 연관된 노트`에 이유와 함께 둔다.
 - 적합한 연결이 없으면 억지로 만들지 않는다. Backlinks가 보여주는 역연결을 본문에 중복하지 않는다.
 - 연결 수만으로 `growing`·`evergreen`을 판정하지 않는다.
 - 실제 `## 연관된 노트` 형식은 `99_Templates/slipbox-template.md`를 따른다.
@@ -182,9 +170,6 @@ tags:
 ---
 title: <글 제목>
 created: 2026-07-11             # vault 수집·작성일
-tags:
-  - blog
-  - <주제 태그>
 status: draft                   # draft | published
 author: TaeZ
 summary: <한두 문장 요약>
@@ -221,8 +206,6 @@ started: 2026-07-15
 ended: null                   # completed일 때만
 last_published: null          # 실제 최근 발행일, 발행 전이면 null
 next_action: 1화 발행
-tags:
-  - 프로젝트/blog
 ---
 ```
 
@@ -245,9 +228,6 @@ Blog Base는 `last_published` 또는 발행 전 `started`를 기준으로 30일�
 ```yaml
 ---
 created: 2025-08-12 18:40
-tags:
-  - 📚독서
-  - <주제 태그>               # 예: AI, 개발/인프라, 글쓰기
 title: <책 제목>
 author:
   - <저자>
@@ -281,8 +261,6 @@ book_note: <한줄평>
 ```yaml
 ---
 date: 2026-03-16
-tags:
-  - 개발/DevLog
 projects:
   - <project-id>      # 20_Projects/ 의 project_id와 매칭
 ---
@@ -306,9 +284,6 @@ published: 2024-09-14         # 원본 발행일 (Clipper 자동)
 created: 2025-02-10           # vault 수집일 (Clipper 자동)
 description: <원문에 근거한 한국어 식별 문장 1~2개> # 평가·시사점 추가 금지
 thumbnail: <이미지 URL>       # 선택
-tags:
-  - clippings                 # 기본 (Clipper 자동)
-  - <주제 태그>                # 읽은 뒤 필요할 때 수동 추가
 status: unread                # unread | read | archived
 my_take: ""                   # 내 한 줄 평 (정리 시 작성)
 ---

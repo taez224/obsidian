@@ -1,7 +1,5 @@
 ---
 created: <% tp.date.now("YYYY-MM-DD") %>
-tags:
-  - 개발/트러블슈팅
 ---
 
 

@@ -1,6 +1,6 @@
 ---
 name: taez-insight-blog-writer
-description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a Korean blog outline or article, substantially restructure or review an article for publication, or review and select the title and section headings of an existing article. Default to an outline-first collaboration that leaves prose authorship to TaeZ; write a full draft only when explicitly requested. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for isolated sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
+description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a Korean blog outline or article, substantially restructure or review an article for publication, review and select its title and section headings, or run a final-assembly/final publication panel review. Default to an outline-first collaboration that leaves prose authorship to TaeZ; write a full draft only when explicitly requested. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for isolated sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
 ---
 
 # TaeZ Insight Blog Writer
@@ -38,14 +38,17 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 | ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 한 줄 논지, 절별 역할, 근거와 경계를 담은 사용자 집필용 아웃라인. |
 | ④ 사용자 집필 | 사람 게이트 | TaeZ가 아웃라인을 바탕으로 본문을 직접 쓴다. AI는 여기서 자동으로 전문을 이어 쓰지 않는다. |
 | ④' 공동 초안 | `blog-recompose`의 `writeFullDraft: true` 또는 직접 작성 | 사용자가 전문 초안을 명시적으로 요청했을 때만 실행한다. |
-| ⑤ 기본 검수 | `blog-review-polish`의 `light` | 사용자가 본문을 쓴 뒤 결정론적 lint + 편집 관점 1회. |
+| ⑤ 구조 검토 | `references/structural-review.md` + `blog-structure-scan.mjs` | 초안이 처음 완성됐거나 절을 재배치한 뒤. 문장을 다듬기 **전에** 뼈대를 본다. |
+| ⑤' 기본 검수 | `blog-review-polish`의 `light` | 처음 읽는 독자 재독 + 구조 스캔 관측 + 결정론적 lint + 편집 판단 1회. |
 | ⑥ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
-| 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트. |
+| ⑥' 최종 어셈블 | `references/final-assembly.md` | 사용자가 `final-assembly`, `완전 최종 어셈블`, `페르소나 패널 최종점검`처럼 다중 관점의 발행 사인오프를 명시했을 때만 실행. 파일은 승인 전 수정하지 않는다. |
+| 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트(문장·표기). |
+| 상시 | `blog-structure-scan.mjs` | 결정론적 구조 스캐너(절 비중·역방향 아웃라인 뼈대·교차 절 반복). 판정은 하지 않는다. |
 
 ### 런타임별 실행 경로
 
-- **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다.
-- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 사용자 집필에서 기본적으로 멈춘다. 사용자가 전문이나 패치를 요청했을 때만 한국어 초안 점검과 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 이어간다. 사람 게이트와 전체 검수는 발행 직전에만 사용하며 Claude 전용 워크플로를 직접 실행할 필요는 없다.
+- **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다. 최종 어셈블은 `blog-review-polish`의 발행 단계와 `references/final-assembly.md`의 조정 규칙을 함께 따른다.
+- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 사용자 집필에서 기본적으로 멈춘다. substantial review에서는 `blog-structure-scan.mjs`와 `references/structural-review.md`를 먼저 사용하고, 사용자가 전문이나 패치를 요청했을 때만 `blog-slop-lint.mjs`와 실제 수정으로 이어간다. 사용자가 최종 어셈블을 명시하면 `references/final-assembly.md`에 따라 격리된 좌석을 구성하고 교차 판정한다. 사람 게이트와 전체 검수는 발행 직전에만 사용한다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -55,6 +58,9 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - `anti-slop-lexicon.md` — 금지표현·문장부호의 단일 출처. lint와 AI-티 감별사가 함께 사용한다.
 - `korean-first-draft.md` — 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
 - `slop-gate.md` — 발행 전 사람 사인오프.
+- `final-assembly.md` — 명시적으로 요청한 발행 직전 다중 페르소나 검토와 교차 판정.
+- `structural-review.md` — 문장이 아니라 뼈대를 보는 developmental 층. 역방향 아웃라인 절차와 판정 목록.
+- `visual-argument-review.md` — 논지를 운반하는 도식의 사실·위계·강조·실제 렌더 검토.
 - `amplifier-lenses.md` — 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
 - `domestic-tech-blog-benchmark.md` — 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
 
@@ -228,7 +234,11 @@ Run a title and heading pass before handing off the outline:
 
 ### 6. Apply the anti-slop tests
 
-먼저 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거한다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
+구조부터 본다. 초안이 처음 완성됐거나 절을 추가·삭제·재배치한 뒤에는 `node .claude/workflows/blog-structure-scan.mjs "<file>"`를 돌리고 `references/structural-review.md`의 절차와 판정 목록을 따른다. **구조가 안 잡힌 글에 문장을 다듬으면 절을 옮길 때 그 문장이 통째로 버려진다.** 문장만 고치는 요청에는 이 단계를 넣지 않는다.
+
+글의 논지를 도식·인포그래픽이 운반한다면 `references/visual-argument-review.md`도 읽고 실제 발행 크기의 렌더를 확인한다. 장식 이미지는 이 검토를 강제하지 않는다.
+
+그다음 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거한다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
 
 `humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 실행한다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
 
@@ -256,7 +266,7 @@ For company-tech-blog publication checks only, run a domestic-tech-blog rhythm p
 
 When reviewing an existing draft:
 
-- Lead with structural problems, repeated claims, weak transitions, and unsupported leaps.
+- Lead with structural problems, repeated claims, weak transitions, and unsupported leaps. 어디를 볼지가 아니라 어떻게 볼지는 `references/structural-review.md`가 정본이다. 인상으로 구조를 진단하지 말고 역방향 아웃라인을 먼저 채운다.
 - Treat an external review as a hypothesis. Verify its factual claims and reject changes that displace TaeZ's thesis, scene, or publication contract even when the suggested sentence is locally polished.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
@@ -275,10 +285,15 @@ Produce a full draft or prose patch only when explicitly requested. An outline r
 
 For a review, produce:
 
+- first-read thesis and review mode (`fresh-reader` or `context-aware`)
 - publication-readiness verdict
 - top 3 structural issues
+- objective defects, editorial risks, and preferences kept distinct
+- 3–5 lines worth preserving for a substantial draft
 - concrete rewrite suggestions
 - optional direct patch
+
+For an explicitly requested final assembly, use `references/final-assembly.md` and report the panel composition, failed or omitted seats, cross-confirmed findings, rejected suggestions, deterministic gate results, and final readiness. Do not patch the article until TaeZ approves the selected findings.
 
 For a new article or substantial revision, finish with a concise `지식 환류` report:
 

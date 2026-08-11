@@ -1,7 +1,5 @@
 ---
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
-tags:
-  - 📚독서
 title: <% tp.file.title %>
 author:
   - 

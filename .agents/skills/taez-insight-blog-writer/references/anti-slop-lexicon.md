@@ -187,9 +187,9 @@ warn/fail은 발행을 *막지* 않는다. 막는 것은 `_slop-gate`의 사람 
       "id": "about-not",
       "category": "양분법 수사",
       "severity": "low",
-      "pattern": "아니라",
+      "pattern": "아니라|아니었|아닙니다",
       "perKey": "aboutNotPerK",
-      "fix": "'X가 아니라 Y' 구문 빈도 축소"
+      "fix": "'X가 아니라 Y' 양분법 축소. 문장을 쪼갠 'X가 아니었습니다. Y였습니다'도 같은 구문이다"
     }
   ]
 }

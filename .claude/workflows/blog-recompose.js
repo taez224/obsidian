@@ -121,10 +121,10 @@ const OUTLINE_SCHEMA = {
           sceneOrExperience: { type: 'string', description: '직접 쓸 장면/경험, 없으면 저자 질문' },
           claim: { type: 'string' },
           evidence: { type: 'array', items: { type: 'string' } },
-          boundaryOrCounter: { type: 'string' },
-          handoffQuestion: { type: 'string' },
+          boundaryOrCounter: { type: 'string', description: '이 절에 실제로 필요한 경계·반론이 있을 때만 사용' },
+          handoffQuestion: { type: 'string', description: '다음 절의 독립적인 질문을 열어야 할 때만 사용' },
         },
-        required: ['heading', 'role', 'sceneOrExperience', 'claim', 'evidence', 'boundaryOrCounter', 'handoffQuestion'],
+        required: ['heading', 'role', 'sceneOrExperience', 'claim', 'evidence'],
       },
     },
     climax: { type: 'string', description: '글의 무게중심이 되는 실행 증거·발견' },
@@ -132,7 +132,7 @@ const OUTLINE_SCHEMA = {
     overlapDecision: { type: 'string', description: '가장 인접한 글과 무엇을 공유하고 어디서 갈라지는지' },
     authorPrompts: { type: 'array', items: { type: 'string' }, description: '발명하지 않고 저자가 채워야 할 경험·판단·검증' },
   },
-  required: ['thesis', 'movement', 'titleOptions', 'opening', 'sections', 'climax', 'landing', 'overlapDecision', 'authorPrompts'],
+  required: ['thesis', 'movement', 'opening', 'sections', 'climax', 'landing', 'overlapDecision', 'authorPrompts'],
 }
 
 const SELECTION_SCHEMA = {
@@ -241,7 +241,8 @@ async function outline(mined) {
     '이 후보가 시험할 움직임: ' + movement[0] + ' — ' + movement[1],
     '자료: ' + JSON.stringify(mined),
     '자료가 이 움직임을 지지하지 않으면 반전이나 실패를 만들지 말고, 가장 가까운 정직한 움직임으로 바꿔 movement에 기록한다.',
-    '완성 산문 대신 저자가 직접 쓸 아웃라인을 만든다. 각 절에 역할·직접 쓸 장면/경험·주장·근거·경계/반론·다음 질문을 필요한 만큼만 둔다.',
+    '완성 산문 대신 저자가 직접 쓸 아웃라인을 만든다. 각 절에 역할·직접 쓸 장면/경험·주장·근거를 두고, 경계/반론과 다음 질문은 그 절에서 실제 역할이 있을 때만 필드를 사용한다.',
+    '자료의 경계나 금지사항을 독자에게 알릴 문장으로 자동 변환하지 않는다. 쓰지 않으면 충족되는 가드레일은 아웃라인 산문 항목이 아니다.',
     '리서치는 근거로 붙이고 문헌 검토를 글의 척추로 만들지 않는다. 개인 장면·판단·수치가 없으면 authorPrompts에 빈칸으로 남긴다.',
     '제목은 도입 장면 하나가 아니라 실제 클라이맥스나 착지를 약속해야 한다. 제목과 절 제목을 같은 문장으로 쓰지 않는다. 필요할 때만 2~3개의 실질적으로 다른 제목 전략을 만든다.',
   ].join('\n'), { label: 'outline:c' + (index + 1), phase: 'Outline', schema: OUTLINE_SCHEMA, agentType: AGENT })))).filter(Boolean)
@@ -262,7 +263,7 @@ async function outline(mined) {
     '선택 후보: ' + JSON.stringify(base),
     '선택 이유와 위험: ' + JSON.stringify(selection),
     '자료 경계: ' + JSON.stringify(mined.synthesis && mined.synthesis.unresolved),
-    '완성 산문을 쓰지 말고 같은 OUTLINE_SCHEMA로 반환한다. 제목과 첫 절 제목 중복, 결론 선취, 외부 자료가 주인공이 되는 문제를 마지막으로 제거한다.',
+    '완성 산문을 쓰지 말고 같은 OUTLINE_SCHEMA로 반환한다. 선택 필드를 형식적으로 채우지 말고, 제목과 첫 절 제목 중복, 결론 선취, 외부 자료가 주인공이 되는 문제를 마지막으로 제거한다.',
   ].join('\n'), { label: 'outline:final', phase: 'Outline', schema: OUTLINE_SCHEMA, agentType: AGENT })
 
   return { movementPlan, candidates, selection, selected: selected || base }

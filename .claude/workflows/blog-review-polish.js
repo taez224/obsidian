@@ -1,6 +1,6 @@
 export const meta = {
   name: 'blog-review-polish',
-  description: '한국어 블로그 기본 검수와 선택적 발행 게이트. 기본은 결정론 lint와 편집 관점 1회이며, 사실검증·리서치·다중 관점·윤문 루프는 명시한 단계에서만 실행한다.',
+  description: '한국어 블로그 기본 검수와 선택적 발행 게이트. 기본은 처음 읽는 독자 재독, 결정론 구조 스캔·lint, 편집 판단 1회이며 사실검증·리서치·다중 관점·윤문 루프는 명시한 단계에서만 실행한다.',
   whenToUse: '블로그 초안을 가볍게 점검하거나, 사용자가 발행 전 전체 검수를 명시적으로 요청했을 때. args로 대상 파일과 옵션을 넘긴다.',
   phases: [
     { title: 'Light-review' },
@@ -22,7 +22,10 @@ export const meta = {
 //     publicationSurface:"brunch|personal-tech|company-tech", // 선택
 //     stages:      ["light"],                         // 선택(기본 light)
 //     mode:        "publish",                         // 선택: 전체 발행 게이트
-//     maxRounds:   2                                  // 선택(윤문 루프 상한)
+//     reviewSeats: ["senior","skimmer","editor"],   // 선택(필요한 좌석만)
+//     closedDecisions:["제목 전략은 유지"],            // 선택(새 근거 없이는 재개하지 않을 결정)
+//     applyEditorialRisks:false,                       // 선택(기본은 객관적 결함만 자동 수정)
+//     maxRounds:   1                                  // 선택(윤문 루프 상한, 명시할 때만 늘림)
 //   }
 //
 // 전체 발행 게이트:
@@ -44,8 +47,11 @@ const FILE = A.file
 if (!FILE) { log('❌ args.file 이 필요합니다. {file:"<절대경로>"} 객체로 넘기세요.'); return { error: 'args.file required', gotArgsType: typeof args } }
 const FULL_STAGES = ['factcheck', 'research', 'editorial', 'polish', 'gate']
 const STAGES = A.stages || (A.mode === 'publish' ? FULL_STAGES : ['light'])
-const MAX_ROUNDS = A.maxRounds || 2
+const MAX_ROUNDS = Number.isInteger(A.maxRounds) && A.maxRounds > 0 ? A.maxRounds : 1
 const WORK = A.workCopy || ''
+const REQUESTED_REVIEW_SEATS = Array.isArray(A.reviewSeats) ? A.reviewSeats.map(String) : []
+const CLOSED_DECISIONS = Array.isArray(A.closedDecisions) ? A.closedDecisions.map(String) : []
+const APPLY_EDITORIAL_RISKS = A.applyEditorialRisks === true
 const SURFACE = A.publicationSurface || 'unspecified'
 const READER = A.targetReader || (SURFACE === 'company-tech'
   ? '과장보다 재현 가능한 근거와 실무 효용을 보는 기술 독자'
@@ -105,9 +111,10 @@ const PERSONA_SCHEMA = {
         properties: {
           line: { type: 'string' }, quote: { type: 'string' },
           issue: { type: 'string' }, severity: { type: 'string', enum: ['high', 'medium', 'low'] },
+          kind: { type: 'string', enum: ['objective-defect', 'editorial-risk', 'preference'] },
           suggestion: { type: 'string' },
         },
-        required: ['line', 'quote', 'issue', 'severity', 'suggestion'],
+        required: ['line', 'quote', 'issue', 'severity', 'kind', 'suggestion'],
       },
     },
     whatWorks: { type: 'string', description: '보존할 강점(keep-list 재료)' },
@@ -125,9 +132,11 @@ const REVIEW_SCHEMA = {
         type: 'object', additionalProperties: false,
         properties: {
           line: { type: 'string' }, issue: { type: 'string' },
-          severity: { type: 'string', enum: ['high', 'medium', 'low'] }, fix: { type: 'string' },
+          severity: { type: 'string', enum: ['high', 'medium', 'low'] },
+          kind: { type: 'string', enum: ['objective-defect', 'editorial-risk', 'preference'] },
+          fix: { type: 'string' },
         },
-        required: ['line', 'issue', 'severity', 'fix'],
+        required: ['line', 'issue', 'severity', 'kind', 'fix'],
       },
     },
     note: { type: 'string' },
@@ -164,18 +173,23 @@ const SLOP_LINT_SCHEMA = {
 const LIGHT_REVIEW_SCHEMA = {
   type: 'object', additionalProperties: false,
   properties: {
+    readerThesis: { type: 'string', description: '원고만 처음 읽고 남은 주장 한 문장' },
+    reviewMode: { type: 'string', enum: ['fresh-reader', 'context-aware'] },
     readiness: { type: 'string', enum: ['ready', 'minor', 'needs-work'] },
     strengths: { type: 'array', items: { type: 'string' } },
+    preserveLines: { type: 'array', minItems: 3, maxItems: 5, items: { type: 'string' } },
     issues: {
       type: 'array',
+      maxItems: 3,
       items: {
         type: 'object', additionalProperties: false,
         properties: {
           line: { type: 'string' },
+          kind: { type: 'string', enum: ['objective-defect', 'editorial-risk', 'preference'] },
           issue: { type: 'string' },
           suggestion: { type: 'string' },
         },
-        required: ['line', 'issue', 'suggestion'],
+        required: ['line', 'kind', 'issue', 'suggestion'],
       },
     },
     slopVerdict: { type: 'string', enum: ['pass', 'warn', 'fail', 'error'] },
@@ -183,7 +197,7 @@ const LIGHT_REVIEW_SCHEMA = {
     slopMedium: { type: 'number' },
     slopHits: { type: 'array', items: { type: 'string' } },
   },
-  required: ['readiness', 'strengths', 'issues', 'slopVerdict', 'slopHigh', 'slopMedium', 'slopHits'],
+  required: ['readerThesis', 'reviewMode', 'readiness', 'strengths', 'preserveLines', 'issues', 'slopVerdict', 'slopHigh', 'slopMedium', 'slopHits'],
 }
 const DRAFT_PROFILE_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -254,13 +268,28 @@ const DIFF_SCHEMA = {
 
 // ── personas (generic) ───────────────────────────────────────────────────────
 const PERSONAS = [
-  { id: '냉소적 시니어 동료', short: '시니어', seat: '동료가 눈 굴릴지 끄덕일지 직감으로. 현학·인용 밀도 과다·구체 사례 부족을 잡는다.' },
-  { id: '30초 스키머', short: '스키머', seat: '헤더+각 문단 첫 문장만 훑는다. 골격으로 논지가 서나, 소제목이 정직한가, 표가 흐름을 끊나.' },
-  { id: '글쓰기 편집자', short: '편집자', seat: '문장 리듬·종결 단조·영어 병기 밀도·잡초·음독 테스트. before→after를 최소 3개 제시.' },
-  { id: '회의적 반대자', short: '반대자', seat: '가장 강한 반론(비용/실효성/새 개념어 피로)에 글이 답하는지 steelman.' },
-  { id: '트렌드 감수자', short: '트렌드', seat: '트렌드가 논거인가 name-drop인가. 영어 개념어 밀도와 트렌드 균형. 리서치 브리프가 있으면 그 실측(트렌드 현재성·놓친 전개·경쟁 구조)과 대조해서 판정 — 추측 말고 브리프 근거로.' },
-  { id: '한국어 AI-티 감별사', short: 'AI티', seat: '번역투·"A가 아니라 B" 공식·요약강박·헤지·영어병기·훈계조. 단 작가의 의도된 핵심 개념어는 보존 대상(결함 아님). 과교정으로 목소리 평탄화됐는지도 본다.' },
+  { key: 'senior', id: '냉소적 시니어 동료', short: '시니어', seat: '동료가 눈 굴릴지 끄덕일지 직감으로. 현학·인용 밀도 과다·구체 사례 부족을 잡는다.' },
+  { key: 'skimmer', id: '30초 스키머', short: '스키머', seat: '헤더+각 문단 첫 문장만 훑는다. 골격으로 논지가 서나, 소제목이 정직한가, 표가 흐름을 끊나.' },
+  { key: 'editor', id: '글쓰기 편집자', short: '편집자', seat: '문장 리듬·종결 단조·영어 병기 밀도·잡초·음독 테스트. 실제 결함이 있을 때만 before→after 0~3개를 제시한다.' },
+  { key: 'opponent', id: '회의적 반대자', short: '반대자', seat: '가장 강한 반론(비용/실효성/새 개념어 피로)에 글이 답하는지 steelman.' },
+  { key: 'trend', id: '트렌드 감수자', short: '트렌드', seat: '트렌드가 논거인가 name-drop인가. 영어 개념어 밀도와 트렌드 균형. 리서치 브리프가 있으면 그 실측(트렌드 현재성·놓친 전개·경쟁 구조)과 대조해서 판정 — 추측 말고 브리프 근거로.' },
+  { key: 'ai-style', id: '한국어 AI-티 감별사', short: 'AI티', seat: '번역투·"A가 아니라 B" 공식·요약강박·헤지·영어병기·훈계조. 단 작가의 의도된 핵심 개념어는 보존 대상(결함 아님). 과교정으로 목소리 평탄화됐는지도 본다.' },
 ]
+
+const DEFAULT_PERSONAS = PERSONAS.filter((p) => p.key !== 'trend' || STAGES.includes('research'))
+const MATCHED_PERSONAS = REQUESTED_REVIEW_SEATS.length
+  ? PERSONAS.filter((p) => REQUESTED_REVIEW_SEATS.includes(p.key) || REQUESTED_REVIEW_SEATS.includes(p.id) || REQUESTED_REVIEW_SEATS.includes(p.short))
+  : []
+const ACTIVE_PERSONAS = MATCHED_PERSONAS.length ? MATCHED_PERSONAS : DEFAULT_PERSONAS
+
+function isActionableFinding(f) {
+  return f && (f.kind === 'objective-defect' || (APPLY_EDITORIAL_RISKS && f.kind === 'editorial-risk'))
+}
+
+function decisionContext() {
+  if (!CLOSED_DECISIONS.length) return ''
+  return ['## 이미 닫힌 결정', ...CLOSED_DECISIONS.map((d) => '- ' + d), '새 사실이나 현재 원고의 회귀가 없으면 다시 열지 않는다.'].join('\n')
+}
 
 // 정확성 센티넬: 윤문 루프 전용 7번째 좌석
 const ACCURACY_SENTINEL = {
@@ -272,15 +301,23 @@ function fileCtx(path) {
   return ['대상 파일을 Read 도구로 먼저 전문 읽기(line 번호 확인): ' + path, '', GOAL, '목표 독자: ' + READER, TONE].join('\n')
 }
 
-// ── stage: light review (기본: 편집 관점 1회 + 결정론 lint) ──────────────────
+// ── stage: light review (처음 읽는 독자 + 구조 스캔 + 편집 판단 + lint) ────────
 async function runLightReview(path) {
-  log('[Light-review] 통독 1회 + 결정론 슬롭 린트')
+  log('[Light-review] 처음 읽는 독자 재독 + 구조 스캔 + 결정론 슬롭 린트')
   const vaultRoot = path.includes('/20_Projects/') ? path.slice(0, path.indexOf('/20_Projects/')) : '/Users/taez/Projects/obsidian'
   const lintScript = vaultRoot + '/.claude/workflows/blog-slop-lint.mjs'
+  const structureScript = vaultRoot + '/.claude/workflows/blog-structure-scan.mjs'
   return agent(
     [fileCtx(path), '',
-      '한 명의 편집자로서 글을 처음부터 끝까지 한 번 읽어라. 웹 리서치, 별도 페르소나, 파일 수정은 하지 않는다.',
-      '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약만 최대 3개 issues에 적고, 보존할 강점은 strengths에 적는다.',
+      '한 명의 처음 읽는 편집자로서 아웃라인·이전 리뷰·근거 노트를 열지 말고 대상 원고만 처음부터 끝까지 한 번 읽어라. 웹 리서치, 별도 페르소나, 파일 수정은 하지 않는다.',
+      '첫 통독 직후 원고가 남긴 주장을 readerThesis 한 문장으로 적고 reviewMode="fresh-reader"로 둔다. 이 단계에는 이전 리뷰나 아웃라인을 섞지 않는다.',
+      '',
+      '그 다음 Bash로 구조 스캐너를 정확히 한 번 실행해 JSON을 읽어라. 수치와 후보는 관측일 뿐 자동 결함 판정이 아니다.',
+      'node "' + structureScript + '" "' + path + '" --json',
+      'sections로 절 비중과 역방향 아웃라인을 확인하고, repeats·headingEchoes·longParas는 사람이 의미를 확인한다. 스캐너에 없음이 나와도 의미 재진술과 제목 약속 불이행은 직접 본다.',
+      '',
+      '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약만 최대 3개 issues에 적고 objective-defect/editorial-risk/preference를 구분한다. 숫자를 채우려고 문제를 만들지 않는다.',
+      '보존할 강점은 strengths에, 실제 문장 3~5개는 preserveLines에 적는다.',
       '제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 그대로 겹치는지, 소제목이 각 절의 역할을 정직하게 보여주는지도 본다. 고유명사·질문형·대구형 같은 특정 패턴을 의무화하지 않는다.',
       '',
       '그 다음 Bash로 아래 결정론 lint를 정확히 한 번 실행하고 JSON 값을 그대로 옮겨라.',
@@ -373,11 +410,11 @@ async function runResearch(path) {
   const findings = []
   if (trend) {
     (trend.stalePhrasings || []).slice(0, 4).forEach((s) => findings.push({
-      severity: 'medium', line: '?', quote: s, persona: '트렌드 실측',
+      severity: 'medium', kind: 'editorial-risk', line: '?', quote: s, persona: '트렌드 실측',
       issue: '이미 식었거나 흔해진 프레이밍', suggestion: '최신 담론에 맞게 표현 갱신 또는 제거',
     }))
     ;(trend.missedDevelopments || []).slice(0, 2).forEach((m) => findings.push({
-      severity: 'medium', line: '?', quote: '(해당 주제 전반)', persona: '트렌드 실측',
+      severity: 'medium', kind: 'editorial-risk', line: '?', quote: '(해당 주제 전반)', persona: '트렌드 실측',
       issue: '초안이 놓친 최근 전개: ' + m, suggestion: '한 줄로 현재성 보강(과장 없이)',
     }))
   }
@@ -387,10 +424,11 @@ async function runResearch(path) {
 
 // ── stage: editorial diagnose (JS aggregation, no synthesis agent) ───────────
 async function runEditorial(path, researchBrief) {
-  log('[Editorial] 6인 패널 통독 진단...')
+  log('[Editorial] 선택 좌석 ' + ACTIVE_PERSONAS.length + '인 통독 진단...')
   const ground = researchBrief ? ('\n## 리서치 브리프(실측 근거 — 트렌드/구조 판정에 활용)\n' + researchBrief + '\n') : ''
-  const reports = (await parallel(PERSONAS.map(p => () =>
-    agent([fileCtx(path), ground, '## 너의 좌석: ' + p.id, p.seat, '',
+  const reports = (await parallel(ACTIVE_PERSONAS.map(p => () =>
+    agent([fileCtx(path), ground, decisionContext(), '## 너의 좌석: ' + p.id, p.seat, '',
+      '각 finding을 objective-defect/editorial-risk/preference 중 하나로 분류한다. 숫자를 채우려고 문제를 만들지 않는다.',
       'persona="' + p.id + '". 이 좌석에서 본 것만, line 인용으로. whatWorks에 보존할 강점.'].join('\n'),
       { label: 'lens:' + p.short, phase: 'Editorial', schema: PERSONA_SCHEMA, agentType: AGENT })
   ))).filter(Boolean)
@@ -399,12 +437,13 @@ async function runEditorial(path, researchBrief) {
   const rank = { high: 0, medium: 1, low: 2 }
   const findings = reports.flatMap(r => (r.findings || []).map(f => ({ ...f, persona: r.persona })))
     .sort((a, b) => (rank[a.severity] ?? 3) - (rank[b.severity] ?? 3))
+  const actionableFindings = findings.filter(isActionableFinding)
   const keepList = reports.map(r => '- (' + r.persona + ') ' + r.whatWorks).join('\n')
   const goalScore = reports.map(r => r.achievesGoal)
-  return { reports, findings, keepList, goalScore }
+  return { reports, findings, actionableFindings, keepList, goalScore }
 }
 
-// ── stage: polish loop (editor → 6인 + 정확성 센티넬 재검수 → 수렴까지) ────────
+// ── stage: polish loop (editor → 선택 좌석 + 정확성 센티넬 재검수) ───────────
 async function runPolish(workPath, initialBrief, keepList) {
   log('[Polish] 작업 사본 준비: ' + workPath)
   await agent(
@@ -416,7 +455,7 @@ async function runPolish(workPath, initialBrief, keepList) {
     '', '## 목소리 규칙', '- 존댓말+1인칭 유지. 외과적 최소 수정. 전체 리라이트·과교정(목소리 평탄화) 금지.',
     '- 프론트매터/위키링크/이미지/표 구조 보존.'].join('\n')
 
-  const reviewers = PERSONAS.concat([ACCURACY_SENTINEL])
+  const reviewers = ACTIVE_PERSONAS.concat([ACCURACY_SENTINEL])
   let brief = initialBrief
   let prevRemaining = Infinity
   let converged = false
@@ -435,23 +474,25 @@ async function runPolish(workPath, initialBrief, keepList) {
     log('[Polish] 라운드 ' + round + ': ' + changeCount + '곳 → 패널 재검수')
 
     const reviews = (await parallel(reviewers.map(p => () =>
-      agent(['이미 윤문이 적용된 파일을 Read로 다시 읽고 판정: ' + workPath, '', GOAL, '목표 독자: ' + READER, TONE, '',
+      agent(['이미 윤문이 적용된 파일을 Read로 다시 읽고 판정: ' + workPath, '', GOAL, '목표 독자: ' + READER, TONE, '', decisionContext(),
         '## 좌석: ' + p.id, p.seat, '',
-        'remaining에는 목표를 막는 high/medium만(없으면 빈 배열 + satisfied=true). 새 트집 금지. 보존 대상은 결함 아님. persona="' + p.id + '".'].join('\n'),
+        'remaining에는 목표를 막는 high/medium만 적고 objective-defect/editorial-risk/preference를 구분한다. 새 트집 금지. 보존 대상은 결함 아님. 취향은 수렴을 막지 않는다. persona="' + p.id + '".'].join('\n'),
         { label: 'review:' + p.short + ':r' + round, phase: 'Polish', schema: REVIEW_SCHEMA, agentType: AGENT })
     ))).filter(Boolean)
     finalReviews = reviews
 
-    const remaining = reviews.flatMap(r => (r.remaining || []).filter(f => f.severity === 'high' || f.severity === 'medium'))
-    const okCount = reviews.filter(r => r.satisfied || !(r.remaining || []).some(f => f.severity === 'high' || f.severity === 'medium')).length
+    const remaining = reviews.flatMap(r => (r.remaining || []).filter(f =>
+      (f.severity === 'high' || f.severity === 'medium') && isActionableFinding(f)))
+    const okCount = reviews.filter(r => !(r.remaining || []).some(f =>
+      (f.severity === 'high' || f.severity === 'medium') && isActionableFinding(f))).length
     roundLog.push({ round, changeCount, okCount, totalReviewers: reviews.length, remainingHighMed: remaining.length, summary: edit ? edit.changesSummary : '(edit 실패)' })
 
-    if (okCount === reviews.length && reviews.length > 0) { converged = true; break }
+    if (remaining.length === 0 && reviews.length > 0) { converged = true; break }
     if (changeCount === 0) { log('[Polish] 변경 0건 — 정지'); break }
     if (remaining.length >= prevRemaining) { log('[Polish] 진전 없음 — 수렴 정지'); break }
     prevRemaining = remaining.length
-    brief = ['## 이전 라운드 후에도 남은 high/medium만 외과적으로 더 고쳐라. 좋은 부분은 손대지 마라.',
-      remaining.map(f => '- [' + f.severity + '] line ' + f.line + ': ' + f.issue + ' → ' + f.fix).join('\n'),
+    brief = ['## 이전 라운드 후에도 남은 적용 대상만 외과적으로 더 고쳐라. 좋은 부분은 손대지 마라.',
+      remaining.map(f => '- [' + f.kind + '/' + f.severity + '] line ' + f.line + ': ' + f.issue + ' → ' + f.fix).join('\n'),
       '', KEEP].join('\n')
   }
   return { workPath, converged, rounds: roundLog, finalReviews }
@@ -459,13 +500,19 @@ async function runPolish(workPath, initialBrief, keepList) {
 
 // ── stage: final gate (통독 + 델타 재사실검증 + 구조검사) ──────────────────────
 async function runGate(targetPath) {
-  log('[Final-gate] 통독 일관성 + 델타 재사실검증 + 구조 회귀검사 + 결정론 슬롭 린트')
+  log('[Final-gate] 통독 일관성 + 구조 스캔 + 델타 재사실검증 + 구조 회귀검사 + 결정론 슬롭 린트')
   // 린트 절대경로: 초안 경로에서 vault 루트를 역산(20_Projects 앞부분)
   const vaultRoot = targetPath.includes('/20_Projects/') ? targetPath.slice(0, targetPath.indexOf('/20_Projects/')) : '/Users/taez/Projects/obsidian'
   const lintScript = vaultRoot + '/.claude/workflows/blog-slop-lint.mjs'
+  const structureScript = vaultRoot + '/.claude/workflows/blog-structure-scan.mjs'
+  const visualReview = vaultRoot + '/.agents/skills/taez-insight-blog-writer/references/visual-argument-review.md'
   const [coherence, structure, slop] = await parallel([
     () => agent(['너는 이 글을 *처음 읽는* 목표 독자다: ' + READER + '. ' + targetPath + ' 를 Read로 끝까지 한 번에 읽어라.', '', GOAL, '',
-      '조각편집 누적으로 생긴 전체 차원의 문제만 본다: 전환/흐름 끊김, 편집 후 중복, 소제목-본문 불일치, 한 줄 TL;DR이 서는가. 제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 겹쳐 무게중심을 앞당기지 않는지도 확인한다. 그리고 윤문이 새로 만든 과장/근거없는 단정(factDeltas)도 함께 신고. coherenceVerdict/coherenceIssues/factDeltas 채우고 structure 항목은 임시로 true/빈값.'].join('\n'),
+      '첫 통독 뒤 Bash로 아래 구조 스캐너를 한 번 실행하고, 수치와 후보를 관측값으로만 사용한다.',
+      'node "' + structureScript + '" "' + targetPath + '" --json', '',
+      '조각편집 누적으로 생긴 전체 차원의 문제만 본다: 전환/흐름 끊김, 편집 후 중복, 소제목-본문 불일치, 한 줄 TL;DR이 서는가. 제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 겹쳐 무게중심을 앞당기지 않는지도 확인한다.',
+      '원고에 논지를 전달하는 도식·인포그래픽이 있으면 ' + visualReview + ' 를 Read하고 실제 에셋도 확인한다. 장식 이미지는 이 검토를 강제하지 않는다. 본문과의 사실·위계 불일치나 실제 렌더 결함만 coherenceIssues에 적는다.',
+      '그리고 윤문이 새로 만든 과장/근거없는 단정(factDeltas)도 함께 신고. coherenceVerdict/coherenceIssues/factDeltas 채우고 structure 항목은 임시로 true/빈값.'].join('\n'),
       { label: 'fresh-read', phase: 'Final-gate', schema: GATE_SCHEMA, agentType: AGENT }),
     () => agent(['Bash 도구로 ' + targetPath + ' 의 구조 무결성을 점검하라. 확인: 프론트매터(--- 쌍), 위키링크 [[ ]] 짝, 이미지 ![](...) 임베드, 마크다운 표 헤더, 깨진 링크. grep/wc로 세고, structureOk(bool)와 structureNote(무엇을 확인했고 이상 있는지)만 채워라. 나머지 필드는 임시값.'].join('\n'),
       { label: 'structure-check', phase: 'Final-gate', schema: GATE_SCHEMA, agentType: AGENT }),
@@ -506,6 +553,7 @@ if (STAGES.includes('editorial')) {
   // 리서치의 줄 단위 발견을 에디토리얼 findings 앞에 머지(구조 차별화는 제외 — 리포트 플래그만)
   if (out.research && out.research.findings && out.research.findings.length) {
     out.editorial.findings = out.research.findings.concat(out.editorial.findings || [])
+    out.editorial.actionableFindings = out.editorial.findings.filter(isActionableFinding)
   }
 }
 
@@ -517,11 +565,14 @@ if (STAGES.includes('polish')) {
     const keepList = (out.editorial && out.editorial.keepList) ||
       (await agent([fileCtx(FILE), '', '이 글에서 절대 보존해야 할 강점(구체 사례/데이터/의도된 핵심 개념어/1인칭 메타)을 줄 단위로 나열하라.'].join('\n'),
         { label: 'derive-keep', phase: 'Polish', agentType: AGENT }))
-    const brief = (out.editorial && out.editorial.findings && out.editorial.findings.length)
-      ? ['## 이번 라운드 윤문 지시 — 아래 진단을 외과적으로 반영(우선순위: high→medium)',
-          out.editorial.findings.filter(f => f.severity !== 'low')
-            .map(f => '- [' + f.severity + '] line ' + f.line + ' "' + f.quote + '": ' + f.issue + ' → ' + f.suggestion).join('\n')].join('\n')
-      : '에디토리얼 진단이 없으니, 먼저 ' + WORK + ' 를 통독하며 목표/반목표 기준으로 톤·구조·AI-티 문제를 직접 찾아 외과적으로 고쳐라.'
+    const actionable = (out.editorial && out.editorial.actionableFindings) || []
+    const brief = actionable.length
+      ? ['## 이번 라운드 윤문 지시 — 아래 적용 대상만 외과적으로 반영(우선순위: high→medium)',
+          actionable.filter(f => f.severity !== 'low')
+            .map(f => '- [' + f.kind + '/' + f.severity + '] line ' + f.line + ' "' + f.quote + '": ' + f.issue + ' → ' + f.suggestion).join('\n')].join('\n')
+      : (out.editorial
+          ? '적용 대상으로 분류된 진단이 없다. 작업 사본을 보존하고 changeCount=0으로 보고하라.'
+          : '에디토리얼 진단 없이 polish만 요청됐다. 원고를 한 번 통독하고 객관적 결함만 최대 3개 고쳐라. 실제 결함이 없으면 변경하지 않는다.')
     out.polish = await runPolish(WORK, brief, typeof keepList === 'string' ? keepList : (keepList || ''))
   }
 }

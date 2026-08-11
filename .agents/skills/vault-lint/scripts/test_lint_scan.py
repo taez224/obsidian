@@ -84,7 +84,10 @@ def build_fixture(root):
     write(root, "01_Slipbox/나쁜 노트.md", "---\ntags:\n  - '#ai'\n---\n[[대상 노트]]\n")
     # DevLog: created 없이 date만 → 위반 아님
     write(root, "30_Resources/Development/DevLog/2026-06-12.md",
-          "---\ndate: 2026-06-12\ntags:\n  - 개발/DevLog\n---\n[[대상 노트]]\n")
+          "---\ndate: 2026-06-12\n---\n[[대상 노트]]\n")
+    # tags는 선택 필드 — 없더라도 위반 아님
+    write(root, "30_Resources/태그 없는 노트.md",
+          "---\ncreated: 2026-06-12\n---\n[[대상 노트]]\n")
     # Periodic 날짜 링크는 전체 죽은 링크에는 남지만 의미 검토가 아닌 정보성 placeholder
     write(root, "10_Periodic Notes/2026/W24/2026-06-12.md",
           fm + "---\n[[2026-06-11]]\n")
@@ -152,6 +155,7 @@ def main():
         assert any("#" in s for s in bad), bad
         assert any("type" in s for s in bad), bad
         assert "30_Resources/Development/DevLog/2026-06-12.md" not in issues, issues
+        assert "30_Resources/태그 없는 노트.md" not in issues, issues
         bad_article = issues.get("30_Resources/References/Articles/나쁜 아티클.md", [])
         for k in ("source", "published", "status"):
             assert any(k in s for s in bad_article), bad_article
