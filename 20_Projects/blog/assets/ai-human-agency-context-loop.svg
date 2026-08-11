@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 1020" width="820" height="1020"
+
+     font-family="ui-monospace, SFMono-Regular, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace">
+  <title>Revisiting success criteria in an AI execution loop</title>
+  <desc>AI execution continually reports whether the chosen path meets the current success criteria. Human Agency also receives context that arrives from outside the loop, uses Taste to reconsider what counts as success, and sends the criteria back to the next execution.</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse"
+            markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1,1.5 L9,5 L1,8.5" fill="none" stroke="#2C4F7C" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse"
+            markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1,1.5 L9,5 L1,8.5" fill="none" stroke="#77869A" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse"
+            markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1,1.5 L9,5 L1,8.5" fill="none" stroke="#B4472F" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-harness" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse"
+            markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1,2 L9,5 L1,8" fill="none" stroke="#8AA0B8" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <g id="corner-tick">
+      <path d="M0,0 h14 M0,0 v14" stroke="#2C4F7C" stroke-width="1.6" fill="none"/>
+    </g>
+  </defs>
+
+  <rect width="820" height="1020" fill="#F6F4EF"/>
+
+  <!-- Editorial blueprint frame. -->
+  <use href="#corner-tick" x="20" y="20"/>
+  <g transform="translate(800,20) scale(-1,1)"><use href="#corner-tick"/></g>
+  <g transform="translate(20,1000) scale(1,-1)"><use href="#corner-tick"/></g>
+  <g transform="translate(800,1000) scale(-1,-1)"><use href="#corner-tick"/></g>
+
+  <rect x="464" y="24" width="300" height="38" fill="none" stroke="#2C4F7C" stroke-width="1.6"/>
+  <line x1="464" y1="43" x2="764" y2="43" stroke="#2C4F7C" stroke-width="1.6"/>
+  <text x="474" y="38" font-size="11.5" fill="#2C4F7C" letter-spacing="0.35">FIG. 2 · REVISITING SUCCESS CRITERIA</text>
+  <text x="474" y="57" font-size="12" fill="#647184" letter-spacing="0.25">QRA · HUMAN AGENCY IN PRACTICE</text>
+
+  <g transform="translate(0,54)">
+
+  <!-- AI follows and improves the path already chosen. -->
+  <rect x="58" y="46" width="704" height="272" rx="10" fill="none" stroke="#2C4F7C" stroke-width="2.2"/>
+  <text x="82" y="78" font-size="22" font-weight="700" fill="#2C4F7C" letter-spacing="1.8">AI EXECUTION</text>
+  <text x="82" y="101" font-size="18" fill="#3C5470">Does this implementation meet the current criteria?</text>
+
+  <!-- The loop was not naive: conventions, context and review procedures fed every stage. -->
+  <rect x="90" y="118" width="640" height="34" rx="6" fill="#F6F4EF" stroke="#8AA0B8" stroke-width="1.6"/>
+  <text x="410" y="140" font-size="14.5" font-weight="700" fill="#52708F" text-anchor="middle" letter-spacing="0.9">CONVENTIONS · CONTEXT · REVIEW PROCEDURES</text>
+  <g fill="none" stroke="#8AA0B8" stroke-width="1.8" stroke-linecap="round">
+    <line x1="140" y1="152" x2="140" y2="162" marker-end="url(#arrow-harness)"/>
+    <line x1="320" y1="152" x2="320" y2="162" marker-end="url(#arrow-harness)"/>
+    <line x1="500" y1="152" x2="500" y2="162" marker-end="url(#arrow-harness)"/>
+    <line x1="680" y1="152" x2="680" y2="162" marker-end="url(#arrow-harness)"/>
+  </g>
+
+  <!-- The main path reaches a shipped result; local fixes cycle between implementation and verification without reopening the spec. -->
+  <g fill="#F6F4EF" stroke="#2C4F7C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="90" y="168" width="100" height="70" rx="7"/>
+    <rect x="270" y="168" width="100" height="70" rx="7"/>
+    <rect x="450" y="168" width="100" height="70" rx="7"/>
+    <rect x="630" y="168" width="100" height="70" rx="7"/>
+  </g>
+  <g fill="none" stroke="#2C4F7C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M122 186 h36 M122 197 h36 M122 208 h24"/>
+    <path d="M306 184 l-9 12 l9 12 M334 184 l9 12 l-9 12"/>
+    <path d="M482 196 l9 11 l18 -23"/>
+    <path d="M680 209 v-27 M680 182 l-10 10 M680 182 l10 10"/>
+  </g>
+  <g fill="none" stroke="#2C4F7C" stroke-width="2.2" stroke-linecap="round">
+    <line x1="198" y1="203" x2="266" y2="203" marker-end="url(#arrow-blue)"/>
+    <line x1="378" y1="203" x2="446" y2="203" marker-end="url(#arrow-blue)"/>
+    <line x1="558" y1="203" x2="626" y2="203" marker-end="url(#arrow-blue)"/>
+  </g>
+  <g font-size="13.5" font-weight="700" fill="#2C4F7C" text-anchor="middle" letter-spacing="1">
+    <text x="140" y="230">SPEC</text>
+    <text x="320" y="230">IMPLEMENT</text>
+    <text x="500" y="230">VERIFY</text>
+    <text x="680" y="230">SHIP</text>
+  </g>
+
+  <path d="M500 244 C500 264 370 264 320 242"
+        fill="none" stroke="#2C4F7C" stroke-width="2.2" stroke-linecap="round"
+        marker-end="url(#arrow-blue)"/>
+  <!-- The loop stays above its label so both feedback and wording remain legible. -->
+  <text x="410" y="280" font-size="19" fill="#2C4F7C" text-anchor="middle">Success signals accumulated</text>
+  <text x="410" y="303" font-size="19" fill="#2C4F7C" text-anchor="middle">while revisiting the choice felt less necessary</text>
+
+  <!-- Execution hands a visible result down to the feedback report. -->
+  <path d="M199 318 V344" fill="none" stroke="#2C4F7C" stroke-width="3.2"
+        stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+
+  <rect x="66" y="348" width="266" height="112" rx="8" fill="#E8EEF5" stroke="#2C4F7C" stroke-width="2.6"/>
+  <text x="199" y="376" font-size="18" font-weight="700" fill="#2C4F7C" text-anchor="middle">EXECUTION FEEDBACK</text>
+  <text x="199" y="406" font-size="16" fill="#647184" text-anchor="middle">Signals from each run</text>
+  <text x="199" y="439" font-size="18" font-weight="700" fill="#2C4F7C" text-anchor="middle">FUNCTIONALITY · TESTS</text>
+
+  <rect x="452" y="348" width="302" height="112" rx="8" fill="#F6F4EF" stroke="#52606D" stroke-width="2.2"/>
+  <text x="603" y="376" font-size="17.5" font-weight="700" fill="#52606D" text-anchor="middle">CONTEXT OUTSIDE THE LOOP</text>
+  <text x="603" y="406" font-size="16" fill="#647184" text-anchor="middle">known · new · changing</text>
+  <text x="603" y="439" font-size="18" font-weight="700" fill="#52606D" text-anchor="middle">SCOPE · OPERATIONS · VALUE</text>
+
+  <!-- Context enters intermittently from outside the execution loop. -->
+  <path d="M796 404 H754" fill="none" stroke="#77869A" stroke-width="2.2"
+        stroke-linecap="round" stroke-dasharray="6 5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Taste and consequential choice sit inside Human Agency. -->
+  <g transform="translate(0,78)">
+  <rect x="68" y="408" width="684" height="420" rx="14" fill="none" stroke="#B4472F"
+        stroke-width="2.2"/>
+  <rect x="72" y="392" width="214" height="34" fill="#F6F4EF"/>
+  <text x="86" y="416" font-size="21" font-weight="700" fill="#B4472F" letter-spacing="1.5">HUMAN AGENCY</text>
+
+  <!-- Inputs cross the Agency boundary in the foreground so the paths stay continuous. -->
+  <path d="M199 382 C300 382 350 424 380 446" fill="none" stroke="#2C4F7C" stroke-width="3.2"
+        stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+  <path d="M603 382 C520 382 470 424 440 446" fill="none" stroke="#77869A" stroke-width="2.2"
+        stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+  <rect x="280" y="448" width="260" height="92" rx="46" fill="#F6F4EF" stroke="#B4472F" stroke-width="2.6"/>
+  <text x="410" y="482" font-size="24" font-weight="700" fill="#B4472F" text-anchor="middle" letter-spacing="2">TASTE</text>
+  <text x="410" y="514" font-size="17" font-weight="700" fill="#B4472F" text-anchor="middle">Reweighs what matters</text>
+  <!-- The criteria Taste weighs by sit beside the node, not in the gap below it. -->
+  <line x1="540" y1="494" x2="558" y2="494" stroke="#647184" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="566" y="488" font-size="17" fill="#647184">Purpose · Role</text>
+  <text x="566" y="508" font-size="17" fill="#647184">Responsibility</text>
+
+  <line x1="410" y1="548" x2="410" y2="584" stroke="#B4472F" stroke-width="2.4" stroke-linecap="round"
+        marker-end="url(#arrow-orange)"/>
+  <rect x="218" y="588" width="384" height="68" rx="8" fill="#F6F4EF" stroke="#B4472F" stroke-width="2.4"/>
+  <text x="410" y="617" font-size="18.5" font-weight="700" fill="#B4472F" text-anchor="middle" letter-spacing="0.4">ARE THESE STILL</text>
+  <text x="410" y="641" font-size="18.5" font-weight="700" fill="#B4472F" text-anchor="middle" letter-spacing="0.4">THE RIGHT CRITERIA?</text>
+  <!-- Illustrative outcomes beside the node, not exclusive branches in the flow: retaining still counts if the question was actually asked. -->
+  <line x1="602" y1="622" x2="620" y2="622" stroke="#647184" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="628" y="610" font-size="14" fill="#647184">retain</text>
+  <text x="628" y="628" font-size="14" fill="#647184">revise</text>
+  <text x="628" y="646" font-size="14" fill="#647184">replace</text>
+
+  <line x1="410" y1="656" x2="410" y2="692" stroke="#B4472F" stroke-width="2.4" stroke-linecap="round"
+        marker-end="url(#arrow-orange)"/>
+  <rect x="218" y="696" width="384" height="68" rx="8" fill="#F6F4EF" stroke="#B4472F" stroke-width="2.4"/>
+  <text x="410" y="723" font-size="17" font-weight="700" fill="#B4472F" text-anchor="middle" letter-spacing="0.45">REVISITED SUCCESS CRITERIA</text>
+  <text x="410" y="747" font-size="15" font-weight="700" fill="#B4472F" text-anchor="middle" letter-spacing="0.8">FOR NEXT EXECUTION</text>
+
+  <!-- The revisited criteria return to SPEC; the diagram does not say which way the judgment went. -->
+  <path d="M410 764 V790 H38 V125 H84" fill="none" stroke="#B4472F" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-orange)"/>
+  </g>
+  </g>
+  <text x="764" y="997" font-size="11.5" fill="#647184" text-anchor="end" letter-spacing="0.35">CONCEPT BY TAEZ · DEVELOPED WITH CLAUDE + GPT</text>
+</svg>
