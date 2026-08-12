@@ -10,12 +10,10 @@ formulas:
   updated: file.mtime.relative()
   days_since_update: (now() - file.mtime).days.floor()
   is_orphan: file.links.length == 0 && file.backlinks.length == 0
-  reuse_count: if(used_in, used_in.length, 0)
+  recorded_reuse_count: if(used_in, used_in.length, 0)
 properties:
   file.name:
     displayName: 노트
-  file.tags:
-    displayName: 태그
   created:
     displayName: 생성일
   type:
@@ -32,8 +30,8 @@ properties:
     displayName: 최근 수정
   formula.days_since_update:
     displayName: 미갱신일
-  formula.reuse_count:
-    displayName: 재사용
+  formula.recorded_reuse_count:
+    displayName: 기록된 재사용
 views:
   - type: table
     name: 전체 노트
@@ -44,14 +42,11 @@ views:
       - file.name
       - type
       - status
-      - file.tags
-      - formula.connections
+      - formula.recorded_reuse_count
       - formula.updated
     sort:
       - property: file.name
         direction: ASC
-    summaries:
-      formula.connections: Average
   - type: table
     name: seedling 검토
     filters:
@@ -60,30 +55,30 @@ views:
         - status == "seedling"
     order:
       - file.name
-      - file.tags
       - created
+      - formula.recorded_reuse_count
       - formula.days_since_update
       - formula.updated
     sort:
       - property: formula.days_since_update
         direction: DESC
   - type: table
-    name: 재사용됐지만 seedling
+    name: 기록된 재사용이 있는 seedling
     filters:
       and:
         - type == "permanent"
         - status == "seedling"
-        - formula.reuse_count > 0
+        - formula.recorded_reuse_count > 0
     order:
       - file.name
-      - formula.reuse_count
+      - formula.recorded_reuse_count
       - created
       - formula.updated
     sort:
-      - property: formula.reuse_count
+      - property: formula.recorded_reuse_count
         direction: DESC
     summaries:
-      formula.reuse_count: Sum
+      formula.recorded_reuse_count: Sum
   - type: table
     name: 고립된 노트
     filters:
@@ -156,5 +151,5 @@ views:
       - file.name
       - type
       - status
-      - file.tags
-      - formula.connections
+      - formula.recorded_reuse_count
+      - formula.updated

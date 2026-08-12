@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3978B8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3F8A55"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="600" rx="14" fill="#FCFCFD"/>
+
+  <!-- zone backgrounds first so nothing later gets painted over -->
+  <rect x="30" y="128" width="900" height="188" rx="12" fill="#FDF9F4" stroke="#E8DCCB" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <rect x="30" y="336" width="900" height="228" rx="12" fill="#F3F8F4" stroke="#CBDFD0" stroke-width="1.4" stroke-dasharray="6 5"/>
+
+  <rect x="38" y="24" width="230" height="28" rx="14" fill="#EEF3F9"/>
+  <text x="153" y="43" text-anchor="middle" font-size="12" font-weight="700" fill="#315F8D">QRA DEPLOYMENT MONITORING</text>
+  <text x="480" y="82" text-anchor="middle" font-size="21" font-weight="650" fill="#202633">WHEN EVENT AND CONNECTION ARE ON DIFFERENT INSTANCES</text>
+  <text x="480" y="106" text-anchor="middle" font-size="13.5" fill="#677085">The deployment data is stored either way. What changed is how the screen finds out.</text>
+
+  <!-- ================= Zone 1 : with SSE ================= -->
+  <text x="52" y="154" font-size="12.5" font-weight="700" fill="#9A571B">① WITH SSE</text>
+  <text x="146" y="154" font-size="12.5" fill="#8A7663">immediate delivery stops at the instance boundary</text>
+
+  <rect x="52" y="172" width="228" height="122" rx="11" fill="#FFF6EB" stroke="#D07A24" stroke-width="2"/>
+  <text x="166" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#9A571B">APPLICATION INSTANCE A</text>
+  <text x="166" y="234" text-anchor="middle" font-size="12.5" font-weight="650" fill="#4D5667">Deployment status changes here</text>
+  <text x="166" y="256" text-anchor="middle" font-size="11.5" fill="#8A6040">stage / step / status</text>
+  <text x="166" y="278" text-anchor="middle" font-size="11.5" fill="#8A6040">no connection to this user</text>
+
+  <line x1="280" y1="233" x2="352" y2="233" stroke="#C4473A" stroke-width="2" stroke-dasharray="7 6"/>
+  <circle cx="316" cy="233" r="15" fill="#FFFFFF" stroke="#C4473A" stroke-width="2"/>
+  <path d="M309 226 L323 240 M323 226 L309 240" stroke="#C4473A" stroke-width="2.2" stroke-linecap="round"/>
+  <text x="316" y="199" text-anchor="middle" font-size="10.5" font-weight="700" fill="#B43E32">RELAY</text>
+  <text x="316" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#B43E32">MISSING</text>
+
+  <rect x="352" y="172" width="228" height="122" rx="11" fill="#EEF5FD" stroke="#3779BB" stroke-width="2"/>
+  <text x="466" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#2D649A">APPLICATION INSTANCE B</text>
+  <text x="466" y="226" text-anchor="middle" font-size="12.5" font-weight="650" fill="#4D5667">Deployment detail</text>
+  <text x="466" y="244" text-anchor="middle" font-size="12.5" font-weight="650" fill="#4D5667">SSE connection</text>
+  <text x="466" y="264" text-anchor="middle" font-size="11.5" fill="#4E7196">held in this instance only</text>
+  <text x="466" y="282" text-anchor="middle" font-size="11.5" fill="#4E7196">no event reaches it</text>
+
+  <line x1="580" y1="233" x2="668" y2="233" stroke="#3978B8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="624" y="222" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3978B8">SSE STREAM</text>
+
+  <rect x="668" y="176" width="242" height="114" rx="11" fill="#F6F7F9" stroke="#AEB6C3" stroke-width="1.6"/>
+  <text x="789" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#4D5667">MONITORING UI</text>
+  <text x="789" y="234" text-anchor="middle" font-size="12" fill="#677085">Connection stays open,</text>
+  <text x="789" y="253" text-anchor="middle" font-size="12" fill="#677085">heartbeat keeps arriving,</text>
+  <text x="789" y="272" text-anchor="middle" font-size="12" font-weight="650" fill="#9E3F35">the screen stops moving</text>
+
+  <!-- ================= Zone 2 : with polling ================= -->
+  <text x="52" y="362" font-size="12.5" font-weight="700" fill="#337447">② WITH POLLING</text>
+  <text x="380" y="362" font-size="12.5" fill="#5E7C68">the screen reads what is already persisted</text>
+
+  <rect x="52" y="382" width="310" height="106" rx="11" fill="#EEF8F0" stroke="#4C9860" stroke-width="2"/>
+  <text x="207" y="411" text-anchor="middle" font-size="13.5" font-weight="700" fill="#337447">PERSISTED DEPLOYMENT PROGRESS</text>
+  <text x="207" y="431" text-anchor="middle" font-size="13.5" font-weight="700" fill="#337447">&amp; STATUS UPDATES</text>
+  <text x="207" y="458" text-anchor="middle" font-size="11.5" fill="#506457">State and changes survive a missed delivery</text>
+  <text x="207" y="476" text-anchor="middle" font-size="11.5" fill="#506457">Readable from any instance</text>
+
+  <line x1="510" y1="425" x2="372" y2="425" stroke="#3F8A55" stroke-width="1.7" stroke-dasharray="5 4" marker-end="url(#arrowGreen)"/>
+  <text x="441" y="404" text-anchor="middle" font-size="10.5" font-weight="700" fill="#367849">READ CHANGES</text>
+  <text x="441" y="417" text-anchor="middle" font-size="10.5" font-weight="700" fill="#367849">SINCE LAST CHECK</text>
+  <line x1="372" y1="451" x2="510" y2="451" stroke="#3F8A55" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="441" y="470" text-anchor="middle" font-size="10.5" font-weight="700" fill="#367849">DELTA RESULT</text>
+
+  <rect x="510" y="396" width="160" height="82" rx="11" fill="#F4F8FC" stroke="#78A4CF" stroke-width="1.8"/>
+  <text x="590" y="424" text-anchor="middle" font-size="12.5" font-weight="700" fill="#315F8D">INSTANCE A OR B</text>
+  <text x="590" y="446" text-anchor="middle" font-size="11" fill="#56718D">whichever one gets</text>
+  <text x="590" y="463" text-anchor="middle" font-size="11" fill="#56718D">the request</text>
+
+  <line x1="774" y1="425" x2="680" y2="425" stroke="#3F8A55" stroke-width="1.7" stroke-dasharray="5 4" marker-end="url(#arrowGreen)"/>
+  <text x="727" y="414" text-anchor="middle" font-size="10.5" font-weight="700" fill="#367849">POLL REQUEST</text>
+  <line x1="680" y1="451" x2="774" y2="451" stroke="#3F8A55" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="727" y="470" text-anchor="middle" font-size="10.5" font-weight="700" fill="#367849">NEW STATE</text>
+
+  <rect x="774" y="396" width="146" height="82" rx="11" fill="#F6F7F9" stroke="#AEB6C3" stroke-width="1.6"/>
+  <text x="847" y="424" text-anchor="middle" font-size="13" font-weight="700" fill="#4D5667">MONITORING UI</text>
+  <text x="847" y="446" text-anchor="middle" font-size="11.5" fill="#677085">stops at</text>
+  <text x="847" y="463" text-anchor="middle" font-size="11.5" fill="#677085">terminal status</text>
+
+  <text x="52" y="524" font-size="12" font-weight="650" fill="#337447">No cross-instance relay or long-lived connection state to manage.</text>
+  <text x="52" y="545" font-size="12" fill="#5E7C68">The cost moves to periodic reads instead.</text>
+
+  <!-- write path spans both zones : drawn last so the zone fills cannot cover it -->
+  <line x1="248" y1="294" x2="248" y2="376" stroke="#3F8A55" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <rect x="256" y="316" width="96" height="34" rx="6" fill="#FCFCFD" opacity="0.92"/>
+  <text x="262" y="331" font-size="10.5" font-weight="700" fill="#367849">WRITE</text>
+  <text x="262" y="345" font-size="10" fill="#5E7C68">same in both</text>
+</svg>
