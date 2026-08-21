@@ -7,7 +7,8 @@ cssclasses:
 TABLE WITHOUT ID
 	Tier,
     join(rows.file.link, ", ") as "책 목록"
-FROM #📚독서
+FROM "30_Resources/References/Books"
+WHERE !startswith(file.name, "_")
 SORT my_rate DESC
 GROUP BY choice(floor(my_rate) = 5, "S",
          choice(floor(my_rate) = 4, "A",
@@ -24,7 +25,7 @@ SORT rows.my_rate DESC
 // 1️⃣ Dataview 페이지 가져오기 (정렬: 별점 -> 생성일)
 const currentFolder = dv.current().file.folder;
 const pages = dv.pages(`"${currentFolder}"`)
-    .where(p => p.file.tags.includes("#📚독서"))
+    .where(p => !p.file.name.startsWith("_"))
     .sort(p => [p.my_rate ?? 0, p.file.cday], 'desc');
 
 // 2️⃣ 카드 컨테이너 생성
