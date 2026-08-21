@@ -38,3 +38,6 @@
 
 # Serena project settings, memories, and cache — local tooling only
 /.serena/
+
+# Claude Code
+.claude/settings.local.json
