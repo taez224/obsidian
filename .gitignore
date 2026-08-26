@@ -41,3 +41,6 @@
 
 # Claude Code
 .claude/settings.local.json
+
+# 세션 복구용 자동 생성 파일 (vizend-agent-hub 플러그인 Stop 훅)
+.claude-session-state.md
