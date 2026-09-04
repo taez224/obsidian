@@ -10,7 +10,7 @@ publisher: 동아시아
 total_page: 368
 publish_date: 2025-06-26
 cover_url: https://image.yes24.com/goods/148032297/XL
-status: 읽는 중
+status: 완독
 start_read_date: 2025-09-29
 finish_read_date: 2025-10-11
 my_rate: 4.2

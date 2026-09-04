@@ -1,0 +1,58 @@
+name: Deploy Obsidian Garden
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '01_Slipbox/**'
+      - '20_Projects/blog/**'
+      - '20_Projects/obsidian-garden/**'
+      - '30_Resources/Development/Troubleshooting/**'
+      - '30_Resources/Development/Tools/**'
+      - '30_Resources/References/Books/**'
+      - '.github/workflows/obsidian-garden-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build public garden
+        run: node 20_Projects/obsidian-garden/scripts/build.mjs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 20_Projects/obsidian-garden/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
