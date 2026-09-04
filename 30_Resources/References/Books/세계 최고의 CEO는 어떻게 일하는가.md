@@ -8,8 +8,6 @@ author:
   - 캐롤린 듀어
   - 스콧 켈러
   - 비크람 말흐트라
-  - 양진성
-  - 맥킨지 한국사무소
 category: 국내도서
 total_page: 460
 publisher: 토네이도
