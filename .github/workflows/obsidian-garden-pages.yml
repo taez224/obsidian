@@ -34,6 +34,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: 20_Projects/obsidian-garden/package-lock.json
+
+      - name: Install build dependencies
+        working-directory: 20_Projects/obsidian-garden
+        run: npm ci
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
