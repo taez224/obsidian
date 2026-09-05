@@ -44,6 +44,10 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Test public garden
+        working-directory: 20_Projects/obsidian-garden
+        run: npm test
+
       - name: Build public garden
         run: node 20_Projects/obsidian-garden/scripts/build.mjs
 
