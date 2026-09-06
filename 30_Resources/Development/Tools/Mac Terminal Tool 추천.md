@@ -1,5 +1,6 @@
 ---
 created: 2026-01-15
+summary: cat·ls·find·grep·cd를 bat·lsd·fd·ripgrep·zoxide로 바꾸고 fzf와 엮어 쓰는 맥 터미널 도구 모음. zsh 기준의 설치와 설정을 적었다.
 tags:
   - 개발/도구
 ---
