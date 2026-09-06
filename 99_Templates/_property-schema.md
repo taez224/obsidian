@@ -296,6 +296,23 @@ tags:
 
 `created`는 모든 노트의 필수 필드이고 `summary`는 Concepts 노트의 식별 요약이다. `tags`는 여러 폴더를 가로질러 실제로 검색할 기술 주제가 있을 때만 선택적으로 쓴다. 발행 상태를 나타내는 별도 속성은 두지 않으며, 공개 여부는 내용 검토와 공개 대상 목록에서 판단한다.
 
+새 노트는 [[dev-concept-template|Development Concept Template]]을 출발점으로 삼고 필요한 절만 사용한다.
+
+---
+
+## 🧯 Development Troubleshooting (`30_Resources/Development/Troubleshooting/`)
+
+관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문에 밝힌다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]을 출발점으로 삼고 필요한 절만 사용한다.
+
+```yaml
+---
+created: 2026-09-06
+summary: <문제와 해결 원리를 한두 문장으로 요약>
+tags:
+  - 개발/<기술>
+---
+```
+
 ---
 
 ## 📰 Articles & Clippings (`30_Resources/References/Articles/`, `30_Resources/References/Clippings/`)

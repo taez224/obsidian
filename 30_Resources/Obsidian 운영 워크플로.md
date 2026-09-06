@@ -113,6 +113,13 @@ AI는 후보, 제목, 중심 주장, 연결 이유를 먼저 제안한다. 승�
 
 ### 개발 노트와 공개 페이지
 
+개발 지식의 작성·보강이나 기존 원인 설명의 검토에는 `development-note`를 사용한다. 소재 조사만 필요하면 후보까지, 저장·수정을 요청하면 해당 노트까지 진행한다.
+
+```text
+이 질문과 자료를 개발 개념 노트로 정리해줘.
+이 문제 해결 노트의 원인 설명을 근거와 대조해서 수정해줘.
+```
+
 개념을 이해하고 설명하는 노트는 `Development/Concepts`에 둔다. 기술 개념이라는 이유로 Slipbox에 넣거나, 학습 노트를 짧게 쪼개 승격하지 않는다. 여러 맥락에서 재사용할 자기 주장과 판단이 생겼을 때만 별도 영구 노트 후보로 검토하고 원래 설명을 연결한다.
 
 기술 태그는 노트의 핵심 주제로 정한다. Spring 기능을 설명하는 노트에 Java를 자동으로 함께 붙이지 않는다. 언어·JDK 자체와 프레임워크의 구분은 [[99_Templates/_property-schema#개발 기술 태그]]를 따른다.
@@ -245,6 +252,7 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 | `literature-note` | 읽은 외부 자료에서 사용자가 반응한 대목과 생각을 Articles에 기록 |
 | `socratic-dialogue` | 결론을 대신 내리지 않고 사용자의 답에 따라 질문을 하나씩 이어가며 생각의 전제·근거·반례·경계를 검토 |
 | `permanent-note` | 명시적으로 요청한 생각을 영구 노트로 정제·보강 |
+| `development-note` | 개발 지식을 작성·보강하고, 기존 문제 해결 노트의 원인·근거·표현을 검토 |
 | `sweep-project-context` | DevLog·프로젝트 문서·Repository 근거를 대조해 프로젝트 허브의 현재 상태와 다음 행동 갱신 후보를 제안 |
 | `review-zettelkasten` | 승격·병합·연결·MOC를 의미 단위로 판단하고 승인 후 적용 |
 | `vault-lint` | frontmatter·죽은 링크·고립 노트를 기계적으로 검사 |
@@ -286,6 +294,7 @@ Projects에는 종료하거나 전달해야 할 결과물을 둔다.
 
 - 구조·에이전트 경계: [[AGENTS]]
 - frontmatter·태그·연결 스키마: [[99_Templates/_property-schema|Property Schema]]
+- 개발 개념 형식: [[99_Templates/dev-concept-template|Development Concept Template]] · 문제 해결 형식: [[99_Templates/dev-troubleshooting-template|Development Troubleshooting Template]]
 - 빠른 포착 형식: [[99_Templates/quick-capture|Quick Capture Template]]
 - 영구 노트 형식: [[99_Templates/slipbox-template|Slipbox Template]]
 - MOC 형식: [[99_Templates/hub-note|Hub Note Template]]
