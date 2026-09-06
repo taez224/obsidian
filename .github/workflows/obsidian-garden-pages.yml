@@ -50,7 +50,8 @@ jobs:
         run: npm test
 
       - name: Build public garden
-        run: node 20_Projects/obsidian-garden/scripts/build.mjs
+        working-directory: 20_Projects/obsidian-garden
+        run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
