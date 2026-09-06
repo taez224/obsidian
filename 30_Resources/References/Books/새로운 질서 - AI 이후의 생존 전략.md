@@ -17,7 +17,7 @@ status: 완독
 start_read_date: 2025-08-26
 finish_read_date: 2025-08-27
 my_rate: 3.5
-book_note: "\bAI는 인간을 어떤 존재라고 인식할까?"
+book_note: "AI는 인간을 어떤 존재라고 인식할까?"
 ---
 
 
