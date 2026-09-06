@@ -13,7 +13,7 @@ status: 완독
 start_read_date: 2026-07-05
 finish_read_date: 2026-07-11
 my_rate: 4.6
-book_note: 개정판이 나왔다 무려 Claude Code 연동!!
+book_note: Claude Code와 함께라면 무적!!
 ---
 
 # 📚 세컨드 브레인은 옵시디언 with 클로드 코드
