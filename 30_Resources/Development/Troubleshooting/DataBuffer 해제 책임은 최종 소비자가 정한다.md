@@ -1,8 +1,7 @@
 ---
+summary: 같은 Flux<DataBuffer>라도 전달·파일 기록·폐기 경로에 따라 해제 책임이 달라진다.
 created: 2026-08-25
 tags:
-  - 개발/트러블슈팅
-  - 개발/Java
   - 개발/Spring
 ---
 
@@ -22,12 +21,12 @@ tags:
 > `BodyInserters.fromDataBuffers(body)`로 다음 HTTP 요청의 body에 그대로 연결하면, 그 요청을 쓰는 downstream writer가 buffer를 소비하고 해제한다. 중간 코드가 release하면 writer가 읽기 전에 풀려버린다.
 >
 > **소비하지 않고 되돌려주는 경우 — 해제해야 한다.**
-> `DataBufferUtils.write(publisher, channel)`은 이름과 달리 buffer를 소비하지 않는다. javadoc이 명시한다 — *does not close the channel ... and does **not** release the data buffers in the source. If releasing is required, then subscribe to the returned `Flux` with a `releaseConsumer()`.* 즉 **같은 buffer를 그대로 재발행하는 통과 연산자**다. 뒤에 `.then()`만 붙이면 아무도 해제하지 않는다.
+> `DataBufferUtils.write(publisher, channel)`은 이름과 달리 buffer를 소비하지 않는다. javadoc은 이 오버로드가 채널을 닫거나 원본 버퍼를 해제하지 않는다고 설명한다. 즉 **같은 buffer를 그대로 재발행하는 통과 연산자**다. 뒤에 `.then()`만 붙이면 아무도 해제하지 않는다.
 >
 > **버릴 수 있는 경우 — 버려지는 경로까지 막아야 한다.**
 > `filter`·`skip`이나 prefetch·cache처럼 원소를 폐기할 수 있는 operator를 거치면, 폐기된 buffer는 어느 소비자에도 도달하지 않는다.
 >
-> 뿌리는 `DataBuffer`가 pooled 자원인데 **소유권 이전이 타입에 드러나지 않는다**는 점이다. `Flux<DataBuffer>` 시그니처만 보고는 이게 넘기는 흐름인지 되돌려받는 흐름인지 알 수 없다. 그래서 리뷰에서 대칭성으로 판단하게 되고, 그 판단이 틀린다.
+> 뿌리는 `DataBuffer`가 pooled 자원일 수 있는데 **소유권 이전이 타입에 드러나지 않는다**는 점이다. `Flux<DataBuffer>` 시그니처만 보고는 이게 넘기는 흐름인지 되돌려받는 흐름인지 알 수 없다. 그래서 리뷰에서 대칭성으로 판단하게 되고, 그 판단이 틀린다.
 
 ---
 
@@ -37,3 +36,9 @@ tags:
 > - **파일로 내리는 게 목적이라면 채널을 직접 열지 않는다.** `DataBufferUtils.write(source, Path, OpenOption...)` 오버로드는 `Mono<Void>`를 반환하고 채널 개폐와 해제를 함께 처리한다. `AsynchronousFileChannel.open` + `Mono.using` + 수동 release가 한 줄로 줄고, 실수할 지점 자체가 사라진다
 > - 폐기 경로가 있는 체인에는 `doOnDiscard(DataBuffer.class, DataBufferUtils::release)`를 건다
 > - buffer를 비동기 작업 동안 보관해야 하면 `retain()`으로 소유권을 명시하고, 완료·오류·취소 모든 경로에서 해제되게 한다
+
+
+## 참고 자료
+
+- [Spring Data Buffers and Codecs](https://docs.spring.io/spring-framework/reference/core/databuffer-codec.html) - pooled buffer의 전달·소비·폐기 책임
+- [DataBufferUtils.write](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/buffer/DataBufferUtils.html#write(org.reactivestreams.Publisher,java.nio.channels.AsynchronousFileChannel)) - 채널 오버로드의 반환·해제 계약

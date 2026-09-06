@@ -2,7 +2,7 @@
 title: Reactive PDF 파일 처리 파이프라인 스터디
 created: 2026-08-25
 tags:
-  - 개발/Java
+  - 개발/Spring
 ---
 
 # Reactive PDF 파일 처리 파이프라인 스터디
