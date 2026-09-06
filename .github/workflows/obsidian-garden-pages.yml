@@ -8,6 +8,7 @@ on:
       - '01_Slipbox/**'
       - '20_Projects/blog/**'
       - '20_Projects/obsidian-garden/**'
+      - '30_Resources/Development/Concepts/**'
       - '30_Resources/Development/Troubleshooting/**'
       - '30_Resources/Development/Tools/**'
       - '30_Resources/References/Books/**'

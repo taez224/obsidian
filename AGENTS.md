@@ -21,6 +21,7 @@ This is an **Obsidian Vault** - a personal knowledge management system based on 
   ├─ Obsidian 운영 워크플로.md  사람용 vault 운영 정본
   ├─ Development/  개발 자료
   │  ├─ DevLog/    로컬 개발 기록 (daily, weekly, monthly)
+  │  ├─ Concepts/  공개 가능한 개념·설계·학습 노트
   │  ├─ Troubleshooting/ 재사용 가능한 문제 해결 기록
   │  └─ Tools/     개발 도구 자료
   ├─ References/   외부 자료 (Books, Articles, Clippings, etc)
@@ -55,7 +56,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 ### Development와 Project의 경계
 
 - 시간순 업무 기록은 중앙 `30_Resources/Development/DevLog/{daily,weekly,monthly}/`에 두고 `projects` 속성으로 프로젝트를 구분한다. `projects`에는 저장소명이 아니라 결과물 기준의 canonical `project_id`만 사용한다.
-- Java·Spring·Kubernetes 같은 기술은 폴더가 아니라 `개발/*` 태그로 표현한다. 재사용 가능한 해결법은 `Development/Troubleshooting/`에 둔다.
+- Java·Spring·Kubernetes 같은 기술은 폴더가 아니라 `개발/*` 태그로 표현한다. 공개 가능한 개발 지식은 `Development/Concepts/`(개념·설계·학습·독립 실험), 재현 가능한 해결법은 `Development/Troubleshooting/`, 도구·워크플로는 `Development/Tools/`에 둔다. `DevLog/`는 시간순 로컬 기록으로 공개 목록에 포함하지 않는다.
 - `20_Projects/<project-id>/<project-id>.md`는 목표·현재 상태·다음 행동·주요 근거의 정본이다. 소스 저장소나 DevLog를 프로젝트 폴더에 복제하지 않는다.
 - 프로젝트의 현재 상태·남은 일·근거를 다시 모으거나 허브를 갱신할 때는 `sweep-project-context`를 사용한다. 원자료를 먼저 대조하고 의미 변경 후보를 제안한 뒤 승인된 내용만 허브에 반영한다.
 

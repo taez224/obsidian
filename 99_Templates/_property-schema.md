@@ -270,6 +270,23 @@ projects:
 
 ---
 
+## 🧠 Development Concepts (`30_Resources/Development/Concepts/`)
+
+공개 가능한 개발 지식 노트다. 개념 설명, 설계 선택을 이해하기 위한 학습 기록, 독립 실험의 결과를 담는다. 프로젝트·조직·운영 맥락을 그대로 보존하는 기록은 여기에 두지 않는다.
+
+```yaml
+---
+created: 2026-09-06
+summary: <노트가 설명하는 개념 또는 학습 질문을 한두 문장으로 요약>
+tags:
+  - 개발/<기술>
+---
+```
+
+`created`는 모든 노트의 필수 필드이고 `summary`는 Concepts 노트의 식별 요약이다. `tags`는 여러 폴더를 가로질러 실제로 검색할 기술 주제가 있을 때만 선택적으로 쓴다. 발행 상태를 나타내는 별도 속성은 두지 않으며, 공개 여부는 내용 검토와 공개 대상 목록에서 판단한다.
+
+---
+
 ## 📰 Articles & Clippings (`30_Resources/References/Articles/`, `30_Resources/References/Clippings/`)
 
 Clippings는 아래의 공통 속성을 사용한다. Git 추적 카드에는 출처 메타데이터와 확인 가능한 요약만 남기며, 개인 열람용 원문 스냅샷은 Git에서 제외된 `_local-snapshots/`로 분리한다.

@@ -7,7 +7,7 @@ filters:
 formulas:
   updated: file.mtime.relative()
   created_date: if(created, date(created).format("YYYY-MM-DD"), file.ctime.format("YYYY-MM-DD"))
-  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("Clippings"), "📎 Clipping", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Troubleshooting"), "🧯 Troubleshooting", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타"))))))
+  resource_type: if(file.folder.contains("Books"), "📚 Book", if(file.folder.contains("Articles"), "📰 Article", if(file.folder.contains("Clippings"), "📎 Clipping", if(file.folder.contains("DevLog"), "🔧 DevLog", if(file.folder.contains("Troubleshooting"), "🧯 Troubleshooting", if(file.folder.contains("Concepts"), "🧠 Concepts", if(file.folder.contains("Tools"), "🛠️ Tools", "📁 기타")))))))
   subfolder: file.folder.replace("30_Resources/", "").replace("References/", "").replace("Development/", "")
   read_status: if(status == "완독", "✅", if(status == "읽는 중", "📖", if(status == "예정", "📋", "-")))
   backlinks: file.backlinks.length
@@ -187,6 +187,24 @@ views:
       - formula.updated
     sort:
       - property: date
+        direction: DESC
+  - type: table
+    name: 🧠 개발 지식
+    filters:
+      and:
+        - file.inFolder("30_Resources/Development")
+        - '!file.inFolder("30_Resources/Development/DevLog")'
+        - or:
+            - file.inFolder("30_Resources/Development/Concepts")
+            - file.inFolder("30_Resources/Development/Troubleshooting")
+            - file.inFolder("30_Resources/Development/Tools")
+    order:
+      - file.name
+      - formula.resource_type
+      - summary
+      - formula.updated
+    sort:
+      - property: file.mtime
         direction: DESC
   - type: table
     name: 📰 아티클 & 기타
