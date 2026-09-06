@@ -1,8 +1,8 @@
 ---
 created: 2026-08-07
 tags:
-  - AI
   - 철학
+  - AI
   - slipbox
 type: permanent
 status: seedling

@@ -1,8 +1,8 @@
 ---
 created: 2026-08-20
 tags:
-  - AI
   - 철학
+  - AI
 type: permanent
 status: seedling
 aliases:
