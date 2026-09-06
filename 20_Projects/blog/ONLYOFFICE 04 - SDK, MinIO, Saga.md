@@ -20,24 +20,6 @@ published: 2026-01-22
 
 # ONLYOFFICE 연동 4편: SDK, MinIO, Saga
 
-## 시리즈 정보
-
-> 🤖 내맘대로.. 아니 **Claude Code** 마음대로 구현해보는 **ONLYOFFICE Integration Server**
-> 
-> - **1편**: ONLYOFFICE 개요
-> - **2편**: ONLYOFFICE 기본 연동 (로컬 파일, 간단한 화면)
-> - **3편**: Document.key 관리 + `SAVE` 와 `FORCESAVE` + DB 연동
-> - **4편**: `ONLYOFFICE Java SDK` + `MinIO` + `Saga` **← 현재 글**
-> 
-> ---
-> 
-> *작성 예정*
-> 
-> - **5편**: 프론트엔드 고도화 - `React 19` + `Next.js 16` 등
-> - **6편**: 백엔드 고도화 - `Spring Boot 4` + `Hibernate 7` 등
-
----
-
 ## TL;DR by 🤖
 
 > 3편까지는 **"돌아가는 데모"** 였다.  

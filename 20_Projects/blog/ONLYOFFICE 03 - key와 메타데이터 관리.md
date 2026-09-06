@@ -21,22 +21,6 @@ related:
 
 # ONLYOFFICE 연동 3편: key와 메타데이터 관리
 
-## 시리즈 정보
-
-> - **1편**: ONLYOFFICE 개요
-> - **2편**: ONLYOFFICE 기본 연동 (로컬 파일, 간단한 화면)
-> - **3편**: Document.key 관리 + `SAVE` 와 `FORCESAVE` + DB 연동 **← 현재 글**
-> 
-> ---
-> 
-> *작성 예정*
-> 
-> - **4편**: ONLYOFFICE SDK + MinIO + Saga 패턴 적용
-> - **5편**: 프론트엔드 고도화 - React 19 + Next.js 16 등
-> - **6편**: 백엔드 고도화 - Spring Boot 4 + Hibernate 7 등
-
----
-
 ## TL;DR by 🤖
 
 > ONLYOFFICE를 연동하다 보면 언젠가 반드시 마주치는 질문이 있다.
