@@ -12,7 +12,7 @@ status: published
 author: TaeZ
 publication: Nextree 기술 블로그
 source: https://www.nextree.io/airo-bbalrajin-gaein-sohwahaji-moshaneun-tim/
-summary: AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 개인의 작업 속도를 팀의 흡수 역량으로 연결하려면, 산출물이 팀의 책임으로 넘어오는 경계에서 판단 가능성, 추적 가능성, 복구 가능성을 확인할 수 있어야 합니다.
+summary: AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야 합니다.
 related:
   - "[[개인의 AI 활용을 팀의 역량으로 바꾸려면]]"
   - "[[60일간의 AI 에이전틱 워크플로]]"

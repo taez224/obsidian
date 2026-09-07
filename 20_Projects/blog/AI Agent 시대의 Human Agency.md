@@ -10,7 +10,7 @@ status: published
 author: TaeZ
 publication: Nextree 기술 블로그
 source: https://www.nextree.io/ai-agent-sidaeyi-human-agency/
-summary: Qra에서 AI와 함께 SSE 구현을 다듬는 동안, 잘 돌아간다는 증거는 쌓였지만 SSE를 계속 써야 하는지는 실행 루프만으로 판단할 수 없었다. 이 경험을 통해 목적과 역할, 책임에 따라 무엇에 무게를 둘지 판단하고, 그 판단을 실제 선택과 책임 범위에 옮기는 Human Agency를 돌아본다.
+summary: AI와 함께 SSE 구현을 다듬는 동안 잘 돌아간다는 증거는 쌓였지만, 계속 써야 하는지는 실행만으로 판단할 수 없었다. 판단을 실제 선택으로 옮기는 Human Agency를 돌아본다.
 related:
   - "[[실시간성 확보 - SSE 도입부터 Polling으로의 회귀까지 - HKK]]"
   - "[[vizend-qra|Vizend QRA]]"
