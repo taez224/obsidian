@@ -42,6 +42,21 @@ jobs:
         working-directory: 20_Projects/obsidian-garden
         run: npm ci
 
+      - name: Restore OG font cache
+        uses: actions/cache@v4
+        with:
+          path: 20_Projects/obsidian-garden/node_modules/.cache/garden-og-fonts
+          key: garden-og-fonts-${{ hashFiles('20_Projects/obsidian-garden/src/lib/og-fonts.mjs') }}
+
+      # 카드 파일은 최종 SVG·폰트·resvg 버전의 해시로 스스로 유효성을 갖는다. 실행마다 저장하고 가장 최근 것을 복원한다.
+      - name: Restore OG card cache
+        uses: actions/cache@v4
+        with:
+          path: 20_Projects/obsidian-garden/node_modules/.cache/garden-og-images
+          key: garden-og-images-${{ github.run_id }}
+          restore-keys: |
+            garden-og-images-
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
