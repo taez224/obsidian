@@ -10,7 +10,7 @@ description: Andrew Ng가 AI 에이전트를 활용한 0→1 제품 개발의 �
 tags:
   - 📰article
   - AI
-  - 소프트웨어공학
+  - 개발
 status: read
 my_take: "‘taste’보다 맥락상의 우위라는 표현이 AI 시대 개발자의 판단력을 더 정확히 설명한다."
 ---

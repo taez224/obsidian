@@ -5,7 +5,7 @@ published: 2025-06-27
 tags:
   - blog
   - AI
-  - 소프트웨어공학
+  - 개발
 status: published
 author: TaeZ
 publication: Brunch

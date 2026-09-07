@@ -2,7 +2,7 @@
 created: 2026-07-11
 tags:
   - AI
-  - 소프트웨어공학
+  - 개발
   - slipbox
 type: permanent
 status: growing

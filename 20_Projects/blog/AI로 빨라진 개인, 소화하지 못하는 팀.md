@@ -7,7 +7,7 @@ tags:
   - blog
   - AI
   - 개발/도구
-  - 소프트웨어공학
+  - 개발
 status: published
 author: TaeZ
 publication: Nextree 기술 블로그
