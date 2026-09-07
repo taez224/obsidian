@@ -12,7 +12,7 @@ ended: null
 # 🚀 <% tp.file.title %>
 
 > [!warning]- 새 프로젝트 생성 체크리스트
-> 1. `project_id`를 kebab-case로 (예: `vizend-qra`) — **폴더명(`20_Projects/<id>/`)과 일치**해야 함
+> 1. `project_id`를 kebab-case로 (예: `vizend-qra`) - **폴더명(`20_Projects/<id>/`)과 일치**해야 함
 > 2. `tags`의 `프로젝트/PROJECT_ID` 도 동일 값으로 교체. 도메인 태그(예: `개발/플랫폼`, `AI`)는 Properties UI에서 추가
 > 3. `status`: `active` (진행 중) | `planning` (기획만) | `on-hold` (중단) | `completed` (완료)
 > 4. 완료 시 `ended` 채우고 → `40_Archive/`로 이동 검토
@@ -64,7 +64,7 @@ ended: null
 
 ## 📂 프로젝트 파일
 
-> `this` 키워드 기반 범용 base — 이 노트가 있는 폴더의 파일만 자동 표시.
+> `this` 키워드 기반 범용 base - 이 노트가 있는 폴더의 파일만 자동 표시.
 
 ![[_project-files.base#📂 이 폴더 노트]]
 

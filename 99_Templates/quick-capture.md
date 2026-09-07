@@ -3,7 +3,7 @@ created: <% tp.date.now("YYYY-MM-DD") %>
 next_action: ""
 ---
 
-# 📝 Quick Capture — <% tp.date.now("YYYY-MM-DD HH:mm") %>
+# 📝 Quick Capture: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 
 ## 원문
 
@@ -11,7 +11,7 @@ next_action: ""
 
 ## 출처 / 링크
 
-- 
+-
 
 ## AI 생성
 

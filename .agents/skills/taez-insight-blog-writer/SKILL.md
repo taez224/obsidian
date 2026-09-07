@@ -54,15 +54,15 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 
 ### 단일 출처 파일 (`references/`)
 
-- `voice-profile.md` — 지킬 목소리 DNA.
-- `anti-slop-lexicon.md` — 금지표현·문장부호의 단일 출처. lint와 AI-티 감별사가 함께 사용한다.
-- `korean-first-draft.md` — 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
-- `slop-gate.md` — 발행 전 사람 사인오프.
-- `final-assembly.md` — 명시적으로 요청한 발행 직전 다중 페르소나 검토와 교차 판정.
-- `structural-review.md` — 문장이 아니라 뼈대를 보는 developmental 층. 역방향 아웃라인 절차와 판정 목록.
-- `visual-argument-review.md` — 논지를 운반하는 도식의 사실·위계·강조·실제 렌더 검토.
-- `amplifier-lenses.md` — 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
-- `domestic-tech-blog-benchmark.md` — 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
+- `voice-profile.md` - 지킬 목소리 DNA.
+- `anti-slop-lexicon.md` - 금지표현·문장부호의 단일 출처. lint와 AI-티 감별사가 함께 사용한다.
+- `korean-first-draft.md` - 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
+- `slop-gate.md` - 발행 전 사람 사인오프.
+- `final-assembly.md` - 명시적으로 요청한 발행 직전 다중 페르소나 검토와 교차 판정.
+- `structural-review.md` - 문장이 아니라 뼈대를 보는 developmental 층. 역방향 아웃라인 절차와 판정 목록.
+- `visual-argument-review.md` - 논지를 운반하는 도식의 사실·위계·강조·실제 렌더 검토.
+- `amplifier-lenses.md` - 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
+- `domestic-tech-blog-benchmark.md` - 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
 
 ## Workflow
 
@@ -101,7 +101,7 @@ Search the vault before writing: the topic's project notes, previous posts in `2
 
 Before deep research or outlining, run an adjacency check regardless of whether the article belongs to a series:
 
-- Use exact title/term search and semantic claim search to shortlist the 1–3 nearest canonical blog posts. Exclude archives and duplicate drafts.
+- Use exact title/term search and semantic claim search to shortlist the 1-3 nearest canonical blog posts. Exclude archives and duplicate drafts.
 - Read the shortlisted posts as bodies, not only headings or frontmatter. Record each post's local claim, opening scene, climax evidence, and landing conclusion.
 - Allow recurring lenses, vocabulary, and authorial character. Treat the new article as duplicative only when it repeats substantially the same local claim with the same scene or evidence and lands at the same conclusion.
 - If the publication contract calls for a self-contained adaptation on another surface, allow deliberate reuse and identify what is being adapted. Otherwise find a new question, boundary, counterexample, or piece of evidence before outlining.
@@ -142,7 +142,7 @@ Before drafting, state what this article leaves with the reader in one sentence.
 질문 교체:  I asked X. Answering it showed X was the wrong question. The better question was Y.
 ```
 
-The first framing fits only when a genuine change of judgment or disagreement defines the article. An article whose judgment never changed is not weaker — it is a different article, and forcing a reversal into it manufactures a fake turn.
+The first framing fits only when a genuine change of judgment or disagreement defines the article. An article whose judgment never changed is not weaker - it is a different article, and forcing a reversal into it manufactures a fake turn.
 
 Do not force a conventional view, personal turn, or practical move into a reflective essay. Reject claims that remain generic, such as:
 
@@ -160,13 +160,13 @@ Make the claim specific with the subset that matters here: what changed, what co
 
 ### 5. Build only the structure this article needs
 
-Choose the movement the material supports. This is a menu, not a ranking — the list exists because a writer who reaches for the same movement every time produces articles that feel identical even when the evidence is different.
+Choose the movement the material supports. This is a menu, not a ranking - the list exists because a writer who reaches for the same movement every time produces articles that feel identical even when the evidence is different.
 
-- **판단이 바뀐 이야기** — 착각 → 부분 성공 인정 → 반전 → 원칙. 필자가 실제로 생각을 바꿨고 전후가 근거로 남아 있을 때.
-- **비용을 따라가는 이야기** — 결정 → 그 결정이 청구한 대가 → 대가를 감수할지 다시 고르기. 판단은 그대로인데 가격표가 보이기 시작했을 때.
-- **실패에서 시작하는 이야기** — 무너진 장면 → 무너진 이유 → 바꾼 것 → 아직 못 고친 것. 실제로 무언가 부러졌을 때.
-- **두 사례를 부딪히는 이야기** — 원칙이 통한 사례와 통하지 않은 사례 → 경계선 → 경계선의 근거. 진짜 반례가 재료에 있을 때.
-- **질문이 바뀌는 이야기** — 처음 던진 질문 → 답하다 질문이 틀렸음을 발견 → 새 질문. 글의 가치가 답이 아니라 재구성에 있을 때.
+- **판단이 바뀐 이야기** - 착각 → 부분 성공 인정 → 반전 → 원칙. 필자가 실제로 생각을 바꿨고 전후가 근거로 남아 있을 때.
+- **비용을 따라가는 이야기** - 결정 → 그 결정이 청구한 대가 → 대가를 감수할지 다시 고르기. 판단은 그대로인데 가격표가 보이기 시작했을 때.
+- **실패에서 시작하는 이야기** - 무너진 장면 → 무너진 이유 → 바꾼 것 → 아직 못 고친 것. 실제로 무언가 부러졌을 때.
+- **두 사례를 부딪히는 이야기** - 원칙이 통한 사례와 통하지 않은 사례 → 경계선 → 경계선의 근거. 진짜 반례가 재료에 있을 때.
+- **질문이 바뀌는 이야기** - 처음 던진 질문 → 답하다 질문이 틀렸음을 발견 → 새 질문. 글의 가치가 답이 아니라 재구성에 있을 때.
 
 Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
 
@@ -207,7 +207,7 @@ Run a title and heading pass before handing off the outline:
 - Do not reuse the article title verbatim as a section title.
 - Let each section heading perform its local role: a scene heading can name the artifact or friction; a conceptual section can use a restrained thesis; a landing can be short and declarative.
 - Do not require a proper noun, question, contrast, or experience suffix. For a company technical blog, compare with a current sample from `references/domestic-tech-blog-benchmark.md` and explain fit by article type.
-- When options are useful, produce 2–3 meaningfully different strategies and state what part of the article each foregrounds. Do not generate a quota of cosmetic variants.
+- When options are useful, produce 2-3 meaningfully different strategies and state what part of the article each foregrounds. Do not generate a quota of cosmetic variants.
 
 #### 연재 글의 구조
 
@@ -251,7 +251,7 @@ For a substantial draft or review, check only the applicable questions:
 - Are output metrics separated from actual capability, learning, reliability, or user value?
 - Are AI-generated phrases flattened out without making the prose bland?
 
-For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 다시 훑는다. 여기서 실제로 확인할 것은 하나다 — 직전 편과 이번 편을 이어 읽었을 때 같은 악장이 반복되는가. 소재만 바뀐 채 "오해 → 사실은 아니었다 → 원칙"이 다시 돌면 구조로 돌아간다.
+For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 다시 훑는다. 여기서 실제로 확인할 것은 하나다 - 직전 편과 이번 편을 이어 읽었을 때 같은 악장이 반복되는가. 소재만 바뀐 채 "오해 → 사실은 아니었다 → 원칙"이 다시 돌면 구조로 돌아간다.
 
 For company-tech-blog publication checks only, run a domestic-tech-blog rhythm pass:
 
@@ -289,7 +289,7 @@ For a review, produce:
 - publication-readiness verdict
 - top 3 structural issues
 - objective defects, editorial risks, and preferences kept distinct
-- 3–5 lines worth preserving for a substantial draft
+- 3-5 lines worth preserving for a substantial draft
 - concrete rewrite suggestions
 - optional direct patch
 

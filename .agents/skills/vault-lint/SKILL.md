@@ -6,7 +6,7 @@ description: 이 스킬은 사용자가 "vault lint", "vault 점검", "죽은 �
 # vault-lint: Vault 헬스 체크 + 승인 기반 개선
 
 핵심 원칙: **자동 적용 0건.** 모든 변경은 후보 제시 → 사용자 승인 → 승인분만 적용.
-(근거: LLM 링크 제안의 ~30%는 부적합하다는 실사용 보고 — 제안의 채택 여부는 항상 사람이 결정한다)
+(근거: LLM 링크 제안의 ~30%는 부적합하다는 실사용 보고 - 제안의 채택 여부는 항상 사람이 결정한다)
 
 ## 절차
 
@@ -19,7 +19,7 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 스캐너는 읽기 전용이며 JSON을 반환한다: `orphans`(고립 노트, `slipbox` 플래그 포함),
 `dead_links`(미해석 위키링크), `broken_anchors`(대상 문서는 해석되는데 그 블록 ID가 없는 `#^` 링크),
 `frontmatter_issues`(스키마 위반),
-`base_issues`(`.base` 파일의 미인식 키 — 현재는 `sortBy`, 실제 Bases 스키마엔 없고 `sort` 리스트가 맞음), `stats`,
+`base_issues`(`.base` 파일의 미인식 키. 예: `sortBy`는 실제 Bases 스키마에 없고 `sort` 리스트가 맞다), `stats`,
 `periodic_placeholders`(Periodic Notes의 의도된 날짜·주차·월 링크),
 `series_placeholders`(진행 중·잠정 중단 시리즈 허브의 예정 글 링크),
 `priorities`(기계 수정 후보 / 의미 검토 후보 / 정보성 항목 수).
@@ -30,33 +30,32 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 
 이 단계는 스캐너 결과만 사용하며 QMD를 요구하지 않는다. 노트의 의미를 읽어야 하는 연결·승격·구조화 판단은 `review-zettelkasten`으로 넘긴다.
 
-- **연결 공백·MOC 공백 — 탐지·보고만** (적용은 `review-zettelkasten` 위임):
+- **연결 공백·MOC 공백 - 탐지·보고만** (적용은 `review-zettelkasten` 위임):
   `slipbox: true`인 고립 노트와, 같은 태그/링크 클러스터에 3+ 노트가 있는데 `type: hub`
   노트가 없는 군집을 리포트에 기록한다. 어떤 노트를 어떻게 연결·구조화할지의 의미 판단과
   적용은 이 스킬에서 하지 않고, 리포트에 "review-zettelkasten으로 처리"를 안내한다.
-  (Slipbox 50+ 노트 도달 시 스캐너에 태그 집계 추가를 검토)
 - **죽은 링크 처치**: 항목별로 "오타 수정 / 스텁 생성 / 링크 제거 / 의도적 placeholder 유지"
   중 하나를 근거와 함께 제안한다. Zettelkasten에서 미해결 링크는 "나중에 쓸 노트" 표시일 수
   있으므로 제거를 기본값으로 하지 않는다.
 - **블록 앵커 깨짐**: 대상 문서는 해석되므로 링크가 살아 있어 보이지만 지목한 문장 대신 문서
-  맨 위로 이동한다 — 출처 정밀도가 조용히 문서 단위로 퇴화하므로 `dead_links`와 같은 비중으로
+  맨 위로 이동한다 - 출처 정밀도가 조용히 문서 단위로 퇴화하므로 `dead_links`와 같은 비중으로
   다룬다. 원인이 "앵커가 줄 앞에 있음"(`^id 본문`)이면 앵커를 해당 블록 뒤 줄 끝으로 옮기는
-  수정을 제안한다 — 결정적이지만 자동 적용은 아니고 승인 후 적용. 앵커 자체가 없으면 어느
+  수정을 제안한다 - 결정적이지만 자동 적용은 아니고 승인 후 적용. 앵커 자체가 없으면 어느
   블록을 가리키려 했는지가 의미 판단이므로 후보만 보고한다.
 - **Periodic placeholder**: `10_Periodic Notes/`의 날짜·주차·월 패턴 미해결 링크는 전체
   `dead_links`에는 보존하되 `meaning_review`에서 제외하고 `informational`로만 보고한다.
 - **Series placeholder**: `type: series`이고 `status`가 `completed`가 아닌 허브의 미해결 링크는
   예정 글로 보고 전체 `dead_links`에는 보존하되 `meaning_review`에서 제외한다. 완결 시리즈의
   미해결 링크는 오타·누락 가능성이 있으므로 기존처럼 의미 검토 대상으로 남긴다.
-- **재사용(`used_in`) 후보 — 탐지·보고만**: `reuse_by_note`의 `reused_by`를 `used_in` 기록
+- **재사용(`used_in`) 후보 - 탐지·보고만**: `reuse_by_note`의 `reused_by`를 `used_in` 기록
   후보로 제시한다. 판정 규칙은 `scripts/lint_scan.py`의 `classify_reuse_edge`가 정본이고,
-  무엇을 재사용으로 볼지의 기준은 `_property-schema.md`의 Slipbox 절에 있다 — 여기 복제하지 않는다.
+  무엇을 재사용으로 볼지의 기준은 `_property-schema.md`의 Slipbox 절에 있다 - 여기 복제하지 않는다.
   `pending`(Inbox 출처)은 승인 대상이 아니라 다음 검토까지 보류로만 표시한다.
   재사용 횟수로 `status` 승격을 제안하지 않는다. 승격은 `review-zettelkasten`의 판단이다.
-- **frontmatter 수정**: 제안값이 결정적으로 유도 가능한 항목만 승인 루프에 올린다 —
+- **frontmatter 수정**: 제안값이 결정적으로 유도 가능한 항목만 승인 루프에 올린다  -
   `created` 누락은 `git log --diff-filter=A --follow --format=%as -1 -- <file>` 결과로,
   태그의 `#` 포함은 제거로 제안. 유도 불가 항목(type/status/태그 내용)은 리포트 전용.
-- **base 파일 미인식 키**: 결정적으로 치환 가능하다 — `sortBy: {property: X, direction: Y}`를
+- **base 파일 미인식 키**: 결정적으로 치환 가능하다 - `sortBy: {property: X, direction: Y}`를
   `sort:` 리스트(`- property: X` / `  direction: Y`)로 바꾸는 수정을 제안한다. 자동 적용은 아니고
   승인 후 적용.
 
@@ -90,7 +89,7 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 
 ### 7. 마무리
 
-적용 내역을 요약한다. **적용 후 자동 커밋은 하지 않는다** — 커밋 여부는 사용자 판단.
+적용 내역을 요약한다. **적용 후 자동 커밋은 하지 않는다** - 커밋 여부는 사용자 판단.
 
 ## 경계
 

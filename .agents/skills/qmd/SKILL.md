@@ -30,7 +30,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 - `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 현재 지식 연결 후보에서 제외한다. 로컬 스냅샷은 검색 근거가 아니라 개인 열람용 원문 보관본이다.
 - `qmd update && qmd embed` 수동 실행은 사용자가 QMD 갱신·재인덱싱을 직접 요청했을 때만 한다. 대량 이동·삭제·병합 뒤 검색 결과가 오래되었으면 갱신 필요성을 알리되, 요청 전에는 현재 파일과 `rg`로 확인하고 평소 갱신은 post-commit hook에 맡긴다.
 
-### 재색인 트리거 — git post-commit
+### 재색인 트리거: git post-commit
 
 정기 재색인은 `.agents/hooks/post-commit`이 담당한다. 마크다운이 바뀐 커밋마다 `qmd update && qmd embed`를 백그라운드로 실행한다.
 
@@ -41,7 +41,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 
 `sandbox_workspace_write.writable_roots`의 QMD 캐시 허용은 SQLite 읽기·쓰기를 위한 설정이며 Metal GPU 실행 권한과는 별개다. `qmd doctor`의 GPU 탐지 성공만으로 샌드박스 안 모델 실행 성공을 판단하지 않는다.
 
-## Bootstrap — generic CLI instructions (위 라우팅이 우선)
+## Bootstrap: generic CLI instructions (위 라우팅이 우선)
 
 This installed skill is intentionally a small bootstrap so it does not go stale
 when the qmd package updates.
