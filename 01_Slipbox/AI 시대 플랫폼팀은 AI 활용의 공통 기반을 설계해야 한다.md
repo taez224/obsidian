@@ -3,7 +3,6 @@ created: 2026-07-16
 tags:
   - AI
   - 개발/플랫폼
-  - slipbox
 type: permanent
 status: seedling
 aliases:
@@ -11,7 +10,6 @@ aliases:
   - AI 활용 공통 기반
 used_in:
   - "[[AI로 만든 보고서, 사람이 남긴 생각]]"
-  - "[[Vizend와 Vizend Way 소개]]"
 ---
 
 # AI 시대 플랫폼팀은 AI 활용의 공통 기반을 설계해야 한다

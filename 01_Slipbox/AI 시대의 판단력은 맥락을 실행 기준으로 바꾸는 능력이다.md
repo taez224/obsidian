@@ -3,7 +3,6 @@ created: 2026-07-24
 tags:
   - AI
   - 개발
-  - slipbox
 type: permanent
 status: seedling
 aliases:

@@ -2,8 +2,7 @@
 created: 2026-07-12
 tags:
   - AI
-  - 커리어/성장
-  - slipbox
+  - 커리어
 type: permanent
 status: seedling
 aliases:
