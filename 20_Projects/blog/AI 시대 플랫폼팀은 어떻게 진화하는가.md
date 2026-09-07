@@ -1,33 +1,20 @@
 ---
 title: AI 시대 플랫폼팀은 어떻게 진화하는가
 created: 2026-01-15
-author: 허태준
-publication: Vizend Notion
-source: https://vizend.notion.site/AI-29d35bc54c13800f9f55c72f7b2fc576
+published: 2025-11-06
 tags:
+  - blog
   - AI
   - 개발/플랫폼
-published: 2025-11-06
+status: published
+author: TaeZ
+publication: LinkedIn
+source: https://www.linkedin.com/pulse/ai-%EC%8B%9C%EB%8C%80-%ED%94%8C%EB%9E%AB%ED%8F%BC-%ED%8C%80%EC%9D%98-%EC%97%AD%ED%95%A0%EA%B3%BC-%ED%95%B5%EC%8B%AC-%EC%97%AD%EB%9F%89-%ED%83%9C%EC%A4%80-%ED%97%88-hbhgc/
+summary: 플랫폼 팀은 인프라를 대신 운영하는 조직이 아니라 개발자의 몰입 시간과 학습 문화를 설계하는 조직이다. DX·DevRel·AX 세 축과 DORA+HEART 측정, 인재상까지 워크샵 발표를 글로 정리했다.
 ---
 
 # AI 시대, 플랫폼 팀은 어떻게 진화하는가
-**― 개발자 경험을 넘어, 조직의 지능을 설계하라**
-
-
----
-
-## TL;DR by AI
-
-- **복잡성의 폭발:** 기술의 확장은 생산성을 높였지만, 동시에 개발자의 몰입 시간을 잠식했다. 플랫폼 팀의 핵심 임무는 이러한 시간의 손실을 복원하는 것이다.
-- **플랫폼 팀의 진화:** Supporter → Accelerator → Organizational OS. 이제 플랫폼 팀은 인프라가 아니라 조직의 운영체제를 설계한다.
-- **세 가지 핵심 축:** Developer Experience, Developer Relationships, AI Transformation
-- **생산성 예측 요인:** 기술이 아니라 열의, 지지, 피드백. 즉, 심리적·조직적 요인이 생산성을 결정한다.
-- **플랫폼 팀의 본질:** 단순히 기술을 다루는 조직이 아니라, 몰입 구조와 학습 문화를 설계하는 조직 경험 디자이너다.
-- **비기술적 역량:** 커뮤니케이션, 제품적 사고, 지식 체계화, 개발자 공감력이 플랫폼의 채택과 확산을 이끈다.
-- **성과 측정:** DORA(기술 신뢰도) + HEART(경험 만족도)로 기술과 경험의 균형을 평가한다.
-- **플랫폼 엔지니어의 사고:** 문제 해결이 아니라 구조 개선. 한 번의 개선이 조직 전체의 속도를 바꾸는 레버리지 사고.
-- **AI 시대의 확장:** Tech Enabler → Culture Builder → AI Integrator. 기술에서 문화, 그리고 지능으로 확장된다.
-- **최종 정의:** AI 시대의 플랫폼 팀은 **조직의 기술·문화·지능을 통합적으로 설계하는 전략 조직**이다.
+**- 개발자 경험을 넘어, 조직의 지능을 설계하라**
 
 ---
 
@@ -57,7 +44,7 @@ AI 시대의 플랫폼 팀은 다시 한 번 경계를 넓히고 있다. 이제 
 
 ---
 
-## 3. **DX와 DevRel 그리고 AX**
+## 3. DX와 DevRel 그리고 AX
 
 AI 시대 플랫폼 전략은 세 가지 핵심 축으로 구성된다.
 
@@ -170,8 +157,6 @@ Google의 연구, _「What Predicts Software Developers’ Productivity?」_ 는
 
 결국 플랫폼 팀의 경쟁력은 기술 그 자체가 아니라, 비기술적 역량(Non-Technical Skills). 즉, 관계를 설계하고 신뢰를 구축하며 협업의 리듬을 만드는 능력에 있다.
 
-
-
 ---
 
 ## 6. 비기술적 역량 네 가지
@@ -216,10 +201,9 @@ HEART는 Google UX팀이 제안한 사용자 경험 품질 측정 프레임워�
 
 DORA가 ‘기술적 신뢰도’를 보여준다면, HEART는 ‘경험과 만족도’를 드러낸다. 플랫폼 팀은 두 프레임워크를 통해, 기술의 신뢰성과 경험의 만족도 사이의 균형을 측정해야 한다.
 
-
 ---
 
-## 8. 플랫폼 엔지니어의 마인드셋 ― 레버리지 사고
+## 8. 플랫폼 엔지니어의 마인드셋: 레버리지 사고
 
 플랫폼 엔지니어의 핵심 가치는 “레버리지(Leverage)”에 있다.
 
@@ -244,10 +228,9 @@ DORA가 ‘기술적 신뢰도’를 보여준다면, HEART는 ‘경험과 만�
 
 요약하면, 일반 개발자는 결과를 만드는 사람, 플랫폼 엔지니어는 결과가 더 잘 만들어지는 환경을 설계하는 사람이다.
 
-
 ---
 
-## 10. 플랫폼 팀 인재상 ― 기술보다 시야, 시야보다 태도
+## 10. 플랫폼 팀 인재상: 기술보다 시야, 시야보다 태도
 
 앞으로의 플랫폼 팀의 역할은 조직의 지능을 설계하고, 구조적 개선을 통해 학습과 협업을 가속하는 전략적 엔진이다. 따라서 플랫폼형 인재는 높은 기술 스펙보다, 문제의 본질을 구조적으로 바라보고 개선을 즐기는 태도로 정의된다.
 
@@ -262,7 +245,7 @@ DORA가 ‘기술적 신뢰도’를 보여준다면, HEART는 ‘경험과 만�
 
 ---
 
-## 11. 인재 발굴 ― 내부에서 찾고, 외부로 확장하라
+## 11. 인재 발굴: 내부에서 찾고, 외부로 확장하라
 
 플랫폼 팀의 초기 단계에는 내부 전환 인재의 확보가 중요하다. 기존 조직의 맥락과 업무 문화를 이해하고, 현장의 비효율을 직접 경험한 인재일수록 플랫폼적 사고를 빠르게 내재화할 수 있기 때문이다.
 
@@ -277,7 +260,7 @@ DORA가 ‘기술적 신뢰도’를 보여준다면, HEART는 ‘경험과 만�
 
 ---
 
-## 12. 외부 영입 ― 새로운 시야를 불어넣는 전략적 보완
+## 12. 외부 영입: 새로운 시야를 불어넣는 전략적 보완
 
 조직이 성장 단계에 접어들면, 외부 인재는 새로운 시각과 기준을 조직에 제공하는 역할을 한다. 특히 DevOps, SRE, AI 인프라 등 핵심 기술 분야의 숙련된 엔지니어는 조직의 기술적 한계를 넘어서는 성장 촉매로 작용한다.
 
@@ -317,7 +300,7 @@ DORA가 ‘기술적 신뢰도’를 보여준다면, HEART는 ‘경험과 만�
 
 ---
 
-## 14. 플랫폼 팀 구성 ― 역할이 아니라 ‘조합’이 핵심
+## 14. 플랫폼 팀 구성: 역할이 아니라 ‘조합’이 핵심
 
 플랫폼 팀은 단일한 기술 조직이 아니라, 다양한 전문성과 사고방식이 교차하며 시너지를 내는 복합적 조합체다. 따라서 중요한 것은 인원 규모가 아니라 서로를 보완하는 조합(Composition)에 있다. 플랫폼의 본질이 “조직 전체의 효율과 경험을 증폭시키는 구조 설계”라면, 그 팀 구성 역시 다양성(Diversity)과 연결성(Connectivity)을 중심으로 설계되어야 한다.
 
@@ -387,29 +370,14 @@ AI가 개발자의 역량을 증폭시킨다면, 플랫폼 팀은 조직의 지�
 
 ## 17. 공개본
 
-- [Vizend Notion 공개글](https://vizend.notion.site/AI-29d35bc54c13800f9f55c72f7b2fc576)
+- [외부 공개용 발표 자료 PDF](https://drive.google.com/file/d/1nPdkotX3HrZO_IyyrE09nSrSjqUIaYmI/view)
 - [LinkedIn 게시글](https://www.linkedin.com/pulse/ai-%EC%8B%9C%EB%8C%80-%ED%94%8C%EB%9E%AB%ED%8F%BC-%ED%8C%80%EC%9D%98-%EC%97%AD%ED%95%A0%EA%B3%BC-%ED%95%B5%EC%8B%AC-%EC%97%AD%EB%9F%89-%ED%83%9C%EC%A4%80-%ED%97%88-hbhgc/)
 
 ---
 
 ## 18. 참고 자료
 
-- **Microsoft Research**, [**Time Warp: The Gap Between Developer's Ideal vs Actual Workweeks in an AI-Driven Era](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/11/Time-Warp-Developer-Productivity-Study.pdf)** (2025)
+- **Microsoft Research**, [Time Warp: The Gap Between Developer's Ideal vs Actual Workweeks in an AI-Driven Era](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/11/Time-Warp-Developer-Productivity-Study.pdf) (2025)
 - **Google Research**, [**What Predicts Software Developers' Productivity?**](https://storage.googleapis.com/gweb-research2023-media/pubtools/4894.pdf) (2019)
 - **CloudBees**, [**Platform Engineering is a Key Driver of Developer Productivity and Experience**](https://www.cloudbees.com/newsroom/survey-platform-engineering-key-driver-developer-productivity) (2023)
 - **Stripe & Harris Poll**, [**The Developer Coefficient**](https://stripe.com/files/reports/the-developer-coefficient.pdf) (2018)
-
----
-
-## 19. 제작 지원
-
-- **리서치 지원:** ChatGPT, Perplexity, Claude
-- **문서 편집 / 시각화:** SkyWork, NotebookLM
-
----
-
-## 연관된 노트
-- [[성장은 '해야 하는 것'이 아니다.]] - 개인 레벨의 동일한 성장 철학
-- [[직장인의 글쓰기]] - 비기술적 역량(커뮤니케이션) 실천 가이드
-- [[40_Archive/1. Archived Projects/ai-workshop/platform/AI 시대 플랫폼 팀의 역할과 핵심 역량_외부공개용.pptx|AI 시대 플랫폼 팀 PPT]] - 이 노트의 프레젠테이션 자료
-- [[20_Projects/blog/assets/AI_시대_플랫폼_팀의_역할과_핵심_역량.pdf|AI 시대 플랫폼 팀 PDF]] - 외부 공개용 발표 자료의 PDF 버전
