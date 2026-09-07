@@ -9,6 +9,8 @@ status: seedling
 aliases:
   - 개인의 흡수 역량
   - AI 시대의 흡수역량
+  - AI를 내 것으로 만들기
+  - AI 산출물 흡수
 used_in:
   - "[[AI에게 노트는 맡겼지만, 채택 권한은 넘기지 않았다]]"
   - "[[HEXACO 기반 Vault 메타분석 - 2026-07-14]]"

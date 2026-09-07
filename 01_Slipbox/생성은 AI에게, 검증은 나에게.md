@@ -8,6 +8,8 @@ status: seedling
 aliases:
   - 생성과 검증의 AI 분업
   - AI 생성 인간 검증
+  - AI 초안 검증
+  - 생성·검증 분업
 used_in:
   - "[[Field Guide to Fable - Thariq Shihipar]]"
   - "[[바이브 노팅과 본유적 부하 - Sian]]"

@@ -9,6 +9,7 @@ status: growing
 aliases:
   - AI 이해 부채
   - Comprehension Debt
+  - AI 코드 이해 부채
 used_in:
   - "[[AI 개발 운영체계]]"
   - "[[Field Guide to Fable - Thariq Shihipar]]"

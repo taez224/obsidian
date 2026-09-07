@@ -9,6 +9,7 @@ status: growing
 aliases:
   - 위험도 기반 AI 검증
   - AI 활용 마찰 설계
+  - 위험도 기반 검증
 used_in:
   - "[[제품 개발 루프와 맥락상의 우위 - Andrew Ng]]"
 ---
