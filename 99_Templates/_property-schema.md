@@ -49,7 +49,7 @@ tags:
 | `개발` | `개발` | 개발·설계·품질·기술 방법론 |
 | `지식관리` | `지식관리` | Obsidian·PARA·Zettelkasten 운영 |
 
-`inbox`, `slipbox`, `blog`, `📚독서`, `📰article`, `clippings`처럼 위치나 다른 속성과 역할이 겹치는 태그는 새 노트의 기본값으로 넣지 않는다. 기존 노트에서는 일괄 삭제하지 않고 실제로 다시 사용할 때만 점진적으로 정리한다. `type/timeline/*`처럼 현재 템플릿의 Dataview 쿼리가 실제로 사용하는 태그는 유지한다.
+`inbox`, `slipbox`, `blog`, `📚독서`, `📰article`, `clippings`처럼 위치나 다른 속성과 역할이 겹치는 태그는 새 노트의 기본값으로 넣지 않는다. 기존 노트에 남아 있던 `slipbox` 태그는 2026-09-08에 일괄 정리했다. 다른 노트에서 이 태그들을 발견하면 같은 기준으로 지운다. `type/timeline/*`처럼 현재 템플릿의 Dataview 쿼리가 실제로 사용하는 태그는 유지한다.
 
 ---
 
@@ -303,13 +303,13 @@ tags:
 
 `created`는 모든 노트의 필수 필드이고 `summary`는 Concepts 노트의 식별 요약이다. `tags`는 여러 폴더를 가로질러 실제로 검색할 기술 주제가 있을 때만 선택적으로 쓴다. 발행 상태를 나타내는 별도 속성은 두지 않는다. 공개 가능한 내용만 이 폴더에 저장하며, 별도 파일 등록 없이 사이트 빌드에 포함된다.
 
-새 노트는 [[dev-concept-template|Development Concept Template]]을 출발점으로 삼고 필요한 절만 사용한다.
+새 노트는 [[dev-concept-template|Development Concept Template]]의 속성과 작성 안내를 출발점으로 삼는다. 헤딩과 구성은 내용에 맞게 정한다.
 
 ---
 
 ## 🧯 Development Troubleshooting (`30_Resources/Development/Troubleshooting/`)
 
-관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문에 밝힌다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]을 출발점으로 삼고 필요한 절만 사용한다.
+관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문에 밝힌다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]의 속성과 작성 안내를 출발점으로 삼는다. 문제를 좁히고 해결·검증한 사고 순서를 유지하며, 고정 헤딩이나 콜아웃으로 나누지 않는다.
 
 ```yaml
 ---

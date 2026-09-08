@@ -1,135 +1,50 @@
 ---
 created: 2026-09-06
-summary: 정적 사이트가 글과 노트 목록을 RSS로 내고 GitHub Actions가 그 피드를 읽어 프로필 README를 갱신하는 구성. 피드를 유형별로 나눈 이유와 날짜·링크를 정하는 기준.
+summary: RSS의 개념과 구독 방식을 정리하고, 가든의 글·노트 피드를 GitHub 프로필 갱신에 활용한 구성을 설명한다.
 tags:
   - 개발/도구
 ---
 
 # RSS로 글을 전달하고 GitHub Actions로 프로필을 갱신하기
 
-개인 사이트에 글을 올릴 때마다 GitHub 프로필의 최근 글 목록도 손으로 고쳐야 할까. 사이트가 목록을 RSS로 내고 프로필 쪽 워크플로가 가져오면 두 곳에서 관리할 일이 없다. 사이트는 무엇을 공개할지, 워크플로는 그중 무엇을 프로필에 보여줄지만 맡는다. 같은 피드를 RSS 리더도 읽는다.
+## RSS란 무엇인가
 
-```mermaid
-flowchart TD
-    A["글·노트와 공개 범위"] --> B["사이트 빌드"]
-    B --> C["HTML과 RSS 생성"]
-    C --> D["정적 파일 배포"]
-    D --> E["RSS 리더가 구독"]
-    D --> F["GitHub Actions가 피드 조회"]
-    F --> G["유형별 항목 선택"]
-    G --> H["README의 지정 영역 갱신"]
-```
+RSS는 웹사이트의 새 콘텐츠를 다른 프로그램이 읽을 수 있도록 제공하는 XML 기반 형식이다. [RSS 2.0 명세](https://www.rssboard.org/rss-specification#whatIsRss)에서 풀 이름은 **Really Simple Syndication**이다. 여기서 syndication은 같은 콘텐츠를 여러 곳에서 받아 보여줄 수 있도록 배포한다는 뜻이다.
 
-RSS 갱신과 프로필 갱신은 서로 다른 실행이다. RSS가 새로 배포돼도 프로필은 다음 워크플로 실행까지 이전 목록을 보여준다.
+사이트가 글의 제목·주소·날짜·요약 등을 피드로 제공하면, RSS 리더나 자동화 프로그램이 그 주소를 읽어 새 항목을 확인한다. 사람이 웹페이지를 방문해 새 글을 찾는 대신 프로그램이 목록을 가져오는 방식이다. 피드에 요약만 담을 수도 있고 본문을 담을 수도 있다.
 
-## 피드는 사이트와 같은 공개 목록에서 만든다
+## 언제 어떻게 쓰는가
 
-RSS가 노트 폴더를 따로 훑으면 사이트에는 없는 노트가 피드에 실릴 수 있다. 사이트가 고른 공개 목록을 그대로 쓴다. 항목은 제목·주소·요약이면 충분하고, 요약을 본문에서 자동으로 뽑는다면 그 발췌도 공개 범위 안인지 본다.
+블로그나 뉴스처럼 새 콘텐츠가 계속 추가되는 사이트를 구독할 때 쓴다. 여러 사이트의 피드 주소를 RSS 리더에 등록하면 한곳에서 새 글을 모아 읽을 수 있다. 사이트마다 화면 구조가 달라도 리더는 같은 RSS 형식을 읽으면 된다.
 
-Astro에서는 [정적 엔드포인트](https://docs.astro.build/en/guides/endpoints/#static-file-endpoints)가 빌드 때 파일을 만든다. `pages/rss.xml.js`에서 `GET`이 XML을 담은 `Response`를 돌려주면 `rss.xml`이 생긴다. 서버는 필요 없다.
+글 목록을 다른 곳에 표시하는 자동화에도 쓸 수 있다. 웹페이지의 HTML을 분석해 제목과 링크를 찾아내는 대신, 피드에 들어 있는 항목을 가져와 최근 글 목록을 만들거나 알림으로 전달한다.
 
-## 날짜와 링크가 피드의 뜻을 정한다
+일반적인 RSS 리더는 피드 주소를 주기적으로 다시 조회한다. 사이트가 피드를 갱신했다고 모든 구독 화면이 즉시 바뀌는 것은 아니다. 반영 시점은 피드를 읽는 프로그램의 조회 주기에 따라 달라진다.
 
-외부에 발행한 글과 사이트에 올린 노트를 한 피드에 담으려면 항목마다 날짜와 링크를 무엇으로 할지 정해야 한다. 규격이 정해 주지 않는, 피드의 목적에 따른 선택이다.
+## 내 사이트에서는 공개 목록을 피드로 만든다
 
-| 항목 | 포함 조건 | 날짜 | 클릭 시 이동 |
-| --- | --- | --- | --- |
-| 글 | 발행 완료 상태이며 발행일과 발행 주소가 있음 | 외부 발행일 | 원래 발행처 |
-| 생각 노트 | 사이트 공개 대상이며 허브·목차 성격의 노트가 아님 | 최초 공개일 또는 명시적으로 고른 기록 날짜 | 사이트의 노트 페이지 |
+가든에 글을 올릴 때마다 GitHub 프로필의 최근 글 목록까지 따로 고치지 않도록 RSS를 연결했다. 같은 피드는 RSS 리더에서도 구독할 수 있다.
 
-피드를 내는 사이트와 링크가 가리키는 사이트는 달라도 된다. 글 목록은 개인 사이트가 들고 `link`는 원래 발행처를 가리킨다. 발행일이나 주소가 없는 글은 빼되, 작성일을 발행일인 척 넣거나 링크를 대신 만들지 않는다.
+Astro가 [[생각의 정원을 만들고 배포하는 과정|사이트를 빌드할 때]] 웹페이지와 RSS 파일을 함께 만든다.
 
-```xml
-<item>
-  <title>실패한 작업을 다시 시작하는 방법</title>
-  <link>https://example.com/articles/retry</link>
-  <guid isPermaLink="true">https://example.com/articles/retry</guid>
-  <pubDate>Sun, 06 Sep 2026 00:00:00 +0900</pubDate>
-  <category>글</category>
-  <description>작업 상태와 재시도 경계를 정리한 글.</description>
-</item>
-```
-
-- `link`는 읽으러 갈 주소, `guid`는 항목을 구별하는 식별자다. 링크를 식별자로 써도 되지만 주소가 바뀌면 리더가 새 항목으로 보니 URL을 바꾸지 않는다.
-- `pubDate`는 발행 날짜다. 날짜만 있는 자료는 시간대와 시각을 정해 RSS 날짜 형식으로 바꿔야 한다. 한국 시간 자정으로 정할 수 있지만 그것이 실제 발행 시각은 아니다.
-- `category`로 글과 노트를 구분한다. 필드의 뜻과 `guid`로 새 항목을 가리는 규칙은 [RSS item 명세](https://www.rssboard.org/rss-specification#hrelementsOfLtitemgt)에 있다.
-
-작성일·최초 공개일·수정일은 다르다. 오래전에 쓴 노트를 오늘 공개하면 작성일 기준으로는 최근 목록에 안 올라오고, 수정일을 쓰면 오탈자만 고쳐도 새 기록처럼 올라온다. 피드가 "새로 공개한 기록"을 뜻한다면 최초 공개일을 따로 관리하는 게 정확하다. 작성일을 쓴다면 그 한계를 알고 쓰고, 빌드 시각이나 파일 수정 시각을 날짜로 쓰지는 않는다.
-
-## 피드를 유형별로 나눈 이유
-
-프로필에 글 2개와 노트 1개를 보여주고 싶다고 하자. 통합 피드에서 최근 3개만 가져오면 셋 다 노트일 수 있고, 최근 30개를 자른 뒤 유형별로 골라도 노트가 많으면 글이 이미 빠져 있다. 그래서 유형을 먼저 고르고 그 안에서 날짜순으로 개수를 제한한다.
-
-| 경로 | 용도 |
+| 피드 | 담는 내용 |
 | --- | --- |
-| `/rss.xml` | 글과 노트를 함께 읽는 통합 구독, 최근 30개 |
-| `/feeds/posts.xml` | 글만 읽는 피드, 최근 30개 |
-| `/feeds/notes.xml` | 생각 노트만 읽는 피드, 최근 30개 |
+| `/rss.xml` | 발행한 글과 생각 노트 |
+| `/feeds/posts.xml` | 발행한 글 |
+| `/feeds/notes.xml` | 생각 노트 |
 
-프로필은 글 피드에서 2개, 노트 피드에서 1개를 가져온다. 부족하면 있는 만큼만 보여주고 다른 유형으로 채우지 않는다.
+글과 노트를 나눈 이유는 작성 빈도가 다르기 때문이다. 통합 피드에서 최근 항목만 가져오면 짧은 노트가 발행한 글을 밀어낼 수 있다. 그래서 유형을 먼저 고르고, 그 안에서 날짜순으로 항목 수를 제한한다.
 
-RSS 리더가 사이트 주소만으로 피드를 찾도록 공통 HTML의 `head`에 발견 태그도 둔다. 이 태그는 위치만 알린다.
+외부에 발행한 글은 발행일로 정렬하고 원래 발행처로 연결한다. 생각 노트는 노트에 기록한 날짜로 정렬하고 가든의 페이지로 연결한다. 발행일이나 원문 주소가 없는 글은 제외한다.
 
-```html
-<link rel="alternate" type="application/rss+xml"
-      title="글과 생각 노트"
-      href="https://example.com/rss.xml" />
-```
+다만 노트의 기록 날짜는 최초 공개일과 다르다. 예전에 쓴 노트를 뒤늦게 공개하면 최신 목록의 위쪽에 나타나지 않을 수 있다. 수정 시각으로 정렬하지 않으므로 오탈자를 고쳤다고 오래된 노트가 새 글처럼 올라오지도 않는다.
 
-## GitHub Actions는 README의 표시 영역만 갱신한다
+## GitHub Actions로 프로필을 갱신한다
 
-[`blog-post-workflow`](https://github.com/gautamkrishnar/blog-post-workflow#options) 액션은 RSS를 읽어 README의 주석 마커 사이를 갱신한다. `feed_list`는 피드 주소, `max_post_count`는 개수, `comment_tag_name`은 갱신할 영역이다.
+[프로필 저장소의 워크플로](https://github.com/taez224/taez224/blob/main/.github/workflows/garden-posts.yml)는 글 피드에서 최근 2개, 노트 피드에서 최근 1개를 가져오도록 설정했다. 매주 예약 실행하며 필요할 때 수동으로도 실행할 수 있다.
 
-README에 두 영역을 둔다.
+README 수정에는 [blog-post-workflow](https://github.com/gautamkrishnar/blog-post-workflow)를 사용한다. README에 글과 노트 목록을 넣을 영역을 주석으로 지정하고, 액션에 각 피드 주소와 표시할 개수를 넘긴다. 액션은 그 영역만 바꾸므로 소개 문구와 나머지 내용은 유지된다.
 
-```markdown
-## 최근 남긴 글과 생각
+사이트는 공개할 목록을 만들고, 프로필의 워크플로는 그 목록을 읽어 보여줄 항목을 고른다. 별도 API 서버 없이 배포된 RSS 파일을 사이에 두고 두 작업을 연결한 구성이다.
 
-<!-- POSTS:START -->
-<!-- POSTS:END -->
-
-<!-- NOTES:START -->
-<!-- NOTES:END -->
-```
-
-같은 작업에서 두 피드를 각각 읽는다. `example.com`은 실제 피드 주소로 바꾸고, 사이트가 하위 경로에 배포된다면 그 경로까지 넣는다.
-
-```yaml
-name: Update garden entries
-
-on:
-  schedule:
-    - cron: "17 0 * * 1"
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: 최근 글 2개
-        uses: gautamkrishnar/blog-post-workflow@v1
-        with:
-          feed_list: "https://example.com/feeds/posts.xml"
-          max_post_count: 2
-          comment_tag_name: "POSTS"
-          tag_post_pre_newline: true
-          template: "- [글] [$title]($url)$newline"
-      - name: 최근 생각 노트 1개
-        uses: gautamkrishnar/blog-post-workflow@v1
-        with:
-          feed_list: "https://example.com/feeds/notes.xml"
-          max_post_count: 1
-          comment_tag_name: "NOTES"
-          tag_post_pre_newline: true
-          template: "- [노트] [$title]($url)$newline"
-```
-
-`contents: write`는 README 변경을 저장소에 반영하는 권한이다. 위 cron은 UTC 월요일 00:17, 한국 시간 월요일 09:17이다. [예약 실행](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)은 기본 브랜치 기준이며 정확한 시각을 보장하지는 않는다.
-
-## 생성·배포·소비를 따로 확인한다
-
-화면과 프로필이 다르게 보일 때 어디서 갈렸는지 좁히려면 셋을 따로 본다. 생성은 XML이 파싱되는지, 공개 대상만 들어갔는지, 날짜·식별자·개수 제한이 맞는지, 제목·요약의 `&`와 `<`가 이스케이프됐는지. 배포는 피드 주소가 열리고 항목 링크가 맞는 페이지로 가는지. 소비는 워크플로를 수동 실행해 README의 지정 영역만 바뀌고 개수와 링크가 맞는지.
+사이트 배포와 프로필 갱신은 따로 실행된다. 두 화면의 목록이 다르면 피드에 새 항목이 들어갔는지 먼저 보고, 그다음 프로필 워크플로의 실행 여부를 확인하면 된다.
