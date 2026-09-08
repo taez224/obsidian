@@ -189,6 +189,8 @@ summary: <한두 문장 요약>
 publication: Velog              # 외부 발행본일 때
 source: https://...             # 외부 원문 URL
 published: 2025-08-29           # 원문 발행일을 확인한 경우에만
+thumbnail: "[[이미지.jpg]]"       # 선택. 원본 이미지 위키링크 또는 글 기준 상대 경로
+thumbnail_style: plain          # 선택. plain(기본) | soft(가장자리를 옅게 처리)
 series: <연재명>                # 연재일 때
 series_order: 1
 related:
@@ -203,7 +205,10 @@ related:
 | 초안 | `status: draft`를 사용한다. 과거 반복본은 `40_Archive/blog-drafts/`로 보낸다. |
 | 연재 | `series`, `series_order`와 앞·뒤 글 링크를 사용한다. |
 | 프로젝트 글 | `프로젝트/<project-id>` 태그와 프로젝트 노트 링크로 맥락을 남긴다. |
+| 썸네일 | `thumbnail`은 본문 삽입 이미지와 별도로 지정한다. 원본은 유지하고 웹 빌드에서 필요한 크기로 최적화한다. `soft`는 가장자리까지 글자나 도표가 없는 일러스트에만 쓴다. |
 | Slipbox | 블로그 전문을 복제하지 않는다. 재사용할 개념은 별도의 `type: permanent` 노트로 압축하고 블로그 글을 링크한다. |
+
+공개 사이트의 글 카드 문법과 썸네일 표시 위치는 [[20_Projects/obsidian-garden/AUTHORING|공개 위키 작성 규칙]]을 따른다.
 
 ### 연재 허브 (`20_Projects/blog/<series>.md`)
 
