@@ -87,11 +87,16 @@ Human Agency는 실행의 속도를 높이는 데서가 아니라, 선택을 다
 - Andrew Ng, [The Batch Issue 359](https://www.deeplearning.ai/the-batch/issue-359) (2026-06-26) — 제품 개발에서 사람이 가진 맥락상의 우위에 관한 설명
 - Chris Argyris, [Double Loop Learning in Organizations](https://hbr.org/1977/09/double-loop-learning-in-organizations) (Harvard Business Review, 1977-09) — 주어진 목표 안의 오류 수정과 목표·가정 자체의 재검토를 구분한 조직 학습의 고전
 
+## 연관된 글
+
+> [!article] SSE 구현 경험을 계기로 AI의 결과를 검토하는 절차를 보완한 과정을 담았습니다.
+> [[60일간의 AI 에이전틱 워크플로]]
+
 ## 연관된 노트
 
 - [[실시간성 확보 - SSE 도입부터 Polling으로의 회귀까지 - HKK]] - 같은 Qra 경험에서 SSE 선택과 polling 전환의 기술적 이유를 다룬 앞선 회고
 - [[vizend-qra|Vizend QRA]] - SSE 스트리밍을 구현한 뒤 API polling으로 전환한 프로젝트 정본
-- [[60일간의 AI 에이전틱 워크플로]] - 같은 SSE를 계기로 리뷰 절차를 강화한 앞선 기록
+
 - [[AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다]] - 맥락과 판단이 실제 방향에 영향을 미치는 조건
 - [[Taste는 지금 필요한 것에 무게를 두는 감각이다]] - 같은 맥락에도 목적·역할·책임에 따라 다른 무게를 주는 판단 감각
 - [[추상화는 닮은 점을 남기고 고해상도는 빠진 차이를 다시 드러낸다]] - 경험을 재사용하는 추상화와 현재의 차이를 다시 보는 판단의 관계

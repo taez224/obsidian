@@ -191,6 +191,7 @@ LLM이 생성한 코드를 이해하고 평가하며 수정하려면 깊이 있�
 
 이 모순적이고 흥미진진한 시대를 살아가기 위해, 개발자는 고전과 양자를 모두 이해하는 '하이브리드 개발자'가 되어야 합니다.
 
-## 연관된 노트
+## 연관된 글
 
-- [[Martin Fowler의 LLMs bring new nature of abstraction을 읽고]] - 같은 글을 바탕으로 작성한 Velog 후기
+> [!article] 같은 Martin Fowler 글을 읽고, 결과가 매번 달라지는 AI 개발에서 무엇을 설계하고 검증해야 할지 돌아본 또 다른 후기입니다.
+> [[Martin Fowler의 LLMs bring new nature of abstraction을 읽고]]

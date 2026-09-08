@@ -12,6 +12,8 @@ status: published
 author: TaeZ
 publication: Nextree 기술 블로그
 source: https://www.nextree.io/airo-bbalrajin-gaein-sohwahaji-moshaneun-tim/
+thumbnail: "[[ai-team-absorption.png]]"
+thumbnail_style: soft
 summary: AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야 합니다.
 related:
   - "[[개인의 AI 활용을 팀의 역량으로 바꾸려면]]"
@@ -29,8 +31,8 @@ related:
 
 AI가 만든 코드와 문서도 처음에는 외부 지식에 가깝습니다. 겉보기에는 팀 안으로 들어왔어도 곧바로 팀의 역량이 되지는 않습니다. 팀이 판단할 수 있어야 하고, 결정의 이유를 추적할 수 있어야 하며, 잘못됐을 때 되돌릴 수 있어야 합니다.
 
-> 그 시행착오의 과정을 담은 지난 글: [[60일간의 AI 에이전틱 워크플로]]
-> ![[thumbnail-ai-harness-loop.jpg]]
+> [!article] 팀에 공유하려 했던 AI 워크플로가 요구사항 정제·구현·리뷰 절차로 자리 잡기까지의 과정을 담았습니다.
+> [[60일간의 AI 에이전틱 워크플로]]
 
 ## 병목은 작성에서 흡수로 이동했다
 
