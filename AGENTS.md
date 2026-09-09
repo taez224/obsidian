@@ -38,7 +38,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 
 - 사람용 운영 흐름과 주기: [[Obsidian 운영 워크플로]]
 - frontmatter 스키마: [[_property-schema]]
-- 에이전트 작업 규칙: 이 문서 (`CLAUDE.md`는 `AGENTS.md`를 가리키는 심볼릭 링크)
+- 에이전트 작업 규칙: 이 문서. Codex는 직접 읽고, Claude Code는 `CLAUDE.md`가 `@AGENTS.md`로 가져온 뒤 Claude 전용 절만 덧붙인다.
 - 개별 작업의 실행 절차: 해당 `.agents/skills/<skill-name>/SKILL.md`
 
 운영 문서의 상세 내용을 AGENTS나 스킬에 복제하지 않는다. 이 문서에는 에이전트가 잘못된 위치에 쓰거나 의미 판단을 자동 적용하지 않도록 하는 경계만 둔다.
@@ -73,7 +73,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 
 ### 노트 검색 (정확 검색 + QMD 의미 검색)
 
-- 정확한 제목·파일명·문자열은 `rg`, 개념·주장·간접 표현은 QMD 의미 검색을 쓴다. Codex의 의미 검색은 QMD MCP `query`로 실행한다(샌드박스 CLI `qmd query`는 macOS Metal 오류가 날 수 있으니 같은 명령을 반복하지 않는다).
+- 정확한 제목·파일명·문자열은 `rg`, 개념·주장·간접 표현은 QMD 의미 검색을 쓴다. 의미 검색은 QMD MCP `query`로 실행한다. Codex 샌드박스의 CLI `qmd query`는 macOS Metal 오류가 날 수 있으니 같은 명령을 반복하지 않는다.
 - 중요한 판단은 두 후보를 병합하고 snippet이 아니라 상위 후보 원문을 읽고 내린다. `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 연결 후보에서 제외한다.
 - structured query 작성법, rerank·후보 수 정책, 재색인 절차는 `qmd` 스킬(`.agents/skills/qmd/SKILL.md`)이 정본이다.
 
@@ -100,17 +100,21 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 
 ## Shared Agent Skills
 
-- Claude와 Codex가 함께 쓰는 스킬의 정본은 `.agents/skills/<skill-name>/`에 둔다.
-- `.claude/skills/<skill-name>`와 `.codex/skills/<skill-name>`에는 정본을 가리키는 **상대 심볼릭 링크**만 둔다.
+- `AGENTS.md`가 정본이다. `CLAUDE.md`는 `@AGENTS.md`로 이 파일을 가져온 뒤 Claude Code 전용 지침만 덧붙인다. 공통 지침은 여기에만 쓴다.
+- Claude와 Codex가 함께 쓰는 스킬의 정본은 `.agents/skills/<skill-name>/`에 둔다. Codex는 이 경로를 직접 읽으므로 `.codex/skills/`에는 링크를 만들지 않는다.
+- Claude Code는 `.claude/skills/`만 읽는다. `.claude/skills/<skill-name>`에 정본을 가리키는 **상대 심볼릭 링크**만 둔다.
+- `defuddle`, `json-canvas`, `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`는 Claude의 `obsidian-skills` 플러그인(`.claude/settings.json`의 `enabledPlugins`)이 제공하는 스킬의 사본이다. Codex용으로 `.agents/skills/`에 두되, Claude에서는 플러그인이 같은 이름을 이미 주므로 `.claude/skills/`에 링크하지 않는다.
 - `SKILL.md`는 두 도구가 읽을 수 있는 공통 지침으로 유지하고, 도구 전용 런타임은 `.claude/workflows/` 또는 `.codex/`에 분리한다.
 
-## Delegation (Codex 전용)
+## 위임
 
-- 이 절은 Codex의 `luna_worker`에만 해당한다. Claude Code에는 이 에이전트가 없으므로 적용하지 않는다.
-- 서로 파일 범위가 겹치지 않는 독립적인 조사·검증 작업이 2개 이상이면 `luna_worker`에게 병렬 위임한다.
-- 각 위임에는 허용 파일 범위, 읽기·쓰기 권한, 기대 결과, 검증 방법을 명시한다.
-- worker의 결과는 근거와 초안이지 의미 변경에 대한 승인으로 간주하지 않는다.
-- 주 에이전트는 설계, 의미 판단, 최종 diff 검토와 검증을 담당한다.
+노트 수정은 주 에이전트가 직접 한다. 하위 에이전트에게는 조사와 검증만 나눈다. 도구별 수단은 다르지만 규칙은 같다.
+
+- 수단: Codex는 `luna_worker`, Claude Code는 Agent 도구(하위 에이전트).
+- 위임하는 일: 연결 후보 찾기, 출처 대조, 중복·모순 확인, 속성 스키마 검증처럼 vault를 읽기만 하는 조사·검증. 서로 범위가 겹치지 않는 독립 작업이 2개 이상일 때만 병렬로 돌린다. 예: 하나는 `01_Slipbox/`에서 연결 후보를 찾고, 다른 하나는 `30_Resources/References/`에서 출처를 대조한다.
+- 위임하지 않는 일: 노트 작성·수정, 삭제·이동·승격·병합·MOC 생성, 공개 범위 판단. 이런 의미 변경은 아래 승인 규칙을 따른다.
+- 각 위임에는 읽을 폴더 범위, 기대 결과, 검증 방법을 명시한다. vault는 읽기 전용이다.
+- 하위 에이전트의 결과는 근거와 후보이지 승인이 아니다. 주 에이전트가 설계, 의미 판단, 최종 검토를 담당한다.
 
 ### 지식관리 스킬 라우팅
 
