@@ -174,6 +174,8 @@ tags:
 ---
 ```
 
+`20_Projects/obsidian-garden/이 위키에 대해.md`는 `/about/` 페이지가 직접 읽는 소개 원본이라 이 규칙의 예외다. 일반 프로젝트 하위 노트나 공개 컬렉션으로 처리하지 않고 `created`와 `summary`만 둔다.
+
 ---
 
 ## 📝 Blog Posts (`20_Projects/blog/`)
