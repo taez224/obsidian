@@ -208,7 +208,7 @@ related:
 | 썸네일 | `thumbnail`은 본문 삽입 이미지와 별도로 지정한다. 원본은 유지하고 웹 빌드에서 필요한 크기로 최적화한다. `soft`는 가장자리까지 글자나 도표가 없는 일러스트에만 쓴다. |
 | Slipbox | 블로그 전문을 복제하지 않는다. 재사용할 개념은 별도의 `type: permanent` 노트로 압축하고 블로그 글을 링크한다. |
 
-공개 사이트의 글 카드 문법과 썸네일 표시 위치는 [[20_Projects/obsidian-garden/AUTHORING|공개 위키 작성 규칙]]을 따른다.
+공개 사이트의 글 카드 문법과 썸네일 표시 위치는 [공개 위키 작성 규칙](https://github.com/taez224/taez224.github.io/blob/main/AUTHORING.md)을 따른다.
 
 ### 연재 허브 (`20_Projects/blog/<series>.md`)
 
