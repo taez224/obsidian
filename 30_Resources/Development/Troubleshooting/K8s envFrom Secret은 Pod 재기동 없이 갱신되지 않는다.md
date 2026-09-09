@@ -6,7 +6,7 @@ tags:
 ---
 
 > [!bug] 문제
-> Secret 값을 변경해 apply했고 성공했는데, 이미 떠 있는 Pod의 동작이 바뀌지 않는다. "apply 성공했는데 반영이 안 되는" 유령 버그처럼 보인다.
+> Secret 값을 변경해 apply했고 성공했는데, 이미 떠 있는 Pod의 동작이 바뀌지 않는다. "apply 성공했는데 반영이 안 되는" 문제처럼 보인다.
 
 ---
 
@@ -16,7 +16,7 @@ tags:
 ---
 
 > [!tip] 해결 방법
-> - Deployment의 pod template에 **rollout을 유발하는 annotation**을 심는다 — 예: 관련 리소스의 `modifiedAt` epoch 값. 값이 바뀌면 Pod template 변경으로 새 ReplicaSet의 rollout이 시작된다
+> - Deployment의 pod template에 **rollout을 유발하는 annotation**을 심는다. 예를 들어 관련 리소스의 `modifiedAt` epoch 값을 넣고, 값이 바뀌면 Pod template 변경으로 새 ReplicaSet의 rollout이 시작된다
 > - "정확히 값 변경일 때만"을 노리기보다 약간의 over-trigger를 감수하는 편이 단순하다 (별도 controller나 Reloader 없이 기존 GitOps 흐름 재사용)
 > - 부속 함정: server-side apply(SSA)로 Secret을 관리하기로 했다면 `stringData`와의 조합은 피하는 편이 좋다. 공식 문서는 이 필드가 SSA와 잘 맞지 않는다고 설명한다. 무조건 충돌한다고 단정하기보다 사용한 필드와 field manager를 확인한다
 

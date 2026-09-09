@@ -34,6 +34,6 @@ kubectl auth can-i <verb> <resource> -n <namespace> \
 
 ## 참고 자료
 
-- 비공개 개발 기록 2026-05-06 — 초기 관찰과 구성 비교. 생성 실패의 직접 원인은 추가 근거가 필요하다.
+- 비공개 개발 기록 2026-05-06: 초기 관찰과 구성 비교. 생성 실패의 직접 원인은 추가 근거가 필요하다.
 - [Kubernetes Service Accounts](https://kubernetes.io/docs/concepts/security/service-accounts/) - 계정 생성·권한·Pod 지정
 - [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) - RoleBinding과 ClusterRoleBinding의 범위

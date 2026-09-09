@@ -25,7 +25,7 @@ tags:
 >
 > 종료 신호도 같은 로컬 맵을 쓰면 스트림이 안 닫힌다. 갱신 유실은 새로고침으로 넘어가지만 이건 안 넘어간다. 회수 못 한 emitter가 인스턴스마다 쌓인다.
 >
-> 뿌리는 SSE가 아니다. **처리를 한 대로 모은 결정과 연결을 여러 대로 흩은 결정이 서로 반대인데, 그 사이에 인메모리 상태가 놓였다.** 리더 선출도 로드밸런싱도 따로 보면 맞는 결정이라 리뷰에서 안 걸린다. 배치 진행률을 리더에서 계산해 메모리에 들고 있거나, 스케줄러 결과를 로컬 캐시에 넣고 아무 인스턴스에서나 읽는 구조도 똑같이 터진다.
+> 핵심 문제는 SSE 자체가 아니다. **처리를 한 대로 모은 결정과 연결을 여러 대로 흩은 결정이 서로 반대인데, 그 사이에 인메모리 상태가 놓였다.** 리더 선출도 로드밸런싱도 따로 보면 맞는 결정이라 리뷰에서 안 걸린다. 배치 진행률을 리더에서 계산해 메모리에 들고 있거나, 스케줄러 결과를 로컬 캐시에 넣고 아무 인스턴스에서나 읽는 구조도 똑같이 터진다.
 
 ![[sse-fanout-instance-mismatch.svg]]
 
@@ -50,8 +50,8 @@ tags:
 ---
 
 > [!info] 참고 자료
-> - 비공개 개발 기록 2026-03-27 — 배포 모니터링의 SSE 제거와 API polling 전환 (`SseRegistry`·`SseSnapshotScheduler` 정리)
-> - [HTTP Semantics: ETag](https://www.rfc-editor.org/rfc/rfc9110.html#section-8.8.3) - 현재 표현의 검증자와 생성 기준
+> - 비공개 개발 기록 2026-03-27: 배포 모니터링의 SSE 제거와 API polling 전환 (`SseRegistry`·`SseSnapshotScheduler` 정리)
+> - [HTTP Semantics: ETag](https://www.rfc-editor.org/rfc/rfc9110.html#section-8.8.3): 현재 표현의 검증자와 생성 기준
 >
 > 상태 조회와 전달 방식을 비교할 공개 자료 (2026-08 확인)
 > - [GitHub Actions](https://docs.github.com/en/actions/how-tos/monitor-workflows/use-workflow-run-logs) - run·job·check 상태와 로그를 다시 조회할 수 있는 형태로 남긴다. 웹 화면의 실시간 전송 방식은 공개 문서만으로 확정할 수 없지만, 연결 자체를 진실의 원천으로 삼지는 않는다

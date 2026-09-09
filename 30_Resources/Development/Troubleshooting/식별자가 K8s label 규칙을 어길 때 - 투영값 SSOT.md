@@ -19,7 +19,7 @@ tags:
 > - 원본 ID는 보존하고, **label/selector 전용 투영값을 만드는 단일 함수(SSOT, 변환 규칙의 정본)** 를 둔다 (예: `toLabelValue()`)
 > - 단순 치환으로 서로 다른 ID가 같은 값이 되지 않는지도 확인한다. 변환의 결정성·충돌 가능성·최대 길이를 함께 검증한다
 > - **apply와 delete가 같은 함수를 공유**해야 붙인 라벨과 찾는 라벨이 항상 일치
-> - 부속 원칙: bulk delete의 selector에는 소유 범위를 충분히 포함한다 — `managed-by` 같은 넓은 라벨만으로 일괄 삭제하면 남의 리소스까지 지운다. apply 시점에 소유 단위까지 좁은 ownership label을 붙여둘 것
+> - 부속 원칙: bulk delete의 selector에는 소유 범위를 충분히 포함한다. `managed-by` 같은 넓은 라벨만으로 일괄 삭제하면 남의 리소스까지 지운다. apply 시점에 소유 단위까지 좁은 ownership label을 붙여둘 것
 
 ---
 
