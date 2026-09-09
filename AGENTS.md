@@ -40,6 +40,7 @@ _global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노�
 - frontmatter 스키마: [[_property-schema]]
 - 에이전트 작업 규칙: 이 문서. Codex는 직접 읽고, Claude Code는 `CLAUDE.md`가 `@AGENTS.md`로 가져온 뒤 Claude 전용 절만 덧붙인다.
 - 개별 작업의 실행 절차: 해당 `.agents/skills/<skill-name>/SKILL.md`
+- Obsidian Markdown 파일을 만들거나 수정할 때는 `obsidian-markdown`을 함께 참조한다.
 
 운영 문서의 상세 내용을 AGENTS나 스킬에 복제하지 않는다. 이 문서에는 에이전트가 잘못된 위치에 쓰거나 의미 판단을 자동 적용하지 않도록 하는 경계만 둔다.
 
