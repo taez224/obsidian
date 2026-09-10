@@ -305,13 +305,13 @@ projects:
 ---
 created: 2026-09-06
 slug: <영문-슬러그>
-summary: <노트가 설명하는 개념 또는 학습 질문을 한 문장으로 요약>
+summary: <이 노트가 다루는 질문이나 구분을 한 문장으로>
 tags:
   - 개발/<기술>
 ---
 ```
 
-`created`는 모든 노트의 필수 필드이고 `summary`는 목록에서 노트의 주제와 핵심 관점을 식별하는 한 문장이다. `tags`는 여러 폴더를 가로질러 실제로 검색할 기술 주제가 있을 때만 선택적으로 쓴다. 발행 상태를 나타내는 별도 속성은 두지 않는다. 공개 가능한 내용만 이 폴더에 저장하며, 별도 파일 등록 없이 사이트 빌드에 포함된다.
+`created`는 모든 노트의 필수 필드이고 `summary`는 이 노트가 다루는 질문이나 구분을 말하는 한 문장이다. 노트가 하는 일을 적는 꼬리("~를 정리한다")는 쓰지 않는다. `tags`는 여러 폴더를 가로질러 실제로 검색할 기술 주제가 있을 때만 선택적으로 쓴다. 발행 상태를 나타내는 별도 속성은 두지 않는다. 공개 가능한 내용만 이 폴더에 저장하며, 별도 파일 등록 없이 사이트 빌드에 포함된다.
 
 새 노트는 [[dev-concept-template|Development Concept Template]]의 속성과 작성 안내를 출발점으로 삼는다. 헤딩과 구성은 내용에 맞게 정한다.
 
@@ -319,15 +319,33 @@ tags:
 
 ## 🧯 Development Troubleshooting (`30_Resources/Development/Troubleshooting/`)
 
-관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문에 밝힌다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]의 속성과 작성 안내를 출발점으로 삼는다. 문제를 좁히고 해결·검증한 사고 순서를 유지하며, 고정 헤딩으로 나누지 않는다.
+관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문 마지막 절 `확인 범위`에 밝힌다. 파일명은 결론이 아니라 상황을 부르는 명사구이고, `summary`는 알아낸 답 한 문장이다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 오류 문자열로 노트를 찾게 하려면 `aliases`에 원문을 넣는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]의 속성과 작성 안내를 출발점으로 삼는다. 문제를 좁히고 해결·검증한 사고 순서를 유지하며, 고정 헤딩으로 나누지 않는다.
 
 ```yaml
 ---
 created: 2026-09-06
 slug: <영문-슬러그>
-summary: <문제와 해결 관점을 한 문장으로 요약>
+summary: <알아낸 답을 한 문장으로>
+aliases:
+  - <오류 메시지 원문, 필요할 때만>
 tags:
   - 개발/<기술>
+---
+```
+
+---
+
+## 🛠️ Development Tools (`30_Resources/Development/Tools/`)
+
+특정 도구를 어떤 용도로 어떻게 쓰는지 남기는 노트다. 도구 이름이 들어가더라도 설계 결정을 기록한 글은 Concepts에 둔다. 속성은 Concepts와 같고, `summary`에는 어떤 도구를 어떤 용도로 어떻게 쓰는지를 한 문장으로 적는다. 기본 태그는 `개발/도구`이며 다른 주제 태그는 실제로 가로질러 검색할 때만 더한다. 새 노트는 [[dev-concept-template|Development Concept Template]]을 출발점으로 삼는다. 이 폴더도 사이트 빌드에 자동으로 포함된다.
+
+```yaml
+---
+created: 2026-09-06
+slug: <영문-슬러그>
+summary: <어떤 도구를 어떤 용도로 어떻게 쓰는지 한 문장으로>
+tags:
+  - 개발/도구
 ---
 ```
 
