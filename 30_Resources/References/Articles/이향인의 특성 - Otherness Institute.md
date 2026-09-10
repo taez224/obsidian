@@ -8,8 +8,7 @@ thumbnail: https://www.othernessinstitute.com/wp-content/uploads/2022/11/blog-4.
 created: 2026-07-29
 description: Otherness Institute가 정의한 이향인(otrovert)의 특성과, 공식 척도 결과를 바탕으로 한 개인적 공감·유보 지점.
 tags:
-  - 📰article
-  - 자기이해
+  - 커리어/자기관리
 status: read
 my_take: 원문의 단정적인 특성 목록 전체에 나를 맞추기는 어렵다. 가장 공감한 건 사람들과 함께하고 싶으면서도 집단 한가운데보다는 한발 물러나 관찰하고 싶은 감각이다. 1:1이나 문서 기반 협업처럼 편하게 참여할 수 있는 조건은 분명하지만, 위험 회피·모험심·즉흥성처럼 상황마다 다르게 나타나는 모습까지 이향인 하나로 묶고 싶지는 않다. 고정된 정체성보다는 내가 어떤 환경에서 편하게 연결되고 참여하는지 살펴보는 가설에 가깝다.
 ---

@@ -2,8 +2,8 @@
 created: 2026-07-12
 slug: workslop-is-structural
 tags:
+  - 조직
   - AI
-  - 커리어
 type: permanent
 status: seedling
 aliases:

@@ -2,8 +2,8 @@
 created: 2026-07-12
 slug: individual-absorptive-capacity
 tags:
+  - 커리어/성장
   - AI
-  - 커리어
 type: permanent
 status: seedling
 aliases:

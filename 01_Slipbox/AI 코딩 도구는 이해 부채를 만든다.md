@@ -3,7 +3,7 @@ created: 2026-07-03
 slug: ai-coding-comprehension-debt
 tags:
   - AI
-  - 커리어
+  - 커리어/성장
 type: permanent
 status: growing
 aliases:

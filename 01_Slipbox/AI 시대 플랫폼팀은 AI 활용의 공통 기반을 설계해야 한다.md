@@ -2,6 +2,7 @@
 created: 2026-07-16
 slug: platform-team-ai-foundation
 tags:
+  - 조직
   - AI
   - 개발/플랫폼
 type: permanent
