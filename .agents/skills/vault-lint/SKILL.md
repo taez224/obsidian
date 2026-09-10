@@ -23,6 +23,7 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 `base_issues`(`.base` 파일의 미인식 키. 예: `sortBy`는 실제 Bases 스키마에 없고 `sort` 리스트가 맞다), `stats`,
 `periodic_placeholders`(Periodic Notes의 의도된 날짜·주차·월 링크),
 `series_placeholders`(진행 중·잠정 중단 시리즈 허브의 예정 글 링크),
+`hub_gaps`(`01_Slipbox/`의 permanent 노트 중 어느 `type: hub` 노트도 링크하지 않는 것. 허브가 모든 노트를 실을 필요는 없으므로 결함이 아니라 등록 여부를 판단할 후보 목록),
 `priorities`(기계 수정 후보 / 의미 검토 후보 / 정보성 항목 수).
 `reuse_by_note`(영구 노트별 재사용 판정), `stats.reuse`(집계)를 관찰용으로 제공한다. 목표 비율이나 품질 점수로 해석하지 않는다.
 NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하므로 스캐너 결과를 기계 검사 후보의 기준으로 사용한다. 다만 실제 수정 전에는 영향받는 파일과 예상 밖 결과를 표본 확인해 스키마 드리프트나 파서 한계를 점검한다.
@@ -35,7 +36,7 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 
 - **연결 공백·MOC 공백 - 탐지·보고만** (적용은 `review-zettelkasten` 위임):
   `slipbox: true`인 고립 노트와, 같은 태그/링크 클러스터에 3+ 노트가 있는데 `type: hub`
-  노트가 없는 군집을 리포트에 기록한다. 어떤 노트를 어떻게 연결·구조화할지의 의미 판단과
+  노트가 없는 군집, 그리고 스캐너의 `hub_gaps`(허브 미등록 permanent 노트)를 리포트에 기록한다. 어떤 노트를 어떻게 연결·구조화할지의 의미 판단과
   적용은 이 스킬에서 하지 않고, 리포트에 "review-zettelkasten으로 처리"를 안내한다.
 - **죽은 링크 처치**: 항목별로 "오타 수정 / 스텁 생성 / 링크 제거 / 의도적 placeholder 유지"
   중 하나를 근거와 함께 제안한다. Zettelkasten에서 미해결 링크는 "나중에 쓸 노트" 표시일 수

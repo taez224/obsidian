@@ -78,6 +78,8 @@ def build_fixture(root):
     write(root, "40_Archive/옛노트.md", fm + "---\n[[고립 아님]]\n")
     # Archive에서만 백링크를 받는 노트 → 고립 아님
     write(root, "30_Resources/고립 아님.md", fm + "---\n본문\n")
+    # 허브 공백: 허브가 링크한 permanent 노트는 등록됨, 링크하지 않은 permanent 노트만 hub_gaps
+    write(root, "01_Slipbox/허브.md", fm + "type: hub\nstatus: seedling\n---\n[[연결된 노트]]\n")
     # 진짜 고립 (Slipbox) → slipbox 플래그
     write(root, "01_Slipbox/고립 노트.md", slip_fm + "본문뿐\n")
     # frontmatter 위반: created 누락 + 태그에 # + Slipbox 필수(type/status) 누락
@@ -215,6 +217,15 @@ def main():
         ), r["broken_anchors"]
         assert r["stats"]["broken_anchors"] == 2
         assert priorities["meaning_review"]["broken_anchors"] == 2
+
+        # 허브 공백: type: permanent인데 어느 허브도 링크하지 않는 Slipbox 노트
+        gaps = {g["path"] for g in r["hub_gaps"]}
+        assert "01_Slipbox/별명 노트.md" in gaps, gaps
+        assert "01_Slipbox/연결된 노트.md" not in gaps, gaps
+        assert "01_Slipbox/허브.md" not in gaps, gaps
+        assert "01_Slipbox/나쁜 노트.md" not in gaps, gaps  # type 없음 → permanent 아님
+        assert r["stats"]["hub_gaps"] == len(r["hub_gaps"])
+        assert priorities["informational"]["hub_gaps"] == len(r["hub_gaps"])
 
         reuse = r["stats"]["reuse"]
         assert reuse["blog_to_slipbox_edges"] == 3, reuse

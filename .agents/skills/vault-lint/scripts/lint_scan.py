@@ -2,7 +2,7 @@
 """vault-lint 기계 검사 스캐너 — 읽기 전용, vault 파일을 절대 수정하지 않는다.
 
 사용: python3 lint_scan.py [vault_root]   (기본: 현재 디렉토리)
-출력: JSON {stats, priorities, orphans, dead_links, periodic_placeholders, series_placeholders,
+출력: JSON {stats, priorities, orphans, dead_links, hub_gaps, periodic_placeholders, series_placeholders,
            frontmatter_issues, base_issues}
 
 스키마 출처: 99_Templates/_property-schema.md — 스키마 변경 시 아래 설정 블록만 갱신.
@@ -325,6 +325,22 @@ def main():
         and not rel.startswith(ORPHAN_EXCLUDE)
     ]
 
+    # 허브 공백: 01_Slipbox의 permanent 노트 중 어느 허브(type: hub)도 링크하지 않는 노트.
+    # 허브가 모든 노트를 실어야 한다는 뜻은 아니다 — 등록 여부를 review-zettelkasten이
+    # 판단하도록 목록만 보고한다.
+    def note_type(rel):
+        scalars, _ = fm_cache.get(rel, (None, {}))
+        return (scalars or {}).get("type", "")
+
+    hubs = [rel for rel in scanned if rel.startswith("01_Slipbox/") and note_type(rel) == "hub"]
+    hub_targets = set().union(*(out_targets[h] for h in hubs)) if hubs else set()
+    hub_gaps = [
+        {"path": rel, "status": (fm_cache[rel][0] or {}).get("status", "")}
+        for rel in scanned
+        if rel.startswith("01_Slipbox/") and note_type(rel) == "permanent"
+        and rel not in hub_targets
+    ]
+
     frontmatter_issues = []
     style_suggestions = []
     for rel in scanned:
@@ -450,6 +466,7 @@ def main():
             "series_placeholders": len(series_placeholders),
             "frontmatter_issues": len(frontmatter_issues),
             "broken_anchors": len(broken_anchors),
+            "hub_gaps": len(hub_gaps),
             "base_total": len(all_base),
             "base_issues": len(base_issues),
             "reuse": {
@@ -481,12 +498,14 @@ def main():
                 "series_placeholders": len(series_placeholders),
                 "seedling_with_reuse": seedling_with_reuse,
                 "pending_reuse_edges": pending_edges,
+                "hub_gaps": len(hub_gaps),
             },
         },
         "reuse_by_note": reuse_by_note,
         "orphans": orphans,
         "dead_links": dead_links,
         "broken_anchors": broken_anchors,
+        "hub_gaps": hub_gaps,
         "periodic_placeholders": periodic_placeholders,
         "series_placeholders": series_placeholders,
         "frontmatter_issues": frontmatter_issues,
