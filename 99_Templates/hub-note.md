@@ -1,5 +1,6 @@
 ---
 created: <% tp.date.now("YYYY-MM-DD") %>
+slug: ""
 type: hub
 status: seedling
 ---
@@ -8,6 +9,7 @@ status: seedling
 
 %%
 필요할 때만 아래를 추가한다.
+공개 허브의 slug는 속성 스키마에 따라 처음 작성할 때 정하고, 발행 후에는 바꾸지 않는다.
 
 > [!abstract]
 > 이 허브가 다루는 범위 또는 다시 찾는 용도.
