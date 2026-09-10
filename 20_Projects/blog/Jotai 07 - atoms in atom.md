@@ -152,7 +152,3 @@ import { SvgShapes } from "./SvgShapes";
 
 ![](https://velog.velcdn.com/images/taez224/post/8c15bd22-1101-4438-a32c-8e9c8ca547f3/image.gif)  
 jotai와 `atoms in atom` 방법을 사용하여 여러 개의 atom을 다루는 방식을 알아보았다.
-
-## 연관된 노트
-
-- [[Jotai 06 - atom 구조화]] - 이전 글

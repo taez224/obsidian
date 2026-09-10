@@ -213,8 +213,3 @@ const [,updateValue] = useAtom(derivedWriteOnlyAtom);
 
 [https://jotai-tutorial.netlify.app/quick-start/writeonly-atoms](https://jotai-tutorial.netlify.app/quick-start/write-only-atoms)  
 [https://egghead.io/lessons/react-prevent-rerenders-and-add-functionality-with-jotai-write-only-atoms](https://egghead.io/lessons/react-prevent-rerenders-and-add-functionality-with-jotai-write-only-atoms)
-
-## 연관된 노트
-
-- [[Jotai 03 - Derived atom Read Only]] - 이전 글
-- [[Jotai 05 - Read Write atom]] - 다음 글

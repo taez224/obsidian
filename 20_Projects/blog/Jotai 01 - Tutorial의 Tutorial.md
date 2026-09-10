@@ -50,8 +50,3 @@ yarn add jotai
 # pnpm
 pnpm install jotai
 ```
-
-
-## 연관된 노트
-
-- [[Jotai 02 - My first atom]] - 다음 글

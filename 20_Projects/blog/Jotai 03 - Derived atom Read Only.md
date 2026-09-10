@@ -147,8 +147,3 @@ const derivedReadOnlyAtom = atom(readFunction);
 const [value, setValue] = useAtom(primitiveAtom);
 const [readValue] = useAtom(derivedReadOnlyAtom);
 ```
-
-## 연관된 노트
-
-- [[Jotai 02 - My first atom]] - 이전 글
-- [[Jotai 04 - Write Only atom]] - 다음 글

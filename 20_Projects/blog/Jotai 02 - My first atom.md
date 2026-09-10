@@ -85,8 +85,3 @@ export default function Page() {
 
 Jotai를 사용하는 가장 큰 이유 중 하나는 전역 상태 관리를 쉽게 할 수 있다는 점이다.  
 React의 useState와 유사한 방식으로 사용할 수 있어 React에 익숙하다면 쉽게 jotai를 사용할 수 있다.
-
-## 연관된 노트
-
-- [[Jotai 01 - Tutorial의 Tutorial]] - 이전 글
-- [[Jotai 03 - Derived atom Read Only]] - 다음 글

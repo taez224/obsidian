@@ -303,8 +303,3 @@ onMouseUp 되는 순간 point들이 path로 바뀌어야 하니까 해당 atom�
 
 [https://egghead.io/lessons/react-structure-jotai-atoms-and-add-functionality-to-a-react-app](https://egghead.io/lessons/react-structure-jotai-atoms-and-add-functionality-to-a-react-app)  
 [https://codesandbox.io/embed/jotai-tutorial-04-6fkir](https://codesandbox.io/embed/jotai-tutorial-04-6fkir)
-
-## 연관된 노트
-
-- [[Jotai 05 - Read Write atom]] - 이전 글
-- [[Jotai 07 - atoms in atom]] - 다음 글
