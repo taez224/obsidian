@@ -9,7 +9,7 @@ tags:
 
 # 로컬 plugin marketplace로 push 없는 dogfooding
 
-Claude Code 플러그인을 개발할 때, 원격 저장소에 push하지 않고도 **로컬 경로를 marketplace로 직접 등록**해 다른 레포에서 설치·사용할 수 있다.
+플러그인을 한 줄 고칠 때마다 원격 저장소에 push하고 설치를 다시 하면, 확인에 걸리는 시간이 고치는 시간보다 길어진다. 등록할 때 원격 주소 대신 **로컬 절대 경로**를 주면 이 왕복이 없어진다.
 
 ```
 /plugin marketplace add /absolute/path/to/plugin-repo
