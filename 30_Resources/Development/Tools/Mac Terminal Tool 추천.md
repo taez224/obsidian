@@ -1,7 +1,7 @@
 ---
 created: 2026-01-15
 slug: mac-terminal-tools
-summary: macOS에서 자주 쓰는 터미널 명령어를 대체할 도구와 조합 방식을 정리한다.
+summary: macOS 터미널에서 bat, lsd, fd, ripgrep, zoxide가 cat, ls, find, grep, cd를 대신하며, 서로 이어 쓰면 파일 탐색이 빨라진다.
 tags:
   - 개발/도구
 ---

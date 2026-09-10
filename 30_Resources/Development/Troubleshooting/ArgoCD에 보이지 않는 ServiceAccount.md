@@ -1,7 +1,7 @@
 ---
 created: 2026-07-15
 slug: argocd-missing-serviceaccount
-summary: ServiceAccount가 보이지 않거나 권한 오류가 날 때 객체 생성, RBAC 권한 부여, Pod의 참조를 나눠 확인한다.
+summary: ServiceAccount가 ArgoCD에 보이지 않을 때는 객체가 생성되지 않은 문제와 객체는 있는데 권한이 없는 문제를 먼저 나눠야 하며, 생성에 ClusterRoleBinding이 필수인 것은 아니다.
 tags:
   - 개발/Kubernetes
   - 개발/ArgoCD
@@ -9,8 +9,6 @@ tags:
 
 # ArgoCD에 보이지 않는 ServiceAccount
 
-> [!summary] 핵심
-> 객체가 만들어지지 않은 문제인지, 객체는 있고 권한만 없는 문제인지부터 나눈다. ServiceAccount 생성에 ClusterRoleBinding이 필수인 것은 아니다.
 
 GitOps 저장소에 ServiceAccount manifest를 추가했는데, 같은 패턴의 다른 서비스 ServiceAccount는 ArgoCD에 보이면서 새 계정만 동기화되지도 표시되지도 않았다.
 
@@ -35,8 +33,11 @@ kubectl auth can-i <verb> <resource> -n <namespace> \
 
 두 명령은 각각 객체 존재와 특정 작업의 권한을 확인한다. `--as`를 사용하는 조사 계정에는 해당 신원을 impersonate할 권한이 필요하다.
 
+## 확인 범위
+
+ServiceAccount 생성과 권한 부여의 구분은 Kubernetes 공식 문서로 확인했다. 실제 사례에서 객체가 만들어지지 않은 직접 원인은 확인하지 못했고, 위 순서는 그 뒤에 정리한 점검 순서다.
+
 ## 참고 자료
 
-- 비공개 개발 기록 2026-05-06: 초기 관찰과 구성 비교. 생성 실패의 직접 원인은 추가 근거가 필요하다.
 - [Kubernetes Service Accounts](https://kubernetes.io/docs/concepts/security/service-accounts/) - 계정 생성·권한·Pod 지정
 - [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) - RoleBinding과 ClusterRoleBinding의 범위

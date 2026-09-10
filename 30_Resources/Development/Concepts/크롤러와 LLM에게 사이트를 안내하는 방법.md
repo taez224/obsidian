@@ -1,7 +1,7 @@
 ---
 created: 2026-09-10
 slug: machine-readable-outputs
-summary: robots.txt와 사이트맵, llms.txt, 구조화 데이터가 각각 기계 독자에게 무엇을 약속하는지 구분하고 무엇을 기대하지 않을지까지 정리한다.
+summary: robots.txt와 사이트맵, llms.txt, 구조화 데이터는 각각 기계 독자에게 무엇을 약속하고 무엇은 약속하지 않는가.
 tags:
   - 개발/설계
 ---

@@ -1,5 +1,5 @@
 ---
-summary: 같은 Flux<DataBuffer>라도 전달·파일 기록·폐기 경로에 따라 해제 책임이 달라진다.
+summary: 해제 책임은 흐름의 대칭이 아니라 그 buffer의 최종 소비자가 정하므로, 다음 writer에게 넘기면 손대지 않고 되돌려받는 흐름이면 직접 해제한다.
 created: 2026-08-25
 slug: databuffer-release-ownership
 tags:
@@ -36,6 +36,10 @@ tags:
 파일로 내리는 것이 목적이라면 채널을 직접 열지 않는 편이 낫다. `DataBufferUtils.write(source, Path, OpenOption...)` 오버로드는 `Mono<Void>`를 반환한다. 채널을 직접 열고 닫으며 release를 조합하는 코드보다 책임을 한곳에서 다루기 쉽지만, buffer 해제 계약은 사용하는 Spring 버전의 문서와 구현으로 확인한다.
 
 폐기 경로가 있는 체인에는 `doOnDiscard(DataBuffer.class, DataBufferUtils::release)`를 건다. buffer를 비동기 작업이 끝날 때까지 보관해야 한다면 `retain()`으로 소유권을 명시하고, 완료와 오류와 취소 모든 경로에서 해제되도록 한다.
+
+## 확인 범위
+
+`write(publisher, channel)`이 buffer를 해제하지 않는다는 것과 `fromDataBuffers`의 동작은 Spring Framework javadoc과 참조 문서로 확인했다. 두 API의 release 유무가 각각 맞다는 것은 실제 코드에서 buffer의 다음 단계를 따라가며 확인했다. writer가 해제하는 정확한 시점은 사용하는 Spring 버전에서 다시 확인해야 한다.
 
 ## 참고 자료
 

@@ -1,5 +1,5 @@
 ---
-summary: Secret 적용 성공과 실행 중인 컨테이너의 환경변수 갱신은 별개의 일이다.
+summary: 환경변수로 주입한 Secret은 컨테이너 생성 시점에만 읽히므로, 값이 바뀌면 pod template을 바꿔 Pod를 새로 띄워야 한다.
 created: 2026-07-15
 slug: k8s-envfrom-secret-reload
 tags:
@@ -19,3 +19,7 @@ Secret 값을 바꿔서 apply했고 명령은 성공했는데, 이미 떠 있는
 ## server-side apply와 stringData
 
 Secret을 server-side apply로 관리하기로 했다면 `stringData`와 함께 쓰는 조합은 피하는 편이 낫다. 공식 문서가 이 필드는 server-side apply와 잘 맞지 않는다고 설명한다. 다만 언제나 충돌한다고 단정하기보다, 실제로 사용한 필드와 field manager를 확인하는 편이 정확하다.
+
+## 확인 범위
+
+환경변수 주입에 갱신 경로가 없다는 것과 볼륨 마운트·`subPath`의 동작은 Kubernetes 공식 문서로 확인했다. annotation으로 rollout을 유발하는 방법은 실제 GitOps 흐름에 적용했다. server-side apply와 `stringData`의 충돌은 문서 설명이며 직접 재현하지 않았다.

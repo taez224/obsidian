@@ -1,5 +1,5 @@
 ---
-summary: ZIP 엔트리 크기를 업로드 전에 알아야 할 때 순차 스트림과 파일 기반 접근을 구분한다.
+summary: 순차 스트림으로 쓴 ZIP은 local header에 크기가 없어 ZipInputStream이 -1을 돌려주며, 이미 파일로 내렸다면 central directory를 읽는 ZipFile로 열어야 크기를 미리 알 수 있다.
 created: 2026-08-25
 slug: zip-stream-unknown-size
 tags:
@@ -29,3 +29,7 @@ ZIP을 순차적으로 읽는 것 자체는 가능하다. 다만 엔트리를 �
 파일로 내리지 않고 순수 스트리밍으로 가야 한다면 컨테이너를 바꾸는 방법이 있다. `multipart/mixed`처럼 경계가 순차적으로 나오는 형식이면 목록을 미리 몰라도 도착하는 대로 흘려보낼 수 있다.
 
 압축 방식도 함께 볼 만하다. 이미 압축된 데이터는 재압축 이득이 작을 수 있으므로 파일별 크기와 CPU 비용을 비교한다. 묶는 것이 목적이라면 `STORED`도 후보인데, Java `ZipOutputStream`으로 STORED 엔트리를 쓸 때는 크기와 CRC를 미리 준비해야 한다.
+
+## 확인 범위
+
+`getSize()`가 -1을 돌려주는 증상은 외부 서비스의 스트리밍 ZIP 응답에서 관찰했다. local header와 central directory의 차이, data descriptor, STORED 엔트리의 조건은 Java 21 API 문서로 확인했다. 파일 기반으로 바꿨을 때 병렬 업로드로 얻는 이득은 측정하지 않았다.

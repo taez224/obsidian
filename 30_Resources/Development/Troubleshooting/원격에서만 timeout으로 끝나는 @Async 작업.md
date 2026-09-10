@@ -1,12 +1,12 @@
 ---
-summary: 반환된 Future를 기다리는 Async executor의 작업이 끝나지 않을 때 완료·취소 경로를 점검한다.
+summary: @Async 메서드가 반환한 Future를 executor가 기다리는 경로에서 그 Future가 끝나지 않아 worker가 점유된 것이며, 중단 경로에서도 Future를 완료·예외·취소 중 하나로 끝내야 한다.
 created: 2026-07-15
 slug: spring-async-pool-starvation
 tags:
   - 개발/Spring
 ---
 
-# Spring Async 스레드풀 기아 - 반환한 Future의 완료 경로
+# 원격에서만 timeout으로 끝나는 @Async 작업
 
 외부 시스템의 상태를 관측하는 비동기 작업이 로컬에서는 정상인데 개발계와 운영계에서만 timeout으로 끝났다. 선행 단계인 동기화는 성공하고, 관측 단계는 시작 로그를 한 번 찍은 뒤 멈췄다. manifest와 권한 차이를 전수 비교했지만 거기서는 원인이 나오지 않았다.
 
@@ -30,4 +30,4 @@ tags:
 
 ## 확인 범위
 
-`AsyncExecutionInterceptor`의 동작은 Spring 6.1.6 기준으로 확인했다.
+`AsyncExecutionInterceptor`가 반환 Future를 기다리는 동작은 Spring 6.1.6 소스로 확인했다. worker 점유는 당시 진단이며 스레드 덤프로 남긴 기록은 없다. 중단 경로에서 Future를 끝내도록 고친 뒤 원격 환경에서 같은 증상이 재발했는지는 이 노트에 적지 않았다.

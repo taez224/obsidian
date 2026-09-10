@@ -1,7 +1,7 @@
 ---
 created: 2026-09-09
 slug: vault-with-ai
-summary: Obsidian vault의 관리를 AI에게 맡기며 지침·스킬·검색 도구를 어떻게 두었고 무엇은 맡기지 않는지 정리한다.
+summary: Obsidian vault 관리를 AI 에이전트에게 맡기려고 지침·스킬·검색 도구를 둔 방식과, 삭제·승격·공개 판단은 사람이 맡기로 한 경계다.
 tags:
   - 지식관리
   - AI/에이전트

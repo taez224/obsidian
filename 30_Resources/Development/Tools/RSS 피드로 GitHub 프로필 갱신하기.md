@@ -1,7 +1,7 @@
 ---
 created: 2026-09-06
 slug: rss-to-github-profile
-summary: RSS로 가든의 종류별 피드를 만들고 GitHub 프로필을 갱신하는 구성을 정리한다.
+summary: 가든이 글 종류별로 내는 RSS 피드를 프로필 저장소의 GitHub Actions가 읽어 README 목록을 갱신하는 구성이다.
 tags:
   - 개발/도구
 ---

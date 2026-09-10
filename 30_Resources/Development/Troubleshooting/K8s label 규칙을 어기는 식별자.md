@@ -1,5 +1,5 @@
 ---
-summary: 도메인 식별자는 보존하고 Kubernetes label과 selector에 사용할 변환 규칙을 한곳에서 관리한다.
+summary: 도메인 식별자를 label 값으로 바꾸는 규칙을 함수 하나에 두어 apply와 delete가 같은 값을 만들게 하고, 원본 식별자는 바꾸지 않는다.
 created: 2026-07-15
 slug: k8s-label-safe-identifier
 tags:
@@ -24,3 +24,7 @@ tags:
 > `managed-by`처럼 넓은 라벨만으로 일괄 삭제하면 같은 라벨을 쓰는 다른 리소스까지 지워버릴 수 있다.
 
 여기서 딸려 나온 원칙이 하나 있다. 여러 리소스를 한 번에 지울 때는 selector에 소유 범위를 충분히 넣어야 한다. apply 시점에 소유 단위까지 좁은 ownership label을 함께 붙여 두면, 삭제할 때 그 라벨로 범위를 제한할 수 있다.
+
+## 확인 범위
+
+label 값의 문법은 Kubernetes 공식 문서로 확인했다. 변환 함수를 한곳에 두고 apply와 delete가 같은 값을 쓰게 하는 방법은 실제 코드에 적용했다. 변환 결과가 충돌하는지는 ID 체계마다 다르므로 사용하는 체계에서 다시 검증해야 한다.
