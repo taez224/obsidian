@@ -1,6 +1,7 @@
 ---
 title: "01화 [프롤로그] MBTI로는 설명되지 않는 당신의 행동들"
 created: 2025-06-14
+slug: why-i-act-01-prologue
 published: 2025-06-16
 tags:
   - blog

@@ -3,6 +3,7 @@ title: ONLYOFFICE 연동기 1편 - 그냥 문서 편집기인 줄 알았는데
 aliases:
   - ONLYOFFICE 서버 구축기 - 1. 그냥 문서 에디터가 아니네?
 created: 2025-11-24
+slug: onlyoffice-01-first-look
 tags:
   - 프로젝트/onlyoffice-demo
   - blog

@@ -1,6 +1,7 @@
 ---
 title: ONLYOFFICE 연동 바이브코딩 기록
 created: 2026-07-15
+slug: onlyoffice
 type: series
 status: active
 started: 2025-11-24

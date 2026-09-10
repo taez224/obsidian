@@ -1,5 +1,6 @@
 ---
 created: 2026-08-20
+slug: human-agency
 tags:
   - 철학
   - AI

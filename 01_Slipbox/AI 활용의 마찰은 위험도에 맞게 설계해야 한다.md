@@ -1,5 +1,6 @@
 ---
 created: 2026-07-11
+slug: friction-by-risk
 tags:
   - AI
   - 개발

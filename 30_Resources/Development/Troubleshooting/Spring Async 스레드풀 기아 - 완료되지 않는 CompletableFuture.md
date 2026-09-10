@@ -1,6 +1,7 @@
 ---
 summary: 반환된 Future를 기다리는 Async executor의 작업이 끝나지 않을 때 완료·취소 경로를 점검한다.
 created: 2026-07-15
+slug: spring-async-pool-starvation
 tags:
   - 개발/Spring
 ---

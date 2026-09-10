@@ -1,6 +1,7 @@
 ---
 title: Martin Fowler의 'LLMs bring new nature of abstraction'을 읽고..
 created: 2025-06-27
+slug: llms-new-abstraction
 published: 2025-06-27
 tags:
   - blog

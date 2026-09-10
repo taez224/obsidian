@@ -1,5 +1,6 @@
 ---
 created: 2026-07-12
+slug: sparring-with-ai
 tags:
   - AI
 type: permanent

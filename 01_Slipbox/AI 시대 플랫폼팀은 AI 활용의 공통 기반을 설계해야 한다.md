@@ -1,5 +1,6 @@
 ---
 created: 2026-07-16
+slug: platform-team-ai-foundation
 tags:
   - AI
   - 개발/플랫폼

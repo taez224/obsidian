@@ -1,5 +1,6 @@
 ---
 created: 2026-01-15
+slug: mac-terminal-tools
 summary: macOS에서 자주 쓰는 터미널 명령어를 대체할 도구와 조합 방식을 정리한다.
 tags:
   - 개발/도구

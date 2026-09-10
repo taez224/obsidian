@@ -1,6 +1,7 @@
 ---
 title: Jotai Tutorial의 Tutorial
 created: 2023-03-05
+slug: jotai-tutorial-01-intro
 published: 2023-03-05
 tags:
   - blog

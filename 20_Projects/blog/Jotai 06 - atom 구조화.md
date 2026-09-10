@@ -1,6 +1,7 @@
 ---
 title: Jotai - atom 구조화
 created: 2023-03-26
+slug: jotai-tutorial-06-structuring-atoms
 published: 2023-03-26
 tags:
   - blog

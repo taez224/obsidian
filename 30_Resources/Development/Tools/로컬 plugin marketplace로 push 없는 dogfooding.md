@@ -1,5 +1,6 @@
 ---
 created: 2026-07-15
+slug: local-plugin-marketplace
 summary: 로컬 marketplace 등록으로 원격 저장소에 push하지 않고 플러그인을 직접 사용하며 개선한 흐름을 정리한다.
 tags:
   - 개발/도구

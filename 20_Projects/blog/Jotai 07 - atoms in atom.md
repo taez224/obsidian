@@ -1,6 +1,7 @@
 ---
 title: Jotai - atoms in atom
 created: 2023-04-08
+slug: jotai-tutorial-07-atoms-in-atom
 published: 2023-04-08
 tags:
   - blog

@@ -2,10 +2,11 @@
 title: Think with AI
 created: 2026-07-15
 type: series
+slug: think-with-ai
 status: active
 started: 2026-07-15
-ended: null
-last_published: null
+ended:
+last_published:
 next_action: 1화 최종 검수 및 발행
 tags:
   - 프로젝트/blog

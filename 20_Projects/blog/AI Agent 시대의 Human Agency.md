@@ -1,6 +1,7 @@
 ---
 title: AI Agent 시대의 Human Agency
 created: 2026-08-07
+slug: human-agency-in-ai-agents
 published: 2026-08-25
 tags:
   - blog

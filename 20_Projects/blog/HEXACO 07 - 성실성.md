@@ -1,6 +1,7 @@
 ---
 title: "07화 성실성(C): 실행과 책임의 구조화"
 created: 2025-07-04
+slug: why-i-act-07-conscientiousness
 published: 2025-07-07
 tags:
   - blog

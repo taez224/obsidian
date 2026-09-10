@@ -1,5 +1,6 @@
 ---
 created: 2026-07-03
+slug: ai-coding-comprehension-debt
 tags:
   - AI
   - 커리어

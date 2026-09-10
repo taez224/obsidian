@@ -1,6 +1,7 @@
 ---
 summary: 낮은 버전의 미적용 마이그레이션을 발견하면 환경별 적용 이력부터 확인한다.
 created: 2026-07-15
+slug: flyway-history-divergence
 tags:
   - 개발/Flyway
 ---

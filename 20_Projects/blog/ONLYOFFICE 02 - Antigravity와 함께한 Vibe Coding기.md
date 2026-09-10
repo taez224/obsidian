@@ -1,6 +1,7 @@
 ---
 title: "Antigravity와 함께한 ONLYOFFICE 연동 Vibe Coding기 (Part 2: 구현편)"
 created: 2025-11-28
+slug: onlyoffice-02-implementation
 published: 2025-11-28
 tags:
   - 프로젝트/onlyoffice-demo

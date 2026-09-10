@@ -1,6 +1,7 @@
 ---
 title: "04화 정서성(E): 감정이 당신의 행동에 미치는 영향은?"
 created: 2025-06-24
+slug: why-i-act-04-emotionality
 published: 2025-06-26
 tags:
   - blog

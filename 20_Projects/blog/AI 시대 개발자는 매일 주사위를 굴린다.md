@@ -1,6 +1,7 @@
 ---
 title: "AI 시대 개발자는 매일 주사위를 굴린다"
 created: 2026-07-22
+slug: developers-roll-dice
 published: 2025-06-27
 tags:
   - blog

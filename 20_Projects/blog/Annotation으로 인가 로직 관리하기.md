@@ -1,6 +1,7 @@
 ---
 title: 내가 만든 @Annotation으로 인가 로직 관리하기
 created: 2023-04-13
+slug: custom-annotation-authorization
 published: 2023-04-13
 tags:
   - blog

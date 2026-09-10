@@ -1,6 +1,7 @@
 ---
 title: Jotai tutorial
 created: 2026-07-15
+slug: jotai-tutorial
 type: series
 status: completed
 started: 2023-03-05

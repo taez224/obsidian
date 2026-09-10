@@ -1,6 +1,7 @@
 ---
 title: "ONLYOFFICE 연동 3편: key와 메타데이터 관리"
 created: 2026-01-14
+slug: onlyoffice-03-key-and-metadata
 published: 2026-01-14
 tags:
   - 프로젝트/onlyoffice-demo

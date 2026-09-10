@@ -1,5 +1,6 @@
 ---
 created: 2026-08-07
+slug: taste
 tags:
   - 철학
   - AI

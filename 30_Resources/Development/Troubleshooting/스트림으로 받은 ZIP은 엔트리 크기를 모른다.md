@@ -1,6 +1,7 @@
 ---
 summary: ZIP 엔트리 크기를 업로드 전에 알아야 할 때 순차 스트림과 파일 기반 접근을 구분한다.
 created: 2026-08-25
+slug: zip-stream-unknown-size
 tags:
   - 개발/Java
 ---

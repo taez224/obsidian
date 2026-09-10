@@ -1,6 +1,7 @@
 ---
 summary: 같은 Flux<DataBuffer>라도 전달·파일 기록·폐기 경로에 따라 해제 책임이 달라진다.
 created: 2026-08-25
+slug: databuffer-release-ownership
 tags:
   - 개발/Spring
 ---

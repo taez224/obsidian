@@ -1,5 +1,6 @@
 ---
 created: 2026-09-09
+slug: vault-with-ai
 summary: Obsidian vault의 관리를 AI에게 맡기며 지침·스킬·검색 도구를 어떻게 두었고 무엇은 맡기지 않는지 정리한다.
 tags:
   - 지식관리

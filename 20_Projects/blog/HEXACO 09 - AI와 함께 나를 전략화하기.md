@@ -1,6 +1,7 @@
 ---
 title: "09화 HEXACO는 시작일 뿐: AI와 함께 나를 전략화하기"
 created: 2025-07-12
+slug: why-i-act-09-strategize-with-ai
 published: 2025-07-15
 tags:
   - blog

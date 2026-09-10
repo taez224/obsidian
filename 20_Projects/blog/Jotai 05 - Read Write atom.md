@@ -1,6 +1,7 @@
 ---
 title: Jotai Tutorial - Read Write atom
 created: 2023-03-26
+slug: jotai-tutorial-05-read-write-atom
 published: 2023-03-26
 tags:
   - blog

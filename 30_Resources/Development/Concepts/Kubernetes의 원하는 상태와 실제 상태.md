@@ -1,5 +1,6 @@
 ---
 created: 2026-09-06
+slug: k8s-desired-vs-actual-state
 summary: Kubernetes에 설정을 적용한 것과 애플리케이션이 준비된 것은 다르며, 컨트롤러는 관측한 상태를 원하는 상태에 맞추는 작업을 반복한다.
 tags:
   - 개발/Kubernetes

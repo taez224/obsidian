@@ -1,6 +1,7 @@
 ---
 title: ApplicationContextException - REGISTER_BEAN phase
 created: 2025-08-13
+slug: register-bean-phase-error
 summary: ComponentScan을 수행하는 설정과 REGISTER_BEAN 단계의 조건이 충돌할 때 조건의 위치와 평가 시점을 확인한다.
 tags:
   - 개발/Spring

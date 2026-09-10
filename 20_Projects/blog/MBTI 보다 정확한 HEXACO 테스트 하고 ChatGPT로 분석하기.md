@@ -1,6 +1,7 @@
 ---
 title: MBTI 보다 정확한 HEXACO 테스트 하고 ChatGPT로 분석하기
 created: 2024-10-13
+slug: hexaco-test-with-chatgpt
 published: 2024-10-13
 tags:
   - blog

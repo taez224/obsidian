@@ -1,6 +1,7 @@
 ---
 title: "02화 HEXACO: 행동 성향을 읽는 성격 모델"
 created: 2025-06-14
+slug: why-i-act-02-personality-model
 published: 2025-06-19
 tags:
   - blog

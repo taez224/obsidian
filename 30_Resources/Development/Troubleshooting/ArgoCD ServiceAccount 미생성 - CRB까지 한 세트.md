@@ -1,5 +1,6 @@
 ---
 created: 2026-07-15
+slug: argocd-missing-serviceaccount
 summary: ServiceAccount가 보이지 않거나 권한 오류가 날 때 객체 생성, RBAC 권한 부여, Pod의 참조를 나눠 확인한다.
 tags:
   - 개발/Kubernetes

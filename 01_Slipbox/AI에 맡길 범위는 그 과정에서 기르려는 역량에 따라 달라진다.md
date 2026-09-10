@@ -1,5 +1,6 @@
 ---
 created: 2026-09-08
+slug: delegate-by-skill-to-build
 type: permanent
 status: seedling
 tags:

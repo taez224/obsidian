@@ -1,6 +1,7 @@
 ---
 title: GPT야! 지금까지의 채팅 기록을 바탕으로 나를 분석해줘~
 created: 2025-07-02
+slug: gpt-analyze-me
 published: 2025-07-02
 tags:
   - blog

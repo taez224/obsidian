@@ -1,5 +1,6 @@
 ---
 created: 2026-07-11
+slug: ai-capability-is-recovery-rate
 tags:
   - AI
   - 개발

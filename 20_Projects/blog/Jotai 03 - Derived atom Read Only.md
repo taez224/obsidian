@@ -1,6 +1,7 @@
 ---
 title: Jotai Tutorial - Derived atom (Read Only atom)
 created: 2023-03-05
+slug: jotai-tutorial-03-derived-atom
 published: 2023-03-05
 tags:
   - blog

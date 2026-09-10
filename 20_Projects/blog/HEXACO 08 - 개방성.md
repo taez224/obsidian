@@ -1,6 +1,7 @@
 ---
 title: "08화 개방성(O): 변화에 반응하는 당신의 태도"
 created: 2025-07-07
+slug: why-i-act-08-openness
 published: 2025-07-09
 tags:
   - blog

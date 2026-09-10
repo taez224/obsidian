@@ -1,6 +1,7 @@
 ---
 title: Jotai Tutorial - Write Only atom
 created: 2023-03-07
+slug: jotai-tutorial-04-write-only-atom
 published: 2023-03-07
 tags:
   - blog

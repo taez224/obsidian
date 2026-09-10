@@ -1,6 +1,7 @@
 ---
 title: "05화 외향성(X): 표현의 에너지, 그 흐름의 차이"
 created: 2025-06-28
+slug: why-i-act-05-extraversion
 published: 2025-06-30
 tags:
   - blog

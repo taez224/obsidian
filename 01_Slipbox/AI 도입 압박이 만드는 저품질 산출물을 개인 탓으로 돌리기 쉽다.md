@@ -1,5 +1,6 @@
 ---
 created: 2026-07-12
+slug: workslop-is-structural
 tags:
   - AI
   - 커리어

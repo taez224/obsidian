@@ -1,5 +1,6 @@
 ---
 created: 2026-07-12
+slug: ai-generates-i-verify
 tags:
   - AI
 type: permanent

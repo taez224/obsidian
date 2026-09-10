@@ -1,6 +1,7 @@
 ---
 title: WebSocket에 Spring Security, JWT 적용해보기
 created: 2023-03-20
+slug: websocket-spring-security-jwt
 published: 2023-03-20
 tags:
   - blog

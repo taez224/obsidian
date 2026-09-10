@@ -1,6 +1,7 @@
 ---
 summary: Secret 적용 성공과 실행 중인 컨테이너의 환경변수 갱신은 별개의 일이다.
 created: 2026-07-15
+slug: k8s-envfrom-secret-reload
 tags:
   - 개발/Kubernetes
 ---

@@ -1,6 +1,7 @@
 ---
 title: AI로 만든 보고서, 사람이 남긴 생각
 created: 2026-07-22
+slug: ai-report-human-thought
 published: 2025-11-04
 tags:
   - blog

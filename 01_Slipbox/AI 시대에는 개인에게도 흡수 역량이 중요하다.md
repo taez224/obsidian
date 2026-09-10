@@ -1,5 +1,6 @@
 ---
 created: 2026-07-12
+slug: individual-absorptive-capacity
 tags:
   - AI
   - 커리어

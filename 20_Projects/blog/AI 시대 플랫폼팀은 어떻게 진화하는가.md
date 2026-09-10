@@ -1,6 +1,7 @@
 ---
 title: AI 시대 플랫폼팀은 어떻게 진화하는가
 created: 2026-01-15
+slug: platform-team-evolution
 published: 2025-11-06
 tags:
   - blog

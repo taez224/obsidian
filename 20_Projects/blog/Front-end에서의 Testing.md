@@ -1,6 +1,7 @@
 ---
 title: "Front-end에서의 Testing"
 created: 2023-02-02
+slug: frontend-testing
 published: 2023-02-02
 tags:
   - blog

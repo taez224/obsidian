@@ -1,6 +1,7 @@
 ---
 title: Jotai Tutorial - My first atom
 created: 2023-03-05
+slug: jotai-tutorial-02-first-atom
 published: 2023-03-05
 tags:
   - blog

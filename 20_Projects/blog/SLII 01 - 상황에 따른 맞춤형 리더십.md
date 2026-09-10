@@ -1,6 +1,7 @@
 ---
 title: "SLII®: 상황에 따른 맞춤형 리더십"
 created: 2025-06-04
+slug: slii-situational-leadership
 published: 2025-06-08
 tags:
   - blog

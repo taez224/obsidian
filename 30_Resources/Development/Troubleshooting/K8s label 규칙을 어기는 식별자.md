@@ -1,6 +1,7 @@
 ---
 summary: 도메인 식별자는 보존하고 Kubernetes label과 selector에 사용할 변환 규칙을 한곳에서 관리한다.
 created: 2026-07-15
+slug: k8s-label-safe-identifier
 tags:
   - 개발/Kubernetes
 ---

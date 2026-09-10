@@ -1,6 +1,7 @@
 ---
 title: "03화 정직-겸손성(H): 정직함이 약점이 될 수 있을까?"
 created: 2025-06-18
+slug: why-i-act-03-honesty-humility
 published: 2025-06-23
 tags:
   - blog

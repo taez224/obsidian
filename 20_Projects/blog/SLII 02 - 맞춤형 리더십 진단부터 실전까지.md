@@ -1,6 +1,7 @@
 ---
 title: "SLII®: 맞춤형 리더십, 진단부터 실전까지"
 created: 2025-06-13
+slug: slii-in-practice
 published: 2025-06-13
 tags:
   - blog

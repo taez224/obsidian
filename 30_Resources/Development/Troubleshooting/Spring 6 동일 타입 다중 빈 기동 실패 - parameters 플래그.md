@@ -1,6 +1,7 @@
 ---
 summary: 이름 기반 빈 선택에 필요한 파라미터 메타데이터와 모듈별 컴파일 옵션을 확인한다.
 created: 2026-07-15
+slug: spring6-duplicate-bean-parameters
 tags:
   - 개발/Spring
 ---

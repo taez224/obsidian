@@ -1,6 +1,7 @@
 ---
 title: "06화 우호성(A): 갈등을 조율하는 당신의 방식"
 created: 2025-06-29
+slug: why-i-act-06-agreeableness
 published: 2025-07-03
 tags:
   - blog

@@ -1,6 +1,7 @@
 ---
 title: AI로 빨라진 개인, 소화하지 못하는 팀
 created: 2026-06-01
+slug: fast-individual-slow-team
 updated: 2026-07-11
 published: 2026-07-10
 tags:
