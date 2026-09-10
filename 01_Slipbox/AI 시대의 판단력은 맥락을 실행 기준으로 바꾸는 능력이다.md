@@ -2,8 +2,8 @@
 created: 2026-07-24
 slug: judgment-turns-context-into-criteria
 tags:
+  - 철학
   - AI
-  - 개발
 type: permanent
 status: seedling
 aliases:
