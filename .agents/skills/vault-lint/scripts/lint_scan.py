@@ -326,9 +326,11 @@ def main():
     ]
 
     frontmatter_issues = []
+    style_suggestions = []
     for rel in scanned:
         scalars, lists = fm_cache.get(rel, (None, {}))
         issues = []
+        suggestions = []
         if scalars is None:
             issues.append("frontmatter 블록 없음")
         else:
@@ -364,14 +366,16 @@ def main():
                         issues.append(f"스키마에 없는 필드: {k}")
                 summary = scalars.get("summary", "").strip().strip("'\"")
                 if DEV_SUMMARY_TAIL_RE.search(summary):
-                    issues.append("summary가 노트가 하는 일로 끝남: 답·질문·용도를 적는다")
-            # 트러블슈팅 제목은 상황을 부르는 명사구다. ' - ' 뒤에 결론을 붙이지 않는다.
+                    suggestions.append("summary 꼬리 검토: 답·질문·용도인지 문맥 확인")
+            # 구두점만으로 제목의 의미를 판정하지 않고 문맥 검토 후보로 남긴다.
             if rel.startswith("30_Resources/Development/Troubleshooting/") and " - " in os.path.basename(rel):
-                issues.append("제목에 부제 ' - ': 상황만 남기고 결론은 summary로")
+                suggestions.append("제목의 ' - ' 검토: 실제 부제인지 오류 문자열인지 확인")
         if rel.startswith(DEV_ROOT) and rel.count("/") == DEV_ROOT.count("/"):
             issues.append("Development 루트 노트: Concepts·Troubleshooting·Tools 중 하나로")
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
+        if suggestions:
+            style_suggestions.append({"path": rel, "suggestions": suggestions})
 
     base_scanned = [rel for rel in all_base if is_base_scanned(rel)]
     base_issues = scan_base_issues(root, base_scanned)
@@ -466,6 +470,7 @@ def main():
                 "base_issues": len(base_issues),
             },
             "meaning_review": {
+                "style_suggestions": len(style_suggestions),
                 "slipbox_orphans": slipbox_orphans,
                 "dead_links": len(meaning_dead_links),
                 "broken_anchors": len(broken_anchors),
@@ -485,6 +490,7 @@ def main():
         "periodic_placeholders": periodic_placeholders,
         "series_placeholders": series_placeholders,
         "frontmatter_issues": frontmatter_issues,
+        "style_suggestions": style_suggestions,
         "base_issues": base_issues,
     }, ensure_ascii=False, indent=2))
 

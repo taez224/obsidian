@@ -19,6 +19,7 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 스캐너는 읽기 전용이며 JSON을 반환한다: `orphans`(고립 노트, `slipbox` 플래그 포함),
 `dead_links`(미해석 위키링크), `broken_anchors`(대상 문서는 해석되는데 그 블록 ID가 없는 `#^` 링크),
 `frontmatter_issues`(스키마 위반),
+`style_suggestions`(제목·summary의 문맥 검토 후보. 형식 오류나 자동 수정 대상이 아님),
 `base_issues`(`.base` 파일의 미인식 키. 예: `sortBy`는 실제 Bases 스키마에 없고 `sort` 리스트가 맞다), `stats`,
 `periodic_placeholders`(Periodic Notes의 의도된 날짜·주차·월 링크),
 `series_placeholders`(진행 중·잠정 중단 시리즈 허브의 예정 글 링크),
@@ -27,6 +28,8 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하므로 스캐너 결과를 기계 검사 후보의 기준으로 사용한다. 다만 실제 수정 전에는 영향받는 파일과 예상 밖 결과를 표본 확인해 스키마 드리프트나 파서 한계를 점검한다.
 
 ### 2. 판단 검사
+
+- **문체 제안(`style_suggestions`)**: 보고만 하며 이 lint의 수정 후보나 승인 묶음에 넣지 않는다. `frontmatter_issues`와 분리해 표시한다. 문체 수정은 사용자가 별도로 요청한 내용 검토에서 원문을 읽고 판단한다.
 
 이 단계는 스캐너 결과만 사용하며 QMD를 요구하지 않는다. 노트의 의미를 읽어야 하는 연결·승격·구조화 판단은 `review-zettelkasten`으로 넘긴다.
 

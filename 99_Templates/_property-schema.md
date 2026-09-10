@@ -319,7 +319,7 @@ tags:
 
 ## 🧯 Development Troubleshooting (`30_Resources/Development/Troubleshooting/`)
 
-관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문 마지막 절 `확인 범위`에 밝힌다. 파일명은 결론이 아니라 상황을 부르는 명사구이고, `summary`는 알아낸 답 한 문장이다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 오류 문자열로 노트를 찾게 하려면 `aliases`에 원문을 넣는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]의 속성과 작성 안내를 출발점으로 삼는다. 문제를 좁히고 해결·검증한 사고 순서를 유지하며, 고정 헤딩으로 나누지 않는다.
+관찰한 증상, 원인과 해결책의 근거, 검증 범위를 남기는 개발 문제 해결 노트다. 재현하지 못했거나 원인이 미확정이면 그 범위를 본문에 밝힌다. 본문을 소제목으로 나눈 노트는 설명의 마지막에 `확인 범위` 절을 둔다. 소제목이 없는 노트만 확인 범위를 관련 문장에 포함한다. 파일명은 결론이 아니라 상황을 부르는 명사구이고, `summary`는 알아낸 답 한 문장이다. `created`와 `summary`를 공통으로 사용하고, 기술 주제는 필요한 경우에만 `tags`에 적는다. 오류 문자열로 노트를 찾게 하려면 `aliases`에 원문을 넣는다. 별도의 `publish`, `status`, `related`, `evidence_level` 필드는 두지 않는다. 새 노트는 [[dev-troubleshooting-template|Troubleshooting Template]]의 속성과 작성 안내를 출발점으로 삼는다. 문제를 좁히고 해결·검증한 사고 순서를 유지하며, 고정 헤딩으로 나누지 않는다.
 
 ```yaml
 ---

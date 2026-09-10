@@ -1,171 +1,91 @@
 # Agent Instructions
 
-This file provides guidance to AI coding agents when working with this repository.
+## 저장소와 정본
 
-## Repository Overview
+이 저장소는 PARA와 Zettelkasten을 사용하는 Obsidian vault다. 사이트 코드는 별도 `taez224.github.io` 저장소에서 관리한다.
 
-This is an **Obsidian Vault** - a personal knowledge management system based on PARA methodology and Zettelkasten. It contains Markdown notes, not source code.
+| 위치 | 역할 |
+| --- | --- |
+| `00_Inbox/` | 개인 단상의 빠른 포착 |
+| `01_Slipbox/` | 독립적으로 재사용할 자기 주장 |
+| `10_Periodic Notes/` | 날짜별 기록과 일정 |
+| `20_Projects/` | 프로젝트 목표·현재 상태·산출물 |
+| `30_Resources/` | 외부 자료와 개발 지식 |
+| `40_Archive/` | 완료·보관 자료 |
+| `99_Templates/` | 속성 규칙과 작성 안내 |
 
-## Vault Structure (PARA + Zettelkasten)
+- 위치·운영 주기는 [Obsidian 운영 워크플로](<30_Resources/Obsidian 운영 워크플로.md>)가 정본이다.
+- 속성·summary·slug·태그·연결 기준은 [속성 스키마](99_Templates/_property-schema.md)가 정본이다. 작성할 때 공통 필드와 해당 노트 유형의 절을 읽는다.
+- 현재 목표와 판단 근거는 `20_Projects/<project-id>/<project-id>.md`에서 확인한다. 소스와 DevLog를 프로젝트 폴더에 복제하지 않는다.
+- 모든 문서를 미리 읽지 않는다. 현재 작업의 스킬을 읽고, 거기서 참조한 정본의 필요한 절로 이동한다.
 
-```
-00_Inbox/          빠른 캡처, 미분류 아이디어 (정기적으로 정리 필요)
-  └─ _inbox.base   정리 부채 가시화 (7일+/30일+ 체류 노트)
-01_Slipbox/        영구 보관용 노트 (Zettelkasten, 상호 연결)
-  └─ _index.base   Slipbox 헬스 / 고립 노트 / 허브 노트 대시보드
-10_Periodic Notes/ 시간 기반 노트 (일간/주간/월간)
-  └─ YYYY/W##/     주차별 폴더 (2025-W01.md, 2025-01-01.md)
-20_Projects/       진행 중인 프로젝트별 폴더
-  └─ _dashboard.base  프로젝트 상태 / 진행 중 / 허브 미갱신 점검
-30_Resources/      참고 자료
-  ├─ Obsidian 운영 워크플로.md  사람용 vault 운영 정본
-  ├─ Development/  개발 자료
-  │  ├─ DevLog/    로컬 개발 기록 (daily, weekly, monthly)
-  │  ├─ Concepts/  공개 가능한 개념·설계·학습 노트
-  │  ├─ Troubleshooting/ 재사용 가능한 문제 해결 기록
-  │  └─ Tools/     개발 도구 자료
-  ├─ References/   외부 자료 (Books, Articles, Clippings, etc)
-  └─ _index.base   리소스 전반 / 도서 평점 / DevLog
-40_Archive/        완료/보관 자료
-99_Templates/      노트 템플릿 (Templater 문법 사용)
-  └─ _property-schema.md  frontmatter 표준 (필수 참조)
-_global-health.base  vault 전체 헬스 대시보드 (Inbox 부채, 고립 노트, 허브 미갱신, 오래된 Clippings)
-```
+## 작업별 진입점
 
-> **Frontmatter 작성 시 [[_property-schema]] 를 반드시 참조**할 것. Bases 쿼리가 이 스키마를 전제로 동작.
+Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsidian-markdown](.agents/skills/obsidian-markdown/SKILL.md)을 함께 읽는다.
 
-## 운영 정본
+| 요청 | 먼저 읽을 스킬 |
+| --- | --- |
+| 개인 생각을 빠르게 저장 | [capture-fleeting-note](.agents/skills/capture-fleeting-note/SKILL.md) |
+| 아직 읽지 않은 URL·자료 보관 | [capture-reference-card](.agents/skills/capture-reference-card/SKILL.md) |
+| 읽은 자료와 내 반응 정리 | [literature-note](.agents/skills/literature-note/SKILL.md) |
+| 영구 노트 작성·승격 명시 | [permanent-note](.agents/skills/permanent-note/SKILL.md) |
+| 노트 연결·병합·분리·MOC 검토 | [review-zettelkasten](.agents/skills/review-zettelkasten/SKILL.md) |
+| 질문으로 생각 검토 | [socratic-dialogue](.agents/skills/socratic-dialogue/SKILL.md) |
+| 개발 개념·설계·문제 해결 기록 | [development-note](.agents/skills/development-note/SKILL.md) |
+| 프로젝트 상태·근거·허브 갱신 | [sweep-project-context](.agents/skills/sweep-project-context/SKILL.md) |
+| 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
+| 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
+| 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
 
-- 사람용 운영 흐름과 주기: [[Obsidian 운영 워크플로]]
-- frontmatter 스키마: [[_property-schema]]
-- 에이전트 작업 규칙: 이 문서. Codex는 직접 읽고, Claude Code는 `CLAUDE.md`가 `@AGENTS.md`로 가져온 뒤 Claude 전용 절만 덧붙인다.
-- 개별 작업의 실행 절차: 해당 `.agents/skills/<skill-name>/SKILL.md`
-- Obsidian Markdown 파일을 만들거나 수정할 때는 `obsidian-markdown`을 함께 참조한다.
+캡처 요청이 겹치면 **영구 노트·승격 명시 → 외부 자료의 읽음 여부 → 개인 단상** 순서로 판단한다. 외부 자료를 아직 읽지 않았다면 자료카드, 읽고 반응을 남기려 한다면 참고노트로 처리한다. URL이 생각의 출처일 뿐 저장 대상은 개인 단상이라면 Quick Capture로 남긴다.
 
-운영 문서의 상세 내용을 AGENTS나 스킬에 복제하지 않는다. 이 문서에는 에이전트가 잘못된 위치에 쓰거나 의미 판단을 자동 적용하지 않도록 하는 경계만 둔다.
+## 핵심 경계
 
-## Workflow (Knowledge Flow)
+- 단순 메모를 영구 노트로 승격하지 않는다. 외부 자료의 요약과 자기 주장을 구분한다. Quick Capture의 `AI 생성`은 사용자의 주장이나 검증된 자료가 아니며 명시적 채택 없이 영구 노트로 옮기지 않는다.
+- 개발 지식은 Concepts, 재현 가능한 해결법은 Troubleshooting, 특정 도구 사용법은 Tools다. 설계 판단은 도구 이름이 있어도 Concepts에 둔다. `Development/` 바로 아래에는 노트를 만들지 않는다.
+- 시간순 업무 기록은 중앙 DevLog에 두고 `projects`에는 canonical project_id를 쓴다. 기술은 폴더 대신 기술 태그로 표현한다. 세부 기준은 운영 워크플로의 개발 노트 절을 따른다.
+- 블로그 전문은 `20_Projects/blog/`에 한 번만 둔다. Slipbox에는 독립 주장만 남긴다. 연재 작업은 해당 연재 허브와 [블로그 운영 기준](20_Projects/blog/blog.md)을 먼저 읽는다.
+- 공개 여부를 자동으로 확대하지 않는다. 공개하기로 한 경험·해석은 유지하되 비공개 정보는 제외한다. 새 공개 노트에는 slug를 정하고, 이미 공개한 주소는 임의로 바꾸지 않는다.
+- 관계를 설명할 수 없는 링크는 억지로 만들지 않는다. 링크 수만으로 성숙도를 올리지 않는다. 연결 형식은 속성 스키마를 따른다.
 
-```
-오늘의 기록·일정 ─────────────→ 10_Periodic Notes
-개인 단상·아이디어 ───────────→ 00_Inbox
-책·아티클·영상·외부 자료 ─────→ 30_Resources
-완료할 작업·프로젝트 산출물 ───→ 20_Projects
-재사용 가능한 자기 주장 ───────→ 01_Slipbox
-```
+## 승인과 편집
 
-### Development와 Project의 경계
-
-- 시간순 업무 기록은 중앙 `30_Resources/Development/DevLog/{daily,weekly,monthly}/`에 두고 `projects` 속성으로 프로젝트를 구분한다. `projects`에는 저장소명이 아니라 결과물 기준의 canonical `project_id`만 사용한다.
-- Java·Spring·Kubernetes 같은 기술은 폴더가 아니라 `개발/*` 태그로 표현한다. 공개 가능한 개발 지식은 `Development/Concepts/`(개념·설계·학습·독립 실험), 재현 가능한 해결법은 `Development/Troubleshooting/`, 특정 도구의 사용법은 `Development/Tools/`에 둔다. 도구 이름이 들어가도 설계 결정 기록은 Concepts다. `Development/` 바로 아래에는 노트를 두지 않는다. `DevLog/`는 시간순 로컬 기록으로 공개 목록에 포함하지 않는다.
-- 개발 개념·문제 해결 노트는 `development-note` 라우팅과 각 템플릿을 따르며, 기존 `capture-fleeting-note`·`literature-note`·`permanent-note`의 Inbox·외부 자료·자기 주장 경계를 넘지 않는다.
-- `20_Projects/<project-id>/<project-id>.md`는 목표·현재 상태·다음 행동·주요 근거의 정본이다. 소스 저장소나 DevLog를 프로젝트 폴더에 복제하지 않는다.
-- 프로젝트의 현재 상태·남은 일·근거를 다시 모으거나 허브를 갱신할 때는 `sweep-project-context`를 사용한다. 원자료를 먼저 대조하고 의미 변경 후보를 제안한 뒤 승인된 내용만 허브에 반영한다.
-
-## Blog와 Slipbox의 경계
-
-- `20_Projects/blog/`는 개인 글·기술 글의 **전문 정본**이다. 초안, 발행본, 연재 모두 이 폴더에 한 번만 둔다.
-- 외부 발행본을 가져올 때도 전문을 Slipbox에 복제하지 않는다. `source`, `publication`, 확인된 경우 `published`를 기록한다.
-- `01_Slipbox/`에는 재사용 가능한 독립 개념만 둔다. 블로그 글에서 영구 노트가 필요해지면 전문을 옮기거나 복제하지 말고, 별도 노트로 압축해 블로그 글을 링크한다.
-- 프로젝트에서 나온 글도 `20_Projects/<project>/blog/`에 따로 두지 않는다. 중앙 blog에 두고 `프로젝트/<project-id>` 태그와 프로젝트 노트 링크로 맥락을 연결한다.
-- 발행을 마친 뒤 반복본이 남아 있으면 정본 하나만 남기고 나머지는 `40_Archive/blog-drafts/`로 보낸다.
-- 블로그의 속성·Base 운영 기준은 `20_Projects/blog/blog.md`와 `99_Templates/_property-schema.md`의 Blog 섹션을 따른다.
-- 연재 글을 작성·수정할 때는 글의 `series` 또는 사용자가 언급한 연재명을 확인하고, 같은 이름의 `20_Projects/blog/<series>.md`가 있으면 먼저 읽는다. 실행 절차는 `taez-insight-blog-writer`를 따른다.
-
-### 노트 검색 (정확 검색 + QMD 의미 검색)
-
-- 정확한 제목·파일명·문자열은 `rg`, 개념·주장·간접 표현은 QMD 의미 검색을 쓴다. 의미 검색은 QMD MCP `query`로 실행한다. Codex 샌드박스의 CLI `qmd query`는 macOS Metal 오류가 날 수 있으니 같은 명령을 반복하지 않는다.
-- 중요한 판단은 두 후보를 병합하고 snippet이 아니라 상위 후보 원문을 읽고 내린다. `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 연결 후보에서 제외한다.
-- structured query 작성법, rerank·후보 수 정책, 재색인 절차는 `qmd` 스킬(`.agents/skills/qmd/SKILL.md`)이 정본이다.
-
-## Frontmatter와 연결
-
-- frontmatter·태그·노트 유형·성숙도는 `99_Templates/_property-schema.md`를 따른다.
-- `summary`를 작성할 때는 노트 종류와 관계없이 목록에서 노트의 주제·질문·핵심 관점을 약속하는 한 문장으로 쓴다. 본문의 상세 방법·근거·작업 이력·수치·조건을 나열하지 않고, summary만 읽고 본문 전체를 재현하게 만들지 않는다.
-- 공개 폴더(Slipbox, blog, Development)에 새 노트를 만들 때는 `slug`를 함께 정한다. 제목 문장을 옮기지 말고 핵심어 서너 개를 영문 소문자와 하이픈으로 적으며, 발행한 뒤에는 주소가 깨지므로 바꾸지 않는다.
-- 영구 노트의 주장 관계와 창의적 연결 기준은 `99_Templates/_property-schema.md`의 Slipbox 연결 규칙을 따른다.
-- 특정 주장·인용은 블록 링크, 절 전체는 헤딩 링크, 문서 전체가 관련될 때만 문서 링크를 사용한다.
-- 적합한 연결이 없으면 억지로 만들지 않는다. 연결 수만으로 성숙도를 올리지 않는다.
-- 영구 노트의 실제 형식은 `99_Templates/slipbox-template.md`, 허브는 `99_Templates/hub-note.md`를 따른다.
+- 삭제·이동·승격·병합·MOC 생성·공개 범위 변경·커밋·push는 사용자 승인 후 적용한다. 이미 승인된 범위는 다시 묻지 않는다. 승인 전 의미 변경 작업은 후보 보고까지 완료로 본다.
+- 편집 직전에 현재 내용을 다시 읽고 해당 부분만 고친다. 다른 세션과 Obsidian의 변경을 덮어쓰지 않는다. 요청 밖에서 발견한 개선은 이번 변경에 섞지 않고 제안으로만 알린다.
+- 큰 정리 전에는 승인된 체크포인트 커밋이 필요하다. 무관한 변경을 임의로 포함하지 않는다. 파일명 버전 대신 Git을 사용하고 블로그 반복 초안은 승인 후 `40_Archive/blog-drafts/`로 보관한다.
+- 일반 첨부는 `_attachments/`, 프로젝트 전용 에셋은 폴더 로컬 `assets/`에 둔다. 루트에는 `CLAUDE.md`, `AGENTS.md`, `README.md`, `_global-health.base` 외의 작업 파일을 만들지 않는다.
 
 ## 글쓰기
 
-노트·글·주석·메시지 모두에 적용한다. 장르별 규칙은 각 스킬이 더한다.
+한국어 노트·글·보고는 [공통 글쓰기 기준](.agents/guides/writing.md)을 따른다. 짧게 쓰되 조사·어미와 의미를 생략하지 않는다. 장르와 종결체는 사용자 요청과 작업 스킬을 따른다.
 
-- 문장은 짧게, 대상은 구체적으로 쓴다. 범위·경계·책임·주체 같은 추상명사가 쌓이면 실제 대상(DB, 쿼리, 파일, 역할, 사람)으로 바꾼다.
-- 한 절에서 하려는 말은 하나다. 같은 뜻을 원칙·목록·조건으로 되풀이하지 않고, 앞 문단을 되짚거나 다음 문단을 예고하는 문장은 뺀다.
-- 헤딩은 절에 무엇이 있는지 말하는 짧은 명사구로 쓴다("AI에게 맡기지 않는 것"). "~한다"로 끝나는 구호형과 "~하기" 문장형은 쓰지 않는다.
-- 비유와 꾸민 표현 대신 직설로 쓴다. 문자 그대로의 표현이 있으면 그것을 쓴다.
-- 지어낸 장면("가상의 서비스에서…")과 "확인할 질문" 표로 내용을 채우지 않는다. 실제 사례가 없으면 일반 원리만 쓴다.
-- 노트 링크든 외부 자료든 관계나 출처를 말하는 본문 문장의 어구에 건다. 본문에 넣지 못한 것만 마지막 절(`연관된 노트`, `참고 자료`, `출처`)에 이유와 함께 둔다. 문장 끝에 인용만 덧붙이지 않는다.
-- em dash(U+2014)와 en dash(U+2013)를 쓰지 않는다. 링크 뒤 설명은 하이픈, 소제목 뒤는 콜론이나 문장 분리.
-- 공개 폴더(Slipbox, blog, Development 세 폴더)에는 사용자가 공개하기로 한 경험과 자기 해석을 담을 수 있다. 비공개 정보는 제외하고, 독자가 모르는 내부 맥락은 이해에 필요한 만큼 설명한다. vault 내부 경로와 시간이 지나면 바뀌는 운영 수치는 넣지 않는다. 개인 서술이 있다는 이유만으로 삭제하거나 공개 범위를 바꾸지 않는다.
-- 문장 내부는 `fluent-korean` 지침을 따른다. 조사와 어미를 생략하지 않고, 의미를 담은 문장 성분을 빼지 않는다. 전문은 `.claude/output-styles/fluent-korean.md`에 있고 원문 출처는 snflkd/fluent-korean(MIT)이다. 분량·구조·종결체를 정하는 이 절과 각 스킬의 규칙이 그 위에 온다.
-- "문장은 짧게"는 문장 수와 군더더기를 줄이라는 뜻이지, 문장에서 조사와 어미를 덜어내라는 뜻이 아니다. 짧은 노트일수록 성분을 갖춘 문장이 덜 모호하다.
-- 헤딩을 짧은 명사구로 쓰는 규칙은 `fluent-korean` 「문장 단위」 2번이 헤더와 목록을 예외로 두므로 그대로 유지한다.
-- 종결체와 문장 리듬은 산출물의 규칙이 정한다. 개발 노트는 평어체를 쓰고, 블로그는 종결어미 리듬을 기계적으로 균일하게 맞추지 않는다. 지침 원문이 "~합니다"체라는 이유로 산출물의 종결체를 바꾸지 않는다.
+## 검색과 확인
 
-## Shared Agent Skills
+- 정확한 제목·파일명·문자열은 `rg`, 간접적인 개념·주장은 QMD MCP `query`로 찾는다. 중요한 판단은 후보 원문을 읽고 내린다. Codex의 샌드박스 CLI에서 Metal 오류가 난 의미 검색을 반복하지 않는다.
+- `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 연결 후보에서 제외한다. 검색 작성법과 재색인은 qmd 스킬을 따른다. 수동 재색인은 명시적으로 요청받았을 때만 수행한다.
 
-- `AGENTS.md`가 정본이다. `CLAUDE.md`는 `@AGENTS.md`로 이 파일을 가져온 뒤 Claude Code 전용 지침만 덧붙인다. 공통 지침은 여기에만 쓴다.
-- Claude와 Codex가 함께 쓰는 스킬의 정본은 `.agents/skills/<skill-name>/`에 둔다. Codex는 이 경로를 직접 읽으므로 `.codex/skills/`에는 링크를 만들지 않는다.
-- Claude Code는 `.claude/skills/`만 읽는다. `.claude/skills/<skill-name>`에 정본을 가리키는 **상대 심볼릭 링크**만 둔다.
-- `defuddle`, `json-canvas`, `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`는 Claude의 `obsidian-skills` 플러그인(`.claude/settings.json`의 `enabledPlugins`)이 제공하는 스킬의 사본이다. Codex용으로 `.agents/skills/`에 두되, Claude에서는 플러그인이 같은 이름을 이미 주므로 `.claude/skills/`에 링크하지 않는다.
-- `SKILL.md`는 두 도구가 읽을 수 있는 공통 지침으로 유지하고, 도구 전용 런타임은 `.claude/workflows/` 또는 `.codex/`에 분리한다.
+## 위임과 생각거리
 
-## 위임
+- 노트 작성·수정과 의미 판단은 주 에이전트가 직접 한다. 하위 에이전트는 읽기 전용 조사·검증만 맡는다. Codex는 `luna_worker`, Claude Code는 Agent 도구를 사용한다.
+- 서로 범위가 겹치지 않는 독립 조사·검증이 둘 이상일 때만 병렬로 나누고, 각 위임에 읽을 폴더·기대 결과·검증 방법을 명시한다. 결과는 근거와 후보이지 사용자 승인이 아니다.
+- 현재 자료에서 직접 드러난 판단 변화·모순·재사용할 주장만 요청 완료 후 생각거리 하나로 짧게 알릴 수 있다. 이를 위한 추가 검색은 하지 않는다. 넘긴 생각거리는 저장하거나 독촉하지 않는다. 문답은 socratic-dialogue, 노트 발전 후보는 review-zettelkasten을 따른다.
 
-노트 수정은 주 에이전트가 직접 한다. 하위 에이전트에게는 조사와 검증만 나눈다. 도구별 수단은 다르지만 규칙은 같다.
+## 지침 관리
 
-- 수단: Codex는 `luna_worker`, Claude Code는 Agent 도구(하위 에이전트).
-- 위임하는 일: 연결 후보 찾기, 출처 대조, 중복·모순 확인, 속성 스키마 검증처럼 vault를 읽기만 하는 조사·검증. 서로 범위가 겹치지 않는 독립 작업이 2개 이상일 때만 병렬로 돌린다. 예: 하나는 `01_Slipbox/`에서 연결 후보를 찾고, 다른 하나는 `30_Resources/References/`에서 출처를 대조한다.
-- 위임하지 않는 일: 노트 작성·수정, 삭제·이동·승격·병합·MOC 생성, 공개 범위 판단. 이런 의미 변경은 아래 승인 규칙을 따른다.
-- 각 위임에는 읽을 폴더 범위, 기대 결과, 검증 방법을 명시한다. vault는 읽기 전용이다.
-- 하위 에이전트의 결과는 근거와 후보이지 승인이 아니다. 주 에이전트가 설계, 의미 판단, 최종 검토를 담당한다.
+- 공통 진입점은 이 파일이다. [CLAUDE.md](CLAUDE.md)는 `@AGENTS.md`로 가져온 뒤 Claude 전용 지침만 덧붙인다. 상세 운영·속성·절차는 각 정본에서 수정한다.
+- 스킬 정본은 `.agents/skills/<skill-name>/`다. Codex는 직접 읽으므로 `.codex/skills/`에 링크하지 않는다. Claude는 `.claude/skills/`에 상대 심볼릭 링크를 둔다.
+- `defuddle`, `json-canvas`, `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`은 Claude의 obsidian-skills 플러그인과 이름이 겹치므로 Claude 링크를 만들지 않는다. `.agents/skills/`의 해당 사본은 Codex용이다.
+- 공통 SKILL.md와 도구별 실행 설정을 분리한다. Claude 전용 실행 설정은 `.claude/workflows/`, Codex 전용 설정은 `.codex/`에 둔다.
 
-### 지식관리 스킬 라우팅
+## 검증 명령
 
-세부 절차는 각 스킬이 정본이다. 캡처 경계만 다음 순서로 판단한다.
+노트의 의미와 공개 여부는 기계 검사의 통과만으로 승인하지 않는다. 문체 경고도 자동 수정하지 않는다.
 
-1. 영구 노트·Slipbox 승격을 명시했으면 `permanent-note`를 사용한다.
-2. 외부 자료라면 아직 읽지 않은 보관은 `capture-reference-card`, 읽고 남긴 반응은 `literature-note`를 사용한다.
-3. 그 외의 개인 단상은 `capture-fleeting-note`를 사용한다.
+```bash
+python3 .agents/scripts/check_guides.py
+python3 .agents/skills/vault-lint/scripts/test_lint_scan.py
+# vault 전체 점검 요청 시 읽기 전용 JSON 보고서 생성
+python3 .agents/skills/vault-lint/scripts/lint_scan.py .
+```
 
-생각이나 판단을 질문으로 검토하려는 요청은 `socratic-dialogue`를 사용하고, 확인된 변화만 후속 노트 스킬의 입력 후보로 넘긴다.
-
-단순 메모를 자동으로 permanent note로 만들지 않는다. 삭제·이동·승격·병합·MOC 생성처럼 의미가 달라지는 변경은 사용자 승인 후 적용한다. 이 작업들은 후보 보고까지를 현재 작업의 완료로 보며, 승인 없이 적용을 계속 진행하지 않는다.
-
-Quick Capture의 `AI 생성`은 사용자의 주장이나 검증된 참고자료가 아니다. 분석·가설·대응표·잠정 주장과 발전 질문을 접힌 callout에 둘 수 있지만, 사용자가 명시적으로 채택하지 않은 내용은 영구 노트 본문으로 승격하지 않는다. 외부 사실·인용은 출처 검증 전까지 발전시킬 단서로만 다룬다.
-
-### 작업 중 발견한 생각거리
-
-vault 작업 중 사용자의 판단 변화, 반복되는 관점, 명확한 모순·경계, 다른 맥락에 재사용할 만한 주장이 현재 자료에서 직접 드러날 때만 가볍게 알린다.
-
-- 요청한 작업을 먼저 완료한다.
-- 근거가 분명할 때만 답변 끝에 생각거리 하나를 짧게 덧붙일 수 있다.
-- 질문형을 강제하지 않으며, 답변하거나 후속 작업을 해야 한다는 부담을 주지 않는다.
-- 코칭거리를 만들기 위한 추가 검색이나 vault 전수 점검은 하지 않는다.
-- 사용자가 넘긴 생각거리는 저장하거나 이후 다시 독촉하지 않는다.
-- 사용자가 생각을 대화로 검토하려 하면 `socratic-dialogue`를 사용한다.
-- 기존 노트의 승격·보강·연결 후보를 원하면 `review-zettelkasten`을 사용한다.
-- 파일 수정이나 의미 변경은 각 스킬의 승인 규칙을 따른다.
-
-## 작업 방식
-
-- 파일을 고칠 때는 해당 부분만 고친다. 결과가 같다면 파일 전체를 다시 쓰지 않는다. 다른 세션이나 Obsidian이 같은 파일을 고치고 있을 수 있으니 편집 직전에 현재 내용을 다시 읽는다.
-- 승인이 필요한 변경은 삭제·이동·승격·병합·MOC 생성, 공개 범위 변경, 커밋·push다. 그 밖의 가역적 변경은 묻지 않고 진행하고 결과를 보고한다.
-- 요청 밖에서 발견한 정리·확장·버그는 이번 변경에 넣지 않고 마지막에 제안으로만 알린다.
-
-## Maintenance Rules
-
-### 첨부파일
-
-- 붙여넣기 이미지 등 일반 첨부는 `_attachments/` (Obsidian 설정 `attachmentFolderPath`로 강제)
-- 프로젝트 전용 에셋은 폴더 로컬 `assets/` 허용 (예: `20_Projects/blog/assets/`)
-- 루트에 떠도는 파일 금지 - 루트는 `CLAUDE.md`, `AGENTS.md`, `README.md`, `_global-health.base`만
-
-### 버전 관리
-
-- **파일명 버전 금지** (`v2`, `bkup`, `최종` 등) - 버전은 git이 관리한다
-- 글 시리즈는 **정본 1개**만 작업 폴더에 유지, 과거 반복본은 `40_Archive/blog-drafts/`
-- 큰 정리 작업 전에는 체크포인트 커밋을 먼저 만들 것
+Git 훅 `.agents/hooks/post-commit`은 Markdown 변경 커밋 후 QMD를 갱신한다. lint나 배포의 성공을 뜻하지 않는다. 사이트 코드·배포 검증은 별도 사이트 저장소의 AGENTS.md를 따른다.

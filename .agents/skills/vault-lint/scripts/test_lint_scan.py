@@ -96,13 +96,16 @@ def build_fixture(root):
           fm + "---\n[[대상 노트]]\n")
     write(root, "30_Resources/References/Articles/좋은 아티클.md",
           fm + "source: https://example.com\npublished: 2026-06-01\nstatus: read\n---\n[[대상 노트]]\n")
-    # Development 공개 폴더: 스키마 밖 필드·부제 제목·summary 꼬리는 위반, 정상 노트는 통과, 루트 노트는 위치 위반
+    # 스키마·위치 오류와 제목·summary의 문체 검토 후보를 구분한다.
     write(root, "30_Resources/Development/Troubleshooting/증상 - 결론.md",
           "---\ncreated: 2026-06-12\nslug: bad-ts\ntitle: 제목\nsummary: 원인을 확인한다.\n---\n[[대상 노트]]\n")
     write(root, "30_Resources/Development/Concepts/좋은 개념.md",
           "---\ncreated: 2026-06-12\nslug: good-concept\nsummary: A와 B는 무엇이 다른가.\n"
           "tags:\n  - 개발/설계\naliases:\n  - 별칭\n---\n[[대상 노트]]\n")
     write(root, "30_Resources/Development/루트 노트.md", fm + "---\n[[대상 노트]]\n")
+    # 문체 휴리스틱은 올바른 주장도 포착할 수 있으므로 형식 오류로 분류하지 않는다.
+    write(root, "30_Resources/Development/Concepts/설명 모델.md",
+          "---\ncreated: 2026-06-12\nslug: explanation-model\nsummary: 이 모델은 상태 전이를 설명한다.\n---\n[[대상 노트]]\n")
     # 첨부파일 실물
     write(root, "_attachments/그림.png", "png-bytes")
     # 제외 대상: _ 파일, _workspace
@@ -169,8 +172,13 @@ def main():
         assert "30_Resources/References/Articles/좋은 아티클.md" not in issues, issues
         bad_dev = issues.get("30_Resources/Development/Troubleshooting/증상 - 결론.md", [])
         assert any("title" in s for s in bad_dev), bad_dev
-        assert any("부제" in s for s in bad_dev), bad_dev
-        assert any("summary가" in s for s in bad_dev), bad_dev
+        assert not any("summary 꼬리" in s or "부제" in s for s in bad_dev), bad_dev
+        suggestions = {x["path"]: x["suggestions"] for x in r["style_suggestions"]}
+        bad_style = suggestions["30_Resources/Development/Troubleshooting/증상 - 결론.md"]
+        assert any("제목" in s for s in bad_style), bad_style
+        assert any("summary" in s for s in bad_style), bad_style
+        assert "30_Resources/Development/Concepts/설명 모델.md" not in issues
+        assert "30_Resources/Development/Concepts/설명 모델.md" in suggestions
         assert "30_Resources/Development/Concepts/좋은 개념.md" not in issues, issues
         assert any("루트" in s for s in issues.get("30_Resources/Development/루트 노트.md", [])), issues
         assert not any("_index" in p or "_workspace" in p or "_candidates" in p for p in
