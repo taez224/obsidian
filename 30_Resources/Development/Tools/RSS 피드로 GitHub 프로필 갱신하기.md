@@ -35,6 +35,17 @@ Astro가 [[생각의 정원을 만들고 배포하는 과정|사이트를 빌드
 | `/feeds/notes.xml` | 생각 노트 |
 | `/feeds/dev.xml` | 개발 노트 |
 
+> [!example]- 글 피드에 실린 항목 하나
+> ```xml
+> <item>
+>   <title>AI Agent 시대의 Human Agency</title>
+>   <link>https://www.nextree.io/ai-agent-sidaeyi-human-agency/</link>
+>   <pubDate>Mon, 24 Aug 2026 15:00:00 GMT</pubDate>
+>   <category>글</category>
+>   <description>AI와 함께 SSE 구현을 다듬는 동안 잘 돌아간다는 증거는 쌓였지만, 계속 써야 하는지는 실행만으로 판단할 수 없었다.</description>
+> </item>
+> ```
+
 종류별 피드를 나눈 이유는 작성 빈도가 다르기 때문이다. 통합 피드에서 최근 항목만 가져오면 최근 노트가 발행한 글을 밀어낼 수 있다. 그래서 유형을 먼저 고르고, 그 안에서 날짜순으로 항목 수를 제한한다.
 
 외부에 발행한 글은 발행일로 정렬하고 원래 발행처로 연결한다. 생각 노트와 개발 노트는 노트에 기록한 날짜로 정렬하고 가든의 페이지로 연결한다. 발행일이나 원문 주소가 없는 글은 제외한다.
@@ -46,6 +57,25 @@ Astro가 [[생각의 정원을 만들고 배포하는 과정|사이트를 빌드
 [프로필 저장소의 워크플로](https://github.com/taez224/taez224/blob/main/.github/workflows/garden-posts.yml)는 글 피드에서 최근 2개, 생각 노트와 개발 노트 피드에서 각각 최근 1개를 가져오도록 설정했다. 매주 예약 실행하며 필요할 때 수동으로도 실행할 수 있다.
 
 README 수정에는 [blog-post-workflow](https://github.com/gautamkrishnar/blog-post-workflow)를 사용한다. README에 글·생각 노트·개발 노트 목록을 넣을 영역을 주석으로 지정하고, 액션에 각 피드 주소와 표시할 개수를 넘긴다. 액션은 그 영역만 바꾸므로 소개 문구와 나머지 내용은 유지된다.
+
+글 피드를 읽는 단계와 그 결과로 README에 남는 영역은 이렇다.
+
+```yaml
+- name: Update Thinking Garden posts
+  uses: gautamkrishnar/blog-post-workflow@v1
+  with:
+    feed_list: "https://taez224.github.io/feeds/posts.xml"
+    max_post_count: 2
+    comment_tag_name: "GARDEN-POST-LIST"
+    template: "- [글] [$title]($url)$newline"
+```
+
+```markdown
+<!-- GARDEN-POST-LIST:START -->
+- [글] [AI Agent 시대의 Human Agency](https://www.nextree.io/ai-agent-sidaeyi-human-agency/)
+- [글] [AI로 빨라진 개인, 소화하지 못하는 팀](https://www.nextree.io/airo-bbalrajin-gaein-sohwahaji-moshaneun-tim/)
+<!-- GARDEN-POST-LIST:END -->
+```
 
 사이트는 공개할 목록을 만들고, 프로필의 워크플로는 그 목록을 읽어 보여줄 항목을 고른다. 별도 API 서버 없이 배포된 RSS 파일을 사이에 두고 두 작업을 연결한 구성이다.
 
