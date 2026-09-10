@@ -21,6 +21,13 @@ FOLDER_REQUIRED = {            # 폴더 prefix → 필수 frontmatter 키
     "30_Resources/References/Clippings/": ("status",),
 }
 DATE_INSTEAD_OF_CREATED = ("30_Resources/Development/DevLog/",)  # date 필드가 created 대체
+SLUG_REQUIRED = (              # 사이트 주소를 갖는 폴더 - slug 미기입을 보고한다
+    "30_Resources/Development/Concepts/",
+    "30_Resources/Development/Troubleshooting/",
+    "30_Resources/Development/Tools/",
+    "01_Slipbox/",
+    "20_Projects/blog/",
+)
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
     "10_Periodic Notes/",
     "30_Resources/Development/DevLog/",
@@ -330,6 +337,16 @@ def main():
                             issues.append(f"필수 필드 누락 ({prefix}): {k}")
             if rel.startswith("20_Projects/") and scalars.get("project_id") and not scalars.get("status"):
                 issues.append("필수 필드 누락 (project): status")
+            # slug가 없으면 제목에서 만들고, 한글 제목은 주소에서 퍼센트 인코딩되어 길어진다.
+            # 발행 뒤에는 주소가 굳으므로 공개 전에 잡는다.
+            # blog 폴더는 발행본과 연재 허브만 사이트 주소를 갖는다. 초안·아웃라인은 주소가 없어 제외한다.
+            published = (
+                not rel.startswith("20_Projects/blog/")
+                or scalars.get("status") == "published"
+                or scalars.get("type") == "series"
+            )
+            if rel.startswith(SLUG_REQUIRED) and published and not scalars.get("slug"):
+                issues.append("공개 노트 slug 없음")
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
 
