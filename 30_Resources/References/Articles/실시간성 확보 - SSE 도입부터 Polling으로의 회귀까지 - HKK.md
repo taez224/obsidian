@@ -54,4 +54,4 @@ my_take: "Qra의 SSE 도입부터 증분 polling 전환까지의 기술적 맥�
 
 - [[AI Agent 시대의 Human Agency]] - 같은 Qra 경험에서 Taste와 Human Agency를 다루는 후속 에세이
 - [[vizend-qra|Vizend QRA]] - 프로젝트 사실과 결정의 정본
-- [[인메모리 SSE 팬아웃 유실 - 이벤트 처리 인스턴스와 연결 보유 인스턴스가 다르다]] - 인스턴스 로컬 연결과 fan-out 문제의 재사용 가능한 트러블슈팅 기록
+- [[SSE 팬아웃 인스턴스 불일치]] - 인스턴스 로컬 연결과 fan-out 문제의 재사용 가능한 트러블슈팅 기록
