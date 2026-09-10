@@ -5,7 +5,6 @@ summary: Obsidian vault 관리를 AI 에이전트에게 맡기려고 지침·스
 tags:
   - 지식관리
   - AI/에이전트
-  - 개발/도구
 aliases:
   - 바이브 노팅
 ---

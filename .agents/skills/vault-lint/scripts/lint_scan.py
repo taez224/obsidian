@@ -28,6 +28,15 @@ SLUG_REQUIRED = (              # 사이트 주소를 갖는 폴더 - slug 미기
     "01_Slipbox/",
     "20_Projects/blog/",
 )
+DEV_ROOT = "30_Resources/Development/"      # 이 폴더 바로 아래에는 노트를 두지 않는다 (AGENTS)
+DEV_PUBLIC = (                 # 사이트에 자동 공개되는 개발 노트 폴더 - 속성은 _property-schema의 Development 절
+    "30_Resources/Development/Concepts/",
+    "30_Resources/Development/Troubleshooting/",
+    "30_Resources/Development/Tools/",
+)
+DEV_ALLOWED_KEYS = {"created", "slug", "summary", "tags", "aliases"}
+# summary는 답·질문·용도를 말하는 문장이다. 노트가 하는 일("~를 정리한다")로 끝나면 보고한다.
+DEV_SUMMARY_TAIL_RE = re.compile(r"(정리|확인|점검|설명|소개|다룬)한다\.?$")
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
     "10_Periodic Notes/",
     "30_Resources/Development/DevLog/",
@@ -347,6 +356,20 @@ def main():
             )
             if rel.startswith(SLUG_REQUIRED) and published and not scalars.get("slug"):
                 issues.append("공개 노트 slug 없음")
+            if rel.startswith(DEV_PUBLIC):
+                if not scalars.get("summary"):
+                    issues.append("필수 필드 누락 (development): summary")
+                for k in scalars:
+                    if k not in DEV_ALLOWED_KEYS:
+                        issues.append(f"스키마에 없는 필드: {k}")
+                summary = scalars.get("summary", "").strip().strip("'\"")
+                if DEV_SUMMARY_TAIL_RE.search(summary):
+                    issues.append("summary가 노트가 하는 일로 끝남: 답·질문·용도를 적는다")
+            # 트러블슈팅 제목은 상황을 부르는 명사구다. ' - ' 뒤에 결론을 붙이지 않는다.
+            if rel.startswith("30_Resources/Development/Troubleshooting/") and " - " in os.path.basename(rel):
+                issues.append("제목에 부제 ' - ': 상황만 남기고 결론은 summary로")
+        if rel.startswith(DEV_ROOT) and rel.count("/") == DEV_ROOT.count("/"):
+            issues.append("Development 루트 노트: Concepts·Troubleshooting·Tools 중 하나로")
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
 
