@@ -38,6 +38,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 - `qmd update`는 git diff가 아니라 컬렉션 전체를 재스캔하므로, gitignore된 노트(DevLog daily, job-search)도 이때 함께 갱신된다.
 - 대신 인덱스 신선도는 **커밋 주기에 묶인다.** 며칠 커밋 없이 Obsidian에서만 작업해 검색 결과가 오래되었다면 현재 파일로 재확인하고, 필요하면 사용자에게 수동 갱신 요청 여부를 확인한다.
 - 실행 기록은 `.git/qmd-index.log`에 남는다. 검색 결과가 최신 노트를 놓치면 여기부터 확인한다.
+- 훅은 `.git/qmd-index.lock`으로 중복 실행을 막는다. 이전 색인 프로세스가 trap 없이 죽어 잠금이 남아도, 다음 커밋에서 PID가 죽은 것을 확인하고 잠금을 지운 뒤 진행한다. 로그의 `stale lock removed` 줄이 그 흔적이다.
 
 `sandbox_workspace_write.writable_roots`의 QMD 캐시 허용은 SQLite 읽기·쓰기를 위한 설정이며 Metal GPU 실행 권한과는 별개다. `qmd doctor`의 GPU 탐지 성공만으로 샌드박스 안 모델 실행 성공을 판단하지 않는다.
 
