@@ -52,6 +52,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 
 - 삭제·이동·승격·병합·MOC 생성·공개 범위 변경·커밋·push는 사용자 승인 후 적용한다. 이미 승인된 범위는 다시 묻지 않는다. 승인 전 의미 변경 작업은 후보 보고까지 완료로 본다.
 - 편집 직전에 현재 내용을 다시 읽고 해당 부분만 고친다. 다른 세션과 Obsidian의 변경을 덮어쓰지 않는다. 요청 밖에서 발견한 개선은 이번 변경에 섞지 않고 제안으로만 알린다.
+- 커밋 제목은 `type(scope): 명사형 제목` 형식으로 쓰고 한국어 명사형으로 짧게 끝낸다. "~한다"가 아니라 "~ 추가", "~ 갱신", "~로 변경" 등. `type`은 `feat`, `fix`, `refactor`, `docs`, `chore`, `test`, `style`, `ci`이고, `scope`는 바뀐 영역 이름(`vault`, `dev`, `blog`, `slipbox`, `vault-lint` 등)이며 닫힌 목록이 아니다. 예: `docs(dev): 트러블슈팅 제목을 상황형으로 변경`, `chore(vault-lint): 개발 노트 속성 검사 추가`.
 - 큰 정리 전에는 승인된 체크포인트 커밋이 필요하다. 무관한 변경을 임의로 포함하지 않는다. 파일명 버전 대신 Git을 사용하고 블로그 반복 초안은 승인 후 `40_Archive/blog-drafts/`로 보관한다.
 - 일반 첨부는 `_attachments/`, 프로젝트 전용 에셋은 폴더 로컬 `assets/`에 둔다. 루트에는 `CLAUDE.md`, `AGENTS.md`, `README.md`, `_global-health.base` 외의 작업 파일을 만들지 않는다.
 
