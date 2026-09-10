@@ -20,12 +20,16 @@ aliases:
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
 | `created` | Date `YYYY-MM-DD` | ✅ | 노트 생성일 (file.ctime 폴백 금지 - 항상 명시) |
+| `slug` | Text | 공개 폴더 ✅ | 사이트 주소의 마지막 조각. 짧은 영문 소문자와 하이픈으로 쓴다. 아래 공개 노트 규칙을 따른다. |
 | `summary` | Text | ⬜ | 목록에서 노트의 주제·질문·핵심 관점을 한 문장으로 요약. 상세 방법·근거·작업 이력·수치·조건은 본문에 둔다. |
 | `tags` | List | ⬜ | 실제 횡단 탐색·필터에 사용할 때만 아래 기준으로 작성 |
 | `aliases` | List | ⬜ | 다른 이름으로도 wikilink 받기 위함 |
 
 > [!note] Bases 구현 규칙
 > `created` 누락은 스키마 위반이며 `vault-lint`가 탐지한다. Base의 `file.ctime` 폴백은 누락 노트를 숨기지 않기 위한 **표시용 방어**일 뿐, `created`를 대신하지 않는다. Inbox 7일·30일 기준은 `_inbox.base`와 `_global-health.base`, 프로젝트 14일 기준은 `_dashboard.base`와 `_global-health.base`에 중복 정의되므로 기준 변경 시 두 파일을 함께 수정한다.
+
+> [!note] 공개 노트의 slug
+> Slipbox, blog, Development 세 폴더의 노트는 사이트 주소를 가지므로 `slug`를 새 노트에 처음부터 넣는다. 값이 없으면 제목에서 자동으로 만드는데, 한글 제목은 주소에서 퍼센트 인코딩되어 한 글자가 아홉 문자로 늘어난다. 제목 문장을 그대로 옮기지 말고 핵심어 서너 개를 영문 소문자와 하이픈으로 적는다. 글자·숫자·하이픈만 쓸 수 있고, 같은 종류 안에서 겹치면 사이트 빌드가 실패한다. **이미 공개한 노트의 `slug`를 바꾸면 그 주소가 깨지므로 발행 전에 정한다.**
 
 ### 태그 사용 기준
 
@@ -91,6 +95,7 @@ next_action: ""
 ```yaml
 ---
 created: 2026-01-15
+slug: <영문-슬러그>
 type: permanent       # permanent | fleeting | hub(MOC)
 status: seedling      # seedling | growing | evergreen
 aliases:
@@ -186,6 +191,7 @@ tags:
 ---
 title: <글 제목>
 created: 2026-07-11             # vault 수집·작성일
+slug: <영문-슬러그>              # 사이트 주소. 발행 전에 정한다
 status: draft                   # draft | published
 author: TaeZ
 summary: <글의 주제와 핵심 관점을 한 문장으로 요약>
@@ -298,6 +304,7 @@ projects:
 ```yaml
 ---
 created: 2026-09-06
+slug: <영문-슬러그>
 summary: <노트가 설명하는 개념 또는 학습 질문을 한 문장으로 요약>
 tags:
   - 개발/<기술>
@@ -317,6 +324,7 @@ tags:
 ```yaml
 ---
 created: 2026-09-06
+slug: <영문-슬러그>
 summary: <문제와 해결 관점을 한 문장으로 요약>
 tags:
   - 개발/<기술>
