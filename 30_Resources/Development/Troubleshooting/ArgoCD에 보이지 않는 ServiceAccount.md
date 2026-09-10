@@ -7,12 +7,14 @@ tags:
   - 개발/ArgoCD
 ---
 
-# ArgoCD에서 ServiceAccount가 보이지 않을 때
+# ArgoCD에 보이지 않는 ServiceAccount
 
-> [!bug] 문제
-> GitOps 저장소에 ServiceAccount manifest를 추가했는데, 같은 패턴의 다른 서비스 ServiceAccount는 ArgoCD에 보이면서 새 계정만 동기화·표시되지 않았다.
+> [!summary] 핵심
+> 객체가 만들어지지 않은 문제인지, 객체는 있고 권한만 없는 문제인지부터 나눈다. ServiceAccount 생성에 ClusterRoleBinding이 필수인 것은 아니다.
 
-## 생성과 권한 부여를 구분한다
+GitOps 저장소에 ServiceAccount manifest를 추가했는데, 같은 패턴의 다른 서비스 ServiceAccount는 ArgoCD에 보이면서 새 계정만 동기화되지도 표시되지도 않았다.
+
+## 생성과 권한 부여의 구분
 
 당시 기록에서는 기존 구성과 비교해 ClusterRoleBinding 누락과 Deployment의 `serviceAccountName`을 함께 점검했다. 다만 **ClusterRoleBinding이 없어서 ServiceAccount 객체가 생성되지 않았다고 단정할 근거는 충분하지 않다.** ServiceAccount 생성에 ClusterRoleBinding이 필수인 것은 아니다.
 

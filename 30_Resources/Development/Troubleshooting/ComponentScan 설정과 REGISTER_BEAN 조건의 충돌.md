@@ -1,5 +1,4 @@
 ---
-title: ApplicationContextException - REGISTER_BEAN phase
 created: 2025-08-13
 slug: register-bean-phase-error
 summary: ComponentScan을 수행하는 설정과 REGISTER_BEAN 단계의 조건이 충돌할 때 조건의 위치와 평가 시점을 확인한다.
@@ -7,14 +6,16 @@ tags:
   - 개발/Spring
 ---
 
-# ApplicationContextException - REGISTER_BEAN phase
+# ComponentScan 설정과 REGISTER_BEAN 조건의 충돌
 
-> [!bug] 문제
-> Spring Boot 버전업 후 기동 과정에서 다음 오류가 발생했다.
->
-> `Component scan for configuration class [...] could not be used with conditions in REGISTER_BEAN phase`
+> [!summary] 핵심
+> 조건에 어떤 어노테이션을 썼는지보다, 그 조건 구현이 어느 단계에서 평가되는지를 확인한다.
 
-## 원인
+Spring Boot 버전을 올린 뒤 기동 과정에서 `ApplicationContextException`이 발생했고 다음 메시지가 붙었다.
+
+`Component scan for configuration class [...] could not be used with conditions in REGISTER_BEAN phase`
+
+## 스캔 설정과 조건 단계의 충돌
 
 컴포넌트 스캔을 수행할 설정에 빈 등록 단계에서 평가하는 조건이 결합된 경우를 확인해야 한다. Spring 6.2의 `ConfigurationClassParser`는 `@ComponentScan`을 처리하기 전에 해당 설정과 일부 외부 감싸는 설정의 조건을 모은다. 그중 `ConfigurationCondition`의 단계가 `REGISTER_BEAN`인 조건이 있으면 이 오류를 발생시킨다.
 
