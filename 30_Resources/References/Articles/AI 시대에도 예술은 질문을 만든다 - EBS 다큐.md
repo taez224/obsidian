@@ -1,9 +1,9 @@
 ---
-title: "AI가 그림 그리는 시대, 살아남은 예술가들의 1가지 공통점. 카이스트 교수가 분석한 진짜 생존법｜인공지능이 예술을 대체하는 시대에 기계가 뺏지 못하는 인간의 능력｜#골라듄다큐"
+title: AI가 그림 그리는 시대, 살아남은 예술가들의 1가지 공통점. 카이스트 교수가 분석한 진짜 생존법｜인공지능이 예술을 대체하는 시대에 기계가 뺏지 못하는 인간의 능력｜#골라듄다큐
 source: https://youtu.be/E0QNplrYX1A?si=TTSU3O-E6bI85BU6
 author:
   - EBSDocumentary (EBS 다큐)
-published:
+published: 2026-08-04
 thumbnail: https://i.ytimg.com/vi/E0QNplrYX1A/hqdefault.jpg
 created: 2026-08-08
 description: AI와 디지털 기술이 예술의 재료가 된 시대에, 예술교육이 기술 활용과 비판적 사유를 함께 가르쳐야 한다는 관점을 다루는 다큐멘터리.
