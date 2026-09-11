@@ -34,7 +34,7 @@ DEV_PUBLIC = (                 # 사이트에 자동 공개되는 개발 노트 
     "30_Resources/Development/Troubleshooting/",
     "30_Resources/Development/Tools/",
 )
-DEV_ALLOWED_KEYS = {"created", "slug", "summary", "tags", "aliases"}
+DEV_ALLOWED_KEYS = {"created", "published", "updated", "slug", "summary", "tags", "aliases"}
 # summary는 답·질문·용도를 말하는 문장이다. 노트가 하는 일("~를 정리한다")로 끝나면 보고한다.
 DEV_SUMMARY_TAIL_RE = re.compile(r"(정리|확인|점검|설명|소개|다룬)한다\.?$")
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외

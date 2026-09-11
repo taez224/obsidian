@@ -101,8 +101,9 @@ def build_fixture(root):
     # 스키마·위치 오류와 제목·summary의 문체 검토 후보를 구분한다.
     write(root, "30_Resources/Development/Troubleshooting/증상 - 결론.md",
           "---\ncreated: 2026-06-12\nslug: bad-ts\ntitle: 제목\nsummary: 원인을 확인한다.\n---\n[[대상 노트]]\n")
+    # published(처음 공개하거나 승격한 날)와 updated(공개 본문을 고친 날)는 공개 노트의 선택 날짜 필드라 개발 노트에서도 허용한다.
     write(root, "30_Resources/Development/Concepts/좋은 개념.md",
-          "---\ncreated: 2026-06-12\nslug: good-concept\nsummary: A와 B는 무엇이 다른가.\n"
+          "---\ncreated: 2026-06-12\npublished: 2026-06-15\nupdated: 2026-06-20\nslug: good-concept\nsummary: A와 B는 무엇이 다른가.\n"
           "tags:\n  - 개발/설계\naliases:\n  - 별칭\n---\n[[대상 노트]]\n")
     write(root, "30_Resources/Development/루트 노트.md", fm + "---\n[[대상 노트]]\n")
     # 문체 휴리스틱은 올바른 주장도 포착할 수 있으므로 형식 오류로 분류하지 않는다.
