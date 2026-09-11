@@ -12,29 +12,40 @@ import os
 import re
 import sys
 import unicodedata
+from dataclasses import dataclass
+from typing import Optional
 
 # ── 설정 블록 ──────────────────────────────────────────────
 SCAN_EXCLUDE_TOP = {"40_Archive", "99_Templates", "_workspace", "_attachments"}
-FOLDER_REQUIRED = {            # 폴더 prefix → 필수 frontmatter 키
-    "01_Slipbox/": ("type", "status"),
-    "30_Resources/References/Articles/": ("source", "published", "status"),
-    "30_Resources/References/Clippings/": ("status",),
+# 각 폴더 규칙이 생략한 값의 기본값이다. 명시한 값은 덮어쓰지 않으며 다른 규칙과 병합하지 않는다.
+@dataclass(frozen=True)
+class FolderRule:
+    required: tuple = ()
+    allowed: Optional[frozenset] = None  # None은 스키마 밖 속성도 허용한다.
+    slug: bool = False
+    created_key: str = "created"
+    required_label: str = ""         # 기존 진단 메시지의 분류명을 유지한다.
+    review_summary: bool = False     # 오류가 아닌 문맥 검토 제안이다.
+
+
+DEVELOPMENT_RULE = FolderRule(
+    required=("summary",), slug=True, required_label="development", review_summary=True,
+    allowed=frozenset({"created", "published", "updated", "slug", "summary", "tags", "aliases"}),
+)
+# _property-schema.md의 공통 필드와 각 노트 유형 절. 경로가 겹치면 가장 구체적인 규칙 하나를 쓴다.
+# 규칙 사이의 상속은 없고, 생략한 값은 FolderRule의 공통 기본값을 쓴다.
+FOLDER_RULES = {
+    "": FolderRule(),  # 별도 규칙이 없는 폴더에만 적용한다.
+    "01_Slipbox/": FolderRule(required=("type", "status"), slug=True),  # Slipbox
+    "20_Projects/blog/": FolderRule(slug=True),  # Blog Posts: 공개 조건은 별도 검사
+    "30_Resources/References/Articles/": FolderRule(required=("source", "published", "status")),
+    "30_Resources/References/Clippings/": FolderRule(required=("status",)),
+    "30_Resources/Development/DevLog/": FolderRule(created_key="date"),  # DevLog
+    "30_Resources/Development/Concepts/": DEVELOPMENT_RULE,
+    "30_Resources/Development/Troubleshooting/": DEVELOPMENT_RULE,
+    "30_Resources/Development/Tools/": DEVELOPMENT_RULE,
 }
-DATE_INSTEAD_OF_CREATED = ("30_Resources/Development/DevLog/",)  # date 필드가 created 대체
-SLUG_REQUIRED = (              # 사이트 주소를 갖는 폴더 - slug 미기입을 보고한다
-    "30_Resources/Development/Concepts/",
-    "30_Resources/Development/Troubleshooting/",
-    "30_Resources/Development/Tools/",
-    "01_Slipbox/",
-    "20_Projects/blog/",
-)
-DEV_ROOT = "30_Resources/Development/"      # 이 폴더 바로 아래에는 노트를 두지 않는다 (AGENTS)
-DEV_PUBLIC = (                 # 사이트에 자동 공개되는 개발 노트 폴더 - 속성은 _property-schema의 Development 절
-    "30_Resources/Development/Concepts/",
-    "30_Resources/Development/Troubleshooting/",
-    "30_Resources/Development/Tools/",
-)
-DEV_ALLOWED_KEYS = {"created", "published", "updated", "slug", "summary", "tags", "aliases"}
+DEV_ROOT = "30_Resources/Development/"  # 이 폴더 바로 아래에는 노트를 두지 않는다 (AGENTS).
 # summary는 답·질문·용도를 말하는 문장이다. 노트가 하는 일("~를 정리한다")로 끝나면 보고한다.
 DEV_SUMMARY_TAIL_RE = re.compile(r"(정리|확인|점검|설명|소개|다룬)한다\.?$")
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
@@ -67,6 +78,58 @@ PERIODIC_PLACEHOLDER_RE = re.compile(
 # 줄 앞에 두면(`^id 본문`) Obsidian이 블록 ID로 보지 않는다.
 BLOCK_ANCHOR_RE = re.compile(r"(?:^|\s)\^([A-Za-z0-9-]+)[ \t]*$")
 ANCHOR_LINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
+
+
+def folder_rule(rel):
+    """끝의 /까지 일치하는 가장 구체적인 규칙을 선택한다."""
+    prefix = max((prefix for prefix in FOLDER_RULES if rel.startswith(prefix)), key=len)
+    return prefix, FOLDER_RULES[prefix]
+
+
+def has_public_blog_page(rel, scalars):
+    # 블로그 초안과 아웃라인은 사이트 주소가 없으므로 slug를 요구하지 않는다. 다른 폴더는 표의 설정을 따른다.
+    return (not rel.startswith("20_Projects/blog/")
+            or scalars.get("status") == "published" or scalars.get("type") == "series")
+
+
+def needs_project_status(rel, scalars):
+    return rel.startswith("20_Projects/") and scalars.get("project_id") and not scalars.get("status")
+
+
+def check_frontmatter(rel, scalars, lists):
+    """한 노트의 형식 오류와 문체 제안을 분리해 반환한다."""
+    issues, suggestions = [], []
+    if scalars is None:
+        issues.append("frontmatter 블록 없음")
+    else:
+        prefix, rule = folder_rule(rel)
+        if not scalars.get(rule.created_key):
+            issues.append(f"필수 필드 누락: {rule.created_key}")
+        for tag in lists.get("tags", []):
+            if tag.startswith("#"):
+                issues.append(f"태그에 # 포함: {tag}")
+        for key in rule.required:
+            if not scalars.get(key):
+                issues.append(f"필수 필드 누락 ({rule.required_label or prefix}): {key}")
+        if needs_project_status(rel, scalars):
+            issues.append("필수 필드 누락 (project): status")
+        # 한글 제목의 긴 인코딩 주소를 피하고, 외부 링크가 걸리기 전에 주소를 정하도록 slug를 미리 확인한다.
+        if rule.slug and has_public_blog_page(rel, scalars) and not scalars.get("slug"):
+            issues.append("공개 노트 slug 없음")
+        if rule.allowed is not None:
+            for key in scalars:
+                if key not in rule.allowed:
+                    issues.append(f"스키마에 없는 필드: {key}")
+        if rule.review_summary:
+            summary = scalars.get("summary", "").strip().strip("'\"")
+            if DEV_SUMMARY_TAIL_RE.search(summary):
+                suggestions.append("summary 꼬리 검토: 답·질문·용도인지 문맥 확인")
+        # 구두점만으로 제목의 의미를 판정할 수 없으므로 오류가 아닌 문맥 검토 제안으로 남긴다.
+        if rel.startswith("30_Resources/Development/Troubleshooting/") and " - " in os.path.basename(rel):
+            suggestions.append("제목의 ' - ' 검토: 실제 부제인지 오류 문자열인지 확인")
+    if rel.startswith(DEV_ROOT) and rel.count("/") == DEV_ROOT.count("/"):
+        issues.append("Development 루트 노트: Concepts·Troubleshooting·Tools 중 하나로")
+    return issues, suggestions
 
 
 def nfc(s):
@@ -345,49 +408,7 @@ def main():
     style_suggestions = []
     for rel in scanned:
         scalars, lists = fm_cache.get(rel, (None, {}))
-        issues = []
-        suggestions = []
-        if scalars is None:
-            issues.append("frontmatter 블록 없음")
-        else:
-            created_key = "date" if rel.startswith(DATE_INSTEAD_OF_CREATED) else "created"
-            if not scalars.get(created_key):
-                issues.append(f"필수 필드 누락: {created_key}")
-            tags = lists.get("tags", [])
-            for t in tags:
-                if t.startswith("#"):
-                    issues.append(f"태그에 # 포함: {t}")
-            for prefix, required in FOLDER_REQUIRED.items():
-                if rel.startswith(prefix):
-                    for k in required:
-                        if not scalars.get(k):
-                            issues.append(f"필수 필드 누락 ({prefix}): {k}")
-            if rel.startswith("20_Projects/") and scalars.get("project_id") and not scalars.get("status"):
-                issues.append("필수 필드 누락 (project): status")
-            # slug가 없으면 제목에서 만들고, 한글 제목은 주소에서 퍼센트 인코딩되어 길어진다.
-            # 발행 뒤에는 주소가 굳으므로 공개 전에 잡는다.
-            # blog 폴더는 발행본과 연재 허브만 사이트 주소를 갖는다. 초안·아웃라인은 주소가 없어 제외한다.
-            published = (
-                not rel.startswith("20_Projects/blog/")
-                or scalars.get("status") == "published"
-                or scalars.get("type") == "series"
-            )
-            if rel.startswith(SLUG_REQUIRED) and published and not scalars.get("slug"):
-                issues.append("공개 노트 slug 없음")
-            if rel.startswith(DEV_PUBLIC):
-                if not scalars.get("summary"):
-                    issues.append("필수 필드 누락 (development): summary")
-                for k in scalars:
-                    if k not in DEV_ALLOWED_KEYS:
-                        issues.append(f"스키마에 없는 필드: {k}")
-                summary = scalars.get("summary", "").strip().strip("'\"")
-                if DEV_SUMMARY_TAIL_RE.search(summary):
-                    suggestions.append("summary 꼬리 검토: 답·질문·용도인지 문맥 확인")
-            # 구두점만으로 제목의 의미를 판정하지 않고 문맥 검토 후보로 남긴다.
-            if rel.startswith("30_Resources/Development/Troubleshooting/") and " - " in os.path.basename(rel):
-                suggestions.append("제목의 ' - ' 검토: 실제 부제인지 오류 문자열인지 확인")
-        if rel.startswith(DEV_ROOT) and rel.count("/") == DEV_ROOT.count("/"):
-            issues.append("Development 루트 노트: Concepts·Troubleshooting·Tools 중 하나로")
+        issues, suggestions = check_frontmatter(rel, scalars, lists)
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
         if suggestions:

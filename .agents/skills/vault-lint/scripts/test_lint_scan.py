@@ -131,6 +131,45 @@ def build_fixture(root):
     write(root, "40_Archive/_old.base", "views:\n  - type: table\n    sortBy:\n      property: x\n")
 
 
+
+def test_folder_rules():
+    from lint_scan import check_frontmatter, FOLDER_RULES, FolderRule
+
+    created = {"created": "2026-06-12"}
+    cases = [
+        ("01_Slipbox/노트.md", dict(created, type="permanent", status="seedling", slug="note", custom="허용"), []),
+        ("30_Resources/References/Clippings/자료.md", dict(created, status="unread", clipper_extra="허용"), []),
+        ("30_Resources/References/Articles/자료.md", created,
+         [f"필수 필드 누락 (30_Resources/References/Articles/): {key}" for key in ("source", "published", "status")]),
+        ("30_Resources/Development/Concepts/노트.md", dict(created, slug="note", summary="무엇이 다른가.", extra="금지"),
+         ["스키마에 없는 필드: extra"]),
+        ("30_Resources/Development/Tools/노트.md", created,
+         ["필수 필드 누락 (development): summary", "공개 노트 slug 없음"]),
+        ("30_Resources/Development/DevLog/기록.md", {"date": "2026-06-12", "custom": "허용"}, []),
+        ("30_Resources/Development/ConceptsExtra/노트.md", dict(created, custom="허용"), []),
+        ("20_Projects/blog/초안.md", dict(created, status="draft"), []),
+        ("20_Projects/blog/발행.md", dict(created, status="published"), ["공개 노트 slug 없음"]),
+        ("20_Projects/blog/연재.md", dict(created, type="series"), ["공개 노트 slug 없음"]),
+        ("20_Projects/프로젝트.md", dict(created, project_id="project"), ["필수 필드 누락 (project): status"]),
+        ("20_Projects/일반.md", created, []),
+    ]
+    for rel, scalars, expected in cases:
+        issues, suggestions = check_frontmatter(rel, scalars, {})
+        assert sorted(issues) == sorted(expected), (rel, issues)
+        assert not suggestions, (rel, suggestions)
+
+    # 상위 폴더에 새 규칙이 생겨도 더 구체적인 폴더 규칙과 섞이지 않는다.
+    FOLDER_RULES["30_Resources/"] = FolderRule(required=("parent",), allowed=frozenset({"created", "parent"}))
+    try:
+        issues, _ = check_frontmatter("30_Resources/Development/Concepts/노트.md",
+                                      dict(created, slug="note", summary="상태 전이는 무엇인가."), {})
+        assert not issues, issues
+        issues, _ = check_frontmatter("30_Resources/일반.md", created, {})
+        assert issues == ["필수 필드 누락 (30_Resources/): parent"], issues
+    finally:
+        del FOLDER_RULES["30_Resources/"]
+
+
 def main():
     with tempfile.TemporaryDirectory() as root:
         build_fixture(root)
@@ -277,4 +316,5 @@ def main():
 
 
 if __name__ == "__main__":
+    test_folder_rules()
     main()

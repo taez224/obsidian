@@ -98,8 +98,7 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 ## 경계
 
 - 스키마 기준은 `99_Templates/_property-schema.md`. 스키마가 바뀌면 `scripts/lint_scan.py`
-  상단 설정 블록(SCAN_EXCLUDE_TOP / FOLDER_REQUIRED / DATE_INSTEAD_OF_CREATED / BASE_INVALID_KEYS)만
-  갱신한다. `.base` 파일에서 새로운 미인식 키를 발견하면 `BASE_INVALID_KEYS`에 추가한다.
+  상단 `FOLDER_RULES`에서 폴더별 필수·허용 속성, slug와 날짜 키를 관리한다. 가장 구체적인 prefix 하나를 적용하며 규칙끼리 상속하지 않는다. 블로그 공개 조건과 프로젝트 status 조건은 이름 있는 함수로, 문체 제안은 형식 오류와 별도로 유지한다. 스캔 제외와 Base 검사는 `SCAN_EXCLUDE_TOP`, `BASE_INVALID_KEYS`에서 관리한다. `.base` 파일에서 새로운 미인식 키를 발견하면 `BASE_INVALID_KEYS`에 추가한다.
 - 스캐너 수정 시 `scripts/test_lint_scan.py`를 실행해 회귀를 확인한다.
 - Inbox 승격, 대화 캡처는 이 스킬의 비범위다.
 - 이 스킬은 **기계적 상태 점검**을 담당한다. 노트의 의미를 읽고 판단하는 연결 제안·승격·
