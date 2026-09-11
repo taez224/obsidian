@@ -15,7 +15,7 @@ aliases:
 
 # 🚀 Obsidian Garden
 
-이 vault의 공개 가능한 부분(Slipbox, 발행한 글, 개발 노트, 책장)을 정적 사이트로 내보내는 프로젝트다. 공개 주소는 https://taez224.github.io/ 이고, 소스는 별도 저장소 https://github.com/taez224/taez224.github.io 의 Astro 프로젝트다. 이 폴더에는 허브와 소개 노트만 둔다.
+이 vault의 공개 가능한 부분(Slipbox, 발행한 글, 개발 노트, 책장)을 정적 사이트로 내보내는 프로젝트다. 공개 주소는 https://taez224.github.io/ 이고, 소스는 별도 저장소 https://github.com/taez224/taez224.github.io 의 Astro 프로젝트다. 이 폴더에는 프로젝트 허브를 둔다. [방문자용 소개](https://taez224.github.io/about/) 원고는 사이트 저장소의 `src/content/about.md`에서 관리한다.
 
 ## 🎯 목표
 
