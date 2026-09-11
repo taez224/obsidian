@@ -13,6 +13,7 @@ import re
 import sys
 import unicodedata
 from dataclasses import dataclass
+from datetime import date, datetime, timedelta, timezone
 from typing import Optional
 
 # ── 설정 블록 ──────────────────────────────────────────────
@@ -22,22 +23,22 @@ SCAN_EXCLUDE_TOP = {"40_Archive", "99_Templates", "_workspace", "_attachments"}
 class FolderRule:
     required: tuple = ()
     allowed: Optional[frozenset] = None  # None은 스키마 밖 속성도 허용한다.
-    slug: bool = False
+    public: bool = False             # 사이트에 페이지가 생기는 폴더. slug와 날짜 형식을 사이트 빌드 기준으로 검사한다.
     created_key: str = "created"
     required_label: str = ""         # 기존 진단 메시지의 분류명을 유지한다.
     review_summary: bool = False     # 오류가 아닌 문맥 검토 제안이다.
 
 
 DEVELOPMENT_RULE = FolderRule(
-    required=("summary",), slug=True, required_label="development", review_summary=True,
+    required=("summary",), public=True, required_label="development", review_summary=True,
     allowed=frozenset({"created", "published", "updated", "slug", "summary", "tags", "aliases"}),
 )
 # _property-schema.md의 공통 필드와 각 노트 유형 절. 경로가 겹치면 가장 구체적인 규칙 하나를 쓴다.
 # 규칙 사이의 상속은 없고, 생략한 값은 FolderRule의 공통 기본값을 쓴다.
 FOLDER_RULES = {
     "": FolderRule(),  # 별도 규칙이 없는 폴더에만 적용한다.
-    "01_Slipbox/": FolderRule(required=("type", "status"), slug=True),  # Slipbox
-    "20_Projects/blog/": FolderRule(slug=True),  # Blog Posts: 공개 조건은 별도 검사
+    "01_Slipbox/": FolderRule(required=("type", "status"), public=True),  # Slipbox
+    "20_Projects/blog/": FolderRule(public=True),  # Blog Posts: 공개 조건은 별도 검사
     "30_Resources/References/Articles/": FolderRule(required=("source", "published", "status")),
     "30_Resources/References/Clippings/": FolderRule(required=("status",)),
     "30_Resources/Development/DevLog/": FolderRule(created_key="date"),  # DevLog
@@ -46,6 +47,10 @@ FOLDER_RULES = {
     "30_Resources/Development/Tools/": DEVELOPMENT_RULE,
 }
 DEV_ROOT = "30_Resources/Development/"  # 이 폴더 바로 아래에는 노트를 두지 않는다 (AGENTS).
+# 공개 노트의 날짜 규칙은 사이트 저장소 src/lib/dates.mjs와 같다. 한쪽을 바꾸면 다른 쪽도 고친다.
+PUBLIC_DATE_FIELDS = ("created", "published", "updated")
+DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+KST = timezone(timedelta(hours=9))
 # summary는 답·질문·용도를 말하는 문장이다. 노트가 하는 일("~를 정리한다")로 끝나면 보고한다.
 DEV_SUMMARY_TAIL_RE = re.compile(r"(정리|확인|점검|설명|소개|다룬)한다\.?$")
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
@@ -86,24 +91,71 @@ def folder_rule(rel):
     return prefix, FOLDER_RULES[prefix]
 
 
+def scalar_value(raw):
+    """사이트 파서처럼 null 표기와 따옴표로 감싼 문자열을 구분한다."""
+    if raw is None:
+        return None
+    value = raw.strip()
+    if value in ("null", "~"):
+        return None
+    quoted = re.fullmatch(r"(['\"])(.*)\1", value, re.DOTALL)
+    return quoted.group(2) if quoted else value
+
+
 def has_public_blog_page(rel, scalars):
-    # 블로그 초안과 아웃라인은 사이트 주소가 없으므로 slug를 요구하지 않는다. 다른 폴더는 표의 설정을 따른다.
+    # 블로그 초안과 아웃라인은 사이트 주소가 없으므로 slug와 날짜를 검사하지 않는다. 다른 폴더는 표의 설정을 따른다.
     return (not rel.startswith("20_Projects/blog/")
-            or scalars.get("status") == "published" or scalars.get("type") == "series")
+            or scalar_value(scalars.get("status")) == "published"
+            or scalar_value(scalars.get("type")) == "series")
 
 
 def needs_project_status(rel, scalars):
     return rel.startswith("20_Projects/") and scalars.get("project_id") and not scalars.get("status")
 
 
-def check_frontmatter(rel, scalars, lists):
+def kst_today():
+    # 사이트 빌드와 같은 기준일이다. CI는 UTC로 돌지만 날짜는 한국 날짜로 센다.
+    return datetime.now(KST).date().isoformat()
+
+
+def is_calendar_day(value):
+    # fromisoformat은 20260910 같은 다른 ISO 형식도 받으므로 모양을 먼저 확인한다.
+    if not DAY_RE.match(value):
+        return False
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
+
+
+def date_issues(scalars, lists, today):
+    """사이트 빌드가 멈추는 날짜를 찾는다. created 누락은 필수 필드 검사가 따로 알린다."""
+    issues = []
+    for field in PUBLIC_DATE_FIELDS:
+        # 이 파서는 줄 목록을 lists에만 담고 scalars에는 빈 값을 둔다. 사이트는 목록 날짜를 거부한다.
+        if lists.get(field):
+            issues.append(f"날짜 형식 오류 ({field}): 날짜 하나만 적는다")
+            continue
+        # 따옴표 없는 null·~만 빈 값이다. "null"과 짝이 맞지 않는 따옴표는 문자열로 검증한다.
+        value = scalar_value(scalars.get(field))
+        if value is None or value == "":
+            continue
+        if not is_calendar_day(value):
+            issues.append(f"날짜 형식 오류 ({field}): {value}")
+        elif value > today:
+            issues.append(f"미래 날짜 ({field}): {value} (오늘 {today})")
+    return issues
+
+
+def check_frontmatter(rel, scalars, lists, today=None):
     """한 노트의 형식 오류와 문체 제안을 분리해 반환한다."""
     issues, suggestions = [], []
     if scalars is None:
         issues.append("frontmatter 블록 없음")
     else:
         prefix, rule = folder_rule(rel)
-        if not scalars.get(rule.created_key):
+        if not scalar_value(scalars.get(rule.created_key)):
             issues.append(f"필수 필드 누락: {rule.created_key}")
         for tag in lists.get("tags", []):
             if tag.startswith("#"):
@@ -113,9 +165,13 @@ def check_frontmatter(rel, scalars, lists):
                 issues.append(f"필수 필드 누락 ({rule.required_label or prefix}): {key}")
         if needs_project_status(rel, scalars):
             issues.append("필수 필드 누락 (project): status")
+        public_page = rule.public and has_public_blog_page(rel, scalars)
         # 한글 제목의 긴 인코딩 주소를 피하고, 외부 링크가 걸리기 전에 주소를 정하도록 slug를 미리 확인한다.
-        if rule.slug and has_public_blog_page(rel, scalars) and not scalars.get("slug"):
+        if public_page and not scalars.get("slug"):
             issues.append("공개 노트 slug 없음")
+        # 날짜 오류는 사이트 빌드를 멈추고 CI 실패로만 드러나므로 쓰는 단계에서 먼저 알린다.
+        if public_page:
+            issues.extend(date_issues(scalars, lists, today or kst_today()))
         if rule.allowed is not None:
             for key in scalars:
                 if key not in rule.allowed:
@@ -406,9 +462,10 @@ def main():
 
     frontmatter_issues = []
     style_suggestions = []
+    today = kst_today()
     for rel in scanned:
         scalars, lists = fm_cache.get(rel, (None, {}))
-        issues, suggestions = check_frontmatter(rel, scalars, lists)
+        issues, suggestions = check_frontmatter(rel, scalars, lists, today=today)
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
         if suggestions:

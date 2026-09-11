@@ -170,6 +170,76 @@ def test_folder_rules():
         del FOLDER_RULES["30_Resources/"]
 
 
+def test_public_note_dates():
+    # 사이트 빌드(src/lib/dates.mjs)가 멈추는 날짜를 린트가 먼저 알린다.
+    from lint_scan import check_frontmatter
+
+    today = "2026-09-11"
+    slip = {"created": "2026-06-12", "type": "permanent", "status": "seedling", "slug": "note"}
+    dev = {"created": "2026-06-12", "slug": "note", "summary": "무엇이 다른가."}
+    cases = [
+        ("01_Slipbox/노트.md", dict(slip, published="", updated="null"), []),
+        ("01_Slipbox/노트.md", dict(slip, published="~"), []),
+        ("01_Slipbox/노트.md", dict(slip, published='"2026-09-10"'), []),
+        ("01_Slipbox/노트.md", dict(slip, created="2026-09-11"), []),
+        ("01_Slipbox/노트.md", dict(slip, created="2026-9-10"), ["날짜 형식 오류 (created): 2026-9-10"]),
+        ("01_Slipbox/노트.md", dict(slip, updated="2026-02-30"), ["날짜 형식 오류 (updated): 2026-02-30"]),
+        ("01_Slipbox/노트.md", dict(slip, published="2026-09-10 12:00"),
+         ["날짜 형식 오류 (published): 2026-09-10 12:00"]),
+        ("01_Slipbox/노트.md", dict(slip, published="2026-09-12"), ["미래 날짜 (published): 2026-09-12 (오늘 2026-09-11)"]),
+        ("30_Resources/Development/Tools/노트.md", dict(dev, updated="2027-01-01"),
+         ["미래 날짜 (updated): 2027-01-01 (오늘 2026-09-11)"]),
+        ("20_Projects/blog/발행.md", {"created": "2026/06/12", "status": "published", "slug": "post"},
+         ["날짜 형식 오류 (created): 2026/06/12"]),
+        # 사이트가 페이지를 만들지 않는 노트는 날짜 형식을 검사하지 않는다.
+        ("20_Projects/blog/초안.md", {"created": "2026-9-10", "status": "draft"}, []),
+        ("30_Resources/References/Books/책.md", {"created": "2025-08-12 18:40"}, []),
+    ]
+    for rel, scalars, expected in cases:
+        issues, _ = check_frontmatter(rel, scalars, {}, today=today)
+        assert sorted(issues) == sorted(expected), (rel, scalars, issues)
+    # 사이트는 목록으로 적은 날짜를 거부한다. 린트 파서는 줄 목록을 scalars에 빈 값으로 둔다.
+    issues, _ = check_frontmatter("01_Slipbox/노트.md", dict(slip, published=""), {"published": ["2026-09-10"]}, today=today)
+    assert issues == ["날짜 형식 오류 (published): 날짜 하나만 적는다"], issues
+
+
+
+def test_public_dates_from_yaml():
+    from lint_scan import split_frontmatter, parse_frontmatter, check_frontmatter
+
+    cases = [
+        ("created: null", "created"),
+        ("created: ~", "created"),
+        ('created: ""', "created"),
+        ("created:", "created"),
+        ('created: "null"', "날짜 형식 오류 (created)"),
+        ('created: 2026-09-01\nupdated: "null"', "날짜 형식 오류 (updated)"),
+        ("created: 2026-09-01\nupdated: '~'", "날짜 형식 오류 (updated)"),
+        ('created: 2026-09-01\nupdated: "2026-09-10', "날짜 형식 오류 (updated)"),
+        ('created: 2026-09-01\nupdated: \'2026-09-10"', "날짜 형식 오류 (updated)"),
+        ('created: 2026-09-01\nupdated: " "', "날짜 형식 오류 (updated)"),
+        ('created: "2026-09-01"\nupdated: "2026-09-10"', None),
+        ('created: 2026-09-01\npublished:\nupdated: null', None),
+        ('created: 2026-09-01\npublished: ~\nupdated: ""', None),
+    ]
+    for dates, expected in cases:
+        source = "---\n" + dates + "\ntype: permanent\nstatus: seedling\nslug: note\n---\n본문"
+        lines, _ = split_frontmatter(source)
+        scalars, lists = parse_frontmatter(lines)
+        issues, _ = check_frontmatter("01_Slipbox/노트.md", scalars, lists, today="2026-09-11")
+        assert bool(issues) == bool(expected), (dates, issues)
+        if expected:
+            assert any(expected in issue for issue in issues), (dates, issues)
+
+    # 따옴표를 쓴 발행 상태와 연재 허브도 사이트와 같은 검사 대상으로 본다.
+    for state in ['status: "published"', "type: 'series'"]:
+        lines, _ = split_frontmatter("---\ncreated: 2026-02-30\n" + state + "\n---\n본문")
+        scalars, lists = parse_frontmatter(lines)
+        issues, _ = check_frontmatter("20_Projects/blog/글.md", scalars, lists, today="2026-09-11")
+        assert "공개 노트 slug 없음" in issues, issues
+        assert any("날짜 형식 오류 (created)" in issue for issue in issues), issues
+
+
 def main():
     with tempfile.TemporaryDirectory() as root:
         build_fixture(root)
@@ -317,4 +387,6 @@ def main():
 
 if __name__ == "__main__":
     test_folder_rules()
+    test_public_note_dates()
+    test_public_dates_from_yaml()
     main()
