@@ -5,12 +5,14 @@ slug: onlyoffice
 type: series
 status: active
 started: 2025-11-24
-ended: null
+ended:
 last_published: 2026-01-22
 next_action: 5편 진행 여부 결정
 tags:
   - 프로젝트/blog
   - 프로젝트/onlyoffice-demo
+thumbnail: "[[onlyoffice-thumb.png]]"
+thumbnail_style: soft
 ---
 
 # ONLYOFFICE 연동 바이브코딩 기록
