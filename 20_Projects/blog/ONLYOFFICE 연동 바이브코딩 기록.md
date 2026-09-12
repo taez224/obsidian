@@ -12,7 +12,6 @@ tags:
   - 프로젝트/blog
   - 프로젝트/onlyoffice-demo
 thumbnail: "[[onlyoffice-thumb.png]]"
-thumbnail_style: soft
 ---
 
 # ONLYOFFICE 연동 바이브코딩 기록
