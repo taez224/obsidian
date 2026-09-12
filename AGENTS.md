@@ -33,6 +33,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 | 질문으로 생각 검토 | [socratic-dialogue](.agents/skills/socratic-dialogue/SKILL.md) |
 | 개발 개념·설계·문제 해결 기록 | [development-note](.agents/skills/development-note/SKILL.md) |
 | 프로젝트 상태·근거·허브 갱신 | [sweep-project-context](.agents/skills/sweep-project-context/SKILL.md) |
+| 사이트 작업을 노트 이력에 반영 | [sweep-site-worklog](.agents/skills/sweep-site-worklog/SKILL.md) |
 | 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
 | 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
 | 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
