@@ -3,6 +3,7 @@ created: 2026-09-06
 slug: og-card-and-analytics
 summary: 정적 사이트의 OG 공유 이미지는 배포 때 미리 그리고 방문 통계는 외부 서비스에 맡겨 별도 서버 없이 운영한다.
 tags:
+  - 개발/Astro
   - 개발/도구
 aliases:
   - 링크 썸네일 카드

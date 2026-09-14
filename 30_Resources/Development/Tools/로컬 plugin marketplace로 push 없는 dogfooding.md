@@ -3,8 +3,8 @@ created: 2026-07-15
 slug: local-plugin-marketplace
 summary: Claude Code 플러그인 저장소를 로컬 경로로 marketplace에 등록하면 push 없이 다른 저장소에서 바로 설치해 써 보며 고칠 수 있다.
 tags:
-  - 개발/도구
   - AI/에이전트
+  - 개발/도구
 ---
 
 # 로컬 plugin marketplace로 push 없는 dogfooding
