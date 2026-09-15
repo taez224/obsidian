@@ -71,9 +71,9 @@ flowchart TD
 > 
 > ```yaml
 > config:
-> layout: dagre
-> theme: default
-> look: classic
+>    layout: dagre
+>    theme: default
+>    look: classic
 > ```
 
 ## 룩과 테마
