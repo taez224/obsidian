@@ -1,7 +1,7 @@
 ---
 created: 2026-09-15
 slug: mermaid-12-changes
-summary: Mermaid 12는 일부 다이어그램의 기본 배치와 외형을 바꾸고, 유스케이스와 에이전트 흐름 다이어그램을 추가했다.
+summary: Mermaid 12는 일부 다이어그램의 기본 배치와 외형을 바꾸고, UseCase와 AgentFlow 다이어그램을 추가했다.
 tags:
   - 개발/Mermaid
 ---
@@ -12,7 +12,7 @@ tags:
 
 ## Mermaid 12에서 먼저 달라지는 것
 
-[Mermaid 12.0.0 릴리스 노트](https://github.com/mermaid-js/mermaid/releases/tag/mermaid@12.0.0)에 따르면 기본값의 큰 변화는 세 가지다.
+Mermaid 12.0.0은 2026년 9월 10일에 나왔다. 직전 메이저 버전인 11.0.0이 2024년 8월에 올라왔으니 약 2년 만의 변경이다. [Mermaid 12.0.0 릴리스 노트](https://github.com/mermaid-js/mermaid/releases/tag/mermaid@12.0.0)에 따르면 기본값의 큰 변화는 세 가지다.
 
 Mermaid 12에서는 일부 다이어그램의 기본값이 `layout: elk`, `theme: redux-color`, `look: neo`로 바뀐다.
 
