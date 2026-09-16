@@ -28,43 +28,30 @@ Mermaid 12에서는 일부 다이어그램의 기본값이 `layout: elk`, `theme
 
 ### v11과 12의 차이 비교
 
-<div class="diagram-comparison">
-
-<div class="diagram-case">
-
-<h4>Mermaid 11까지</h4>
-
-```mermaid
----
-config:
-  layout: dagre
-  theme: default
-  look: classic
----
-flowchart TD
-    A[시작] --> B[v11 기본 모습]
-```
-
-</div>
-
-<div class="diagram-case">
-
-<h4>Mermaid 12</h4>
-
-```mermaid
----
-config:
-  layout: elk
-  theme: redux-color
-  look: neo
----
-flowchart TD
-    A[시작] --> B[v12 기본 모습]
-```
-
-</div>
-
-</div>
+> [!compare] Mermaid 11과 12의 기본 모습
+> > [!example] Mermaid 11까지
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: dagre
+> >   theme: default
+> >   look: classic
+> > ---
+> > flowchart TD
+> >     A[시작] --> B[v11 기본 모습]
+> > ```
+>
+> > [!example] Mermaid 12
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: elk
+> >   theme: redux-color
+> >   look: neo
+> > ---
+> > flowchart TD
+> >     A[시작] --> B[v12 기본 모습]
+> > ```
 
 > [!tip] 이전 모양을 유지하려면
 > 기존 모양을 유지하려면 `frontmatter`에 이전 버전의 기본값을 명시한다.
@@ -84,85 +71,62 @@ flowchart TD
 
 `classic + default`는 전통적인 Mermaid 스타일, `handDrawn + neutral`은 손그림과 흑백 조합, `neo + redux-color`는 Mermaid 12의 기본 조합이다.
 
-<div class="diagram-comparison is-stacked">
-
-<div class="diagram-case">
-
-<h4><code>classic + default</code></h4>
-
-```mermaid
----
-config:
-  layout: elk
-  theme: default
-  look: classic
----
-flowchart LR
-    A[입력] --> B{판단}
-    B -->|계속| C[처리]
-    B -->|완료| D[결과]
-```
-
-</div>
-
-<div class="diagram-case">
-
-<h4><code>handDrawn + neutral</code></h4>
-
-```mermaid
----
-config:
-  layout: elk
-  theme: neutral
-  look: handDrawn
----
-flowchart LR
-    A[입력] --> B{판단}
-    B -->|계속| C[처리]
-    B -->|완료| D[결과]
-```
-
-</div>
-
-<div class="diagram-case">
-
-<h4><code>neo + redux-color</code></h4>
-
-```mermaid
----
-config:
-  layout: elk
-  theme: redux-color
-  look: neo
----
-flowchart LR
-    A[입력] --> B{판단}
-    B -->|계속| C[처리]
-    B -->|완료| D[결과]
-```
-
-</div>
-
-<div class="diagram-case">
-
-<h4><code>neo + dark</code></h4>
-
-```mermaid
----
-config:
-  layout: elk
-  theme: dark
-  look: neo
----
-flowchart LR
-    A[입력] --> B{판단}
-    B -->|계속| C[처리]
-    B -->|완료| D[결과]
-```
-
-</div>
-
-</div>
+> [!compare-stacked] 같은 흐름도의 조합별 모습
+> > [!example] classic + default
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: elk
+> >   theme: default
+> >   look: classic
+> > ---
+> > flowchart LR
+> >     A[입력] --> B{판단}
+> >     B -->|계속| C[처리]
+> >     B -->|완료| D[결과]
+> > ```
+>
+> > [!example] handDrawn + neutral
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: elk
+> >   theme: neutral
+> >   look: handDrawn
+> > ---
+> > flowchart LR
+> >     A[입력] --> B{판단}
+> >     B -->|계속| C[처리]
+> >     B -->|완료| D[결과]
+> > ```
+>
+> > [!example] neo + redux-color
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: elk
+> >   theme: redux-color
+> >   look: neo
+> > ---
+> > flowchart LR
+> >     A[입력] --> B{판단}
+> >     B -->|계속| C[처리]
+> >     B -->|완료| D[결과]
+> > ```
+>
+> > [!example] neo + dark
+> > ```mermaid
+> > ---
+> > config:
+> >   layout: elk
+> >   theme: dark
+> >   look: neo
+> > ---
+> > flowchart LR
+> >     A[입력] --> B{판단}
+> >     B -->|계속| C[처리]
+> >     B -->|완료| D[결과]
+> > ```
 
 > [!note] 생각의 정원에서 사용하는 설정
 > Mermaid는 사용자가 커스터마이징 할 수 있는 `base` 테마를 제공한다. 생각의 정원에도 처음엔 `base`를 적용했다가 뭔가 밋밋해서 `redux-color`를 바탕으로 사이트 전용 컬러 팔레트를 사용하는 방법으로 변경했다.
