@@ -40,32 +40,26 @@ AI가 추가한 것은 Java 문법 전체를 분석하는 파서가 아니라 **
 
 ### 기본 제공 언어: TSX
 
-TSX는 TanStack Highlight에서 기본 제공한다. 강조 컬러는 이 사이트 톤에 맞게 조정.
+TSX는 TanStack Highlight에서 기본 제공한다.
 
 ```tsx
-import { useActionState } from 'react';
+import { atom, useAtom, useAtomValue } from 'jotai';
 
-function saveNote(_previous: string, formData: FormData) {
-  return String(formData.get('title') ?? '');
+const countAtom = atom(0);
+const doubledAtom = atom((get) => get(countAtom) * 2);
+
+function Counter() {
+  const [count, setCount] = useAtom(countAtom);
+  return <button onClick={() => setCount((c) => c + 1)}>클릭 {count}회</button>;
 }
 
-function SaveButton({ pending }: { pending: boolean }) {
-  return <button disabled={pending}>{pending ? '저장 중...' : '저장'}</button>;
-}
-
-function NoteField() {
-  return <label>제목 <input name="title" /></label>;
-}
-
-export function NoteEditor() {
-  const [title, formAction, isPending] = useActionState(saveNote, '');
-
+export function App() {
+  const doubled = useAtomValue(doubledAtom);
   return (
-    <form action={formAction}>
-      <NoteField />
-      <SaveButton pending={isPending} />
-      <output>{title}</output>
-    </form>
+    <section>
+      <Counter />
+      <p>두 배: {doubled}</p>
+    </section>
   );
 }
 ```
