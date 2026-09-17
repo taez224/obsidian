@@ -240,7 +240,7 @@ public String getEditorKey() {
 문서의 메타데이터를 DB로 관리하기 위한 최소한의 실행 환경을 준비한다.  
 2편에서 docker를 통해 onlyoffice 서버를 띄웠으니 추가로 간단히 postgres를 추가하자.
 
-#### docker-compose.yml
+### docker-compose.yml
 
 ```yaml
 services:
@@ -260,7 +260,7 @@ services:
     # 이전과 동일
 ```
 
-#### .env 파일 예시
+### .env 파일 예시
 
 ```
 # PostgreSQL 관련 항목 추가
@@ -288,7 +288,7 @@ ONLYOFFICE 연동에서 핵심 필드는 다음과 같다.
 
 등 문서의 편집 상태와 생명주기를 하나의 엔티티로 관리한다.
 
-#### Document.java (핵심 필드만)
+### Document.java (핵심 필드만)
 
 ```java
 @Entity
@@ -343,7 +343,7 @@ public enum DocumentStatus {
 > - `version`: 두 사용자가 동시에 같은 엔티티를 수정하면 나중 저장이 실패 → 데이터 정합성 보장
 > - `editorVersion`: ONLYOFFICE가 캐시된 문서 대신 새 버전을 불러오도록 key 변경
 
-#### DocumentRepository.java (핵심 메서드만)
+### DocumentRepository.java (핵심 메서드만)
 
 ```java
 public interface DocumentRepository extends JpaRepository<Document, Long> {
@@ -370,7 +370,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
 > 💡 **참고**: `Claude Code` 에게 Soft Delete로 해줘! 했더니 이렇게 만들었다. 현재 방식은 문서 조회 시 직접 모든 쿼리에 조건(`~AndDeletedAtIsNull`)을 추가해야하는데, 추후 Hibernate 7로 마이그레이션 하면서 리팩토링 예정이니 불편함을 참자.
 
-#### 왜 비관적 락을 사용했을까?
+### 왜 비관적 락을 사용했을까?
 
 ONLYOFFICE Callback은 **우리 애플리케이션이 아닌 외부 시스템(ONLYOFFICE Document Server)** 에서 비동기로 전달된다.  
 따라서 호출 시점, 호출 횟수, 재시도 여부를 우리 쪽에서 정확히 통제할 수 없다.
@@ -387,7 +387,7 @@ ONLYOFFICE Callback은 **우리 애플리케이션이 아닌 외부 시스템(ON
 
 ## Part 3: Service 계층
 
-#### DocumentService.java
+### DocumentService.java
 
 ```java
 @Service
@@ -429,7 +429,7 @@ public class DocumentService {
 
 ## Part 4: Controller 계층
 
-#### API 엔드포인트 변경
+### API 엔드포인트 변경
 
 | 구분 | Before (fileName) | After (fileKey) |
 | --- | --- | --- |
@@ -437,7 +437,7 @@ public class DocumentService {
 | 파일 다운로드 | `GET /files/{fileName}` | `GET /files/{fileKey}` |
 | Callback | `POST /callback?fileName={fileName}` | `POST /callback?fileKey={fileKey}` |
 
-#### EditorController.java
+### EditorController.java
 
 ```java
 @GetMapping("/{fileKey}/config")
@@ -461,7 +461,7 @@ public Map<String, Object> getEditorConfig(@PathVariable String fileKey) {
 }
 ```
 
-#### CallbackController.java (Status별 처리)
+### CallbackController.java (Status별 처리)
 
 ```java
 @PostMapping("/callback")  // POST /callback?fileKey={fileKey}
@@ -510,13 +510,13 @@ public Map<String, Object> callback(@RequestParam("fileKey") String fileKey,
 
 ## 4편 예고
 
-#### 현재 한계
+### 현재 한계
 
 1. **파일 저장소**: 로컬 파일 시스템 사용
 2. **분산 트랜잭션**: DB + Storage 간 정합성 미보장
 3. **ONLYOFFICE 관련**: Config 구성 시 하드코딩된 key, JWT 관련 수동 처리 등
 
-#### 4편에서 적용할 것
+### 4편에서 적용할 것
 
 - **ONLYOFFICE Java SDK**: Config 생성, JWT 관련 고도화
 - **MinIO 적용**: S3 호환 Object Storage 연동

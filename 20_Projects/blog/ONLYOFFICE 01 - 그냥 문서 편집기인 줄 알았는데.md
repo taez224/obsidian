@@ -185,9 +185,9 @@ OnlyOffice Docs 자체는 **문서를 저장하지 않는다.**
 ```mermaid
 flowchart LR
     classDef server fill:#1f77b4,stroke:#0b3d62,stroke-width:1px,color:white;
-    classDef storage fill:#2ca02c,stroke:#145214,stroke-width:1px,color:white;
-    classDef client fill:#ff7f0e,stroke:#b35500,stroke-width:1px,color:white;
-    classDef onlyoffice fill:#9467bd,stroke:#56357c,stroke-width:1px,color:white;
+    classDef storage fill:#258625,stroke:#145214,stroke-width:1px,color:white;
+    classDef client fill:#bb5800,stroke:#733800,stroke-width:1px,color:white;
+    classDef onlyoffice fill:#8f60ba,stroke:#56357c,stroke-width:1px,color:white;
 
     subgraph C1[Client]
         A1[웹/모바일 클라이언트<br/>React · Vue]
