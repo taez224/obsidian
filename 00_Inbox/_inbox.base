@@ -48,11 +48,11 @@ views:
       - formula.days_in_inbox
       - formula.next_action_display
       - formula.created_date
-    summaries:
-      formula.days_in_inbox: Average
     sort:
       - property: formula.days_in_inbox
         direction: DESC
+    summaries:
+      formula.days_in_inbox: Average
   - type: table
     name: 📥 전체 Inbox
     order:
@@ -62,11 +62,11 @@ views:
       - formula.next_action_display
       - formula.created_date
       - formula.updated
-    summaries:
-      formula.days_in_inbox: Average
     sort:
       - property: formula.days_in_inbox
         direction: DESC
+    summaries:
+      formula.days_in_inbox: Average
   - type: cards
     name: 🃏 분류 도우미 (한 장씩 처리)
     order:
@@ -74,7 +74,7 @@ views:
       - formula.age_label
       - formula.days_in_inbox
       - formula.next_action_display
-    limit: 5
     sort:
       - property: formula.days_in_inbox
         direction: DESC
+    limit: 5
