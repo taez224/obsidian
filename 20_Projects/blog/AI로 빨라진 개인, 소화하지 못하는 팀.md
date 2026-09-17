@@ -12,7 +12,7 @@ status: published
 author: TaeZ
 publication: Nextree 기술 블로그
 source: https://www.nextree.io/airo-bbalrajin-gaein-sohwahaji-moshaneun-tim/
-thumbnail: "[[ai-team-absorption.png]]"
+thumbnail: "[[ai-fast-team-slow-thumbnail.png]]"
 thumbnail_style: soft
 summary: AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야 합니다.
 related:

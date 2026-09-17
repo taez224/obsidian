@@ -11,7 +11,7 @@ next_action: 5편 진행 여부 결정
 tags:
   - 프로젝트/blog
   - 프로젝트/onlyoffice-demo
-thumbnail: "[[onlyoffice-thumb.png]]"
+thumbnail: "[[onlyoffice-serise-thumbnail.png]]"
 ---
 
 # ONLYOFFICE 연동 바이브코딩 기록
