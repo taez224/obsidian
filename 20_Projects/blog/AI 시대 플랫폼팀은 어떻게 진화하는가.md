@@ -29,7 +29,7 @@ thumbnail: "[[platform-thumbnail.png]]"
 
 이제 개발자는 더 많은 도구와 시스템을 다루지만, 정작 개발 자체에 온전히 집중할 수 있는 시간은 줄어들고 있다. 환경 설정, 문서 관리, 협업 절차가 코드 작성보다 더 많은 시간을 차지한다.
 
-Stripe의 조사에 따르면, 개발자의 주간 업무 중 약 40%가 **비개발 업무**이다. Microsoft의 *‘Time Warp’* 연구는 개발자의 이상적 근무 주간(Workweek)과 실제 근무 주간 간의 격차가 클수록 생산성과 만족도가 모두 하락하는 경향을 보인다고 밝혔다.
+Stripe의 조사에 따르면, 개발자의 주간 업무 중 약 40%가 **비개발 업무**이다.[^stripe-developer-coefficient] Microsoft의 *‘Time Warp’* 연구는 개발자의 이상적 근무 주간(Workweek)과 실제 근무 주간 간의 격차가 클수록 생산성과 만족도가 모두 하락하는 경향을 보인다고 밝혔다.[^microsoft-time-warp]
 
 플랫폼 팀의 첫 번째 미션은 잃어버린 **몰입 시간(Flow Time)**을 되찾는 것이다. ^flow-time-mission
 
@@ -118,7 +118,7 @@ IDP는 개발자가 인프라를 의식하지 않고 본질적 문제 해결에 
 
 ### 사례: Spotify - Backstage
 
-대표 사례는 Spotify의 오픈소스 IDP, Backstage다. “모든 인프라를 하나의 인터페이스로” 를 모토로 하는 Backstage는, 도입 이후 Spotify의 신규 개발자의 온보딩 시간을 60일 이상에서 약 20일로 단축시켰다. 이 플랫폼화된 셀프서비스 환경은 인프라 요청과 반복 작업을 크게 줄였으며, DevOps 중심의 효율화에서 DevEx 중심의 경험 설계 문화로의 전환을 이끌어냈다.
+대표 사례는 Spotify의 오픈소스 IDP, Backstage다. “모든 인프라를 하나의 인터페이스로” 를 모토로 하는 Backstage는, 도입 이후 Spotify의 신규 개발자의 온보딩 시간을 60일 이상에서 약 20일로 단축시켰다.[^spotify-backstage-onboarding] 이 플랫폼화된 셀프서비스 환경은 인프라 요청과 반복 작업을 크게 줄였으며, DevOps 중심의 효율화에서 DevEx 중심의 경험 설계 문화로의 전환을 이끌어냈다.
 
 ### Golden Path와 Paved Road: 표준화된 자율성의 철학
 
@@ -139,7 +139,7 @@ Golden Path와 Paved Road는 각각 Spotify와 Netflix의 플랫폼 팀을 통�
 
 플랫폼 팀의 핵심 과제 중 하나는 “생산성을 어떻게 정의하고 향상시킬 것인가”이다. 하지만 대부분의 조직은 여전히 생산성을 코드 라인 수, 배포 횟수, 처리된 티켓 수 같은 정량 지표에 의존한다. 문제는 이런 지표들만으로는 “개발자의 역량이 왜 충분히 발휘되지 못하는가”라는 질문에 답을 제시하지 못한다는 점이다.
 
-Google의 연구, _「What Predicts Software Developers’ Productivity?」_ 는 600명 이상의 개발자를 대상으로 생산성과 관련된 요인을 분석한 결과, 기술적 요소보다 심리적·조직적 요인이 훨씬 높은 상관관계를 보인다고 밝혔다.
+Google의 연구, _「What Predicts Software Developers’ Productivity?」_ 는 600명 이상의 개발자를 대상으로 생산성과 관련된 요인을 분석한 결과, 기술적 요소보다 심리적·조직적 요인이 훨씬 높은 상관관계를 보인다고 밝혔다.[^google-productivity]
 
 특히 생산성과 가장 강한 상관관계를 보인 세 가지 요인은 다음과 같다.
 
@@ -389,3 +389,8 @@ AI가 개발자의 역량을 증폭시킨다면, 플랫폼 팀은 조직의 지�
 - **Google Research**, [**What Predicts Software Developers' Productivity?**](https://storage.googleapis.com/gweb-research2023-media/pubtools/4894.pdf) (2019)
 - **CloudBees**, [**Platform Engineering is a Key Driver of Developer Productivity and Experience**](https://www.cloudbees.com/newsroom/survey-platform-engineering-key-driver-developer-productivity) (2023)
 - **Stripe & Harris Poll**, [**The Developer Coefficient**](https://stripe.com/files/reports/the-developer-coefficient.pdf) (2018)
+
+[^stripe-developer-coefficient]: [The Developer Coefficient](https://stripe.com/files/reports/the-developer-coefficient.pdf)
+[^microsoft-time-warp]: [Time Warp: The Gap Between Developers’ Ideal and Actual Workweeks in an AI-Driven Era](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/11/Time-Warp-Developer-Productivity-Study.pdf)
+[^spotify-backstage-onboarding]: [How Backstage Made Our Developers More Effective](https://engineering.atspotify.com/2021/9/how-backstage-made-our-developers-more-effective-and-how-it-can-help-yours-too)
+[^google-productivity]: [What Predicts Software Developers’ Productivity?](https://storage.googleapis.com/gweb-research2023-media/pubtools/4894.pdf)
