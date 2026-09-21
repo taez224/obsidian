@@ -24,21 +24,33 @@ LOG="$GIT_DIR/qmd-index.log"
 # qmd 경로 해석 — 훅은 로그인 셸 PATH 없이 실행될 수 있다
 # (Obsidian Git 플러그인, GUI git 클라이언트 등은 nvm PATH를 모른다)
 #
-# qmd는 `#!/usr/bin/env node` 스크립트라서 절대 경로를 찾는 것만으로는 부족하다.
-# 폴백으로 찾았으면 그 bin 디렉터리를 PATH에 얹어 node도 같이 해석되게 한다.
-QMD=$(command -v qmd 2>/dev/null) || QMD=""
-if [ -z "$QMD" ]; then
-	for candidate in "$HOME"/.nvm/versions/node/*/bin/qmd \
-		/usr/local/bin/qmd \
-		/opt/homebrew/bin/qmd; do
-		if [ -x "$candidate" ]; then
-			QMD="$candidate"
-			PATH="$(dirname "$candidate"):$PATH"
-			export PATH
-			break
-		fi
-	done
-fi
+# qmd는 `#!/usr/bin/env node` 스크립트라서 경로를 찾는 것만으로는 부족하다.
+# PATH 앞쪽의 다른 node로 실행되면 네이티브 모듈(better-sqlite3) 버전이
+# 어긋나 죽는다. 그래서 후보마다 자기 bin 디렉터리를 PATH 앞에 얹고
+# `--version`이 실제로 도는지 확인한 뒤, 처음 성공한 것을 쓴다.
+#
+# 순서는 nvm 최신 버전 → PATH의 qmd → /usr/local → /opt/homebrew다.
+# nvm을 PATH보다 앞에 두는 이유: Node를 올린 뒤 옛 버전 bin이 PATH에 남아
+# 있으면 옛 qmd가 새 인덱스를 건드린다. 글롭의 알파벳순은 v22가 v26보다
+# 앞서므로 sort -V -r로 내림차순을 만든다.
+QMD=""
+nvm_candidates=$(for p in "$HOME"/.nvm/versions/node/*/bin/qmd; do
+	[ -e "$p" ] && printf '%s\n' "$p"
+done | sort -V -r)
+path_candidate=$(command -v qmd 2>/dev/null) || path_candidate=""
+for candidate in $nvm_candidates \
+	$path_candidate \
+	/usr/local/bin/qmd \
+	/opt/homebrew/bin/qmd; do
+	[ -x "$candidate" ] || continue
+	candidate_bin=$(dirname "$candidate")
+	if PATH="$candidate_bin:$PATH" "$candidate" --version >/dev/null 2>&1; then
+		QMD="$candidate"
+		PATH="$candidate_bin:$PATH"
+		export PATH
+		break
+	fi
+done
 # qmd가 없으면 조용히 통과한다 — 색인은 커밋을 막을 이유가 되지 않는다
 [ -n "$QMD" ] || exit 0
 
