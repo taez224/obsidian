@@ -8,8 +8,6 @@ author:
 published: 2026-04-08
 created: 2026-08-05
 description: MIT Media Lab 연구진이 AI 글쓰기 도구가 문장을 직접 고쳐주는 대신 논증 구조를 분석하고 소크라테스식으로 되묻는 시스템을 만들어 기술 검증과 소규모 사용자 파일럿을 수행한 논문이다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

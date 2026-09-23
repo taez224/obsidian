@@ -4,7 +4,6 @@ created: 2023-04-08
 slug: jotai-tutorial-07-atoms-in-atom
 published: 2023-04-08
 tags:
-  - blog
   - 개발/프론트엔드
 status: published
 author: TaeZ

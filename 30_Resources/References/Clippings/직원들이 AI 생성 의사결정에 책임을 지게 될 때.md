@@ -8,8 +8,6 @@ author:
 published: 2026-07-22
 created: 2026-08-05
 description: 직원이 직접 만들거나 완전히 이해하지 못한 AI 의사결정을 고객·관리자에게 설명하고 책임져야 할 때 나타나는 조직 내 대응을 은행·채용·바이오테크 사례로 분석한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

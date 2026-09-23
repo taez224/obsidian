@@ -7,8 +7,6 @@ author:
 published: 1991
 created: 2026-08-11
 description: 앞서 학습한 수학 문제의 해법을 유사한 새 문제에 옮길 때 나타나는 인지 과정을 실험한 연구. 원 문제와 새 문제의 대응 관계를 찾는 일과 해법을 새 조건에 맞게 조정하는 일을 구분한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

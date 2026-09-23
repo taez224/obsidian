@@ -4,7 +4,6 @@ created: 2025-07-02
 slug: gpt-analyze-me
 published: 2025-07-02
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

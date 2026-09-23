@@ -7,8 +7,6 @@ published: 2026-06-18
 created: 2026-07-13
 description: 서로 다른 모델과 구성 요소를 조합한 에이전트 팀이 동질적인 구성보다 오류와 공급자 집중 위험을 줄이고 성과를 높일 수 있다는 글.
 thumbnail: https://hbr.org/resources/images/article_assets/2026/06/Jun26_18_5723171.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

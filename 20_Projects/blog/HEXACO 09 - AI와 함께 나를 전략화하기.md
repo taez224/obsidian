@@ -4,7 +4,6 @@ created: 2025-07-12
 slug: why-i-act-09-strategize-with-ai
 published: 2025-07-15
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

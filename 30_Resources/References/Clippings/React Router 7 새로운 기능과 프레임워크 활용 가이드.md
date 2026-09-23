@@ -6,8 +6,6 @@ author:
 published: 2024-11-28
 created: 2024-12-31
 description: React Router 7의 새로운 기능과 프레임워크 기능을 활용해 React 애플리케이션의 라우팅을 구성하는 방법을 다룬다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

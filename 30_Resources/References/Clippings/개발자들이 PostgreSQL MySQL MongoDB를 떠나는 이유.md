@@ -6,8 +6,6 @@ author:
 published: 2024-10-01
 created: 2024-12-31
 description: 전통적인 관계형·문서 데이터베이스 대신 시계열과 벡터 검색 등 새로운 요구에 대응하는 데이터베이스 대안 여섯 가지를 소개한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

@@ -4,7 +4,6 @@ created: 2025-06-04
 slug: slii-situational-leadership
 published: 2025-06-08
 tags:
-  - blog
   - 커리어/성장
 status: published
 author: TaeZ

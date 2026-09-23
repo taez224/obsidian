@@ -1,7 +1,5 @@
 ---
 created: 2026-07-11 12:02
-tags:
-  - 📚독서
 title: 세컨드 브레인은 옵시디언 with 클로드 코드：입문자를 위한 기초 사용법부터 마크다운, 플러그인, PARA, 제텔카스텐, MCP, 옵시디언 CLI, 스킬, AI 활용까지!
 author: 시안
 publisher: 골든래빗

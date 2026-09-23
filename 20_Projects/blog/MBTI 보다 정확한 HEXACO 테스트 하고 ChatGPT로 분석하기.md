@@ -4,7 +4,6 @@ created: 2024-10-13
 slug: hexaco-test-with-chatgpt
 published: 2024-10-13
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

@@ -6,8 +6,6 @@ author:
 published: 2026-07-28
 created: 2026-08-05
 description: HBR의 The Insider 뉴스레터가 초기 경력 직원들의 AI 활용 연구와 관련 연구를 소개한다. 직원의 기존 역량보다 AI와 실제로 협업하는 방식이 성과를 더 잘 설명하며, 리더는 AI 사용법이 아니라 AI와 함께 일하는 과정을 훈련해야 한다고 제안한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

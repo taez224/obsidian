@@ -6,8 +6,6 @@ author:
 published: 2001-02-01
 created: 2026-08-11
 description: 인간이 자신의 행동과 환경에 영향을 미치는 행위자로 작동하는 방식을 사회인지 이론에서 정리한 리뷰 논문. 의도, 예견, 자기조절, 자기성찰을 행위성의 핵심 특성으로 제시한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

@@ -7,7 +7,6 @@ published: 2026-05-13
 created: 2026-07-15
 description: AI에게 노트 작성을 비판 없이 맡기는 '바이브 노팅'과, 그것이 PKM의 본유적 부하(링크·요약)를 대신 소비해 학습을 무너뜨린다는 문제의식을 담은 디지털 가든 글 2편.
 tags:
-  - 📰article
   - AI
   - 지식관리
 status: read

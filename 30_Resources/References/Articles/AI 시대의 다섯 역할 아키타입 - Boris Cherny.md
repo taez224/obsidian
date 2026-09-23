@@ -7,7 +7,6 @@ published: 2026-06-28
 created: 2026-07-20
 description: 직무 기능보다 일하는 방식에 따라 Prototyper, Builder, Sweeper, Grower, Maintainer를 구분하고, 제품 단계에 따라 필요한 조합이 달라진다고 보는 관찰.
 tags:
-  - 📰article
   - 커리어/성장
   - 개발/플랫폼
 status: read

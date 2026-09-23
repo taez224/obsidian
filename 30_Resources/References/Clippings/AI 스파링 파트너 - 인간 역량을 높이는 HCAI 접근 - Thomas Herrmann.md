@@ -6,8 +6,6 @@ author:
 published: 2026-06-14
 created: 2026-07-27
 description: AI를 '스파링 파트너'로 보는 관점을 체계적 문헌 분석으로 정리하고 정의를 제안하는 HCI 논문. Springer 『Artificial Intelligence in HCI』(pp. 162–176) 수록본의 arXiv 프리프린트다.
-tags:
-  - clippings
 status: unread
 my_take: AI를 거울보다 스파링 파트너로 보는 쪽이 내 사용 방식에 가깝다 — 의도와 방향성이 이미 정해져 있으면 지시(위임)고, 그 방향성 자체를 정제하는 게 목적일 때가 스파링이다
 ---

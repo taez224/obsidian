@@ -7,8 +7,6 @@ published: 2026-07-10
 thumbnail: https://i.ytimg.com/vi/OgCYk2qzw7E/hqdefault.jpg
 created: 2026-08-07
 description: AI가 창작을 대신하는 시대에도 결국 사람의 창의성이 필요한 이유를 다룬 SK의 대담 영상. 창의성을 갑자기 떠오르는 영감이 아니라 훈련으로 길러지는 근육에 가깝게 본다.
-tags:
-  - 📰article
 status: read
 my_take: 다 보고 나니 공감도 가고 재밌었다. 특히 창의성 관련 부분.
 ---

@@ -10,8 +10,6 @@ published: 2026-05-13
 thumbnail:
 created: 2026-06-08
 description: 여러 팀을 관찰한 실험을 근거로, AI를 도입한다고 팀워크가 자동으로 좋아지지 않으며 오히려 몰입도가 떨어질 수 있음을 보이고 회의에 AI를 통합하는 세 가지 관행을 제안한다.
-tags:
-  - 📰article
 status: unread
 my_take: ""
 ---

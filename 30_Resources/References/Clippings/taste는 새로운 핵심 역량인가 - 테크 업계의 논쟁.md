@@ -7,8 +7,6 @@ published: 2026-02-20
 created: 2026-08-07
 description: AI가 생산을 대신하는 시대에 `taste`가 핵심 역량이 되는지를 두고 2026년 2월 X에서 벌어진 논쟁을 정리한 기사. Paul Graham과 Greg Brockman 등 지지 진영과, taste도 AI가 학습할 수 있다는 반대 진영의 발언을 나란히 싣는다.
 thumbnail: https://s.yimg.com/lo/mysterio/api/a5dbda36fd42290092a532b0504b90ff08e6b71141a29e0e0d470b4148408fd3/lightyear_networkapi/resizefill_w1200%3Bquality_80%3Bformat_jpg/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fbusiness_insider_consolidated_articles_886%2F4539d5d733f3a6276ee4c66241379614
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

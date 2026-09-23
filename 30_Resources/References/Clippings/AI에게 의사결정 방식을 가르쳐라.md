@@ -9,8 +9,6 @@ published: 2026-06-25
 created: 2026-07-13
 description: 조직에 축적된 암묵적 판단을 AI가 실행할 수 있는 지침과 운영 체계로 바꾸고, 전문가가 이를 계속 다듬는 방법을 다룬다.
 thumbnail: https://hbr.org/resources/images/article_assets/2026/06/Jun26_24_MattHarrisonClough.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

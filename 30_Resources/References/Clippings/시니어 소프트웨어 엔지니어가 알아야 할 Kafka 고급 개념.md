@@ -6,8 +6,6 @@ author:
 published: 2024-08-25
 created: 2024-12-21
 description: 실시간 데이터 파이프라인과 스트리밍 애플리케이션을 위한 Apache Kafka의 고급 개념을 시니어 엔지니어 관점에서 설명한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

@@ -4,7 +4,6 @@ created: 2025-06-29
 slug: why-i-act-06-agreeableness
 published: 2025-07-03
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

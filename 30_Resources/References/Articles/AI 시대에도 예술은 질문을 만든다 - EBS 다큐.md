@@ -7,8 +7,6 @@ published: 2026-08-04
 thumbnail: https://i.ytimg.com/vi/E0QNplrYX1A/hqdefault.jpg
 created: 2026-08-08
 description: AI와 디지털 기술이 예술의 재료가 된 시대에, 예술교육이 기술 활용과 비판적 사유를 함께 가르쳐야 한다는 관점을 다루는 다큐멘터리.
-tags:
-  - 📰article
 status: read
 my_take: 예술이 주제이긴 하지만 결국 비판적 사유와 사고의 질을 다룬다는 점이 지금 내 관심사와 맞닿아 있다.
 ---

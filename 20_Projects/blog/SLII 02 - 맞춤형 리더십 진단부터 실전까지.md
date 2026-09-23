@@ -4,7 +4,6 @@ created: 2025-06-13
 slug: slii-in-practice
 published: 2025-06-13
 tags:
-  - blog
   - 커리어/성장
 status: published
 author: TaeZ

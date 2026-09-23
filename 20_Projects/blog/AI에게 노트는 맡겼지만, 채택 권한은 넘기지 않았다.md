@@ -2,7 +2,6 @@
 title: "AI에게 노트는 맡겼지만, 채택 권한은 넘기지 않았다"
 created: 2026-07-11
 tags:
-  - blog
   - AI/에이전트
   - 지식관리
 status: draft

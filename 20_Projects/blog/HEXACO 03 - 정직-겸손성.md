@@ -4,7 +4,6 @@ created: 2025-06-18
 slug: why-i-act-03-honesty-humility
 published: 2025-06-23
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

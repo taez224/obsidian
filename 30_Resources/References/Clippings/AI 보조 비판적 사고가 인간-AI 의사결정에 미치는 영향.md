@@ -8,8 +8,6 @@ author:
 published: 2026-02-10
 created: 2026-08-05
 description: Purdue University 연구진이 AI의 출력이 아니라 사람 자신의 판단 근거를 반사실적으로 분석해 되돌려주는 AACT 프레임워크를 제안하고, 주택 가격 예측 과제의 통제 실험으로 과의존 감소와 인지 부하 증가를 함께 관찰한 논문이다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

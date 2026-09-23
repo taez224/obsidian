@@ -4,7 +4,6 @@ created: 2026-07-22
 slug: developers-roll-dice
 published: 2025-06-27
 tags:
-  - blog
   - AI
   - 개발
 status: published

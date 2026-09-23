@@ -7,8 +7,6 @@ published: 2026-05-15
 thumbnail:
 created: 2026-06-08
 description: 생성형 AI를 서술형 평가서를 매끄럽게 다듬는 데 쓰면 기존 평가의 결함이 오히려 커진다고 보고, 역량 라벨 대신 행동 증거를 찾는 쪽으로 AI의 역할을 재설정하자고 제안한다.
-tags:
-  - 📰article
 status: unread
 my_take: ""
 ---

@@ -7,8 +7,6 @@ published: 2026-06-26
 created: 2026-07-24
 description: Andrew Ng가 AI 에이전트와 함께 0→1 제품을 만들 때의 세 가지 제품 개발 루프를 설명한 편지.
 thumbnail: https://charonhub.deeplearning.ai/content/images/2026/06/3KeyDevelopmentLoops_v4a-1.jpg
-tags:
-  - clippings
 status: read
 my_take: "‘taste’보다 맥락상의 우위라는 표현이 AI 시대 개발자의 판단력을 더 정확히 설명한다."
 ---

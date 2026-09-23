@@ -1,7 +1,6 @@
 ---
 created: 2025-12-02 08:41
 tags:
-  - 📚독서
   - AI
 title: 요즘 당근 AI 개발
 author: 당근 팀

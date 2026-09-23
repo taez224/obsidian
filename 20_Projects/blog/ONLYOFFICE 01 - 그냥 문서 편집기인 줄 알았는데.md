@@ -6,7 +6,6 @@ created: 2025-11-24
 slug: onlyoffice-01-first-look
 tags:
   - 프로젝트/onlyoffice-demo
-  - blog
   - 개발/인프라
 status: published
 author: TaeZ

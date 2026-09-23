@@ -7,7 +7,6 @@ published: 2026-07-06
 created: 2026-07-13
 description: 강한 AI 에이전트의 잠재력을 끌어내고, 계획에 없는 미지의 영역을 발견하며, 결과를 이해할 수 있는 상태를 유지하는 방법을 다룬 발표
 tags:
-  - 📰article
   - AI/에이전트
   - 개발/도구
 status: read

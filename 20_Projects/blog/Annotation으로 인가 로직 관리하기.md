@@ -4,7 +4,6 @@ created: 2023-04-13
 slug: custom-annotation-authorization
 published: 2023-04-13
 tags:
-  - blog
   - 개발/Java
 status: published
 author: TaeZ

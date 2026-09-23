@@ -6,8 +6,6 @@ published: 2026-05-05
 created: 2026-08-07
 description: 에이전트가 실행을 맡을수록 사람의 주도권이 오히려 커진다고 주장하는 Microsoft의 2026년 연례 업무 트렌드 조사. 10개국 지식노동자 2만 명 설문과 Microsoft 365 텔레메트리를 근거로 개인 역량보다 조직의 준비도가 더 큰 변수라고 본다.
 thumbnail: https://assets-c4akfrf5b4d3f4b7.z01.azurefd.net/assets/2026/05/2026_WorkTrendIndex_Hero_-1920x1080_69f91cd0ef419.png
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

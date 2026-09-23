@@ -8,7 +8,6 @@ thumbnail: https://charonhub.deeplearning.ai/content/images/2026/06/3KeyDevelopm
 created: 2026-07-24
 description: Andrew Ng가 AI 에이전트를 활용한 0→1 제품 개발의 반복 루프와 인간의 맥락상 우위를 설명한 편지.
 tags:
-  - 📰article
   - AI
   - 개발
 status: read

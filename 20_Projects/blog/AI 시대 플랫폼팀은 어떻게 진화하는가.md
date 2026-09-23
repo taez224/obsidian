@@ -4,7 +4,6 @@ created: 2026-01-15
 slug: platform-team-evolution
 published: 2025-11-06
 tags:
-  - blog
   - AI
   - 개발/플랫폼
 status: published

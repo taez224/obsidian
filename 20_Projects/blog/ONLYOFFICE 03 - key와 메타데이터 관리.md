@@ -5,7 +5,6 @@ slug: onlyoffice-03-key-and-metadata
 published: 2026-01-14
 tags:
   - 프로젝트/onlyoffice-demo
-  - blog
   - 개발/인프라
 status: published
 author: TaeZ

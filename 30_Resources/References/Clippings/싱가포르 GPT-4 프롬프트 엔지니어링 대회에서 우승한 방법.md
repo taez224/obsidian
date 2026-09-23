@@ -6,8 +6,6 @@ author:
 published: 2023-12-29
 created: 2025-01-19
 description: 싱가포르 GPT-4 프롬프트 엔지니어링 대회에서 우승하며 익힌 대규모 언어 모델 활용 전략을 설명한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

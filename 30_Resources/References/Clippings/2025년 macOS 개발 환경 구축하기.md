@@ -6,8 +6,6 @@ author:
 published: 2025-01-14
 created: 2025-03-05
 description: Linux 개발 환경에 익숙한 저자가 macOS에서 2025년형 개발 환경을 구성한 과정을 소개한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

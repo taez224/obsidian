@@ -6,8 +6,6 @@ author:
 created: 2026-07-21
 description: Netflix의 CPTO Elizabeth Stone이 AI로 역할 경계가 유동해지는 상황에서 전문성·책임·시스템 사고가 왜 필요한지 이야기하는 인터뷰.
 thumbnail: https://i.ytimg.com/vi/t0GiTyz4syY/maxresdefault.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

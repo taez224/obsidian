@@ -7,8 +7,6 @@ published: 2023-11-28
 thumbnail: https://miro.medium.com/v2/resize:fit:1400/1*lEmL62oZdrOOWIzAAFKiFg.jpeg
 created: 2024-12-31
 description: 흔한 프롬프트 요령과는 다른 ChatGPT 고급 활용법 세 가지를 소개하는 글.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

@@ -8,7 +8,6 @@ thumbnail: https://www.seangoedecke.com/og-image.jpg
 created: 2026-07-14
 description: "일상 업무의 일부를 비워 고영향 기회와 회복에 쓸 여지를 남기고, 조직이 공식적으로 우선순위화하지 않은 glue work를 무심코 떠맡지 말아야 한다고 주장하는 개발자 관점의 글."
 tags:
-  - 📰article
   - 개발
   - 커리어/성장
 status: read

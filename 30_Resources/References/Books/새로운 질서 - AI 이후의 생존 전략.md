@@ -1,7 +1,6 @@
 ---
 created: 2025-08-27 15:53
 tags:
-  - 📚독서
   - AI
 title: 새로운 질서：AI 이후의 생존 전략
 author:

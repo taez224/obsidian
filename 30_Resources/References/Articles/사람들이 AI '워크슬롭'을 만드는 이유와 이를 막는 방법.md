@@ -6,8 +6,6 @@ published: ""
 thumbnail:
 created: 2026-06-08
 description:
-tags:
-  - 📰article
 status: unread
 ---
 제시해주신 하버드 비즈니스 리뷰(HBR)의 아티클 ["Why People Create AI 'Workslop' — and How to Stop It (사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법)"](https://mediapool.hm.edu/media/fk10/fk10_lokal/relaunch_3/masterstudiengaenge_1/hrm/eignungspruefung/why-people-create-ai-workslop-and-how-to-stop-it-EBSCO-FullText-01_30_2026.pdf)의 전문 번역입니다.

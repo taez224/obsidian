@@ -9,8 +9,6 @@ author:
 published: ""
 created: 2026-07-15
 description: 설명문을 읽는 동안 학습자가 스스로 설명하도록 유도했을 때 이해가 어떻게 달라지는지 검토한 교육 연구.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

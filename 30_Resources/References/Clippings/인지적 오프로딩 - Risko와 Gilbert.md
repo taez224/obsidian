@@ -7,8 +7,6 @@ author:
 published: ""
 created: 2026-07-15
 description: 외부 도구나 물리적 행동으로 과제의 정보 처리 요구를 바꾸어 인지 부담을 줄이는 인지적 오프로딩을 검토한 문헌 연구.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

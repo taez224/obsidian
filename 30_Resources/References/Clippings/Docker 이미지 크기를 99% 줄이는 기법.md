@@ -6,8 +6,6 @@ author:
 published: 2024-09-18
 created: 2025-02-17
 description: Docker 이미지 크기를 크게 줄여 더 빠르고 가벼운 컨테이너를 만드는 최적화 기법을 소개한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

@@ -7,8 +7,6 @@ author:
 published: 2007-07-21
 created: 2026-08-05
 description: 인지 튜터 실험을 검토해 학습 환경이 정보와 도움을 언제 제공하고 언제 보류해야 하는지를 다룬 논문이다. 학습 참여를 무조건 늘리거나 줄이는 대신, 학습자의 수행에 맞춰 지원의 양과 시점을 조정하는 문제를 지원의 딜레마로 제시한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

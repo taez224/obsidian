@@ -6,8 +6,6 @@ author:
 published: "1977-09"
 created: 2026-08-13
 description: 조직이 현재 정책과 목표를 유지한 채 오류를 고치는 single-loop learning과, 정책·목표·가정 자체를 질문하는 double-loop learning을 구분해 설명하는 글.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

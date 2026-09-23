@@ -4,7 +4,6 @@ created: 2025-06-14
 slug: why-i-act-01-prologue
 published: 2025-06-16
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

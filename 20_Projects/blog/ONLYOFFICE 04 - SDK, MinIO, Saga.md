@@ -4,7 +4,6 @@ created: 2026-01-22
 slug: onlyoffice-04-sdk-minio-saga
 tags:
   - 프로젝트/onlyoffice-demo
-  - blog
   - 개발/인프라
 status: published
 author: TaeZ

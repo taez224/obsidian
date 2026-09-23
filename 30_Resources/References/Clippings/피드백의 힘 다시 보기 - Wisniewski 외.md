@@ -8,8 +8,6 @@ author:
 published: 2020-01-22
 created: 2026-08-05
 description: 교육 피드백 연구 435편을 종합해 피드백의 효과가 무엇에 따라 달라지는지 검토한 메타분석. 피드백이 담은 정보의 양과 종류, 피드백의 방향에 따른 차이를 중심으로 본다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

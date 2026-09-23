@@ -4,7 +4,6 @@ created: 2025-06-24
 slug: why-i-act-04-emotionality
 published: 2025-06-26
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

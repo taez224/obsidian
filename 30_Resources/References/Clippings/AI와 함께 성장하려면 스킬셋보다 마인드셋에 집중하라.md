@@ -7,8 +7,6 @@ published: 2026-06-12
 created: 2026-07-13
 description: 기존 직무 기술의 일부를 지키는 데 머무르지 않고, AI와 함께 일할 역할과 습관을 새롭게 설계해야 한다는 글.
 thumbnail: https://hbr.org/resources/images/article_assets/2026/06/Jun26_12_1372360857.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

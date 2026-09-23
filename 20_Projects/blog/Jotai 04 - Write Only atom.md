@@ -4,7 +4,6 @@ created: 2023-03-07
 slug: jotai-tutorial-04-write-only-atom
 published: 2023-03-07
 tags:
-  - blog
   - 개발/프론트엔드
 status: published
 author: TaeZ

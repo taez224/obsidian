@@ -10,8 +10,6 @@ author:
 published: 2018-03-29
 created: 2026-08-05
 description: 학습 중 자기 설명을 유도하는 프롬프트가 학습 결과에 미치는 영향을 64편의 연구로 종합한 메타분석. 프롬프트의 유형과 비교 처치에 따라 효과가 어떻게 갈리는지 검토한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

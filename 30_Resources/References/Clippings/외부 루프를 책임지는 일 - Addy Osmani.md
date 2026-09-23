@@ -7,8 +7,6 @@ published: 2026-07-15
 created: 2026-08-13
 description: 에이전트가 실행의 내부 루프를 맡을 때, 엔지니어는 증거를 바탕으로 경계에서 판정하고 책임지는 외부 루프를 맡아야 한다고 제안하는 AI Engineer World's Fair 2026 기조연설 원고.
 thumbnail: https://addyosmani.com/assets/images/outer-loop.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

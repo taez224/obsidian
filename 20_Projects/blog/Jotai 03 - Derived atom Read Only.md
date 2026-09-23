@@ -4,7 +4,6 @@ created: 2023-03-05
 slug: jotai-tutorial-03-derived-atom
 published: 2023-03-05
 tags:
-  - blog
   - 개발/프론트엔드
 status: published
 author: TaeZ

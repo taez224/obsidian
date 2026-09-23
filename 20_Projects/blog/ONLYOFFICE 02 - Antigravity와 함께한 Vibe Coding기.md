@@ -5,7 +5,6 @@ slug: onlyoffice-02-implementation
 published: 2025-11-28
 tags:
   - 프로젝트/onlyoffice-demo
-  - blog
   - 개발/인프라
 status: published
 author: TaeZ

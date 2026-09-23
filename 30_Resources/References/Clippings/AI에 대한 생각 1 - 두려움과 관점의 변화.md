@@ -7,8 +7,6 @@ published: 2026-05-07
 created: 2026-07-13
 description: Mark Erikson이 AI의 영향과 활용에 대해 느낀 두려움과 개인적 견해가 실제 사용 경험을 거치며 어떻게 달라졌는지 기록한 글.
 thumbnail: https://blog.isquaredsoftware.com/images/logo.png
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

@@ -4,7 +4,6 @@ created: 2023-03-20
 slug: websocket-spring-security-jwt
 published: 2023-03-20
 tags:
-  - blog
   - 개발/Java
 status: published
 author: TaeZ

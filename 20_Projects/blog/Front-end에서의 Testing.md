@@ -4,7 +4,6 @@ created: 2023-02-02
 slug: frontend-testing
 published: 2023-02-02
 tags:
-  - blog
   - 개발/프론트엔드
 status: published
 author: TaeZ

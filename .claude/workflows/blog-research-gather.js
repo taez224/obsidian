@@ -173,7 +173,7 @@ const relatedSeed = SEED ? '[[' + SEED.split('/').pop().replace(/\.md$/, '') + '
 log('[Write] 리서치 노트 생성 → ' + notePath)
 await agent(
   ['너는 파일 작성자다. 아래 리서치 결과를 *자기 언어로*(Feynman, 인용 덤프 금지) 정리해 ' + notePath + ' 에 다중 출처 참고노트로 생성하라. 이 노트는 사용자의 영구 주장이 아니다.', '',
-    'frontmatter 필드: title("' + slug + ' — 리서치") / source: ""(다중 출처는 본문 ## 출처에 기록) / author: [] / published: "" / created(오늘 YYYY-MM-DD) / description(<핵심 주장 한 줄>) / tags: [📰article, <주제 태그>] / status: unread / my_take: ""' + (relatedSeed ? (' / related: ["' + relatedSeed + '"]') : ''), '',
+    'frontmatter 필드: title("' + slug + ' — 리서치") / source: ""(다중 출처는 본문 ## 출처에 기록) / author: [] / published: "" / created(오늘 YYYY-MM-DD) / description(<핵심 주장 한 줄>) / tags: [<주제 태그>] / status: unread / my_take: ""' + (relatedSeed ? (' / related: ["' + relatedSeed + '"]') : ''), '',
     '본문 섹션(필수): ## AI 종합  /  ## 핵심 주장과 근거  /  ## 반례·긴장(의무)  /  ## 재사용 데이터·인용  /  ## 미검증·접근 불가  /  ## 출처', '',
     'evidence·data·counterExamples에서 verificationStatus="unresolved"인 항목은 확정 사실처럼 본문 근거에 섞지 말고 ## 미검증·접근 불가에 둔다. reasoned_boundary는 외부 사실이 아니라 논리적 경계조건이라고 표시한다. 발행일·데이터 기간·범위와 한계를 지우지 않는다.', '',
     '핵심 주장: ' + profile.claim, '', '### 브리프', brief, '', '### 출처', uniqSources.join('\n')].join('\n'),

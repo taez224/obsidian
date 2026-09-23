@@ -4,7 +4,6 @@ created: 2025-06-14
 slug: why-i-act-02-personality-model
 published: 2025-06-19
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

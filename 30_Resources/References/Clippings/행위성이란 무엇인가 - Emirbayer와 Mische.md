@@ -7,8 +7,6 @@ author:
 published: 1998
 created: 2026-08-11
 description: 행위성을 과거의 습관, 미래의 가능성, 현재 상황에 대한 평가가 함께 작동하는 시간적 사회 참여 과정으로 재구성한 사회학 논문.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

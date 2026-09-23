@@ -8,8 +8,6 @@ author:
 published: 2026-03-14
 created: 2026-09-06
 description: ETH Zürich 연구진이 대학생 100명을 대상으로 글쓰기 능력·컴퓨터과학 성취도·일반 인지 능력이 코드가 보이지 않는 GUI 중심 바이브 코딩 성과와 어떻게 관련되는지 분석한 사전등록 횡단 연구다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

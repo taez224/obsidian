@@ -4,7 +4,6 @@ created: 2023-03-26
 slug: jotai-tutorial-05-read-write-atom
 published: 2023-03-26
 tags:
-  - blog
   - 개발/프론트엔드
 status: published
 author: TaeZ

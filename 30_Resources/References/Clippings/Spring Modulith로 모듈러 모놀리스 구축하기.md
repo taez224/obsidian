@@ -6,8 +6,6 @@ author:
 published: 2024-09-14
 created: 2025-01-26
 description: Spring Modulith를 사용해 모놀리스의 단순함을 유지하면서 모듈 경계를 갖춘 애플리케이션을 만드는 방법을 소개한다.
-tags:
-  - "clippings"
 status: unread
 my_take: ""
 ---

@@ -7,8 +7,6 @@ published: 2026-03-12
 created: 2026-08-07
 description: 리더들이 지금 노동자에게 요구하는 역량을 taste와 agency 두 가지로 정리한 글. 같은 리더들이 자율적으로 행동하는 agentic AI에 투자하고 있다는 모순을 짚고, 두 역량이 서로를 필요로 하는 이유와 각각을 기르는 방법을 제시한다.
 thumbnail: https://media.licdn.com/dms/image/v2/D4E12AQGldGwWpkIqvg/article-cover_image-shrink_720_1280/B4EZzd0312G8AI-/0/1773248151429?e=2147483647&v=beta&t=MF4PYqHcA_a976_RNXQMR0TXrWc_RQlwFFPwcfQK9Aw
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

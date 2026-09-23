@@ -4,7 +4,6 @@ created: 2025-07-07
 slug: why-i-act-08-openness
 published: 2025-07-09
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

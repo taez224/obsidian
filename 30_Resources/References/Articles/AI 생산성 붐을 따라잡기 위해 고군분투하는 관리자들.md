@@ -8,8 +8,6 @@ published: 2026-05-25
 thumbnail:
 created: 2026-06-08
 description: AI로 실행 속도가 빨라지면서 기존 관리 체계가 따라가지 못하는 문제를 다루고, 관리자가 방향 설정과 검토 시점을 다시 잡는 다섯 가지 방법을 제안한다.
-tags:
-  - 📰article
 status: unread
 my_take: ""
 ---

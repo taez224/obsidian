@@ -7,8 +7,6 @@ author:
 published: 2008-02-15
 created: 2026-07-15
 description: 반복 학습과 반복 인출이 외국어 어휘의 장기 기억에 미치는 효과를 비교한 실험 연구.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

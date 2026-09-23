@@ -7,8 +7,6 @@ published: 2026-06-30
 created: 2026-07-13
 description: AI 도입이 중간 관리자의 업무 부담을 키우고 있다는 연구와 의사결정에 관한 HBR 자료를 소개하는 뉴스레터.
 thumbnail: https://hbr.org/resources/images/article_assets/2025/10/Newsletter_TheInsider_feature.png
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

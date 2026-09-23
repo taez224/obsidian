@@ -4,7 +4,6 @@ created: 2025-06-28
 slug: why-i-act-05-extraversion
 published: 2025-06-30
 tags:
-  - blog
   - 심리/성격검사
 status: published
 author: TaeZ

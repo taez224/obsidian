@@ -8,8 +8,6 @@ author:
 published: 2026-03-13
 created: 2026-08-05
 description: AI가 허용된 Java 프로그래밍 수업과 인간 페어 프로그래밍 수업을 한 학기 관찰해, AI 지원이 인지적 스캐폴딩과 오프로딩 사이에서 어떻게 작동하는지 질적 근거이론으로 분석한 연구다. 도구 숙련과 도메인 숙련의 긴장, 검증 실패 양상, 메타인지적 보정 문제를 제시한다.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

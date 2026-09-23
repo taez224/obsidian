@@ -7,8 +7,6 @@ published: 2026-05-07
 created: 2026-07-13
 description: Mark Erikson이 실제로 사용하는 AI 개발 환경과 에이전트 워크플로, 도구 구성을 소개한 글.
 thumbnail: https://blog.isquaredsoftware.com/images/logo.png
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

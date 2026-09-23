@@ -9,8 +9,6 @@ author:
 published: 2007
 created: 2026-08-11
 description: 사건의 신호인 데이터와 그 신호를 설명하고 추가 정보 탐색을 이끄는 인지적 프레임의 상호작용으로 의미 형성 과정을 설명한 이론.
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---

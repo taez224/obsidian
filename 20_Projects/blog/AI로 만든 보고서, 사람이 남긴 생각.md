@@ -4,7 +4,6 @@ created: 2026-07-22
 slug: ai-report-human-thought
 published: 2025-11-04
 tags:
-  - blog
   - AI
   - 개발/플랫폼
 status: published

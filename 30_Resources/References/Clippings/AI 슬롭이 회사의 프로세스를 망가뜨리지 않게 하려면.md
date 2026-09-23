@@ -8,8 +8,6 @@ published: 2026-06-16
 created: 2026-07-13
 description: 생성형 AI 산출물이 연속된 업무 프로세스의 입력으로 반복 사용될 때 조직 지식의 정확성과 품질이 약화되는 문제와 이를 막기 위한 대응을 다룬다.
 thumbnail: https://hbr.org/resources/images/article_assets/2026/06/Jun26_05_1432707533_2230344964.jpg
-tags:
-  - clippings
 status: unread
 my_take: ""
 ---
