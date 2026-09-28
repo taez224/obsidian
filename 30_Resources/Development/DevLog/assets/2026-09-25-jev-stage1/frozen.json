@@ -1,0 +1,20 @@
+{
+  "frozen": "2026-09-25",
+  "basis": "조정용 24개(있음 4, 없음 20)의 사람 라벨과 Jev v1 결과",
+  "question_version": "v1",
+  "question_changes_used": 0,
+  "jev_threshold": 0.4,
+  "threshold_reason": "조정용에서 있음 4/4를 모두 잡는 가장 높은 문턱. 근거 후보를 놓치는 비용이 문단 하나를 더 읽는 비용보다 크다고 봤다",
+  "pass_criteria": {
+    "present_found": ">= 10 of 12",
+    "absent_flagged": "<= 2 of 12"
+  },
+  "comparison_model": "claude-sonnet-5, 같은 질문 v1, 도구 사용 없음",
+  "final_split_opened": false,
+  "augmentation": {
+    "decided": "2026-09-25",
+    "reason": "최종 평가용 라벨이 있음 8·없음 16으로 있음 12에 못 미침. 최종 평가용 모델 호출 전",
+    "rule": "최종 평가용 노트 6개의 남은 산문 문단에서 Troubleshooting·블로그 노트는 3개씩, Slipbox·Concepts 노트는 2개씩 무작위로 16개를 더 뽑는다(seed 20260926). 보강은 한 번만",
+    "if_still_short": "확보한 수로 평가하고 기준은 같은 비율로 환산한다(있음 83% 이상 탐지, 없음 오탐 17% 이하)"
+  }
+}

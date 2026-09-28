@@ -1,0 +1,158 @@
+{
+ "meta": {
+  "question_version": "v1",
+  "model": "jev-1.13.0",
+  "split": "tune",
+  "requests": 24,
+  "errors": 0,
+  "input_tokens": 10056,
+  "cost_usd": 0.000422,
+  "wall_seconds": 1.26
+ },
+ "results": [
+  {
+   "id": "N11-P3",
+   "sha256": "c252fea92ef96b5e",
+   "p_present": 0.12,
+   "seconds": 0.71
+  },
+  {
+   "id": "N05-P1",
+   "sha256": "bebc21a3ca54663c",
+   "p_present": 0.05,
+   "seconds": 0.648
+  },
+  {
+   "id": "N02-P1",
+   "sha256": "1dbd6427d41809c4",
+   "p_present": 0.8,
+   "seconds": 0.676
+  },
+  {
+   "id": "N06-P3",
+   "sha256": "367adcf95ad70dd6",
+   "p_present": 0.04,
+   "seconds": 0.691
+  },
+  {
+   "id": "N09-P3",
+   "sha256": "5bc190a0f2bd1813",
+   "p_present": 0.03,
+   "seconds": 0.744
+  },
+  {
+   "id": "N06-P1",
+   "sha256": "01fb7b252ef4c38a",
+   "p_present": 0.43,
+   "seconds": 0.675
+  },
+  {
+   "id": "N11-P4",
+   "sha256": "2482a2937c1c1b06",
+   "p_present": 0.09,
+   "seconds": 0.69
+  },
+  {
+   "id": "N09-P1",
+   "sha256": "3817d27b31605538",
+   "p_present": 0.02,
+   "seconds": 0.646
+  },
+  {
+   "id": "N01-P2",
+   "sha256": "8c4775e439f35159",
+   "p_present": 0.49,
+   "seconds": 0.263
+  },
+  {
+   "id": "N01-P3",
+   "sha256": "e8c38bcabef17e6f",
+   "p_present": 0.03,
+   "seconds": 0.275
+  },
+  {
+   "id": "N05-P4",
+   "sha256": "f61536904001afdf",
+   "p_present": 0.63,
+   "seconds": 0.271
+  },
+  {
+   "id": "N11-P2",
+   "sha256": "375abfb772998cdb",
+   "p_present": 0.28,
+   "seconds": 0.223
+  },
+  {
+   "id": "N01-P1",
+   "sha256": "c2273411b35c120a",
+   "p_present": 0.97,
+   "seconds": 0.234
+  },
+  {
+   "id": "N06-P4",
+   "sha256": "5f9f0bd7040b57e3",
+   "p_present": 0.02,
+   "seconds": 0.265
+  },
+  {
+   "id": "N05-P2",
+   "sha256": "5d5572013c235fa4",
+   "p_present": 0.06,
+   "seconds": 0.249
+  },
+  {
+   "id": "N06-P2",
+   "sha256": "782006da051c8ca0",
+   "p_present": 0.09,
+   "seconds": 0.22
+  },
+  {
+   "id": "N09-P2",
+   "sha256": "a629ee6fc52b70eb",
+   "p_present": 0.03,
+   "seconds": 0.233
+  },
+  {
+   "id": "N02-P4",
+   "sha256": "2ebe0ef9aef03fa2",
+   "p_present": 0.75,
+   "seconds": 0.221
+  },
+  {
+   "id": "N02-P3",
+   "sha256": "2721c35b3f280acc",
+   "p_present": 0.15,
+   "seconds": 0.269
+  },
+  {
+   "id": "N02-P2",
+   "sha256": "7bd3f50d39a52b6b",
+   "p_present": 0.2,
+   "seconds": 0.252
+  },
+  {
+   "id": "N11-P1",
+   "sha256": "e30c9233436708e3",
+   "p_present": 0.07,
+   "seconds": 0.277
+  },
+  {
+   "id": "N01-P4",
+   "sha256": "e86761e952da7759",
+   "p_present": 0.03,
+   "seconds": 0.304
+  },
+  {
+   "id": "N05-P3",
+   "sha256": "5fe97847dbdcb60b",
+   "p_present": 0.06,
+   "seconds": 0.301
+  },
+  {
+   "id": "N09-P4",
+   "sha256": "bfdd06ee079f8ea5",
+   "p_present": 0.09,
+   "seconds": 0.26
+  }
+ ]
+}

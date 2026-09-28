@@ -1,0 +1,4 @@
+date,file,rule,matched,decision,note
+2026-09-25,40_Archive/dev-drafts/Jev의 Obsidian 볼트 활용 아이디어와 실험 설계.md,preview-sentence,공개 예정 문단,기각,"종결어미 없이 명사로 쓴 ""예정""이 걸림. 정규식을 예정이다·예정입니다·문장 끝의 예정만 잡게 수정. 설계·검증 표본과 발행 글 훑기 결과는 수정 전과 같음"
+2026-09-25,30_Resources/Development/Concepts/Jev와 System One 모델.md,lets-explore,살펴보자,기각,예고 문장의 예시로 인용한 표현. 따옴표 안의 인용은 규칙이 구분하지 못한다
+2026-09-26,30_Resources/Development/Concepts/Jev와 System One 모델.md,preview-sentence,"다음 글, 예정 (4건)",기각,예고 문장의 예시로 인용하거나 규칙을 설명하는 문장. 인용과 설명을 구분하지 못한다

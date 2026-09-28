@@ -1,0 +1,7 @@
+{
+  "version": "v1",
+  "created": "2026-09-25",
+  "source": "review.html에 적은 판정 기준을 그대로 옮긴 문구. 조정용 결과를 보기 전에 고정",
+  "state_key": "paragraph",
+  "instructions": "Does the Korean paragraph `paragraph` state both something the author actually did and a result the author observed after doing it? Answer no for hypothetical examples, general advice, future plans, and paragraphs that give only the action or only the result. The result does not need to be a number, but it must be something the author actually observed. Judge only from the paragraph itself."
+}

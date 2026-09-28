@@ -1,0 +1,242 @@
+[
+ {
+  "post": "ONLYOFFICE 연동 4편: SDK, MinIO, Saga",
+  "sentence": "MinIO 는 S3 호환 API 를 제공하는 오픈소스 Object Storage다.",
+  "cue": false,
+  "id": 0
+ },
+ {
+  "post": "GPT야! 지금까지의 채팅 기록을 바탕으로 나를 분석해줘~",
+  "sentence": "이는 단순 전문가형보다, 기획자-사상가형에 가까운 성향입니다.",
+  "cue": false,
+  "id": 1
+ },
+ {
+  "post": "ONLYOFFICE 연동 4편: SDK, MinIO, Saga",
+  "sentence": "> 지금보니  등을 지원하는  타입이 추가된것같다.",
+  "cue": false,
+  "id": 2
+ },
+ {
+  "post": "Front-end에서의 Testing",
+  "sentence": "다음으로 Counter 로직과 컴포넌트를 구현하고 테스트해보자.",
+  "cue": true,
+  "id": 3
+ },
+ {
+  "post": "02화 HEXACO: 행동 성향을 읽는 성격 모델",
+  "sentence": "이제 우리는 AI를 활용할 수 있습니다.",
+  "cue": true,
+  "id": 4
+ },
+ {
+  "post": "ONLYOFFICE 연동 3편: key와 메타데이터 관리",
+  "sentence": "> ONLYOFFICE: [공식 문서]",
+  "cue": false,
+  "id": 5
+ },
+ {
+  "post": "SLII®: 맞춤형 리더십, 진단부터 실전까지",
+  "sentence": "내부 팀원들도 C를 ‘이제는 안정적인 중간자 역할을 하는 팀원’으로 보기 시작했습니다.",
+  "cue": true,
+  "id": 6
+ },
+ {
+  "post": "AI로 빨라진 개인, 소화하지 못하는 팀",
+  "sentence": "AI가 만든 코드와 문서도 처음에는 외부 지식에 가깝습니다.",
+  "cue": false,
+  "id": 7
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "DX가 몰입을 복원하고, DevRel이 신뢰를 구축한다면, AX는 이 둘을 통합해 조직의 지능을 증폭시키는 구조적 전환을 완성한다.",
+  "cue": false,
+  "id": 8
+ },
+ {
+  "post": "03화 정직-겸손성(H): 정직함이 약점이 될 수 있을까?",
+  "sentence": "신뢰 자산 쌓기: 시간 약속, 마감일 준수 등 작지만 기본적인 신뢰부터 철저하게 관리",
+  "cue": false,
+  "id": 9
+ },
+ {
+  "post": "리액트 상태관리 트렌드의 변화",
+  "sentence": "atom을 조합해가며 간단한 상태부터 복잡한 상태까지 다룰 수 있으며 atom 의존성에 따른 기본적인 렌더링 최적화가 되어 있기 때문에 추가적인 메모이제이션 작업도 필요없어집니다.",
+  "cue": true,
+  "id": 10
+ },
+ {
+  "post": "Jotai - atoms in atom",
+  "sentence": "jotai와  방법을 사용하여 여러 개의 atom을 다루는 방식을 알아보았다.",
+  "cue": true,
+  "id": 11
+ },
+ {
+  "post": "AI 시대 개발자는 매일 주사위를 굴린다",
+  "sentence": "하지만 이제 그것만으로는 충분하지 않습니다.",
+  "cue": true,
+  "id": 12
+ },
+ {
+  "post": "Front-end에서의 Testing",
+  "sentence": "- : JS 테스팅 라이브러리",
+  "cue": false,
+  "id": 13
+ },
+ {
+  "post": "Martin Fowler의 'LLMs bring new nature of abstraction'을 읽고..",
+  "sentence": "이제는 확률성 위에서 전략을 다시 짜야 한다.",
+  "cue": true,
+  "id": 14
+ },
+ {
+  "post": "Jotai - atoms in atom",
+  "sentence": "addShapeAtom은 새로운 shapeAtom을 만들고 이를 shapeAtomsAtom에 추가해준다.",
+  "cue": false,
+  "id": 15
+ },
+ {
+  "post": "SLII®: 상황에 따른 맞춤형 리더십",
+  "sentence": "\\- 특성: 역량은 충분지만 몰입에는 기복이 있습니다.",
+  "cue": false,
+  "id": 16
+ },
+ {
+  "post": "03화 정직-겸손성(H): 정직함이 약점이 될 수 있을까?",
+  "sentence": "“모두가 하는 것”이라면 규칙을 살짝 우회하는 것도 괜찮다고 생각",
+  "cue": false,
+  "id": 17
+ },
+ {
+  "post": "AI로 빨라진 개인, 소화하지 못하는 팀",
+  "sentence": "AI를 쓰면 결과물은 금방 나오고 대화 기록이나 요약도 함께 남길 수 있습니다.",
+  "cue": false,
+  "id": 18
+ },
+ {
+  "post": "05화 외향성(X): 표현의 에너지, 그 흐름의 차이",
+  "sentence": "낮은 외향성은 내 에너지를 안으로 순환시킵니다.",
+  "cue": false,
+  "id": 19
+ },
+ {
+  "post": "ONLYOFFICE 연동 4편: SDK, MinIO, Saga",
+  "sentence": "> ⚠️ 알림: Spring, Hibernate 7 관련 고도화는 6편 에 진행 예정.",
+  "cue": false,
+  "id": 20
+ },
+ {
+  "post": "AI로 만든 보고서, 사람이 남긴 생각",
+  "sentence": "그럼에도 이 시점에서 꼭 하고 싶었던 이야기가 있었기에 틈틈이 자료를 만들었다.",
+  "cue": false,
+  "id": 21
+ },
+ {
+  "post": "04화 정서성(E): 감정이 당신의 행동에 미치는 영향은?",
+  "sentence": "다음 편에서는 외향성(Extraversion, X)을 다룹니다.",
+  "cue": true,
+  "id": 22
+ },
+ {
+  "post": "ONLYOFFICE 연동 4편: SDK, MinIO, Saga",
+  "sentence": "Cleanup 단순화: MinIO 부분 업로드만 정리하면 됨",
+  "cue": true,
+  "id": 23
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "플랫폼 엔지니어와 일반 개발자의 차이는 기술의 깊이가 아니라 시야의 범위에서 비롯된다.",
+  "cue": true,
+  "id": 24
+ },
+ {
+  "post": "Front-end에서의 Testing",
+  "sentence": "- 위 훅들과 useInterval()까지 포함된 useCountdown() 훅과 컴포넌트의 테스트",
+  "cue": false,
+  "id": 25
+ },
+ {
+  "post": "ONLYOFFICE 연동기 1편 - 그냥 문서 편집기인 줄 알았는데",
+  "sentence": "다음 글에서는 실제로 config JSON을 어떻게 생성하는지,",
+  "cue": true,
+  "id": 26
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "이러한 구조적 비효율을 해소하기 위한 대표적 해법이 내부 개발자 플랫폼(Internal Developer Platform, IDP) 이다.",
+  "cue": false,
+  "id": 27
+ },
+ {
+  "post": "AI 시대 개발자는 매일 주사위를 굴린다",
+  "sentence": "이 결정론적 기반 위에서 TDD(테스트 주도 개발), 정적 분석, 코드 리뷰, 형상 관리, CI/CD(지속적 통합과 배포) 같은 견고한 개발 문화가 만들어졌습니다.",
+  "cue": true,
+  "id": 28
+ },
+ {
+  "post": "03화 정직-겸손성(H): 정직함이 약점이 될 수 있을까?",
+  "sentence": "HEXACO 성격모델의 '정직-겸손성(Honesty-Humility, H)' 은 이 질문에 새로운 관점을 제공합니다.",
+  "cue": false,
+  "id": 29
+ },
+ {
+  "post": "08화 개방성(O): 변화에 반응하는 당신의 태도",
+  "sentence": "그리고 그 조합을 AI를 통해 어떻게 해석할 수 있는지를 다룹니다.",
+  "cue": true,
+  "id": 30
+ },
+ {
+  "post": "Antigravity와 함께한 ONLYOFFICE 연동 Vibe Coding기 (Part 2: 구현편)",
+  "sentence": "역시 코드 훈수는 잠시 접어두고 DocumentEditor의 내부 동작을 알아보자.",
+  "cue": true,
+  "id": 31
+ },
+ {
+  "post": "Antigravity와 함께한 ONLYOFFICE 연동 Vibe Coding기 (Part 2: 구현편)",
+  "sentence": "다음 글에서부터 본격적인  구현에 들어간다.",
+  "cue": true,
+  "id": 32
+ },
+ {
+  "post": "03화 정직-겸손성(H): 정직함이 약점이 될 수 있을까?",
+  "sentence": "'감정적이냐, 이성적이냐'는 단순한 이분법이 아니라, 정서성이 당신의 회복탄력성과 리스크 관리에 어떤 영향을 주는지 구체적으로 알아보겠습니다.",
+  "cue": true,
+  "id": 33
+ },
+ {
+  "post": "08화 개방성(O): 변화에 반응하는 당신의 태도",
+  "sentence": "다음 글 예고: “AI와 함께, 나를 해석하다”",
+  "cue": true,
+  "id": 34
+ },
+ {
+  "post": "AI 시대 개발자는 매일 주사위를 굴린다",
+  "sentence": "기존 개발자는 다음의 전제 위에서 움직였습니다.",
+  "cue": true,
+  "id": 35
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "[^spotify-backstage-onboarding]: [How Backstage Made Our Developers More Effective]",
+  "cue": false,
+  "id": 36
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "요약하면, 비기술적 역량은 사람과 기술을 연결하는 구조적 설계 능력이다.",
+  "cue": true,
+  "id": 37
+ },
+ {
+  "post": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "sentence": "그 도구를 어떤 구조 속에서, 어떤 심리적 토양 위에서 사용하는가가에서 결정된다.",
+  "cue": true,
+  "id": 38
+ },
+ {
+  "post": "04화 정서성(E): 감정이 당신의 행동에 미치는 영향은?",
+  "sentence": "감정-사실 구분 훈련: 지금 느끼는 건 감정에서 비롯된 것인가 사실에서 비롯된 것인가를 인식하는 연습",
+  "cue": false,
+  "id": 39
+ }
+]

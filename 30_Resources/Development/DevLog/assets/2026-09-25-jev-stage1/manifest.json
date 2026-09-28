@@ -1,0 +1,20 @@
+{
+  "dataset_version": "stage1-draft-2",
+  "created": "2026-09-25",
+  "ref": "origin/main",
+  "commit": "a507ca552ddb8ebdb5e16d08f7c0a0e6d0475423",
+  "seed": 20260925,
+  "eligible_notes": 91,
+  "groups": 63,
+  "excluded_paragraphs_prior_labels": 53,
+  "prior_label_keys": 138,
+  "sources": 12,
+  "items": 64,
+  "tune_items": 24,
+  "final_items": 40,
+  "human_reviewed_count": 0,
+  "model_calls": 0,
+  "cost_usd": 0,
+  "augmented_items": 16,
+  "augment_seed": 20260926
+}

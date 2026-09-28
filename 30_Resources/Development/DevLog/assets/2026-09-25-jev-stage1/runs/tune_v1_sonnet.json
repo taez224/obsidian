@@ -1,0 +1,133 @@
+{
+ "meta": {
+  "question_version": "v1",
+  "model": "claude-sonnet-5 (Claude Code 하위 에이전트, 도구 사용 0회)",
+  "split": "tune",
+  "requests": 1,
+  "note": "24문단을 한 번에 판정. p_yes는 모델이 스스로 적은 값이라 Jev의 확률과 성격이 다르다",
+  "subagent_tokens": 65653,
+  "wall_seconds": 25.2
+ },
+ "results": [
+  {
+   "id": "N11-P3",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N05-P1",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N02-P1",
+   "answer": "yes",
+   "p_yes": 0.85
+  },
+  {
+   "id": "N06-P3",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N09-P3",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N06-P1",
+   "answer": "yes",
+   "p_yes": 0.75
+  },
+  {
+   "id": "N11-P4",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N09-P1",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N01-P2",
+   "answer": "no",
+   "p_yes": 0.2
+  },
+  {
+   "id": "N01-P3",
+   "answer": "no",
+   "p_yes": 0.02
+  },
+  {
+   "id": "N05-P4",
+   "answer": "no",
+   "p_yes": 0.1
+  },
+  {
+   "id": "N11-P2",
+   "answer": "no",
+   "p_yes": 0.05
+  },
+  {
+   "id": "N01-P1",
+   "answer": "yes",
+   "p_yes": 0.92
+  },
+  {
+   "id": "N06-P4",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N05-P2",
+   "answer": "no",
+   "p_yes": 0.02
+  },
+  {
+   "id": "N06-P2",
+   "answer": "no",
+   "p_yes": 0.05
+  },
+  {
+   "id": "N09-P2",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N02-P4",
+   "answer": "yes",
+   "p_yes": 0.88
+  },
+  {
+   "id": "N02-P3",
+   "answer": "no",
+   "p_yes": 0.08
+  },
+  {
+   "id": "N02-P2",
+   "answer": "no",
+   "p_yes": 0.15
+  },
+  {
+   "id": "N11-P1",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N01-P4",
+   "answer": "no",
+   "p_yes": 0.03
+  },
+  {
+   "id": "N05-P3",
+   "answer": "no",
+   "p_yes": 0.05
+  },
+  {
+   "id": "N09-P4",
+   "answer": "no",
+   "p_yes": 0.03
+  }
+ ]
+}

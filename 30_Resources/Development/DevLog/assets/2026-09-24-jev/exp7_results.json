@@ -1,0 +1,494 @@
+[
+ {
+  "tags": [
+   "AI",
+   "조직",
+   "개발/플랫폼"
+  ],
+  "status": "seedling",
+  "type": "permanent",
+  "title": "AI 시대 플랫폼팀은 AI 활용의 공통 기반을 설계해야 한다",
+  "summary": "",
+  "path": "01_Slipbox/AI 시대 플랫폼팀은 AI 활용의 공통 기반을 설계해야 한다.md",
+  "first_tag": "AI",
+  "second_tag": "조직",
+  "ai_essential": 0.84,
+  "other_axis": "개발",
+  "other_conf": 0.67,
+  "other_probs": {
+   "조직": 0.27,
+   "커리어": 0.0,
+   "심리": 0.0,
+   "nothing_left": 0.01,
+   "철학": 0.0,
+   "지식관리": 0.01,
+   "개발": 0.71,
+   "글쓰기": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "커리어/성장"
+  ],
+  "status": "growing",
+  "type": "permanent",
+  "title": "AI 코딩 도구는 이해 부채를 만든다",
+  "summary": "",
+  "path": "01_Slipbox/AI 코딩 도구는 이해 부채를 만든다.md",
+  "first_tag": "AI",
+  "second_tag": "커리어/성장",
+  "ai_essential": 0.79,
+  "other_axis": "개발",
+  "other_conf": 0.89,
+  "other_probs": {
+   "철학": 0.0,
+   "심리": 0.0,
+   "조직": 0.01,
+   "개발": 0.91,
+   "글쓰기": 0.0,
+   "지식관리": 0.07,
+   "커리어": 0.0,
+   "nothing_left": 0.01
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발"
+  ],
+  "status": "growing",
+  "type": "hub",
+  "title": "AI 활용",
+  "summary": "",
+  "path": "01_Slipbox/AI 활용.md",
+  "first_tag": "AI",
+  "second_tag": "개발",
+  "ai_essential": 0.79,
+  "other_axis": "철학",
+  "other_conf": 0.7,
+  "other_probs": {
+   "조직": 0.15,
+   "커리어": 0.01,
+   "지식관리": 0.05,
+   "글쓰기": 0.0,
+   "철학": 0.75,
+   "nothing_left": 0.02,
+   "심리": 0.0,
+   "개발": 0.02
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발"
+  ],
+  "status": "growing",
+  "type": "permanent",
+  "title": "AI 활용의 마찰은 위험도에 맞게 설계해야 한다",
+  "summary": "",
+  "path": "01_Slipbox/AI 활용의 마찰은 위험도에 맞게 설계해야 한다.md",
+  "first_tag": "AI",
+  "second_tag": "개발",
+  "ai_essential": 0.71,
+  "other_axis": "개발",
+  "other_conf": 0.68,
+  "other_probs": {
+   "심리": 0.0,
+   "조직": 0.06,
+   "지식관리": 0.0,
+   "철학": 0.2,
+   "글쓰기": 0.0,
+   "nothing_left": 0.01,
+   "개발": 0.72,
+   "커리어": 0.01
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "커리어/성장"
+  ],
+  "status": "seedling",
+  "type": "permanent",
+  "title": "AI에 맡길 범위는 그 과정에서 기르려는 역량에 따라 달라진다",
+  "summary": "",
+  "path": "01_Slipbox/AI에 맡길 범위는 그 과정에서 기르려는 역량에 따라 달라진다.md",
+  "first_tag": "AI",
+  "second_tag": "커리어/성장",
+  "ai_essential": 0.51,
+  "other_axis": "커리어",
+  "other_conf": 0.46,
+  "other_probs": {
+   "커리어": 0.53,
+   "조직": 0.04,
+   "심리": 0.0,
+   "개발": 0.0,
+   "글쓰기": 0.07,
+   "철학": 0.35,
+   "지식관리": 0.0,
+   "nothing_left": 0.01
+  }
+ },
+ {
+  "tags": [
+   "AI"
+  ],
+  "status": "seedling",
+  "type": "permanent",
+  "title": "AI와의 스파링으로 내 생각을 끌어내고 다듬는다",
+  "summary": "",
+  "path": "01_Slipbox/AI와의 스파링으로 내 생각을 끌어내고 다듬는다.md",
+  "first_tag": "AI",
+  "second_tag": "",
+  "ai_essential": 0.87,
+  "other_axis": "철학",
+  "other_conf": 0.54,
+  "other_probs": {
+   "nothing_left": 0.05,
+   "개발": 0.0,
+   "글쓰기": 0.25,
+   "커리어": 0.01,
+   "심리": 0.0,
+   "철학": 0.6,
+   "조직": 0.09,
+   "지식관리": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "커리어/성장",
+   "개발"
+  ],
+  "status": "growing",
+  "type": "permanent",
+  "title": "기술 부채, 이해 부채, 역량 부채",
+  "summary": "",
+  "path": "01_Slipbox/기술 부채, 이해 부채, 역량 부채.md",
+  "first_tag": "AI",
+  "second_tag": "커리어/성장",
+  "ai_essential": 0.53,
+  "other_axis": "개발",
+  "other_conf": 0.49,
+  "other_probs": {
+   "지식관리": 0.01,
+   "글쓰기": 0.0,
+   "개발": 0.55,
+   "심리": 0.0,
+   "철학": 0.0,
+   "nothing_left": 0.01,
+   "커리어": 0.09,
+   "조직": 0.34
+  }
+ },
+ {
+  "tags": [
+   "AI"
+  ],
+  "status": "seedling",
+  "type": "permanent",
+  "title": "생성은 AI에게, 검증은 나에게",
+  "summary": "",
+  "path": "01_Slipbox/생성은 AI에게, 검증은 나에게.md",
+  "first_tag": "AI",
+  "second_tag": "",
+  "ai_essential": 0.83,
+  "other_axis": "글쓰기",
+  "other_conf": 0.6,
+  "other_probs": {
+   "조직": 0.11,
+   "지식관리": 0.0,
+   "nothing_left": 0.01,
+   "글쓰기": 0.66,
+   "심리": 0.01,
+   "개발": 0.02,
+   "커리어": 0.0,
+   "철학": 0.19
+  }
+ },
+ {
+  "tags": [
+   "AI/에이전트"
+  ],
+  "status": "seedling",
+  "type": "permanent",
+  "title": "에이전트 지침은 승인 경계와 능력 보완 절차를 구분해야 한다",
+  "summary": "",
+  "path": "01_Slipbox/에이전트 지침은 승인 경계와 능력 보완 절차를 구분해야 한다.md",
+  "first_tag": "AI/에이전트",
+  "second_tag": "",
+  "ai_essential": 0.77,
+  "other_axis": "조직",
+  "other_conf": 0.88,
+  "other_probs": {
+   "심리": 0.0,
+   "글쓰기": 0.0,
+   "개발": 0.060000000000000005,
+   "커리어": 0.0,
+   "철학": 0.01,
+   "조직": 0.9,
+   "지식관리": 0.01,
+   "nothing_left": 0.02
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발"
+  ],
+  "status": "growing",
+  "type": "permanent",
+  "title": "팀의 AI 역량은 사용량이 아니라 회수율로 드러난다",
+  "summary": "",
+  "path": "01_Slipbox/팀의 AI 역량은 사용량이 아니라 회수율로 드러난다.md",
+  "first_tag": "AI",
+  "second_tag": "개발",
+  "ai_essential": 0.54,
+  "other_axis": "개발",
+  "other_conf": 0.61,
+  "other_probs": {
+   "지식관리": 0.27,
+   "글쓰기": 0.0,
+   "개발": 0.66,
+   "심리": 0.0,
+   "철학": 0.01,
+   "커리어": 0.0,
+   "nothing_left": 0.0,
+   "조직": 0.06
+  }
+ },
+ {
+  "tags": [
+   "AI/에이전트",
+   "개발/도구"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "60일간의 AI 에이전틱 워크플로",
+  "summary": "AI가 세션마다 맥락을 잃는 문제를 팀의 원칙과 요구사항 정제·검증 절차를 규칙과 커맨드로 구조화해 푼 60일의 기록. 핵심은 AI 조련이 아니라 암묵지를 실행 가능한 워크플로로 바꾸는 일이었다.",
+  "path": "20_Projects/blog/60일간의 AI 에이전틱 워크플로.md",
+  "first_tag": "AI/에이전트",
+  "second_tag": "개발/도구",
+  "ai_essential": 0.83,
+  "other_axis": "개발",
+  "other_conf": 0.77,
+  "other_probs": {
+   "철학": 0.0,
+   "심리": 0.0,
+   "조직": 0.02,
+   "개발": 0.8,
+   "글쓰기": 0.0,
+   "지식관리": 0.18,
+   "커리어": 0.0,
+   "nothing_left": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI/에이전트",
+   "프로젝트/vizend-qra"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "AI Agent 시대의 Human Agency",
+  "summary": "AI와 함께 SSE 구현을 다듬는 동안 잘 돌아간다는 증거는 쌓였지만, 계속 써야 하는지는 실행만으로 판단할 수 없었다. 판단을 실제 선택으로 옮기는 Human Agency를 돌아본다.",
+  "path": "20_Projects/blog/AI Agent 시대의 Human Agency.md",
+  "first_tag": "AI/에이전트",
+  "second_tag": "",
+  "ai_essential": 0.42,
+  "other_axis": "철학",
+  "other_conf": 0.77,
+  "other_probs": {
+   "커리어": 0.0,
+   "개발": 0.15,
+   "글쓰기": 0.0,
+   "심리": 0.0,
+   "철학": 0.81,
+   "조직": 0.04,
+   "지식관리": 0.0,
+   "nothing_left": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "AI 시대 개발자는 매일 주사위를 굴린다",
+  "summary": "LLM의 비결정성을 양자역학에 빗대어, 개발자가 정확한 출력보다 수용 가능한 범위와 검증 방식을 설계해야 한다고 주장한 글.",
+  "path": "20_Projects/blog/AI 시대 개발자는 매일 주사위를 굴린다.md",
+  "first_tag": "AI",
+  "second_tag": "개발",
+  "ai_essential": 0.91,
+  "other_axis": "개발",
+  "other_conf": 0.57,
+  "other_probs": {
+   "글쓰기": 0.03,
+   "철학": 0.14,
+   "nothing_left": 0.2,
+   "개발": 0.63,
+   "커리어": 0.0,
+   "심리": 0.0,
+   "조직": 0.0,
+   "지식관리": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발/플랫폼"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "AI 시대 플랫폼팀은 어떻게 진화하는가",
+  "summary": "플랫폼 팀은 인프라를 운영하는 지원 조직에서 개발자의 몰입과 조직의 학습 구조를 설계하는 팀으로 확장되고 있다.",
+  "path": "20_Projects/blog/AI 시대 플랫폼팀은 어떻게 진화하는가.md",
+  "first_tag": "AI",
+  "second_tag": "개발/플랫폼",
+  "ai_essential": 0.32,
+  "other_axis": "개발",
+  "other_conf": 0.48,
+  "other_probs": {
+   "커리어": 0.0,
+   "글쓰기": 0.0,
+   "nothing_left": 0.0,
+   "철학": 0.0,
+   "지식관리": 0.0,
+   "조직": 0.45,
+   "심리": 0.0,
+   "개발": 0.55
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발/플랫폼"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "AI로 만든 보고서, 사람이 남긴 생각",
+  "summary": "AI로 플랫폼팀 보고서를 만드는 과정에서, 도구가 높이는 속도만큼 인간이 생각의 방향과 조직의 몰입 환경을 지켜야 한다고 성찰한 글.",
+  "path": "20_Projects/blog/AI로 만든 보고서, 사람이 남긴 생각.md",
+  "first_tag": "AI",
+  "second_tag": "개발/플랫폼",
+  "ai_essential": 0.39,
+  "other_axis": "조직",
+  "other_conf": 0.95,
+  "other_probs": {
+   "nothing_left": 0.0,
+   "커리어": 0.0,
+   "조직": 0.96,
+   "심리": 0.0,
+   "개발": 0.01,
+   "철학": 0.03,
+   "지식관리": 0.0,
+   "글쓰기": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI",
+   "개발/도구",
+   "개발"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "AI로 빨라진 개인, 소화하지 못하는 팀",
+  "summary": "AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야 합니다.",
+  "path": "20_Projects/blog/AI로 빨라진 개인, 소화하지 못하는 팀.md",
+  "first_tag": "AI",
+  "second_tag": "개발/도구",
+  "ai_essential": 0.58,
+  "other_axis": "조직",
+  "other_conf": 0.82,
+  "other_probs": {
+   "심리": 0.0,
+   "조직": 0.86,
+   "지식관리": 0.04,
+   "철학": 0.0,
+   "글쓰기": 0.0,
+   "nothing_left": 0.0,
+   "개발": 0.1,
+   "커리어": 0.0
+  }
+ },
+ {
+  "tags": [
+   "AI"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "Martin Fowler의 'LLMs bring new nature of abstraction'을 읽고..",
+  "summary": "LLM의 비결정성이 개발의 추상화·테스트·품질 판단을 어떻게 바꾸는지 Martin Fowler 글을 바탕으로 성찰한 후기.",
+  "path": "20_Projects/blog/Martin Fowler의 LLMs bring new nature of abstraction을 읽고.md",
+  "first_tag": "AI",
+  "second_tag": "",
+  "ai_essential": 0.94,
+  "other_axis": "개발",
+  "other_conf": 0.77,
+  "other_probs": {
+   "철학": 0.06,
+   "심리": 0.0,
+   "조직": 0.0,
+   "개발": 0.8,
+   "글쓰기": 0.01,
+   "지식관리": 0.0,
+   "커리어": 0.0,
+   "nothing_left": 0.13
+  }
+ },
+ {
+  "tags": [
+   "AI"
+  ],
+  "status": "published",
+  "type": "",
+  "title": "대 지브리 시대에서 개발자로 살아남기",
+  "summary": "AI를 많이 쓰는 것과 잘 쓰는 것을 구분하며, 비판적 사고와 결과 검증이 개발자의 핵심 역할이라고 주장한 글.",
+  "path": "20_Projects/blog/대 지브리 시대에서 개발자로 살아남기.md",
+  "first_tag": "AI",
+  "second_tag": "",
+  "ai_essential": 0.69,
+  "other_axis": "커리어",
+  "other_conf": 0.62,
+  "other_probs": {
+   "개발": 0.07,
+   "지식관리": 0.0,
+   "글쓰기": 0.0,
+   "조직": 0.0,
+   "심리": 0.0,
+   "커리어": 0.68,
+   "철학": 0.24,
+   "nothing_left": 0.01
+  }
+ },
+ {
+  "tags": [
+   "AI/에이전트",
+   "개발/도구"
+  ],
+  "status": "",
+  "type": "",
+  "title": "로컬 plugin marketplace로 push 없는 dogfooding",
+  "summary": "Claude Code 플러그인 저장소를 로컬 경로로 marketplace에 등록하면 push 없이 다른 저장소에서 바로 설치해 써 보며 고칠 수 있다.",
+  "path": "30_Resources/Development/Tools/로컬 plugin marketplace로 push 없는 dogfooding.md",
+  "first_tag": "AI/에이전트",
+  "second_tag": "개발/도구",
+  "ai_essential": 0.68,
+  "other_axis": "개발",
+  "other_conf": 1.0,
+  "other_probs": {
+   "nothing_left": 0.0,
+   "개발": 1.0,
+   "글쓰기": 0.0,
+   "커리어": 0.0,
+   "심리": 0.0,
+   "철학": 0.0,
+   "조직": 0.0,
+   "지식관리": 0.0
+  }
+ }
+]

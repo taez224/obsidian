@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jev 1단계 정답 검토</title>
+<style>
+:root { --bg:#fbfaf7; --fg:#1f1d1a; --muted:#6b665e; --card:#fff; --line:#e4e0d8; --accent:#2f6f5e; --pick:#e7f2ee; }
+@media (prefers-color-scheme: dark) { :root { --bg:#181715; --fg:#ebe7df; --muted:#a39d92; --card:#22211e; --line:#3a3833; --accent:#7cc4ad; --pick:#243b34; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.7 -apple-system, "Apple SD Gothic Neo", sans-serif; }
+main { max-width:760px; margin:0 auto; padding:24px 16px 80px; }
+h1 { font-size:1.3rem; margin:0 0 8px; }
+.rule { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 16px; font-size:.95rem; }
+.rule ul { margin:6px 0 0; padding-left:20px; }
+.bar { position:sticky; top:0; background:var(--bg); padding:10px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:center; border-bottom:1px solid var(--line); z-index:1; }
+.bar button, .bar label { font:inherit; font-size:.9rem; }
+button { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:4px 10px; cursor:pointer; }
+button.on { border-color:var(--accent); color:var(--accent); }
+.count { color:var(--muted); font-size:.9rem; margin-left:auto; }
+.item { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px; margin:14px 0; }
+.meta { color:var(--muted); font-size:.8rem; }
+.text { margin:8px 0 10px; white-space:pre-wrap; }
+.opts { display:flex; gap:6px; flex-wrap:wrap; }
+.opts label { border:1px solid var(--line); border-radius:6px; padding:3px 10px; cursor:pointer; font-size:.9rem; }
+.opts input { display:none; }
+.opts input:checked + span { color:var(--accent); font-weight:600; }
+.opts label:has(input:checked) { background:var(--pick); border-color:var(--accent); }
+textarea { width:100%; margin-top:8px; font:inherit; font-size:.85rem; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:6px; min-height:34px; }
+.hide-meta .meta .t { display:none; }
+</style>
+</head>
+<body>
+<main>
+<h1>Jev 1단계 정답 검토</h1>
+<div class="rule">
+<b>질문</b>: 이 문단에 <b>작성자가 실제로 해 본 일</b>과 <b>그 뒤에 관찰한 결과</b>가 함께 적혀 있는가?
+<ul>
+<li><b>있음</b>: 둘 다 문단 안에 있다. 결과는 수치가 아니어도 되지만 실제로 본 것이어야 한다.</li>
+<li><b>없음</b>: 가정한 예시, 일반적인 권고, 앞으로 할 계획, 시도만 있고 결과가 없음, 결과만 있고 시도가 없음.</li>
+<li><b>문맥 부족</b>: 앞뒤 문단 없이는 실제 경험인지 판단할 수 없다.</li>
+<li>사례가 사실인지, 주장을 입증하는지는 묻지 않는다. 모델도 이 문단만 보므로 문단 안에서만 판단한다.</li>
+</ul>
+</div>
+<div class="bar">
+<button data-split="tune" class="on">조정용</button>
+<button data-split="final">최종 평가용</button>
+<label><input type="checkbox" id="showTitle"> 노트 제목 보기</label>
+<button id="dl">JSON 내려받기</button>
+<span class="count" id="count"></span>
+</div>
+<div id="list"></div>
+</main>
+<script>
+const ITEMS = /*ITEMS*/[];
+const KEY = "jev-stage1-labels";
+let labels = {};
+try { labels = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+let split = "tune";
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(labels)); } catch (e) {} };
+const OPTS = [["present","있음"],["absent","없음"],["unclear","문맥 부족"],["exclude","제외"]];
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function render() {
+  const list = document.getElementById("list");
+  const part = ITEMS.filter(x => x.split === split);
+  list.className = document.getElementById("showTitle").checked ? "" : "hide-meta";
+  list.innerHTML = part.map(x => {
+    const l = labels[x.id] || {};
+    return `<div class="item"><div class="meta">${x.id} · ${x.folder}${x.batch ? " · " + x.batch : ""}<span class="t"> · ${esc(x.title)}</span></div>
+<div class="text">${esc(x.text)}</div>
+<div class="opts">${OPTS.map(([v,t]) => `<label><input type="radio" name="${x.id}" value="${v}" ${l.label===v?"checked":""}><span>${t}</span></label>`).join("")}</div>
+<textarea data-id="${x.id}" placeholder="메모 (선택)">${esc(l.note || "")}</textarea></div>`;
+  }).join("");
+  count();
+}
+function count() {
+  const part = ITEMS.filter(x => x.split === split);
+  const done = part.filter(x => labels[x.id] && labels[x.id].label).length;
+  const c = k => part.filter(x => labels[x.id] && labels[x.id].label === k).length;
+  document.getElementById("count").textContent = `${done}/${part.length} · 있음 ${c("present")} · 없음 ${c("absent")} · 부족 ${c("unclear")}`;
+}
+document.addEventListener("change", e => {
+  if (e.target.type === "radio") { const id = e.target.name; labels[id] = {...(labels[id]||{}), label: e.target.value}; save(); count(); }
+  if (e.target.id === "showTitle") render();
+});
+document.addEventListener("input", e => {
+  if (e.target.tagName === "TEXTAREA") { const id = e.target.dataset.id; labels[id] = {...(labels[id]||{}), note: e.target.value}; save(); }
+});
+document.querySelectorAll("[data-split]").forEach(b => b.onclick = () => {
+  split = b.dataset.split; document.querySelectorAll("[data-split]").forEach(x => x.classList.toggle("on", x === b)); render();
+});
+document.getElementById("dl").onclick = () => {
+  const out = { dataset_version: "stage1-draft-1", exported: new Date().toISOString(), labels };
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], {type: "application/json"}));
+  a.download = "labels.json"; a.click();
+};
+render();
+</script>
+</body>
+</html>

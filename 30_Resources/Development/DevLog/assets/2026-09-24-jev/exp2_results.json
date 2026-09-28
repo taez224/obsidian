@@ -1,0 +1,450 @@
+[
+ {
+  "path": "30_Resources/Development/Concepts/Jev로 태그 불일치 후보를 찾는 방법.md",
+  "kind": "Concepts",
+  "summary": "문장을 만들지 않고 정해진 선택지와 확률만 돌려주는 Jev에게 노트 태그 점검의 어느 부분을 맡길 수 있는가.",
+  "regex": false,
+  "jev": 0.18
+ },
+ {
+  "path": "30_Resources/Development/Concepts/Kubernetes의 원하는 상태와 실제 상태.md",
+  "kind": "Concepts",
+  "summary": "Kubernetes에 설정을 적용한 것과 애플리케이션이 준비된 것은 다르며, 컨트롤러는 관측한 상태를 원하는 상태에 맞추는 작업을 반복한다.",
+  "regex": false,
+  "jev": 0.09
+ },
+ {
+  "path": "30_Resources/Development/Concepts/Mermaid 12의 변경 사항.md",
+  "kind": "Concepts",
+  "summary": "Mermaid 12는 일부 다이어그램의 기본 배치와 외형을 바꾸고, UseCase와 AgentFlow 다이어그램을 추가했다.",
+  "regex": false,
+  "jev": 0.64
+ },
+ {
+  "path": "30_Resources/Development/Concepts/Obsidian Vault를 AI와 함께 운영하는 방법.md",
+  "kind": "Concepts",
+  "summary": "Obsidian vault 관리를 AI 에이전트에게 맡기려고 지침·스킬·검색 도구를 둔 방식과, 삭제·승격·공개 판단은 사람이 맡기로 한 기준",
+  "regex": false,
+  "jev": 0.48
+ },
+ {
+  "path": "30_Resources/Development/Concepts/TanStack Highlight 적용 (ft. Java).md",
+  "kind": "Concepts",
+  "summary": "기존 Markdown 렌더러에 TanStack Highlight를 연결하고, 기본 지원에 없는 Java 구문 강조를 사용자 정의 토크나이저로 보완한 과정",
+  "regex": false,
+  "jev": 0.69
+ },
+ {
+  "path": "30_Resources/Development/Concepts/그래프의 노드 제목이 겹치지 않게 놓는 방법.md",
+  "kind": "Concepts",
+  "summary": "생각 지도에서 제목이 겹치는 문제는 노드 배치가 아니라 제목 배치와 표시 우선순위, 확대와 글자 크기의 분리 문제다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "30_Resources/Development/Concepts/멀티테넌시에서 무엇을 격리해야 하는가.md",
+  "kind": "Concepts",
+  "summary": "멀티테넌시의 격리는 사용자 인증을 넘어 데이터와 자원 범위, 성능 영향까지 테넌트 경계에 맞춰 설계하는 문제다.",
+  "regex": false,
+  "jev": 0.14
+ },
+ {
+  "path": "30_Resources/Development/Concepts/멀티테넌시의 데이터 격리 방식과 선택 기준.md",
+  "kind": "Concepts",
+  "summary": "행·스키마·데이터베이스 격리는 데이터 경계뿐 아니라 복구 단위와 스키마 변경 부담까지 비교해 선택해야 한다.",
+  "regex": false,
+  "jev": 0.13
+ },
+ {
+  "path": "30_Resources/Development/Concepts/생각의 정원을 만들고 배포하는 과정.md",
+  "kind": "Concepts",
+  "summary": "Obsidian vault의 Markdown을 Astro가 공개 규칙에 따라 웹페이지로 바꾸고, GitHub Actions가 산출물을 검사해 GitHub Pages에 배포하는 구성이다.",
+  "regex": false,
+  "jev": 0.41
+ },
+ {
+  "path": "30_Resources/Development/Concepts/외부 서비스의 파일 응답을 세 API에서 다르게 받은 이유.md",
+  "kind": "Concepts",
+  "summary": "같은 외부 서비스를 호출한 세 API에서 파일 응답을 서로 다르게 받은 것은, 응답 다음 단계가 요구하는 것이 달랐기 때문이다.",
+  "regex": false,
+  "jev": 0.09
+ },
+ {
+  "path": "30_Resources/Development/Concepts/크롤러와 LLM에게 사이트를 안내하는 방법.md",
+  "kind": "Concepts",
+  "summary": "robots.txt와 사이트맵, llms.txt, 구조화 데이터는 각각 기계 독자에게 무엇을 약속하고 무엇은 약속하지 않는가.",
+  "regex": false,
+  "jev": 0.22
+ },
+ {
+  "path": "30_Resources/Development/Concepts/테넌트 초기화는 누가 언제 어디까지 맡는가.md",
+  "kind": "Concepts",
+  "summary": "새 테넌트를 추가하거나 애플리케이션을 다시 시작할 때 자원 생성부터 업무 접근 허용까지를 누가 언제 어디까지 맡는가.",
+  "regex": false,
+  "jev": 0.23
+ },
+ {
+  "path": "30_Resources/Development/Tools/Mac Terminal Tool 추천.md",
+  "kind": "Tools",
+  "summary": "macOS 터미널에서 bat, lsd, fd, ripgrep, zoxide가 cat, ls, find, grep, cd를 대신하며, 서로 이어 쓰면 파일 탐색이 빨라진다.",
+  "regex": false,
+  "jev": 0.09
+ },
+ {
+  "path": "30_Resources/Development/Tools/RSS 피드로 GitHub 프로필 갱신하기.md",
+  "kind": "Tools",
+  "summary": "가든이 글 종류별로 내는 RSS 피드를 프로필 저장소의 GitHub Actions가 읽어 README 목록을 갱신하는 구성이다.",
+  "regex": false,
+  "jev": 0.5
+ },
+ {
+  "path": "30_Resources/Development/Tools/로컬 plugin marketplace로 push 없는 dogfooding.md",
+  "kind": "Tools",
+  "summary": "Claude Code 플러그인 저장소를 로컬 경로로 marketplace에 등록하면 push 없이 다른 저장소에서 바로 설치해 써 보며 고칠 수 있다.",
+  "regex": false,
+  "jev": 0.12
+ },
+ {
+  "path": "30_Resources/Development/Tools/정적 사이트의 OG 카드와 방문 통계.md",
+  "kind": "Tools",
+  "summary": "정적 사이트의 OG 공유 이미지는 배포 때 미리 그리고 방문 통계는 외부 서비스에 맡겨 별도 서버 없이 운영한다.",
+  "regex": false,
+  "jev": 0.13
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/ArgoCD에 보이지 않는 ServiceAccount.md",
+  "kind": "Troubleshooting",
+  "summary": "ServiceAccount가 ArgoCD에 보이지 않을 때는 객체가 생성되지 않은 문제와 객체는 있는데 권한이 없는 문제를 먼저 나눠야 하며, 생성에 ClusterRoleBinding이 필수인 것은 아니다.",
+  "regex": false,
+  "jev": 0.12
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/ComponentScan 설정과 REGISTER_BEAN 조건의 충돌.md",
+  "kind": "Troubleshooting",
+  "summary": "컴포넌트 스캔을 수행하는 설정에 REGISTER_BEAN 단계에서 평가되는 조건이 결합되면 기동에 실패하며, 어노테이션 이름이 아니라 조건 구현의 평가 단계를 확인해야 풀린다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/K8s label 규칙을 어기는 식별자.md",
+  "kind": "Troubleshooting",
+  "summary": "도메인 식별자를 label 값으로 바꾸는 규칙을 함수 하나에 두어 apply와 delete가 같은 값을 만들게 하고, 원본 식별자는 바꾸지 않는다.",
+  "regex": false,
+  "jev": 0.15
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/SSE 팬아웃 인스턴스 불일치.md",
+  "kind": "Troubleshooting",
+  "summary": "이벤트를 만든 인스턴스와 사용자 연결을 쥔 인스턴스가 달라 로컬 팬아웃이 유실된 것이며, 그 상태가 이미 공유 저장소에 있으면 팬아웃을 걷어내고 폴링으로 읽는다.",
+  "regex": false,
+  "jev": 0.12
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/Secret을 갱신해도 바뀌지 않는 Pod 환경변수.md",
+  "kind": "Troubleshooting",
+  "summary": "환경변수로 주입한 Secret은 컨테이너 생성 시점에만 읽히므로, 값이 바뀌면 pod template을 바꿔 Pod를 새로 띄워야 한다.",
+  "regex": false,
+  "jev": 0.07
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/모듈을 옮긴 뒤 빈 후보가 여러 개라 실패하는 Spring 6 기동.md",
+  "kind": "Troubleshooting",
+  "summary": "옮겨 간 모듈에 -parameters 컴파일 플래그가 없어 Spring 6.1이 생성자 파라미터 이름으로 빈 후보를 좁히지 못한 것이며, 코드와 함께 빌드 옵션을 옮기면 풀린다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/배포 환경에서만 거부되는 Flyway 마이그레이션.md",
+  "kind": "Troubleshooting",
+  "summary": "배포 환경 DB에 더 높은 버전이 이미 적용되어 새 스크립트가 지나간 버전으로 판정된 것이며, 그 스크립트가 어느 환경에 적용됐는지에 따라 버전 조정과 보정 마이그레이션 중에서 고른다.",
+  "regex": false,
+  "jev": 0.12
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/새로고침마다 깜빡이는 그래프.md",
+  "kind": "Troubleshooting",
+  "summary": "브라우저가 스크립트 실행 전에 첫 화면을 그리기 때문이며, 그래프 크기를 미리 알면 정적 그림으로 같은 모습을 먼저 보여 주고 크기가 화면마다 다르면 스크립트가 끝날 때까지 렌더링을 미룬다.",
+  "regex": false,
+  "jev": 0.11
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/스트림 ZIP이 돌려주는 엔트리 크기 -1.md",
+  "kind": "Troubleshooting",
+  "summary": "순차 스트림으로 쓴 ZIP은 local header에 크기가 없어 ZipInputStream이 -1을 돌려주며, 이미 파일로 내렸다면 central directory를 읽는 ZipFile로 열어야 크기를 미리 알 수 있다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/원격에서만 timeout으로 끝나는 @Async 작업.md",
+  "kind": "Troubleshooting",
+  "summary": "@Async 메서드가 반환한 Future를 executor가 기다리는 경로에서 그 Future가 끝나지 않아 worker가 점유된 것이며, 중단 경로에서도 Future를 완료·예외·취소 중 하나로 끝내야 한다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "30_Resources/Development/Troubleshooting/코드마다 다른 DataBuffer release.md",
+  "kind": "Troubleshooting",
+  "summary": "해제 책임은 흐름의 대칭이 아니라 그 buffer의 최종 소비자가 정하므로, 다음 writer에게 넘기면 손대지 않고 되돌려받는 흐름이면 직접 해제한다.",
+  "regex": false,
+  "jev": 0.09
+ },
+ {
+  "path": "20_Projects/blog/60일간의 AI 에이전틱 워크플로.md",
+  "kind": "Blog",
+  "summary": "AI가 세션마다 맥락을 잃는 문제를 팀의 원칙과 요구사항 정제·검증 절차를 규칙과 커맨드로 구조화해 푼 60일의 기록. 핵심은 AI 조련이 아니라 암묵지를 실행 가능한 워크플로로 바꾸는 일이었다.",
+  "regex": false,
+  "jev": 0.78
+ },
+ {
+  "path": "20_Projects/blog/AI Agent 시대의 Human Agency.md",
+  "kind": "Blog",
+  "summary": "AI와 함께 SSE 구현을 다듬는 동안 잘 돌아간다는 증거는 쌓였지만, 계속 써야 하는지는 실행만으로 판단할 수 없었다. 판단을 실제 선택으로 옮기는 Human Agency를 돌아본다.",
+  "regex": false,
+  "jev": 0.71
+ },
+ {
+  "path": "20_Projects/blog/AI 시대 개발자는 매일 주사위를 굴린다.md",
+  "kind": "Blog",
+  "summary": "LLM의 비결정성을 양자역학에 빗대어, 개발자가 정확한 출력보다 수용 가능한 범위와 검증 방식을 설계해야 한다고 주장한 글.",
+  "regex": false,
+  "jev": 0.54
+ },
+ {
+  "path": "20_Projects/blog/AI 시대 플랫폼팀은 어떻게 진화하는가.md",
+  "kind": "Blog",
+  "summary": "플랫폼 팀은 인프라를 운영하는 지원 조직에서 개발자의 몰입과 조직의 학습 구조를 설계하는 팀으로 확장되고 있다.",
+  "regex": false,
+  "jev": 0.13
+ },
+ {
+  "path": "20_Projects/blog/AI로 만든 보고서, 사람이 남긴 생각.md",
+  "kind": "Blog",
+  "summary": "AI로 플랫폼팀 보고서를 만드는 과정에서, 도구가 높이는 속도만큼 인간이 생각의 방향과 조직의 몰입 환경을 지켜야 한다고 성찰한 글.",
+  "regex": false,
+  "jev": 0.8
+ },
+ {
+  "path": "20_Projects/blog/AI로 빨라진 개인, 소화하지 못하는 팀.md",
+  "kind": "Blog",
+  "summary": "AI는 개인이 코드와 문서를 만드는 속도를 높였지만, 그 산출물이 곧바로 팀의 진척이 되지는 않습니다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야 합니다.",
+  "regex": false,
+  "jev": 0.1
+ },
+ {
+  "path": "20_Projects/blog/Annotation으로 인가 로직 관리하기.md",
+  "kind": "Blog",
+  "summary": "@Constraint와 ConstraintValidator로 역할 티어 기반 사용자 조회·수정 권한을 DTO 검증으로 분리한 구현 기록.",
+  "regex": false,
+  "jev": 0.88
+ },
+ {
+  "path": "20_Projects/blog/Front-end에서의 Testing.md",
+  "kind": "Blog",
+  "summary": "뷰 구현에서 시작해 테스트하기 어려운 괴물 컴포넌트가 생기는 문제를 짚고, 모델·비즈니스 로직·뷰·테스트를 분리하는 프론트엔드 개발 패턴을 제안한다.",
+  "regex": false,
+  "jev": 0.87
+ },
+ {
+  "path": "20_Projects/blog/GPT야 지금까지의 채팅 기록을 바탕으로 나를 분석해줘.md",
+  "kind": "Blog",
+  "summary": "ChatGPT 메모리와 지난 대화 기록을 바탕으로 사고방식과 개발 습관을 되짚은 개인 기록.",
+  "regex": false,
+  "jev": 0.94
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 01 - MBTI로는 설명되지 않는 당신의 행동들.md",
+  "kind": "Blog",
+  "summary": "MBTI 유형 설명의 한계를 짚고, 행동 경향을 더 구체적으로 살펴보는 HEXACO 연재의 출발점을 제시한다.",
+  "regex": false,
+  "jev": 0.91
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 02 - 행동 성향을 읽는 성격 모델.md",
+  "kind": "Blog",
+  "summary": "HEXACO의 여섯 성격 차원과 각 차원이 실제 행동에서 드러나는 방식을 소개한다.",
+  "regex": true,
+  "jev": 0.94
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 03 - 정직-겸손성.md",
+  "kind": "Blog",
+  "summary": "정직-겸손성이 신뢰와 공정성에 미치는 영향, 그리고 강점이 약점으로 바뀌는 조건을 살펴본다.",
+  "regex": false,
+  "jev": 0.87
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 04 - 정서성.md",
+  "kind": "Blog",
+  "summary": "정서성이 위험 인식과 관계, 의사결정에 미치는 영향을 행동 전략의 관점에서 해석한다.",
+  "regex": false,
+  "jev": 0.85
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 05 - 외향성.md",
+  "kind": "Blog",
+  "summary": "외향성을 단순한 사교성으로 보지 않고, 사회적 에너지와 자기표현의 흐름으로 설명한다.",
+  "regex": true,
+  "jev": 0.67
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 06 - 우호성.md",
+  "kind": "Blog",
+  "summary": "우호성이 갈등을 받아들이고 조율하는 방식에 어떤 차이를 만드는지 살펴본다.",
+  "regex": false,
+  "jev": 0.87
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 07 - 성실성.md",
+  "kind": "Blog",
+  "summary": "성실성을 의지의 문제가 아니라 실행과 책임을 구조화하는 행동 경향으로 해석한다.",
+  "regex": false,
+  "jev": 0.29
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 08 - 개방성.md",
+  "kind": "Blog",
+  "summary": "개방성이 새로운 관점과 변화, 낯선 문제에 반응하는 방식에 미치는 영향을 다룬다.",
+  "regex": false,
+  "jev": 0.86
+ },
+ {
+  "path": "20_Projects/blog/HEXACO 09 - AI와 함께 나를 전략화하기.md",
+  "kind": "Blog",
+  "summary": "HEXACO 해석을 자기 이해에 멈추지 않고, AI를 활용해 개인의 행동 전략으로 전환하는 방법을 제안한다.",
+  "regex": false,
+  "jev": 0.88
+ },
+ {
+  "path": "20_Projects/blog/Jotai 01 - Tutorial의 Tutorial.md",
+  "kind": "Blog",
+  "summary": "Jotai의 원자적 상태 관리 접근법과 공식 튜토리얼을 따라갈 연재의 범위를 소개한다.",
+  "regex": true,
+  "jev": 0.94
+ },
+ {
+  "path": "20_Projects/blog/Jotai 02 - My first atom.md",
+  "kind": "Blog",
+  "summary": "Primitive atom을 만들고 읽고 쓰는 Jotai의 가장 기본적인 상태 관리 방식을 설명한다.",
+  "regex": true,
+  "jev": 0.93
+ },
+ {
+  "path": "20_Projects/blog/Jotai 03 - Derived atom Read Only.md",
+  "kind": "Blog",
+  "summary": "기존 atom에서 값을 파생하는 Derived atom과 읽기 전용 atom의 동작 방식을 다룬다.",
+  "regex": false,
+  "jev": 0.88
+ },
+ {
+  "path": "20_Projects/blog/Jotai 04 - Write Only atom.md",
+  "kind": "Blog",
+  "summary": "값을 구독하지 않고 다른 atom의 상태만 변경하는 Write Only atom의 사용법을 설명한다.",
+  "regex": true,
+  "jev": 0.92
+ },
+ {
+  "path": "20_Projects/blog/Jotai 05 - Read Write atom.md",
+  "kind": "Blog",
+  "summary": "읽기와 쓰기를 함께 정의하는 Read Write atom으로 상태 변경 로직을 구성하는 방법을 다룬다.",
+  "regex": false,
+  "jev": 0.89
+ },
+ {
+  "path": "20_Projects/blog/Jotai 06 - atom 구조화.md",
+  "kind": "Blog",
+  "summary": "작은 atom을 역할별로 나누고 조합해 Jotai 상태와 기능을 구조화하는 방법을 정리한다.",
+  "regex": true,
+  "jev": 0.91
+ },
+ {
+  "path": "20_Projects/blog/Jotai 07 - atoms in atom.md",
+  "kind": "Blog",
+  "summary": "여러 atom을 하나의 atom으로 다뤄 복수 도형과 복합 상태를 보존하는 패턴을 설명한다.",
+  "regex": true,
+  "jev": 0.89
+ },
+ {
+  "path": "20_Projects/blog/MBTI 보다 정확한 HEXACO 테스트 하고 ChatGPT로 분석하기.md",
+  "kind": "Blog",
+  "summary": "HEXACO와 MBTI의 차이를 정리하고, 당시 검사 결과를 ChatGPT와 함께 해석한 개인 기록.",
+  "regex": false,
+  "jev": 0.91
+ },
+ {
+  "path": "20_Projects/blog/Martin Fowler의 LLMs bring new nature of abstraction을 읽고.md",
+  "kind": "Blog",
+  "summary": "LLM의 비결정성이 개발의 추상화·테스트·품질 판단을 어떻게 바꾸는지 Martin Fowler 글을 바탕으로 성찰한 후기.",
+  "regex": false,
+  "jev": 0.9
+ },
+ {
+  "path": "20_Projects/blog/ONLYOFFICE 01 - 그냥 문서 편집기인 줄 알았는데.md",
+  "kind": "Blog",
+  "summary": "ONLYOFFICE Docs를 서비스에 통합할 때 단순한 에디터 연결을 넘어 문서 권한, 저장 콜백, JWT 검증, 온프레미스 운영까지 함께 설계해야 하는 이유를 정리한 글이다.",
+  "regex": false,
+  "jev": 0.89
+ },
+ {
+  "path": "20_Projects/blog/ONLYOFFICE 02 - Antigravity와 함께한 Vibe Coding기.md",
+  "kind": "Blog",
+  "summary": "Antigravity를 이용해 ONLYOFFICE Document Server와 Spring Boot·React 데모를 빠르게 연결하고, Config·JWT·콜백 흐름을 구현한 기록.",
+  "regex": false,
+  "jev": 0.89
+ },
+ {
+  "path": "20_Projects/blog/ONLYOFFICE 03 - key와 메타데이터 관리.md",
+  "kind": "Blog",
+  "summary": "document.key와 referenceData.fileKey를 분리하고 SAVE·FORCESAVE를 구분해 문서 메타데이터와 버전을 관리한 구현 기록.",
+  "regex": false,
+  "jev": 0.8
+ },
+ {
+  "path": "20_Projects/blog/ONLYOFFICE 04 - SDK, MinIO, Saga.md",
+  "kind": "Blog",
+  "summary": "ONLYOFFICE Java SDK로 Config 생성을 고도화하고 MinIO와 Saga 패턴, 콜백 큐로 저장 정합성과 동시성을 다룬 구현 기록.",
+  "regex": false,
+  "jev": 0.88
+ },
+ {
+  "path": "20_Projects/blog/SLII 01 - 상황에 따른 맞춤형 리더십.md",
+  "kind": "Blog",
+  "summary": "팀원의 역량과 몰입을 기준으로 개발 수준을 진단하고, 이에 맞는 리더십 행동을 선택하는 SLII 모델의 구조를 정리한다.",
+  "regex": true,
+  "jev": 0.91
+ },
+ {
+  "path": "20_Projects/blog/SLII 02 - 맞춤형 리더십 진단부터 실전까지.md",
+  "kind": "Blog",
+  "summary": "SLII를 실제 업무에 적용할 때 개발 수준을 진단하고, 리더십 스타일 전환에서 피해야 할 실수를 사례로 설명한다.",
+  "regex": true,
+  "jev": 0.85
+ },
+ {
+  "path": "20_Projects/blog/WebSocket에 Spring Security JWT 적용해보기.md",
+  "kind": "Blog",
+  "summary": "WebSocket CONNECT 단계에 Spring Security JWT 인증을 연결해 SecurityContext와 MongoDB 감사 정보를 복원한 방법.",
+  "regex": false,
+  "jev": 0.51
+ },
+ {
+  "path": "20_Projects/blog/대 지브리 시대에서 개발자로 살아남기.md",
+  "kind": "Blog",
+  "summary": "AI를 많이 쓰는 것과 잘 쓰는 것을 구분하며, 비판적 사고와 결과 검증이 개발자의 핵심 역할이라고 주장한 글.",
+  "regex": false,
+  "jev": 0.51
+ },
+ {
+  "path": "20_Projects/blog/리액트 상태관리 트렌드의 변화.md",
+  "kind": "Blog",
+  "summary": "React 상태관리의 흐름을 MVC와 Flux, Redux에서 React Query·Jotai로 이어지는 변화로 설명하고, 클라이언트 상태와 서버 상태를 구분하는 기준을 정리한다.",
+  "regex": true,
+  "jev": 0.91
+ },
+ {
+  "path": "20_Projects/blog/성장은 '해야 하는 것'이 아니다..md",
+  "kind": "Blog",
+  "summary": "자기계발·발전·성장을 구분하고, 성장 압박 대신 사고방식의 질적 전환에 집중하자고 말하는 글.",
+  "regex": false,
+  "jev": 0.65
+ }
+]

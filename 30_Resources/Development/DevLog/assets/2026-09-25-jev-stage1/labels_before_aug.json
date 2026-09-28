@@ -1,0 +1,150 @@
+{
+  "dataset_version": "stage1-draft-1",
+  "exported": "2026-09-25T11:40:47.235Z",
+  "labels": {
+    "N11-P3": {
+      "label": "absent"
+    },
+    "N05-P1": {
+      "label": "absent"
+    },
+    "N02-P1": {
+      "label": "present"
+    },
+    "N06-P3": {
+      "label": "absent"
+    },
+    "N09-P3": {
+      "label": "absent"
+    },
+    "N01-P1": {
+      "label": "present"
+    },
+    "N11-P2": {
+      "label": "absent"
+    },
+    "N06-P1": {
+      "label": "present"
+    },
+    "N11-P4": {
+      "label": "absent"
+    },
+    "N09-P1": {
+      "label": "absent"
+    },
+    "N01-P2": {
+      "label": "absent"
+    },
+    "N01-P3": {
+      "label": "absent"
+    },
+    "N05-P4": {
+      "label": "absent"
+    },
+    "N06-P4": {
+      "label": "absent"
+    },
+    "N05-P2": {
+      "label": "absent"
+    },
+    "N06-P2": {
+      "label": "absent"
+    },
+    "N09-P2": {
+      "label": "absent"
+    },
+    "N02-P4": {
+      "label": "present"
+    },
+    "N02-P3": {
+      "label": "absent"
+    },
+    "N02-P2": {
+      "label": "absent"
+    },
+    "N11-P1": {
+      "label": "absent"
+    },
+    "N05-P3": {
+      "label": "absent"
+    },
+    "N01-P4": {
+      "label": "absent"
+    },
+    "N09-P4": {
+      "label": "absent"
+    },
+    "N04-P4": {
+      "label": "present"
+    },
+    "N12-P2": {
+      "label": "absent"
+    },
+    "N12-P1": {
+      "label": "absent"
+    },
+    "N03-P1": {
+      "label": "present"
+    },
+    "N03-P3": {
+      "label": "absent"
+    },
+    "N08-P2": {
+      "label": "absent"
+    },
+    "N10-P3": {
+      "label": "absent"
+    },
+    "N12-P3": {
+      "label": "absent"
+    },
+    "N07-P3": {
+      "label": "absent"
+    },
+    "N07-P2": {
+      "label": "absent"
+    },
+    "N03-P2": {
+      "label": "present"
+    },
+    "N04-P3": {
+      "label": "present"
+    },
+    "N10-P2": {
+      "label": "absent"
+    },
+    "N08-P1": {
+      "label": "absent"
+    },
+    "N10-P4": {
+      "label": "absent"
+    },
+    "N10-P1": {
+      "label": "absent"
+    },
+    "N03-P4": {
+      "label": "present"
+    },
+    "N04-P2": {
+      "label": "present"
+    },
+    "N08-P4": {
+      "label": "absent"
+    },
+    "N08-P3": {
+      "label": "present"
+    },
+    "N04-P1": {
+      "label": "present"
+    },
+    "N07-P1": {
+      "label": "absent"
+    },
+    "N12-P4": {
+      "label": "absent"
+    },
+    "N07-P4": {
+      "label": "absent"
+    }
+  }
+}
