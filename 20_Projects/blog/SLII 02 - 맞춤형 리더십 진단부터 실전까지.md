@@ -4,7 +4,7 @@ created: 2025-06-13
 slug: slii-in-practice
 published: 2025-06-13
 tags:
-  - 커리어/성장
+  - 조직
 status: published
 author: TaeZ
 publication: Brunch

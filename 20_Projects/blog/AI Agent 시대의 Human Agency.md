@@ -4,6 +4,7 @@ created: 2026-08-07
 slug: human-agency-in-ai-agents
 published: 2026-08-25
 tags:
+  - 철학
   - AI/에이전트
   - 프로젝트/vizend-qra
 status: published
