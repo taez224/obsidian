@@ -9,6 +9,10 @@ status: seedling
 aliases:
   - 맥락상의 우위
   - context advantage
+used_in:
+  - "[[AI Agent 시대의 Human Agency]]"
+  - "[[AI가 주니어의 일을 대신하면, 시니어는 어디서 생길까]]"
+  - "[[AI 시대에도 예술은 질문을 만든다 - EBS 다큐]]"
 ---
 
 # AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다

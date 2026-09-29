@@ -5,7 +5,7 @@ tags:
   - 철학
   - AI
 type: permanent
-status: seedling
+status: growing
 aliases:
   - 판단을 선택으로 옮기는 힘
   - 유지도 Human Agency의 증거

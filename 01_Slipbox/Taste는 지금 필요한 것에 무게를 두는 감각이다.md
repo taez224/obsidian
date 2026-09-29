@@ -8,6 +8,10 @@ type: permanent
 status: seedling
 aliases:
   - 상황에 맞는 taste
+used_in:
+  - "[[AI Agent 시대의 Human Agency]]"
+  - "[[AI 시대에도 예술은 질문을 만든다 - EBS 다큐]]"
+  - "[[AI 창작 시대에도 성공하는 작품의 비밀 - SK]]"
 ---
 
 # Taste는 지금 필요한 것에 무게를 두는 감각이다
