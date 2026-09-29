@@ -15,7 +15,6 @@ import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from typesafe_sdk import Noul
 
 DEFAULT = dict(enabled=True, about_floor=0.7, case_floor=0.7, per_source=3, hn_min_points=5, github_min_stars=5)
 ORDER = ["Hacker News", "GitHub", "arXiv"]  # 나머지 출처는 이 뒤에 온다
@@ -97,6 +96,8 @@ def candidates(topic, pool, since, now, cfg, norm, skip, failures):
 
 
 def judge(topic, items, client):
+    from typesafe_sdk import Noul  # 판정할 때만 필요하다. 목록 읽기와 테스트는 SDK 없이 돈다
+
     q = {
         "about": Noul(instructions=f"Is this item mainly about {topic['name']} ({topic['desc']}), not a different thing that shares the name?"),
         "case": Noul(instructions=f"Does this item show a concrete project, tool, experiment, benchmark, or real-world use built with or applied to "

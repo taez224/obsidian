@@ -74,7 +74,7 @@ python3 -m unittest discover -s .agents/scripts/jev-radar -p 'test_*.py' -v
 
 - `backlog.py`: `unread` 자료카드의 `source`에서 공개 텍스트를 새로 가져와(arXiv는 API, 영상은 제외, 나머지는 defuddle) 게시된 Slipbox 주장과 잇는다. 카드의 요약·`my_take`는 보내지 않는다. 긴 글은 2,500자 조각으로 나눠 판정하고 조각별 결과 중 가장 좋은 것을 남긴다. 순위는 여러 카드에 걸리는 넓은 주장의 무게를 낮추고, 같은 주장으로만 이어진 카드는 하나만 고른다. 원문(`backlog-cache/text-*`)과 판정(`links-*`)을 캐시하므로 매주 비용은 새 카드분만 든다. 가져오지 못한 원문은 30일 뒤 다시 시도한다.
 - 본문 다시 판정(`fetch_full`): 요약이 한 줄뿐인 HBR은 모든 글의 본문을 가져와 판정한다. 2026-09-26에 30건을 비교해 보니, 본문으로 0.8을 넘은 5건의 한 줄 점수가 0.05~0.58이라 한 줄 점수로 거르면 놓쳤다. `floor`는 "관련 있음"이 아니라 "본문을 가져와 볼 만함"의 기준이다.
-- launchd는 defuddle을 찾도록 PATH에 nvm의 Node 경로를 둔다. Medium 태그 피드는 요약이 짧고 본문이 막혀 2026-09-26에 뺐다(`config.json`의 `removed_sources`).
+- defuddle은 설정 경로, nvm의 최신 Node부터 설치된 버전, PATH 순으로 찾고, 찾은 bin 폴더를 PATH 앞에 둬 같은 Node로 실행한다. Node를 올려도 설정을 고칠 필요가 없다. Medium 태그 피드는 요약이 짧고 본문이 막혀 2026-09-26에 뺐다(`config.json`의 `removed_sources`).
 
 ## 요즘 관심사
 

@@ -4,7 +4,7 @@ sandbox_mode = "workspace-write"
 writable_roots = ["/Users/taez/.cache/qmd"]
 
 [mcp_servers.qmd]
-command = "/Users/taez/.nvm/versions/node/v22.12.0/bin/qmd"
+command = "/Users/taez/.nvm/versions/node/v26.8.2/bin/qmd"
 args = ["mcp"]
 startup_timeout_sec = 20
 tool_timeout_sec = 60

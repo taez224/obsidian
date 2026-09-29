@@ -8,12 +8,14 @@
 import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
+from functools import lru_cache
 from pathlib import Path
 
 from claims import link_claims, published_claims, sentences
@@ -40,6 +42,27 @@ def _key(*parts):
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()[:20]
 
 
+@lru_cache(maxsize=None)
+def defuddle_command(configured="defuddle"):
+    """defuddle 실행 파일과 실행 환경. 설정 경로, nvm의 최신 Node부터, PATH 순으로 찾는다.
+    defuddle은 `#!/usr/bin/env node` 스크립트라 찾은 bin 폴더를 PATH 앞에 둬야 같은 Node로 돈다(post-commit 훅과 같은 방식).
+    Node를 올려도 설정을 고칠 필요가 없다."""
+    version = lambda p: [int(x) for x in re.findall(r"\d+", p.parent.parent.name)]
+    nvm = sorted(Path.home().glob(".nvm/versions/node/*/bin/defuddle"), key=version, reverse=True)
+    candidates = ([Path(configured)] if os.path.isabs(configured) else []) + nvm
+    candidates += [Path(p) for p in (shutil.which(configured), "/opt/homebrew/bin/defuddle", "/usr/local/bin/defuddle") if p]
+    for c in candidates:
+        if not (c.is_file() and os.access(c, os.X_OK)):
+            continue
+        env = {**os.environ, "PATH": f"{c.parent}:{os.environ.get('PATH', '')}"}
+        try:
+            if subprocess.run([str(c), "--version"], capture_output=True, env=env, timeout=30).returncode == 0:
+                return str(c), env
+        except (OSError, subprocess.TimeoutExpired):
+            continue
+    return configured, None
+
+
 def fetch_text(url, cfg):
     m = re.search(r"arxiv\.org/(?:abs|pdf|html)/(\d{4}\.\d{4,5})", url)
     if m:
@@ -48,8 +71,8 @@ def fetch_text(url, cfg):
         return " ".join(e.find(f"{ATOM}summary").text.split()), "arxiv-api"
     if re.search(r"youtube\.com|youtu\.be", url):
         return "", "video"
-    exe = shutil.which(cfg["defuddle_path"]) or cfg["defuddle_path"]
-    md = subprocess.run([exe, "parse", url, "--md"], capture_output=True, text=True, timeout=90).stdout
+    exe, env = defuddle_command(cfg.get("defuddle_path") or "defuddle")
+    md = subprocess.run([exe, "parse", url, "--md"], capture_output=True, text=True, timeout=90, env=env).stdout
     md = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", md)
     md = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", md)
     return " ".join(re.sub(r"[#>*_`|]", " ", md).split()), "defuddle"

@@ -125,7 +125,7 @@
     "max_chunks": 12,
     "retry_fail_days": 30,
     "min_chars": 400,
-    "defuddle_path": "/Users/taez/.nvm/versions/node/v26.8.2/bin/defuddle",
+    "defuddle_path": "defuddle",
     "note": "unread 자료카드의 원문 주소에서 공개 텍스트를 새로 가져와 게시된 주장과 잇는다. 카드의 요약·my_take는 보내지 않는다. 2026-09-26 시험: 원문 확보 36/63, 조각으로 나눈 뒤 24/36이 주장과 이어졌다"
   },
   "link_base": {

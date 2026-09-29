@@ -1,7 +1,7 @@
 """Jev 주간 레이더: 양이 많은 출처는 Slipbox 관심 질문으로 거르고, 믿고 보는 저자는 그대로 모은다.
 
 결과는 _workspace/radar/<실행일>.md에 쓴다. 이미 자료카드로 저장했거나 지난 목록에 올린 글은 뺀다.
-launchd(~/Library/LaunchAgents/com.taez.jev-radar.plist)가 매주 월요일 08:00에 실행한다.
+launchd(~/Library/LaunchAgents/com.taez.jev-radar.plist)가 매주 토요일 08:00에 실행한다.
 
 수동 실행: uv run --with typesafe-sdk --with feedparser python .agents/scripts/jev-radar/radar.py
 """

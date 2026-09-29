@@ -63,6 +63,18 @@ class CheckboxFeedbackTest(unittest.TestCase):
             self.assertEqual(import_checkbox_feedback(out),[])
             self.assertEqual(feedback_state(events_at(out))[url]['rating'],'useful')
 
+    def test_sentences_korean(self):
+        text = ("한국어 초록의 첫 문장은 충분히 길어서 하나의 선택지로 들어가야 한다. "
+                "두 번째 문장도 마찬가지로 길어서 앞 문장과 따로 나뉘어야 맞다. "
+                "The third sentence is written in English and is long enough.")
+        self.assertEqual(len(sentences(text)), 3)
+
+    def test_sentences_korean_noun_endings(self):
+        text = ("즉시 발효되지만 효력을 유지하려면 120일 이내 의회 승인이 필요함 "
+                "이용자는 10월 5일까지 잔액을 반환받을 수 있으며 앱스토어 배포도 중단됨 "
+                "업계는 이번 조치가 다른 나라로 확산될 수 있다고 우려하는 분위기임")
+        self.assertEqual(len(sentences(text)), 3)
+
     def test_sentences_limit(self):
         text = " ".join(f"Sentence number {i} is long enough to count." for i in range(400))
         self.assertLessEqual(len(sentences(text)), 250)

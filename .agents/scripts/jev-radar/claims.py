@@ -7,8 +7,6 @@ import json
 import subprocess
 from pathlib import Path
 
-from typesafe_sdk import Choice, Noul
-
 from reading import add_feedback, canonical, events_at, atomic_json
 
 SAME = ("Does the text `text` report, discuss, or give evidence about the same phenomenon that the claim `{claim}` is about? "
@@ -36,12 +34,15 @@ def published_claims(vault):
 
 
 def sentences(text):
-    parts = [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z\"“(])", text) if len(s.strip()) > 30]
+    # 영어는 마침표 뒤 대문자·따옴표에서, 한국어는 한글 뒤 마침표와 마침표 없는 "~함·~됨·~임" 끝맺음(GeekNews 요약체)에서 자른다. "게임"처럼 임으로 끝나는 명사는 뺀다
+    parts = [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z\"“(])|(?<=[가-힣][.!?])\s+|(?<=[가-힣][함됨임])(?<!게임)\s+", text) if len(s.strip()) > 30]
     return parts[:250]  # Choice 선택지 한도(255) 안
 
 
 def link_claims(items, claims, client, cfg=None):
     """항목 URL → [{claim, p, sentence, confidence}]. 주장 점수와 문장 확신도를 모두 넘은 것만 남긴다."""
+    from typesafe_sdk import Choice, Noul  # 판정할 때만 필요하다. 테스트와 체크박스 기록은 SDK 없이 돈다
+
     cfg = {**DEFAULT, **(cfg or {})}
     usage, links = [], {}
     todo = [x for x in items if len(x.get("summary") or "") >= cfg["min_summary_chars"]]
