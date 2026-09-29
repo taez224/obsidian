@@ -37,6 +37,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 | 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
 | 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
 | 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
+| 공고 맞춤 이력서·서류 모의 심사 | [tailor-resume](.agents/skills/tailor-resume/SKILL.md) |
 
 캡처 요청이 겹치면 **영구 노트·승격 명시 → 외부 자료의 읽음 여부 → 개인 단상** 순서로 판단한다. 외부 자료를 아직 읽지 않았다면 자료카드, 읽고 반응을 남기려 한다면 참고노트로 처리한다. URL이 생각의 출처일 뿐 저장 대상은 개인 단상이라면 Quick Capture로 남긴다.
 
