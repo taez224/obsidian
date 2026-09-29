@@ -1,6 +1,6 @@
 ---
 name: vault-lint
-description: 이 스킬은 사용자가 "vault lint", "vault 점검", "죽은 링크 확인", "frontmatter 점검"을 요청하거나 vault 헬스 체크를 언급할 때 사용한다. 기계 검사(고립 노트·죽은 링크·스키마 위반)는 스캐너 스크립트로 수행하고, 승인된 항목만 적용한다. 고립 노트 연결·승격·구조 노트 생성 같은 의미 판단 작업은 review-zettelkasten을 사용한다.
+description: 이 스킬은 사용자가 "vault lint", "vault 점검", "속성 점검", "죽은 링크 확인", "frontmatter 점검", "slug·날짜 확인", "used_in 후보"를 요청하거나 vault 헬스 체크를 언급할 때 사용한다. 기계 검사(고립 노트·죽은 링크·블록 앵커·속성 스키마 위반·공개 노트의 slug와 날짜 오류·재사용 기록 후보)는 스캐너 스크립트로 수행하고, 승인된 항목만 적용한다. 고립 노트 연결·승격·구조 노트 생성 같은 의미 판단 작업은 review-zettelkasten을 사용한다.
 ---
 
 # vault-lint: Vault 헬스 체크 + 승인 기반 개선
@@ -12,8 +12,10 @@ description: 이 스킬은 사용자가 "vault lint", "vault 점검", "죽은 �
 
 ### 1. 기계 검사 (결정적)
 
+vault 루트에서 실행한다.
+
 ```bash
-python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
+python3 .agents/skills/vault-lint/scripts/lint_scan.py .
 ```
 
 스캐너는 읽기 전용이며 JSON을 반환한다: `orphans`(고립 노트, `slipbox` 플래그 포함),
@@ -24,20 +26,22 @@ python3 <skill-base-dir>/scripts/lint_scan.py /Users/taez/Projects/obsidian
 `periodic_placeholders`(Periodic Notes의 의도된 날짜·주차·월 링크),
 `series_placeholders`(진행 중·잠정 중단 시리즈 허브의 예정 글 링크),
 `hub_gaps`(`01_Slipbox/`의 permanent 노트 중 어느 `type: hub` 노트도 링크하지 않는 것. 허브가 모든 노트를 실을 필요는 없으므로 결함이 아니라 등록 여부를 판단할 후보 목록),
-`priorities`(기계 수정 후보 / 의미 검토 후보 / 정보성 항목 수).
-`reuse_by_note`(영구 노트별 재사용 판정), `stats.reuse`(집계)를 관찰용으로 제공한다. 목표 비율이나 품질 점수로 해석하지 않는다.
-NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하므로 스캐너 결과를 기계 검사 후보의 기준으로 사용한다. 다만 실제 수정 전에는 영향받는 파일과 예상 밖 결과를 표본 확인해 스키마 드리프트나 파서 한계를 점검한다.
+`priorities`(기계 수정 후보 / 의미 검토 후보 / 정보성 항목 수),
+`reuse_by_note`(영구 노트별 재사용 판정과 `used_in_candidates`·`recorded_only`), `stats.reuse`(집계),
+`held`·`stale_holds`·`hold_errors`(보류 목록 대조 결과. 아래 「보류 목록」 참고).
+재사용 수는 관찰용이며 목표 비율이나 품질 점수로 해석하지 않는다.
+NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드·폴더가 붙은 링크(경로 끝부분 일치)를 처리하므로 스캐너 결과를 기계 검사 후보의 기준으로 사용한다. 다만 실제 수정 전에는 영향받는 파일과 예상 밖 결과를 표본 확인해 스키마 드리프트나 파서 한계를 점검한다.
 
 ### 2. 판단 검사
 
-- **문체 제안(`style_suggestions`)**: 보고만 하며 이 lint의 수정 후보나 승인 묶음에 넣지 않는다. `frontmatter_issues`와 분리해 표시한다. 문체 수정은 사용자가 별도로 요청한 내용 검토에서 원문을 읽고 판단한다.
+- **문체 제안(`style_suggestions`)**: 보고만 하며 이 lint의 수정 후보나 승인 묶음에 넣지 않는다. `frontmatter_issues`와 분리해 표시한다. 문체 수정은 사용자가 별도로 요청한 내용 검토에서 원문을 읽고 판단한다. 사용자가 고치지 않기로 한 항목은 보류 목록에 넣어 반복 보고를 끌 수 있다.
 
 이 단계는 스캐너 결과만 사용하며 QMD를 요구하지 않는다. 노트의 의미를 읽어야 하는 연결·승격·구조화 판단은 `review-zettelkasten`으로 넘긴다.
 
-- **연결 공백·MOC 공백 - 탐지·보고만** (적용은 `review-zettelkasten` 위임):
-  `slipbox: true`인 고립 노트와, 같은 태그/링크 클러스터에 3+ 노트가 있는데 `type: hub`
-  노트가 없는 군집, 그리고 스캐너의 `hub_gaps`(허브 미등록 permanent 노트)를 리포트에 기록한다. 어떤 노트를 어떻게 연결·구조화할지의 의미 판단과
-  적용은 이 스킬에서 하지 않고, 리포트에 "review-zettelkasten으로 처리"를 안내한다.
+- **연결 공백·허브 공백 - 탐지·보고만** (적용은 `review-zettelkasten` 위임):
+  `slipbox: true`인 고립 노트와 `hub_gaps`(허브 미등록 permanent 노트)를 리포트에 기록한다.
+  어떤 노트를 어떻게 연결·구조화할지의 의미 판단과 적용은 이 스킬에서 하지 않고, 리포트에
+  "review-zettelkasten으로 처리"를 안내한다.
 - **죽은 링크 처치**: 항목별로 "오타 수정 / 스텁 생성 / 링크 제거 / 의도적 placeholder 유지"
   중 하나를 근거와 함께 제안한다. Zettelkasten에서 미해결 링크는 "나중에 쓸 노트" 표시일 수
   있으므로 제거를 기본값으로 하지 않는다.
@@ -51,8 +55,11 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 - **Series placeholder**: `type: series`이고 `status`가 `completed`가 아닌 허브의 미해결 링크는
   예정 글로 보고 전체 `dead_links`에는 보존하되 `meaning_review`에서 제외한다. 완결 시리즈의
   미해결 링크는 오타·누락 가능성이 있으므로 기존처럼 의미 검토 대상으로 남긴다.
-- **재사용(`used_in`) 후보 - 탐지·보고만**: `reuse_by_note`의 `reused_by`를 `used_in` 기록
-  후보로 제시한다. 판정 규칙은 `scripts/lint_scan.py`의 `classify_reuse_edge`가 정본이고,
+- **재사용(`used_in`) 후보**: `reuse_by_note`의 `used_in_candidates`(스캐너가 찾은 재사용 중
+  `used_in`에 아직 없는 것)를 기록 후보로 제시하고, 승인된 것만 `used_in`에 추가한다.
+  `recorded_only`는 링크 없이 기록된 재사용이나 풀리지 않는 값이다. 사람이 판단해 남긴 기록일 수
+  있으므로 결함으로 표기하지 않고 정보성으로만 보고한다. 풀리지 않는 값만 오타 여부를 확인한다.
+  판정 규칙은 `scripts/lint_scan.py`의 `classify_reuse_edge`가 정본이고,
   무엇을 재사용으로 볼지의 기준은 `_property-schema.md`의 Slipbox 절에 있다 - 여기 복제하지 않는다.
   `pending`(Inbox 출처)은 승인 대상이 아니라 다음 검토까지 보류로만 표시한다.
   재사용 횟수로 `status` 승격을 제안하지 않는다. 승격은 `review-zettelkasten`의 판단이다.
@@ -66,7 +73,7 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 
 ### 3. 리포트 생성
 
-`_workspace/lint-YYYY-MM-DD/report.md` 에 작성한다 (7일 수명 규약 대상):
+`_workspace/lint-YYYY-MM-DD/report.md`에 작성한다. 리포트는 이번 검토를 위한 작업 파일이며 `_workspace/README.md`의 수명 정책을 따른다. 다음 lint가 기억할 결정은 리포트가 아니라 보류 목록에 남긴다.
 우선순위 요약(`mechanical` → `meaning_review` → `informational`) → 카테고리별 발견 + 제안(이유 포함) → degraded 여부.
 고립 노트는 폴더별로 묶고, 연결 제안은 Slipbox 항목에만 첨부한다.
 재사용은 현재 상태를 관찰하는 참고값으로만 표시하고 목표치·합격 조건을 만들지 않는다. `used_in` 기록 후보와 재사용 0회 목록은 남기되, 0회를 결함으로 표기하지 않는다.
@@ -90,17 +97,41 @@ NFC 정규화·alias 해석·`\|` 이스케이프·첨부 임베드를 처리하
 - 새로운 의미 관계를 추가하는 처치는 `review-zettelkasten`으로 넘기고, 사용자가 승인한 대상과 위치만 적용한다.
   본문의 자연스러운 위치가 승인되었으면 문장 안에 연결하고, 기계적으로 위치를 정할 수 없을 때만
   `## 연관된 노트`에 `- [[노트]] - 이유` 형식으로 추가한다 (`99_Templates/slipbox-template.md`).
-- 거부 항목: 리포트에 `보류`로 표기해 다음 lint에서 중복 제안을 피한다.
+- 거부·보류 항목: 사용자가 다시 보지 않겠다고 한 의미 검토 후보는 `holds.json`에 추가한다.
+  보류 추가도 승인 범위에 포함해 묻는다.
 
 ### 7. 마무리
 
 적용 내역을 요약한다. **적용 후 자동 커밋은 하지 않는다** - 커밋 여부는 사용자 판단.
 
+## 보류 목록
+
+`holds.json`(이 스킬 폴더, Git 추적)은 사용자가 거부·보류한 의미 검토 후보를 기억한다. 스캐너는 이 파일과 맞는 항목을 후보에서 빼고 `held`로 따로 보고한다.
+
+```json
+{"holds": [
+  {"kind": "summary", "path": "20_Projects/blog/글.md", "summary": "<스캐너가 출력한 summary 원문>",
+   "reason": "발행 글이라 유지", "date": "2026-09-29"}
+]}
+```
+
+| kind | 키 필드 |
+| --- | --- |
+| `dead_link` | `source`, `target` |
+| `broken_anchor` | `source`, `target`, `anchor` |
+| `orphan`, `hub_gap`, `title` | `path` |
+| `used_in` | `note`, `source` |
+| `summary` | `path`, `summary` |
+
+- 키 필드 값은 스캐너 출력에서 그대로 옮긴다. `reason`과 `date`는 사람이 읽는 기록이며 대조에 쓰지 않는다.
+- 키에는 판단이 기댄 값까지 들어 있다. summary를 고치면 키가 달라져 다시 검사된다. 기한은 두지 않는다.
+- `stale_holds`(어떤 발견과도 맞지 않는 보류)는 이미 고쳤거나 내용이 바뀐 항목이다. 리포트에 삭제 후보로 적는다.
+- `hold_errors`(형식이 틀린 보류)는 기계 수정 후보로 적는다.
+- 형식 오류(`frontmatter_issues`, `base_issues`)는 결정적으로 고칠 수 있으므로 보류 대상이 아니다.
+
 ## 경계
 
-- 스키마 기준은 `99_Templates/_property-schema.md`. 스키마가 바뀌면 `scripts/lint_scan.py`
-  상단 `FOLDER_RULES`에서 폴더별 필수·허용 속성, 공개 여부(`public`: slug와 날짜 형식 검사), `created` 대신 쓰는 날짜 키를 관리한다. 가장 구체적인 prefix 하나를 적용하며 규칙끼리 상속하지 않는다. 공개 노트의 날짜 규칙은 사이트 저장소의 `src/lib/dates.mjs`와 같으므로 한쪽을 바꾸면 다른 쪽도 고친다. 블로그 공개 조건과 프로젝트 status 조건은 이름 있는 함수로, 문체 제안은 형식 오류와 별도로 유지한다. 스캔 제외와 Base 검사는 `SCAN_EXCLUDE_TOP`, `BASE_INVALID_KEYS`에서 관리한다. `.base` 파일에서 새로운 미인식 키를 발견하면 `BASE_INVALID_KEYS`에 추가한다.
-- 스캐너 수정 시 `scripts/test_lint_scan.py`를 실행해 회귀를 확인한다.
+- 스키마 기준은 `99_Templates/_property-schema.md`. 스키마가 바뀌거나 스캐너를 고칠 때는 `scripts/lint_scan.py` 상단 docstring의 관리 지침을 따르고, `scripts/test_lint_scan.py`로 회귀를 확인한다.
 - Inbox 승격, 대화 캡처는 이 스킬의 비범위다.
 - 이 스킬은 **기계적 상태 점검**을 담당한다. 노트의 의미를 읽고 판단하는 연결 제안·승격·
   병합·구조 노트(MOC) 생성은 `review-zettelkasten`이 담당한다. 함께 요청받으면 이 스킬로

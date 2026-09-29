@@ -68,6 +68,20 @@ def build_fixture(root):
     write(root, "01_Slipbox/마커 오탐 노트.md", slip_fm + "본문\n")
     write(root, "20_Projects/blog/승격 언급 글.md",
           fm + "---\n- [[마커 오탐 노트]] - 조회 경로는 승격 때 설계해야 한다\n")
+    # 자료카드가 스스로 "출처 후보"라고 적은 링크는 재사용이 아니라 출처다
+    write(root, "30_Resources/References/Clippings/출처 후보 카드.md",
+          fm + "status: unread\n---\n> [[출처 있는 노트]]의 출처 후보. 관찰을 뒷받침하는 자료.\n")
+    # 폴더가 붙은 링크는 Obsidian처럼 경로 끝부분 일치로 푼다. 없는 파일은 여전히 죽은 링크다
+    write(root, "20_Projects/blog/assets/도식.svg", "<svg/>")
+    write(root, "30_Resources/하위/깊은 노트.md", fm + "---\n본문\n")
+    write(root, "20_Projects/blog/도식 글.md",
+          fm + "---\n![[assets/도식.svg]] [[하위/깊은 노트]] ![[assets/없는 도식.svg]]\n")
+    # used_in 대조: 기록된 재사용은 후보에서 빠지고, 링크 없는 기록·풀리지 않는 기록은 따로 알린다
+    write(root, "01_Slipbox/기록된 노트.md", fm + "type: permanent\nstatus: seedling\nused_in:\n"
+          "  - \"[[기록 문서]]\"\n  - \"[[링크 없는 문서]]\"\n  - \"[[사라진 문서]]\"\n---\n본문\n")
+    write(root, "30_Resources/기록 문서.md", fm + "---\n- [[기록된 노트]] - 이 원칙을 적용한 기준\n")
+    write(root, "30_Resources/미기록 문서.md", fm + "---\n- [[기록된 노트]] - 이 원칙을 적용한 기준\n")
+    write(root, "30_Resources/링크 없는 문서.md", fm + "---\n본문\n")
     # ───────────────────────────────────────────────────────
     # 진행 중 시리즈 허브의 미래 글 링크는 의미 검토가 아닌 정보성 placeholder
     write(root, "20_Projects/blog/진행 중 연재.md",
@@ -109,6 +123,14 @@ def build_fixture(root):
     # 문체 휴리스틱은 올바른 주장도 포착할 수 있으므로 형식 오류로 분류하지 않는다.
     write(root, "30_Resources/Development/Concepts/설명 모델.md",
           "---\ncreated: 2026-06-12\nslug: explanation-model\nsummary: 이 모델은 상태 전이를 설명한다.\n---\n[[대상 노트]]\n")
+    # 블로그 summary도 글이 하는 일("~를 소개한다", "~한 구현 기록")로 끝나면 검토 후보다. 관점을 말하면 통과한다.
+    blog_fm = "---\ncreated: 2026-06-12\nslug: {}\nstatus: draft\nsummary: {}\n---\n[[대상 노트]]\n"
+    write(root, "20_Projects/blog/소개하는 글.md", blog_fm.format("intro-post", "HEXACO의 여섯 성격 차원을 소개한다."))
+    write(root, "20_Projects/blog/구현 기록 글.md", blog_fm.format("impl-post", "JWT 인증을 WebSocket에 연결한 구현 기록."))
+    write(root, "20_Projects/blog/관점을 말하는 글.md", blog_fm.format("claim-post", "AI는 개인의 속도를 높였지만 팀의 진척은 늘지 않았다."))
+    # 목록에 없는 명사로 끝나도 관형형 뒤 명사구면 후보다. 질문으로 끝나는 summary는 통과한다.
+    write(root, "20_Projects/blog/운영 경험 글.md", blog_fm.format("ops-post", "원문을 먼저 남기고 나중에 승격한 Obsidian 운영 경험."))
+    write(root, "20_Projects/blog/질문하는 글.md", blog_fm.format("question-post", "AI가 쓴 노트는 누구의 지식인가."))
     # 첨부파일 실물
     write(root, "_attachments/그림.png", "png-bytes")
     # 제외 대상: _ 파일, _workspace
@@ -240,12 +262,55 @@ def test_public_dates_from_yaml():
         assert any("날짜 형식 오류 (created)" in issue for issue in issues), issues
 
 
+def run_scan(root, holds_path):
+    # 실제 스킬 폴더의 holds.json에 영향받지 않도록 보류 목록을 항상 명시한다.
+    out = subprocess.run([sys.executable, SCRIPT, root, "--holds", holds_path],
+                         capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    return json.loads(out.stdout)
+
+
+def test_holds(root):
+    holds_path = os.path.join(root, "_workspace", "holds.json")
+    write(root, "_workspace/holds.json", json.dumps({"holds": [
+        {"kind": "dead_link", "source": "01_Slipbox/연결된 노트.md", "target": "없는노트", "reason": "쓸 예정"},
+        {"kind": "orphan", "path": "01_Slipbox/고립 노트.md"},
+        {"kind": "summary", "path": "20_Projects/blog/소개하는 글.md",
+         "summary": "HEXACO의 여섯 성격 차원을 소개한다."},
+        # summary를 고친 뒤에는 키가 달라져 다시 제안되고, 이 보류는 stale로 남는다
+        {"kind": "summary", "path": "20_Projects/blog/구현 기록 글.md", "summary": "고치기 전 문장."},
+        {"kind": "used_in", "note": "01_Slipbox/기록된 노트.md", "source": "30_Resources/미기록 문서.md"},
+        {"kind": "없는 종류", "path": "x"},
+    ]}, ensure_ascii=False))
+    r = run_scan(root, holds_path)
+
+    assert not any(d["target"] == "없는노트" and d["source"] == "01_Slipbox/연결된 노트.md"
+                   for d in r["dead_links"]), r["dead_links"]
+    assert r["priorities"]["meaning_review"]["dead_links"] == 2, r["priorities"]
+    assert r["priorities"]["meaning_review"]["slipbox_orphans"] == 0, r["priorities"]
+    suggestions = {x["path"]: x for x in r["style_suggestions"]}
+    assert "20_Projects/blog/소개하는 글.md" not in suggestions, suggestions
+    assert suggestions["20_Projects/blog/구현 기록 글.md"]["summary"] == "JWT 인증을 WebSocket에 연결한 구현 기록."
+    by_note = {unicodedata.normalize("NFC", e["path"]): e for e in r["reuse_by_note"]}
+    assert by_note["01_Slipbox/기록된 노트.md"]["used_in_candidates"] == [], by_note["01_Slipbox/기록된 노트.md"]
+
+    assert len(r["held"]) == 4, r["held"]
+    assert [h["summary"] for h in r["stale_holds"]] == ["고치기 전 문장."], r["stale_holds"]
+    assert len(r["hold_errors"]) == 1 and r["priorities"]["mechanical"]["hold_errors"] == 1, r["hold_errors"]
+    assert r["priorities"]["informational"]["held"] == 4
+    assert r["priorities"]["informational"]["stale_holds"] == 1
+
+    # 형식이 깨진 보류 목록은 스캔을 멈추지 않고 오류로만 보고한다
+    write(root, "_workspace/holds.json", "{not json")
+    r = run_scan(root, holds_path)
+    assert len(r["hold_errors"]) == 1 and r["held"] == [], r["hold_errors"]
+
+
 def main():
     with tempfile.TemporaryDirectory() as root:
         build_fixture(root)
-        out = subprocess.run([sys.executable, SCRIPT, root], capture_output=True, text=True)
-        assert out.returncode == 0, out.stderr
-        r = json.loads(out.stdout)
+        r = run_scan(root, os.path.join(root, "없는 보류 목록.json"))
+        assert r["held"] == [] and r["stale_holds"] == [] and r["hold_errors"] == []
 
         orphan_paths = {o["path"] for o in r["orphans"]}
         assert "01_Slipbox/고립 노트.md" in orphan_paths, orphan_paths
@@ -256,7 +321,9 @@ def main():
             assert unicodedata.normalize("NFC", p) not in nfc_orphans, p
 
         dead_targets = {d["target"] for d in r["dead_links"]}
-        assert dead_targets == {"없는노트", "2026-06-11", "다음 편"}, dead_targets
+        assert dead_targets == {"없는노트", "2026-06-11", "다음 편", "assets/없는 도식.svg"}, dead_targets
+        # 경로 끝부분으로 풀린 노트 링크는 백링크로 센다
+        assert "30_Resources/하위/깊은 노트.md" not in orphan_paths, orphan_paths
         # NFD·alias·Archive·png는 오탐 금지, 코드블록 무시
         assert r["periodic_placeholders"] == [
             {
@@ -291,6 +358,10 @@ def main():
         assert any("summary" in s for s in bad_style), bad_style
         assert "30_Resources/Development/Concepts/설명 모델.md" not in issues
         assert "30_Resources/Development/Concepts/설명 모델.md" in suggestions
+        for p in ("20_Projects/blog/소개하는 글.md", "20_Projects/blog/구현 기록 글.md", "20_Projects/blog/운영 경험 글.md"):
+            assert any("summary" in s for s in suggestions.get(p, [])), (p, suggestions.get(p))
+        for p in ("20_Projects/blog/관점을 말하는 글.md", "20_Projects/blog/질문하는 글.md"):
+            assert p not in suggestions, (p, suggestions.get(p))
         assert "30_Resources/Development/Concepts/좋은 개념.md" not in issues, issues
         assert any("루트" in s for s in issues.get("30_Resources/Development/루트 노트.md", [])), issues
         assert not any("_index" in p or "_workspace" in p or "_candidates" in p for p in
@@ -310,8 +381,8 @@ def main():
         assert priorities["mechanical"]["frontmatter_issues"] == len(r["frontmatter_issues"])
         assert priorities["mechanical"]["base_issues"] == len(r["base_issues"])
         assert priorities["meaning_review"]["slipbox_orphans"] == 1
-        # 없는노트 2건: 평범한 링크 + 앵커 링크(문서 자체가 미해석이라 dead_links 소관)
-        assert priorities["meaning_review"]["dead_links"] == 2
+        # 없는노트 2건: 평범한 링크 + 앵커 링크(문서 자체가 미해석이라 dead_links 소관) + 없는 도식 1건
+        assert priorities["meaning_review"]["dead_links"] == 3
         assert priorities["informational"]["periodic_placeholders"] == 1
         assert priorities["informational"]["series_placeholders"] == 1
         assert priorities["informational"]["non_slipbox_orphans"] == sum(
@@ -353,6 +424,8 @@ def main():
         # 출처 표지 문구가 붙은 링크는 재사용으로 세지 않는다
         assert count("01_Slipbox/출처 있는 노트.md") == 0, by_note
         assert reasons("01_Slipbox/출처 있는 노트.md", "excluded") == {"출처 표지 문구"}
+        assert "30_Resources/References/Clippings/출처 후보 카드.md" in {
+            x["path"] for x in by_note["01_Slipbox/출처 있는 노트.md"]["excluded"]}
         # Inbox 링크는 보류 — 출처도 재사용도 아니다
         assert reasons("01_Slipbox/출처 있는 노트.md", "pending") == {"Inbox 초안 — 근거로 세지 않음"}
         # 상호 + 읽은 자료 → 출처
@@ -382,6 +455,19 @@ def main():
         counts = [e["reuse_count"] for e in r["reuse_by_note"]]
         assert counts == sorted(counts, reverse=True), counts
 
+        # used_in 대조: 기록되지 않은 재사용만 후보, 링크 없이 기록된 재사용은 recorded_only
+        recorded = by_note["01_Slipbox/기록된 노트.md"]
+        assert recorded["used_in_candidates"] == ["30_Resources/미기록 문서.md"], recorded
+        assert recorded["recorded_only"] == [
+            {"path": "30_Resources/링크 없는 문서.md"},
+            {"value": "[[사라진 문서]]", "unresolved": True},
+        ], recorded
+        assert by_note["01_Slipbox/운영 노트.md"]["used_in_candidates"] == ["30_Resources/운영 문서.md"]
+        assert priorities["meaning_review"]["used_in_candidates"] == reuse["used_in_candidates"] == sum(
+            len(e["used_in_candidates"]) for e in r["reuse_by_note"])
+        assert priorities["informational"]["recorded_only"] == reuse["recorded_only"] == 2
+
+        test_holds(root)
         print("OK — all assertions passed")
 
 

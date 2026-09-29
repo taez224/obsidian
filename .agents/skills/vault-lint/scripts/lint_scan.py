@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
 """vault-lint 기계 검사 스캐너 — 읽기 전용, vault 파일을 절대 수정하지 않는다.
 
-사용: python3 lint_scan.py [vault_root]   (기본: 현재 디렉토리)
-출력: JSON {stats, priorities, orphans, dead_links, hub_gaps, periodic_placeholders, series_placeholders,
-           frontmatter_issues, base_issues}
+사용: python3 lint_scan.py [vault_root] [--holds PATH]   (기본: 현재 디렉토리, 스킬 폴더의 holds.json)
+출력: JSON {stats, priorities, reuse_by_note, orphans, dead_links, broken_anchors, hub_gaps,
+           periodic_placeholders, series_placeholders, frontmatter_issues, style_suggestions, base_issues,
+           held, stale_holds, hold_errors}
 
-스키마 출처: 99_Templates/_property-schema.md — 스키마 변경 시 아래 설정 블록만 갱신.
+관리 지침
+- 스키마 출처는 99_Templates/_property-schema.md다. 스키마가 바뀌면 아래 설정 블록만 갱신한다.
+- FOLDER_RULES는 폴더별 필수·허용 속성, 공개 여부(public: slug와 날짜 형식 검사), created 대신 쓰는
+  날짜 키를 관리한다. 가장 구체적인 prefix 하나를 적용하며 규칙끼리 상속하지 않는다.
+- 공개 노트의 날짜 규칙은 사이트 저장소의 src/lib/dates.mjs와 같다. 한쪽을 바꾸면 다른 쪽도 고친다.
+- 블로그 공개 조건과 프로젝트 status 조건은 이름 있는 함수로, 문체 제안은 형식 오류와 별도로 유지한다.
+- 스캔 제외는 SCAN_EXCLUDE_TOP, Base 검사는 BASE_INVALID_KEYS에서 관리한다. .base 파일에서 새로운
+  미인식 키를 발견하면 BASE_INVALID_KEYS에 추가한다.
+- 보류 목록의 종류와 키는 HOLD_KEYS에서 관리한다.
+- 스캐너를 고친 뒤에는 test_lint_scan.py로 회귀를 확인한다.
 """
 import json
 import os
@@ -38,7 +48,7 @@ DEVELOPMENT_RULE = FolderRule(
 FOLDER_RULES = {
     "": FolderRule(),  # 별도 규칙이 없는 폴더에만 적용한다.
     "01_Slipbox/": FolderRule(required=("type", "status"), public=True),  # Slipbox
-    "20_Projects/blog/": FolderRule(public=True),  # Blog Posts: 공개 조건은 별도 검사
+    "20_Projects/blog/": FolderRule(public=True, review_summary=True),  # Blog Posts: 공개 조건은 별도 검사
     "30_Resources/References/Articles/": FolderRule(required=("source", "published", "status")),
     "30_Resources/References/Clippings/": FolderRule(required=("status",)),
     "30_Resources/Development/DevLog/": FolderRule(created_key="date"),  # DevLog
@@ -51,8 +61,16 @@ DEV_ROOT = "30_Resources/Development/"  # 이 폴더 바로 아래에는 노트�
 PUBLIC_DATE_FIELDS = ("created", "published", "updated")
 DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 KST = timezone(timedelta(hours=9))
-# summary는 답·질문·용도를 말하는 문장이다. 노트가 하는 일("~를 정리한다")로 끝나면 보고한다.
-DEV_SUMMARY_TAIL_RE = re.compile(r"(정리|확인|점검|설명|소개|다룬)한다\.?$")
+# summary는 답·질문·용도·관점을 말하는 문장이다. 노트가 하는 일로 끝나면 보고한다. 표현 목록이 아니라 세 가지 형태로 본다.
+# 목록으로 맞춘 이전 정규식은 만들 때 보지 않은 summary에서 "~한 운영 경험"을 하나도 잡지 못했다(2026-09-24 검증).
+SUMMARY_TAIL_RE = re.compile(
+    # 노트의 활동을 서술어로 쓴다: "~를 정리한다", "~를 살펴본다"
+    r"((정리|확인|점검|설명|소개|제안|제시|해석|성찰|분석|기록)(한다|했다)|다룬다|살펴본다|돌아본다)\.?$"
+    # 서술어 없이 관형형 뒤 명사구로 끝난다: "~한 방식과 기준". 마지막 어절이 서술·의문 어미면 제외한다
+    r"|[한은는던된할]\s(?:\S+\s){0,3}\S*[^다요까죠가\s.]\.?$"
+    # 글이 스스로를 장르 명사로 부른다: "~다룬 구현 기록", "~정리한 글이다"
+    r"|(글|기록|후기|과정|방법|경험|사례)(이다)?\.?$"
+)
 ORPHAN_EXCLUDE = (             # 날짜 기반 노트 — 위키링크 연결이 목적이 아니라 orphan 판정 제외
     "10_Periodic Notes/",
     "30_Resources/Development/DevLog/",
@@ -65,9 +83,24 @@ REUSE_PROVENANCE_MARKERS = (   # 링크 옆 설명에 이 표현이 있으면 �
     "로 승격", "으로 승격",
     "압축한 영구 노트", "정제한 영구 노트", "정제한 결과",
     "에서 출발한",
+    "출처 후보",
 )
 # 맨 "승격"·"출발점"은 마커에 넣지 않는다. 본문 개념어로도 쓰이고,
 # "출발점"은 화자가 누구냐에 따라 출처와 재사용이 뒤집힌다.
+
+# 보류 목록 — 사용자가 거부·보류한 의미 검토 후보를 다음 lint에서 다시 제안하지 않는다.
+# 키에는 판단이 기댄 값까지 넣는다. 그 값이 바뀌면 키가 달라져 자동으로 다시 제안된다.
+# 형식 오류(frontmatter·base)는 결정적으로 고칠 수 있으므로 보류 대상이 아니다.
+HOLD_KEYS = {
+    "dead_link": ("source", "target"),
+    "broken_anchor": ("source", "target", "anchor"),
+    "orphan": ("path",),
+    "hub_gap": ("path",),
+    "used_in": ("note", "source"),
+    "summary": ("path", "summary"),
+    "title": ("path",),
+}
+DEFAULT_HOLDS = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "holds.json")
 # ───────────────────────────────────────────────────────────
 
 WIKILINK_RE = re.compile(r"!?\[\[([^\[\]]+?)\]\]")
@@ -148,6 +181,15 @@ def date_issues(scalars, lists, today):
     return issues
 
 
+SUGGEST_SUMMARY = "summary 꼬리 검토: 답·질문·용도인지 문맥 확인"
+SUGGEST_TITLE = "제목의 ' - ' 검토: 실제 부제인지 오류 문자열인지 확인"
+SUGGESTION_HOLD_KIND = {SUGGEST_SUMMARY: "summary", SUGGEST_TITLE: "title"}
+
+
+def summary_text(scalars):
+    return (scalars or {}).get("summary", "").strip().strip("'\"")
+
+
 def check_frontmatter(rel, scalars, lists, today=None):
     """한 노트의 형식 오류와 문체 제안을 분리해 반환한다."""
     issues, suggestions = [], []
@@ -176,13 +218,11 @@ def check_frontmatter(rel, scalars, lists, today=None):
             for key in scalars:
                 if key not in rule.allowed:
                     issues.append(f"스키마에 없는 필드: {key}")
-        if rule.review_summary:
-            summary = scalars.get("summary", "").strip().strip("'\"")
-            if DEV_SUMMARY_TAIL_RE.search(summary):
-                suggestions.append("summary 꼬리 검토: 답·질문·용도인지 문맥 확인")
+        if rule.review_summary and SUMMARY_TAIL_RE.search(summary_text(scalars)):
+            suggestions.append(SUGGEST_SUMMARY)
         # 구두점만으로 제목의 의미를 판정할 수 없으므로 오류가 아닌 문맥 검토 제안으로 남긴다.
         if rel.startswith("30_Resources/Development/Troubleshooting/") and " - " in os.path.basename(rel):
-            suggestions.append("제목의 ' - ' 검토: 실제 부제인지 오류 문자열인지 확인")
+            suggestions.append(SUGGEST_TITLE)
     if rel.startswith(DEV_ROOT) and rel.count("/") == DEV_ROOT.count("/"):
         issues.append("Development 루트 노트: Concepts·Troubleshooting·Tools 중 하나로")
     return issues, suggestions
@@ -351,14 +391,99 @@ def scan_base_issues(root, all_base):
     return issues
 
 
-def main():
-    root = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
+def resolve_by_suffix(target, all_files):
+    """폴더가 붙은 링크(`assets/그림.svg`)는 Obsidian처럼 경로 끝부분이 일치하는 파일로 푼다."""
+    if "/" not in target:
+        return set()
+    suffix = "/" + target
+    return {p for p in all_files
+            if p.endswith(suffix) or (p.endswith(".md") and p[:-3].endswith(suffix))}
 
-    all_md, all_base, resolve, target_index = [], [], set(), {}
+
+def recorded_reuse(lists, target_index):
+    """used_in에 적힌 값을 노트 경로로 푼다. (풀린 경로 집합, 풀리지 않은 원문 목록)."""
+    resolved, unresolved = set(), []
+    for raw in lists.get("used_in", []):
+        m = WIKILINK_RE.search(raw)
+        name = (m.group(1) if m else raw).replace("\\|", "|").split("|")[0].split("#")[0].strip()
+        hit = target_index.get(nfc(name))
+        if hit:
+            resolved.update(hit)
+        else:
+            unresolved.append(raw)
+    return resolved, unresolved
+
+
+def hold_key(kind, item):
+    return (kind,) + tuple(nfc(item[field]) for field in HOLD_KEYS[kind])
+
+
+def load_holds(path):
+    """(유효한 보류 목록, 오류 목록). 파일이 없으면 둘 다 비어 있다."""
+    if not os.path.exists(path):
+        return [], []
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError) as e:
+        return [], [{"error": f"보류 목록을 읽지 못함: {e}"}]
+    entries = data.get("holds") if isinstance(data, dict) else None
+    if not isinstance(entries, list):
+        return [], [{"error": "최상위는 {\"holds\": [...]} 형식이어야 한다"}]
+    holds, errors = [], []
+    for i, entry in enumerate(entries):
+        fields = HOLD_KEYS.get(entry.get("kind")) if isinstance(entry, dict) else None
+        if not fields or not all(isinstance(entry.get(k), str) and entry[k] for k in fields):
+            errors.append({"index": i, "hold": entry, "error": "알 수 없는 kind이거나 키 필드가 비어 있음"})
+        else:
+            holds.append(entry)
+    return holds, errors
+
+
+class Holds:
+    """발견 항목을 보류 목록과 대조한다. 맞은 보류는 held, 끝까지 안 맞은 보류는 stale로 보고한다."""
+
+    def __init__(self, holds):
+        self.index = {hold_key(h["kind"], h): h for h in holds}
+        self.matched = {}
+
+    def take(self, kind, item):
+        key = hold_key(kind, item)
+        if key not in self.index:
+            return False
+        self.matched[key] = self.index[key]
+        return True
+
+    def held(self):
+        return list(self.matched.values())
+
+    def stale(self):
+        return [h for key, h in self.index.items() if key not in self.matched]
+
+
+def parse_args(argv):
+    root, holds_path = ".", DEFAULT_HOLDS
+    args = list(argv)
+    while args:
+        arg = args.pop(0)
+        if arg == "--holds" and args:
+            holds_path = args.pop(0)
+        else:
+            root = arg
+    return os.path.abspath(root), holds_path
+
+
+def main():
+    root, holds_path = parse_args(sys.argv[1:])
+    hold_list, hold_errors = load_holds(holds_path)
+    holds = Holds(hold_list)
+
+    all_md, all_base, all_files, resolve, target_index = [], [], [], set(), {}
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if not d.startswith(".")]
         for fn in filenames:
             rel = nfc(os.path.relpath(os.path.join(dirpath, fn), root))
+            all_files.append(rel)
             if fn.endswith(".base"):
                 all_base.append(rel)
             if fn.endswith(".md"):
@@ -401,6 +526,13 @@ def main():
         out_count[rel] = len(links)
         for t, line in links:
             hit = target_index.get(t)
+            if not hit and t not in resolve:
+                found = resolve_by_suffix(t, all_files)
+                if not found:
+                    if is_scanned(rel):
+                        dead_links.append({"source": rel, "target": t})
+                    continue
+                hit = {p for p in found if p.endswith(".md")}  # 비어 있으면 첨부 파일로 풀린 링크
             if hit:
                 for tgt in hit:
                     if tgt != rel:
@@ -417,8 +549,6 @@ def main():
                         and is_scanned(rel)
                     ):
                         slipbox_inbound.setdefault(tgt, {}).setdefault(rel, []).append(line)
-            elif t not in resolve and is_scanned(rel):
-                dead_links.append({"source": rel, "target": t})
 
     scanned = [rel for rel in all_md if is_scanned(rel)]
 
@@ -431,17 +561,16 @@ def main():
             if not hit:
                 continue          # 문서 자체가 미해석이면 dead_links가 이미 잡는다
             if not any(anchor in anchors.get(tgt, set()) for tgt in hit):
-                broken_anchors.append({
-                    "source": rel,
-                    "target": sorted(hit)[0],
-                    "anchor": anchor,
-                })
+                item = {"source": rel, "target": sorted(hit)[0], "anchor": anchor}
+                if not holds.take("broken_anchor", item):
+                    broken_anchors.append(item)
 
     orphans = [
         {"path": rel, "slipbox": rel.startswith("01_Slipbox/")}
         for rel in scanned
         if out_count.get(rel, 0) == 0 and in_degree.get(rel, 0) == 0
         and not rel.startswith(ORPHAN_EXCLUDE)
+        and not holds.take("orphan", {"path": rel})
     ]
 
     # 허브 공백: 01_Slipbox의 permanent 노트 중 어느 허브(type: hub)도 링크하지 않는 노트.
@@ -449,15 +578,16 @@ def main():
     # 판단하도록 목록만 보고한다.
     def note_type(rel):
         scalars, _ = fm_cache.get(rel, (None, {}))
-        return (scalars or {}).get("type", "")
+        return (scalars or {}).get("type", "").strip("'\"")
 
     hubs = [rel for rel in scanned if rel.startswith("01_Slipbox/") and note_type(rel) == "hub"]
     hub_targets = set().union(*(out_targets[h] for h in hubs)) if hubs else set()
     hub_gaps = [
-        {"path": rel, "status": (fm_cache[rel][0] or {}).get("status", "")}
+        {"path": rel, "status": (fm_cache[rel][0] or {}).get("status", "").strip("'\"")}
         for rel in scanned
         if rel.startswith("01_Slipbox/") and note_type(rel) == "permanent"
         and rel not in hub_targets
+        and not holds.take("hub_gap", {"path": rel})
     ]
 
     frontmatter_issues = []
@@ -468,14 +598,23 @@ def main():
         issues, suggestions = check_frontmatter(rel, scalars, lists, today=today)
         if issues:
             frontmatter_issues.append({"path": rel, "issues": issues})
+        summary = summary_text(scalars)
+        suggestions = [
+            s for s in suggestions
+            if not holds.take(SUGGESTION_HOLD_KIND[s], {"path": rel, "summary": summary})
+        ]
         if suggestions:
-            style_suggestions.append({"path": rel, "suggestions": suggestions})
+            entry = {"path": rel, "suggestions": suggestions}
+            if SUGGEST_SUMMARY in suggestions:
+                entry["summary"] = summary  # 보류 목록에 옮겨 적을 키 값
+            style_suggestions.append(entry)
 
     base_scanned = [rel for rel in all_base if is_base_scanned(rel)]
     base_issues = scan_base_issues(root, base_scanned)
 
     slipbox_orphans = sum(1 for orphan in orphans if orphan["slipbox"])
     non_slipbox_orphans = len(orphans) - slipbox_orphans
+    dead_links = [item for item in dead_links if not holds.take("dead_link", item)]
     periodic_placeholders = [
         item for item in dead_links
         if is_periodic_placeholder(item["source"], item["target"])
@@ -499,7 +638,7 @@ def main():
     reuse_by_note = []
     reuse_edges = excluded_edges = pending_edges = 0
     for tgt in slipbox_notes:
-        scalars, _ = fm_cache.get(tgt, (None, {}))
+        scalars, lists = fm_cache.get(tgt, (None, {}))
         entry = {
             "path": tgt,
             "status": (scalars or {}).get("status", "").strip("'\""),
@@ -507,6 +646,8 @@ def main():
             "reused_by": [],
             "excluded": [],
             "pending": [],
+            "used_in_candidates": [],
+            "recorded_only": [],
         }
         for src, lines in sorted(slipbox_inbound.get(tgt, {}).items()):
             verdict, why = classify_reuse_edge(
@@ -525,6 +666,18 @@ def main():
                 entry["pending"].append(record)
                 pending_edges += 1
         entry["reuse_count"] = len(entry["reused_by"])
+        # used_in은 사람이 승인한 재사용 기록이다. 스캐너가 찾은 재사용 중 아직 기록되지 않은 것만
+        # 후보로 내고, 링크 없이 기록된 재사용은 결함이 아니라 스캐너가 볼 수 없는 기록으로 알린다.
+        recorded, unresolved = recorded_reuse(lists, target_index)
+        detected = {r["path"] for r in entry["reused_by"]}
+        entry["used_in_candidates"] = [
+            src for src in sorted(detected - recorded)
+            if not holds.take("used_in", {"note": tgt, "source": src})
+        ]
+        entry["recorded_only"] = (
+            [{"path": p} for p in sorted(recorded - detected)]
+            + [{"value": v, "unresolved": True} for v in unresolved]
+        )
         reuse_by_note.append(entry)
 
     reuse_by_note.sort(key=lambda e: (-e["reuse_count"], e["path"]))
@@ -532,6 +685,9 @@ def main():
     seedling_with_reuse = sum(
         1 for e in reuse_by_note if e["reuse_count"] > 0 and e["status"] == "seedling"
     )
+    used_in_candidates = sum(len(e["used_in_candidates"]) for e in reuse_by_note)
+    recorded_only = sum(len(e["recorded_only"]) for e in reuse_by_note)
+    held, stale_holds = holds.held(), holds.stale()
 
     print(json.dumps({
         "stats": {
@@ -557,18 +713,24 @@ def main():
                 "reuse_edges": reuse_edges,
                 "excluded_edges": excluded_edges,
                 "pending_edges": pending_edges,
+                "used_in_candidates": used_in_candidates,
+                "recorded_only": recorded_only,
             },
+            "held": len(held),
+            "stale_holds": len(stale_holds),
         },
         "priorities": {
             "mechanical": {
                 "frontmatter_issues": len(frontmatter_issues),
                 "base_issues": len(base_issues),
+                "hold_errors": len(hold_errors),
             },
             "meaning_review": {
                 "style_suggestions": len(style_suggestions),
                 "slipbox_orphans": slipbox_orphans,
                 "dead_links": len(meaning_dead_links),
                 "broken_anchors": len(broken_anchors),
+                "used_in_candidates": used_in_candidates,
             },
             "informational": {
                 "non_slipbox_orphans": non_slipbox_orphans,
@@ -576,7 +738,10 @@ def main():
                 "series_placeholders": len(series_placeholders),
                 "seedling_with_reuse": seedling_with_reuse,
                 "pending_reuse_edges": pending_edges,
+                "recorded_only": recorded_only,
                 "hub_gaps": len(hub_gaps),
+                "held": len(held),
+                "stale_holds": len(stale_holds),
             },
         },
         "reuse_by_note": reuse_by_note,
@@ -589,6 +754,9 @@ def main():
         "frontmatter_issues": frontmatter_issues,
         "style_suggestions": style_suggestions,
         "base_issues": base_issues,
+        "held": held,
+        "stale_holds": stale_holds,
+        "hold_errors": hold_errors,
     }, ensure_ascii=False, indent=2))
 
 
