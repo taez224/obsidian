@@ -1,181 +1,177 @@
 ---
 created: 2026-09-24
-updated: 2026-09-26
+updated: 2026-09-28
 slug: jev-system-one
-summary: 문장 대신 정해진 선택지와 확률을 돌려주는 System One 모델 Jev는 무엇이고, 읽을거리 선별과 노트 정리에 적용하면 어떤 판단을 맡길 수 있는가.
+summary: 글 대신 판단을 돌려주는 Jev의 세 가지 질문 타입과, 실제로 개인 지식 관리와 탐색에 실험해 본 기록
 tags:
   - AI
 ---
 
 # Jev와 System One 모델
 
-TypeSafe AI가 공개한 Jev가 요즘 화제라 살펴봤다. LLM처럼 답을 문장으로 쓰지 않고, 질문에 대해 선택된 값이나 점수와 함께 확률을 돌려주는 모델이다. 한국어 자료에 어디까지 쓸 수 있을지 궁금해서 두 곳에 적용해 봤다. 매주 쏟아지는 논문과 글에서 읽을 것을 고르는 일과, 내 노트를 주제별로 나누고 다시 읽을 노트를 고르는 일이다. 시험한 버전은 2026년 9월에 나온 `jev-1.13.0`이다.
+TypeSafe AI가 공개한 Jev가 요즘 화제라 살펴봤다. LLM처럼 답을 문장으로 쓰지 않고 미리 정한 선택지 가운데 답을 확률과 함께 돌려주는 모델이다. 질문 타입 세 가지를 매주 쏟아지는 논문·글과 내 Obsidian 노트에 하나씩 적용해 봤다. 시험한 버전은 2026년 9월에 나온 `jev-1.13.0`이다.
 
 ## System One 모델
 
-[공식 발표 글](https://typesafe.ai/blog/introducing-system-one-models-and-jev)은 Jev를 **System One 모델**의 첫 모델로 소개한다. 이름은 Kahneman이 빠르고 직관적인 판단을 시스템 1, 느리고 신중한 추론을 시스템 2로 나눈 데서 따왔다. 채팅과 글쓰기는 LLM에 맡기고, 소프트웨어 안에서 반복되는 작은 판단을 빠르고 싸게 내리는 것이 목표다.
+[공식 발표 글](https://typesafe.ai/blog/introducing-system-one-models-and-jev)은 Jev를 **System One 모델**의 첫 모델로 소개한다. 이름은 Kahneman이 빠르고 직관적인 판단을 시스템 1, 느리고 신중한 추론을 시스템 2로 나눈 데서 따왔다. 채팅과 글쓰기는 LLM에 맡기고 소프트웨어가 바로 쓸 수 있는 구조화된 판단을 빠르게 내리는 것이 목표라고 한다.
 
-LLM과 가장 다른 점은 출력이다. LLM은 답을 토큰 단위로 이어 쓰기 때문에 결과를 코드에서 쓰려면 문장을 다시 해석해야 하고, 가끔 형식이 깨진다. Jev는 선택지를 미리 받고 모든 선택지의 확률을 한 번에 계산해 돌려준다. 선택지 밖의 답은 나올 수 없다. 대신 문장, 코드, 설명은 만들지 못한다. 발표 글은 비교 가능한 LLM보다 40~200배 빠르고, 가격은 입력 100만 토큰당 $0.042라고 밝힌다.
+LLM과 가장 다른 점은 답에 붙는 확률이다. 형식만 보면 차이가 크지 않다. 요즘 LLM API에는 Structured Outputs처럼 JSON 스키마를 강제하는 기능이 있어서 LLM도 정해진 형식으로 답하게 할 수 있다. 하지만 LLM은 스키마 안에서도 답을 토큰 단위로 이어 써서 값 하나만 돌려준다. 확신도를 필드로 달라고 해도 그 숫자 역시 생성한 텍스트라, 발표 글은 LLM이 과신하고 일관되지 않다고 지적한다. 스키마에 딱 맞는데 내용은 지어낸 답이 나와도 코드는 알아챌 수 없다.[^schema]
+
+Jev는 선택지를 미리 받아 모든 선택지의 확률을 한 번에 계산하고 이 확률이 실제 정답률과 맞도록 학습했다고 밝힌다. 그래서 코드가 확률을 보고 바로 처리할지, 사람에게 넘길지 정할 수 있다. 선택지 밖의 답은 나오지 않는 대신 문장, 코드, 설명은 만들지 못한다. 발표 글은 System One 형태의 질문에서 비슷한 수준의 LLM보다 40~200배 빠르고 가격은 입력 100만 토큰당 $0.042이며 출력은 무료라고 밝힌다.
 
 ## 질문 타입
 
-질문은 세 가지 타입 중에서 고른다.
-
 | 타입 | 돌려주는 값 |
 | --- | --- |
-| 예/아니오 질문 (Noul) | "예"일 확률 (0~1) |
-| 선택지 고르기 (Choice) | 선택지마다 확률, 가장 높은 선택지, 그 선택의 확신도 |
-| 단계 매기기 (Score) | 낮음·보통·높음처럼 순서가 있는 단계 위의 위치와 단계별 확률 |
+| **Noul** (예/아니오) | "예"일 확률 (0~1) |
+| **Choice** (선택지 고르기) | 선택지마다 확률, 가장 높은 선택지와 그 확신도 |
+| **Score** (단계 매기기) | 단계별 확률의 가중평균과 확신도 |
 
-SDK와 API에서는 괄호 안의 이름을 쓴다. 판단할 자료(`state`)는 한 번만 보내고, 그 자료에 대한 질문 여러 개를 한 요청에 묶을 수 있다. 아래 예시는 Python SDK(`typesafe-sdk`)로 실제로 돌린 호출이다. 흐름을 보여주기 위해 입력과 선택지 일부를 줄였으며, `title`·`body` 같은 변수는 앞에서 준비한 값이다. 지시문은 영어로 썼다. 공식 문서가 영어를 주 학습 언어로 밝히고 있어서다.
+Noul은 답이 예와 아니오뿐이라 확률 하나로 충분하므로 확신도를 따로 주지 않는다. 값이 0이나 1에 가까울수록 모델이 한쪽 답에 확률을 몰아 준 것이다. 그 답이 맞는다는 보장은 아니다.
 
-## 읽을거리 선별에 적용
+판단할 자료(`state`)는 한 번만 보내고 그 자료에 대한 질문 여러 개를 한 요청에 묶을 수 있다. 질문은 병렬로 평가되어 여러 개를 묶어도 응답 시간이 거의 늘지 않는다. 아래 예시는 Python SDK(`typesafe-sdk`)로 실제로 돌린 호출을 줄인 것이다. 코드의 `title`, `abstract`, `summary`, `body`, `text`는 미리 준비한 자료이며 생략한 질문과 선택지를 포함한 원래 호출의 결과를 함께 적었다. 지시문은 영어로 썼다. 공식 문서가 영어를 주 학습 언어로 밝히고 있어서다.
 
-arXiv의 HCI·소프트웨어공학·AI 분야에는 일주일에 논문이 1,000편 넘게 올라오고, Hacker News와 GeekNews에도 수백 건이 쌓인다. 다 읽을 수는 없어서, 내 노트에 적어 둔 주장을 관심 질문으로 바꿔 Jev에게 거르게 했다.
+### Noul: 관심 주제 판정
 
-| 관심 질문 | 바탕이 된 노트 |
-| --- | --- |
-| AI 도구가 사람의 이해와 역량을 어떻게 바꾸는가 | [[AI 코딩 도구는 이해 부채를 만든다]] |
-| 사람이 AI 산출물을 수락하기 전에 어떻게 확인하는가 | [[생성은 AI에게, 검증은 나에게]] |
-| 팀과 조직이 AI를 어떻게 받아들이는가 | [[팀의 AI 역량은 사용량이 아니라 회수율로 드러난다]] |
-| AI를 쓰면서 사람의 사고가 유지되거나 길러지는가 | [[AI와의 스파링으로 내 생각을 끌어내고 다듬는다]] |
-| 개인 지식 관리와 글쓰기 | [[세컨드 브레인은 퍼스트 브레인의 사고를 보조해야 한다]] |
-
-질문마다 예/아니오 질문(Noul)을 하나씩 두고, 논문이나 글의 제목과 초록을 한 요청에 보낸다. 질문은 병렬로 평가되므로 다섯 개를 묶어도 응답 시간은 거의 늘지 않는다.
+매주 arXiv와 Hacker News에 쌓이는 논문과 글에서 읽을 것을 고르는 데 썼다. 노트에 적어 둔 내 주장(예: 「AI 코딩 도구는 이해 부채를 만든다」)을 관심 질문 다섯 개로 바꿔 질문마다 Noul을 하나씩 두고 글의 제목과 초록을 보낸다. 한 글이 여러 질문에 해당할 수 있어서 Choice 하나 대신 Noul 다섯 개로 물었다. 하나라도 0.8을 넘은 글만 주간 목록에 올린다.
 
 ```python
 from typesafe_sdk import Noul, TypeSafeClient
 
 client = TypeSafeClient()  # TYPESAFE_API_KEY 환경 변수를 읽는다
-QUESTIONS = {
-    "comprehension": Noul(instructions=(
+questions = {
+    "comprehension_debt": Noul(instructions=(
         "Does this item discuss how using AI assistants, especially coding assistants, affects people's own "
         "understanding of the work, their skill development, or their skill decline?")),
     # ... 나머지 네 질문
 }
-
-result = client.system_one({"title": title, "summary": abstract}, QUESTIONS)
-scores = {k: result.nouls[k].noul for k in QUESTIONS}
+result = client.system_one({"title": title, "summary": abstract}, questions)
+scores = {k: result.nouls[k].noul for k in questions}
 ```
 
-실제 입력 한 건과 결과다. ChatGPT를 쓴 프로그래밍 수업의 학생들이 과제 점수는 높았지만 직후와 48시간 뒤에 기억한 내용은 적었다는 [실험 논문](https://arxiv.org/abs/2609.21194)이다. 실제 호출에서는 제목과 초록 전체를 보냈고, 아래에는 초록 앞부분만 남겼다.
+ChatGPT를 쓴 프로그래밍 수업의 학생들이 과제 점수는 높았지만 기억한 내용은 적었다는 [실험 논문](https://arxiv.org/abs/2609.21194)을 판정한 결과다. 점수는 논문의 결론이 맞을 확률이 아니라, "제목과 초록이 이 주제를 다루는가"에 대한 답이 "예"일 확률이다. 0.97은 "많이 다룬다"가 아니라 "다룬다고 거의 확신한다"는 뜻이다. 정도를 재고 싶으면 아래의 Score를 쓴다.
 
-```python
-state = {
-    "title": "Your Programming Students' Cognition with ChatGPT: "
-             "Higher Performance, Lower Retention, and Reduced Ownership",
-    "summary": "Generative AI can improve students' programming performance, but successful task "
-               "completion may not reflect what they retain. We examined performance, retention, ...",
+응답의 `answers`에는 질문 키마다 확률 하나가 온다. SDK에서는 이 값을 `result.nouls[키]`로 꺼낸다. 다섯 질문의 결과를 풀어 쓰면 아래 표와 같다.
+
+```json
+"answers": {
+  "comprehension_debt": {"type": "noul", "noul": 0.97},
+  "thinking_partner": {"type": "noul", "noul": 0.72},
+  ...
 }
 ```
 
-점수는 논문의 결론이 맞을 확률이 아니라, 제목과 초록이 각 관심 주제를 다룬다고 Jev가 판단한 정도다.
-
-| 관심 주제 | "예"일 확률 |
+| 관심 질문 | "예"일 확률 |
 | --- | --- |
-| AI 도구와 이해·역량 | 0.97 |
-| AI 사용과 사고의 유지·발달 | 0.74 |
-| AI 산출물의 확인 | 0.33 |
+| AI 도구가 사람의 이해와 역량을 어떻게 바꾸는가 | 0.97 |
+| AI를 쓰면서 사람의 사고가 유지되거나 길러지는가 | 0.72 |
+| 사람이 AI 산출물을 수락하기 전에 어떻게 확인하는가 | 0.30 |
 | 개인 지식 관리와 글쓰기 | 0.08 |
-| 팀과 조직의 AI 수용 | 0.05 |
+| 팀과 조직이 AI를 어떻게 받아들이는가 | 0.05 |
 
-질문이 넓으면 넓은 대로 충실하게 고른다는 점은 조심해야 했다. 처음에는 "사람이 통제권을 유지하는 의사결정 지원"을 물었더니 계약서의 모순을 찾아 주는 분석 도구 논문이 0.96으로 올라왔다. 질문을 "사람의 사고가 유지되거나 길러지는가"로 좁히자 같은 논문은 0.40으로 내려갔다.
+같은 입력을 몇 번 다시 보내 보니 값이 0.02~0.04쯤 달라졌다. 기준값 바로 근처의 글은 호출마다 목록에 들어가거나 빠질 수 있다.
 
-질문 하나라도 0.8을 넘은 것만 모아, 출처별로 상위 3~5건씩 주간 목록을 만든다. 논문과 글 1,600여 건을 판정하는 데 1분이 안 걸렸고 5센트쯤 들었다.
+질문을 넓게 쓰면 관심 밖의 글도 그 질문에는 맞으므로 높은 점수를 받는다. 표의 두 번째 질문은 처음에 "사람이 통제권을 유지하는 의사결정 지원을 다루는가"였는데, 계약서의 모순을 찾아 주는 분석 도구 논문이 0.96으로 올라왔다. 지금처럼 "사람의 사고가 유지되거나 길러지는가"로 좁히자 같은 논문이 0.40으로 내려갔다.
 
-시험하는 동안 걸러진 목록에서 논문 5편과 글 3편을 읽을 자료로 저장했다. 목록에서 빠진 좋은 글이 얼마나 되는지는 재지 않았다.
+### Choice: 노트 주제 분류
 
-### 점수순 목록에서 읽기 묶음으로
-
-관련성이 높은 글만 고르면 비슷한 자료가 반복될 수 있다. 그래서 ‘AI 도구와 이해·역량’ 주제에는 자료의 특징을 함께 고려하는 읽기 묶음을 추가했다.
-
-Jev에는 제목과 초록을 보고 현업 개발자를 대상으로 했는지, 시간이 지난 뒤에도 측정했는지, AI 없이 수행하는 평가가 있는지, 사람의 이해나 역량을 측정했는지를 물었다. Choice로 ‘명시됨·명시적 제외·미확인’을 고르게 하고, 실증 연구·적용 경험·해설 같은 자료 유형도 구분했다.
-
-이 판단은 저장해 두고 다시 쓴다. 코드는 저장 자료에서 드물게 확인된 조건과 자료 유형을 고려하고, 중복을 줄여 함께 읽을 목록을 만든다. ‘이미 앎’과 ‘관심 밖’ 같은 반응도 구분해 기록하고, 실제로 도움이 됐다는 반응이 쌓이면 선택 가중치를 조정하도록 했다. 자료를 열거나 저장한 것만으로 도움이 됐다고 간주하지는 않는다.
-
-첫 실행에서는 논문 한 편과 적용 경험 글 한 편을 골랐다. 다만 초록만으로는 확인되지 않거나 모델의 확신이 낮은 연구 조건이 많았다. 저장 자료에서 드물게 확인된 조건이 학계에서도 드문 것은 아니므로, 우선 다시 읽을 이유를 찾는 단서로만 쓴다. 목록은 만들었지만 추천이 실제로 좋아졌는지는 읽은 뒤의 반응으로 확인해야 한다.
-
-## 노트 정리에 적용
-
-### 주제 분류
-
-내 노트와 글에는 조직, 커리어, AI처럼 직접 정해 둔 주제 8개 가운데 하나가 붙어 있다. 노트의 제목, 요약문, 본문 앞부분을 보내고 선택지 고르기(Choice)로 하나를 고르게 했다. 예시는 상황적 리더십 모델을 다룬 [[SLII 01 - 상황에 따른 맞춤형 리더십|블로그 글]]이다.
+내 노트와 블로그 글에는 조직, 커리어, AI처럼 직접 정한 주제 8개 가운데 하나를 붙여 둔다. 노트의 제목, 요약문, 본문 앞부분을 보내고 Choice로 하나를 고르게 했다.
 
 ```python
 from typesafe_sdk import Choice
 
 result = client.system_one(
-    {
-        "title": "SLII®: 상황에 따른 맞춤형 리더십",
-        "summary": "팀원의 역량과 몰입을 기준으로 개발 수준을 진단하고, ... SLII 모델의 구조를 정리한다.",
-        "body_excerpt": body[:2000],
-    },
-    {
-        "topic": Choice(
-            instructions="Which topic is this note's main claim about? "
-                         "Judge by what the note argues, not by words it merely mentions.",
-            criteria={
-                "조직": "Organizations: delegation, hiring, team performance, leadership; "
-                        "principles that still hold without AI.",
-                "커리어": "Career and self-development: growth, skills and learning, "
-                          "self-management, motivation, job changes, seniority.",
-                # ... AI, 개발, 심리, 철학, 글쓰기, 지식관리
-                "none_of_the_above": "The note fits none of the topics above.",
-            },
-        ),
-    },
+    {"title": title, "summary": summary, "body_excerpt": body[:2000]},
+    {"topic": Choice(
+        instructions="Which topic is this note's main claim about? "
+                     "Judge by what the note argues, not by words it merely mentions.",
+        criteria={
+            "조직": "Organizations: delegation, hiring, team performance, leadership.",
+            "커리어": "Career and self-development: growth, skills, motivation, job changes.",
+            # ... AI, 개발, 심리, 철학, 글쓰기, 지식관리
+            "none_of_the_above": "The note fits none of the topics above.",
+        },
+    )},
 )
 answer = result.choices["topic"]
-print(answer.choice, answer.confidence)  # 조직 1.0
+print(answer.choice, answer.confidence)
 ```
 
-이 글에는 원래 `커리어`가 붙어 있었는데, 다시 읽어 보니 리더십을 다루는 글이라 Jev의 답이 맞았다. 노트 74개에 돌려 보니 80%가 기존 분류와 같았고, 확신도가 0.8 이상인데 기존과 다른 8개를 다시 읽어 보니 5개는 기존 분류가 틀렸다. Jev가 틀린 답은 "AI 시대의 판단력"처럼 제목에 들어간 단어에 끌려 `AI`를 고른 경우가 많았다.
+응답에는 고른 선택지와 확신도, 모든 선택지의 확률이 함께 온다. 아래는 [[보리스 체르니의 다섯 아키타입으로 본 나의 작업 방식]] 노트의 응답이다.
 
-그래서 분류를 자동으로 바꾸지 않고, 확신도가 높은데 어긋난 노트만 골라 다시 읽는 데 썼다.
+```json
+"topic": {
+  "type": "choice",
+  "choice": "개발",
+  "confidence": 0.44,
+  "probabilities": {
+    "개발": 0.51,
+    "커리어": 0.34,
+    "철학": 0.08,
+    // 나머지 선택지들...
+    "none_of_the_above": 0.0
+  }
+}
+```
 
-선택지에는 "해당 없음"(`none_of_the_above`)을 꼭 넣었다. 맞는 답이 없을 때 고를 곳이 없으면, Jev는 그럴듯한 오답을 자신 있게 고른다.[^ko-audit] 선택지 이름과 설명은 모델에게 그대로 전달되므로, [Choice 문서](https://docs.typesafe.ai/primitives/choice)의 권장대로 선택지끼리 구분되게 설명을 쓴다.
+[Confidence 문서](https://docs.typesafe.ai/confidence)에 따르면 확신도는 확률 분포에서 계산한 값으로, 확률이 한 선택지에 몰릴수록 높고 고르게 퍼질수록 낮다. 계산식은 공개하지 않았고 이 응답처럼 가장 높은 확률(0.51)과 확신도(0.44)가 다를 수 있다. 이 노트에 내가 붙인 분류는 `커리어`였고 Jev는 개발과 커리어 사이에서 갈렸다.
 
-### 본문의 뒷받침 정도
+노트 74개 중 38개는 확신도가 1.0이었고 나머지는 이 노트처럼 확률이 여러 선택지로 나뉘었다. 결과는 확신도에 따라 다르게 썼다. 확신도가 높은데 내 분류와 다른 노트는 다시 읽었다. 상황적 리더십을 다룬 [[SLII 01 - 상황에 따른 맞춤형 리더십|블로그 글]]은 `조직`이 확신도 1.0으로 나왔는데, 나는 `커리어`를 붙여 두었다. 다시 읽어 보니 리더십을 다루는 글이라 태그를 `조직`으로 바꿨다. 다만 Jev도 [[AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다]]처럼 제목에 들어간 단어에 끌려 `AI`를 고르곤 해서 태그는 다시 읽은 뒤에만 바꿨다. 확신도가 낮은 노트는 두 주제에 걸친 경우가 많아서 Jev의 답을 쓰지 않고 내가 판단했다.
 
-노트 본문이 중심 주장을 얼마나 뒷받침하는지 단계 매기기(Score)로 세 단계를 매기게 했다. 단계의 이름과 설명은 직접 정한다. 이번에는 주장과 설명만 있는지, 근거·반례·적용 사례 가운데 하나가 있는지, 둘 이상이 있는지다. 링크 수에 끌리지 않도록 출처와 연관된 노트 목록은 빼고 보냈다.
+주제 8개가 모든 노트를 덮지 못할 수 있어서 "해당 없음"(`none_of_the_above`)을 선택지에 넣었다. 맞는 답이 없어도 Jev는 주어진 선택지 중 하나를 고르기 때문이다. 공식 문서도 목록이 모든 입력을 덮지 못할 수 있으면 이런 선택지를 넣으라고 권한다. 정답이 "알 수 없음"인 문항에서 그 선택지를 빼자, 고정관념에 맞는 답을 다섯 번 중 네 번 확신도 0.79로 고른 측정도 있다.[^ko-audit] 선택지 이름과 설명은 모델에 그대로 전달되므로, [Choice 문서](https://docs.typesafe.ai/primitives/choice)의 권장대로 선택지끼리 구분되게 쓴다.
+
+### Score: 실행 방법의 구체성
+
+읽을거리마다 개발자가 적용할 만한 내용을 얼마나 구체적으로 제시하는지를 의견·발견·실행 방법의 세 단계로 나눠 봤다. 선택지에 순서가 있으면 Choice 대신 Score를 쓴다. 단계는 직접 정해 낮은 것부터 순서대로 주고 응답에서는 0부터 번호가 붙는다.
 
 ```python
 from typesafe_sdk import Score
 
-SUPPORT = Score(
-    instructions="How much support does this Korean note give its central claim, beyond stating and explaining the claim? ...",
+apply = Score(
+    instructions="How directly can a working software developer apply what this article offers to their own work?",
     criteria=[  # 낮은 단계부터 순서대로
-        "Only the claim: ... no concrete evidence, no counterexample or limit, and no real case where it was applied.",
-        "One kind of support: ... exactly one of concrete evidence, a counterexample or limit, or a real case.",
-        "Several kinds of support: ... two or more of them.",
+        "Opinion or news: views, reports, or commentary with no method or finding to act on.",
+        "Findings or principles: evidence or ideas a developer would still need to adapt before applying.",
+        "Ready-to-use method: concrete steps, code, settings, or a tool a developer can apply right away.",
     ],
 )
-answer = client.system_one({"title": title, "body": body}, {"support": SUPPORT}).scores["support"]
+answer = client.system_one({"title": title, "text": text[:6000]}, {"apply": apply}).scores["apply"]
+print(answer.score, answer.confidence)
 ```
 
-| 노트 | 점수 (0~2) | 단계별 확률 | 확신도 |
-| --- | --- | --- | --- |
-| [[세컨드 브레인은 퍼스트 브레인의 사고를 보조해야 한다]] | 1.97 | 0: 0.01, 1: 0.02, 2: 0.97 | 0.96 |
-| [[AI 코딩 도구는 이해 부채를 만든다]] | 0.80 | 0: 0.35, 1: 0.50, 2: 0.15 | 0.25 |
+최근 읽을거리 다섯 편의 결과다. 세 단계의 차이가 잘 드러나 이 기준을 예시로 골랐다. 점수는 위에 정의한 기준에 따른 결과일 뿐, 글의 가치나 읽을 우선순위를 뜻하지 않는다.
 
-점수는 단계별 확률로 평균을 낸 값이라 단계 사이의 값이 될 수 있다. 확신도(`confidence`)는 API가 함께 돌려주는 값으로, Choice의 확신도처럼 확률이 한 단계에 몰릴수록 높고 여러 단계에 퍼질수록 낮다. 앞 노트는 본문에 한계와 적용 사례를 갖췄고, 뒤 노트는 본문 대부분이 설명이다. 비유만으로 된 노트를 높게 매기거나 주장 하나가 아니라 규칙 목록인 노트를 잘못 매긴 경우도 있어서, 점수는 다시 읽을 노트를 고르는 데만 썼다. 점수가 낮은 노트는 근거를 보강할 후보로, 높은데 아직 다듬지 않은 노트는 다듬을 후보로 다시 읽는다.
+| 글 | 점수 (0~2), 확신도 |
+| --- | --- |
+| ["rogue" AI 에이전트는 없다](https://eoinhiggins.substack.com/p/there-are-no-rogue-ai-agents) (의견 글) | 0.14, 0.79 |
+| [AI 없이 한 달](https://blog.bustikiller.com/2026/09/25/one-month-without-ai.html) (개발자의 체험기) | 0.57, 0.34 |
+| [ChatGPT를 쓴 학생의 인지 실험](https://arxiv.org/abs/2609.21194) (논문) | 0.93, 0.90 |
+| [Unblocked의 Jev 운영 비교](https://getunblocked.com/blog/jev-in-production-vs-cross-encoder/) (운영 사례) | 1.02, 0.97 |
+| [jevgrep](https://github.com/dzhng/jevgrep) (설치해 쓰는 도구) | 2.00, 1.00 |
 
-## 잘 맞지 않았던 곳
+「AI 없이 한 달」의 응답이다. `legend`는 요청에 넣은 단계 설명을 번호와 함께 돌려준다.
 
-두 곳 말고도 판단을 몇 가지 더 시켜 봤다. 판단 기준이 **입력 안에 그대로 적혀 있는 것**은 잘했다. 초록이 어떤 주제를 다루는지, 노트의 본문에 근거나 적용 사례가 있는지는 입력만 읽으면 확인할 수 있다. 반대로 입력 밖을 추론해야 하는 판단으로 시험한 두 가지, 허수아비 찾기와 노트 관계 판단은 결과가 좋지 않았다.
+```json
+"apply": {
+  "type": "score",
+  "score": 0.57,
+  "confidence": 0.34,
+  "legend": {"0": "Opinion or news: ...", "1": "Findings or principles: ...", "2": "Ready-to-use method: ..."},
+  "probabilities": {"0": 0.44, "1": 0.56, "2": 0.0}
+}
+```
 
-허수아비는 상대 주장을 일부러 약하게 세워 두고 반박하는 글쓰기다. "플랫폼 팀은 지원 조직이 아니라 핵심 전략 엔진이다"처럼 "X가 아니라 Y"로 쓴 문장을 발행한 블로그 글에서 뽑아, X가 Y를 돋보이게 하려고 세워 둔 허수아비인지 물었다. 그걸 알려면 독자가 실제로 플랫폼 팀을 지원 조직으로 생각하는지부터 따져야 한다. Jev는 그런 문장 18개 중 1개만 찾았다.[^labels] 두 노트가 서로의 근거인지 반례인지를 물었을 때도 대부분 한두 가지 관계로 몰아 답했다. 공식 [jev-1.13 약점 문서](https://docs.typesafe.ai/model-jaggedness/jev-1.13)도 여러 단계를 거치는 추론을 약점으로 꼽는다.
-
-판단이 정확해도 쓸모가 없는 곳도 있었다. 글에 근거로 붙일 내 경험 문단을 고르게 해 봤는데, 판단은 쓸 만했다. 하지만 나는 글을 LLM과 함께 쓰고, 노트를 검색해 쓸 문단을 고르는 일도 그 LLM이 이미 하고 있었다. 한 번에 문단 수십 개를 보는 일이라 Jev가 더 빠르고 싸도 달라지는 것이 없었다.
+점수는 단계별 확률의 가중평균이라 단계 사이의 값이 나온다. 표시된 확률로 다시 계산하면 0.56인데 점수는 0.57이다. 응답 값이 모두 소수 둘째 자리까지라 반올림 차이로 보인다. 확신도는 확률이 한 단계에 몰릴수록 높고 여러 단계에 퍼질수록 낮다. 이 글은 확률이 0단계와 1단계로 나뉘어 확신도가 0.34에 그쳤다. 모델이 두 단계를 명확히 구분하지 못한 글은 점수만 보고 거르지 말고 직접 열어 보는 편이 낫다.
 
 ## 적용 범위와 한계
 
-쓸모가 가장 분명했던 곳은 읽을거리 선별이다. 한 주 치 논문과 글은 양이 많아 사람이 직접 읽거나 글쓰기 LLM에 모두 넘기기에는 부담스럽고, Jev의 답은 사람이 다시 볼 후보에 그치며, 잘못 올라온 후보는 읽지 않고 넘길 수 있다. 노트 정리에서도 분류와 점수를 노트에 자동으로 반영하지 않고, 다시 읽을 노트를 고르는 데만 썼다.
+판단 기준이 **입력 안에 적혀 있을 때**는 잘했다. 초록이 어떤 주제를 다루는지, 글이 바로 따라 할 방법을 주는지는 입력만 읽으면 확인할 수 있다. 입력 밖을 추론해야 하는 판단은 약했다. 블로그에서 "X가 아니라 Y"로 쓴 문장을 뽑아 X가 Y를 돋보이게 하려고 일부러 약하게 세운 주장인지 세 선택지의 Choice로 고르게 했을 때, 40문장 중 정답을 "그렇다"로 붙인 18개에서 1개만 맞혔다.[^labels] 글의 문장이 내 주장과 어떤 관계인지 네 선택지(반대 결과, 조건·경계, 구체 사례, 같은 말)로 물었을 때는 대부분 "구체 사례"를 골랐다. 공식 [jev-1.13 약점 문서](https://docs.typesafe.ai/model-jaggedness/jev-1.13)도 여러 단계를 거치는 추론을 약점으로 꼽는다.
 
-노트 정리에는 영어 지시문과 한국어 노트를 함께 사용했다. 주제 분류에는 쓸 만했지만, 노트 관계를 해석하는 판단은 결과가 좋지 않았다. 지시문 언어에 따른 차이는 따로 비교하지 않았다. 독립 측정에서는 한국어 정확도가 영어보다 6.5%p 낮았다.[^ko-audit]
+쓸모는 정확도보다 양에서 갈렸다. 한 주 치 논문과 글 1,600여 건은 직접 읽거나 LLM에 모두 넘기기에는 많은데, Jev에는 제목과 초록만 보내 1분이 안 걸려 5센트쯤으로 후보를 좁혔다. 반대로 블로그 글의 주장에 근거로 붙일 내 경험 문단을 노트에서 고르게 했을 때는 판단이 정확했지만 글을 함께 쓰는 LLM이 이미 하던 일이라 달라지는 것이 없었다. 어느 쪽이든 Jev의 답은 사람이 다시 볼 후보로만 쓰고 노트에 자동으로 반영하지 않았다.
 
-공개된 지 얼마 안 된 모델이라 제3자 검증은 아직 적다. 한 사회과학 분류 연구에서는 과제 15개 중 14개에서 가장 좋은 LLM보다 정확도가 낮았고, 비용은 44분의 1이었다.[^css-study] 정확도가 중요한 판단을 통째로 맡길 근거는 아직 없다.
+한국어 입력에 따른 차이는 따로 재지 않았다. 독립 측정에서는 일반 지식 문항(MMLU-ProX)의 한국어 정확도가 영어보다 6.5%p 낮았다.[^ko-audit] 공개된 지 얼마 안 된 모델이라 제3자 검증도 아직 적다. 한 사회과학 분류 연구에서는 과제 15개 중 14개에서 가장 좋은 LLM보다 정확도가 낮았고 비용은 44분의 1이었다.[^css-study]
 
-[^labels]: 이 판단의 정답은 Jev를 돌리기 전에 Claude가 붙였다. 그래서 수치는 사람의 판단이 아니라 이 정답과의 일치다. 판단마다 한 번씩만 돌렸다.
-[^ko-audit]: [jev-calibration-audit FINDINGS](https://github.com/jujumilk3/jev-calibration-audit/blob/main/FINDINGS.md), jujumilk3, GitHub, 2026-09-18. 영어 원문을 번역한 한국어 편향 벤치마크(KoBBQ)로 `jev-1.13.0`을 시험했다. 정답이 "알 수 없음"인 문항에서 이 선택지를 빼자 고정관념에 맞는 답을 다섯 번 중 네 번, 확신도 0.79로 골랐다. 한국어 정확도는 MMLU-ProX 기준으로 쟀다.
+[^schema]: TypeSafe, [SDE cascade](https://docs.typesafe.ai/cookbooks/sde_cascade), 공식 쿡북. 작은 LLM이 JSON 스키마를 통과한 추출 결과에 원문에 없는 날짜를 지어 넣은 사례를 보이고, 스키마 검사로는 이를 잡을 수 없다고 설명한다.
+[^labels]: 이 판단의 정답은 Jev를 돌리기 전에 글쓰기에 함께 쓰는 LLM(Claude)이 붙였다. 그래서 수치는 사람의 판단이 아니라 이 정답과의 일치다. 판단마다 한 번씩만 돌렸다.
+[^ko-audit]: [jev-calibration-audit FINDINGS](https://github.com/jujumilk3/jev-calibration-audit/blob/main/FINDINGS.md), jujumilk3, GitHub, 2026-09-18. 한국어 편향 벤치마크(KoBBQ)로 측정했다.
 [^css-study]: Hazem Ibrahim, Yasir Zaki, [Evaluating Decision Models for Text Annotation in Computational Social Science](https://arxiv.org/abs/2609.24574), arXiv, 2026.
