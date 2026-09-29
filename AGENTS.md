@@ -37,6 +37,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 | 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
 | 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
 | 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
+| TypeSafe·Jev 연동 설계·구현 | [typesafe-ai](.agents/skills/typesafe-ai/SKILL.md) |
 | 공고 맞춤 이력서·서류 모의 심사 | [tailor-resume](.agents/skills/tailor-resume/SKILL.md) |
 
 캡처 요청이 겹치면 **영구 노트·승격 명시 → 외부 자료의 읽음 여부 → 개인 단상** 순서로 판단한다. 외부 자료를 아직 읽지 않았다면 자료카드, 읽고 반응을 남기려 한다면 참고노트로 처리한다. URL이 생각의 출처일 뿐 저장 대상은 개인 단상이라면 Quick Capture로 남긴다.
@@ -77,7 +78,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 
 - 공통 진입점은 이 파일이다. [CLAUDE.md](CLAUDE.md)는 `@AGENTS.md`로 가져온 뒤 Claude 전용 지침만 덧붙인다. 상세 운영·속성·절차는 각 정본에서 수정한다.
 - 스킬 정본은 `.agents/skills/<skill-name>/`다. Codex는 직접 읽으므로 `.codex/skills/`에 링크하지 않는다. Claude는 `.claude/skills/`에 상대 심볼릭 링크를 둔다.
-- `defuddle`, `json-canvas`, `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`은 Claude의 obsidian-skills 플러그인과 이름이 겹치므로 Claude 링크를 만들지 않는다. `.agents/skills/`의 해당 사본은 Codex용이다.
+- `defuddle`, `json-canvas`, `obsidian-bases`, `obsidian-cli`, `obsidian-markdown`은 Claude의 obsidian-skills 플러그인과 이름이 겹치므로 Claude 링크를 만들지 않는다. `.agents/skills/`의 해당 사본은 Codex용이다. `typesafe-ai`도 Claude의 typesafe 플러그인과 이름이 겹치므로 같은 이유로 Claude 링크를 만들지 않는다.
 - 공통 SKILL.md와 도구별 실행 설정을 분리한다. Claude 전용 실행 설정은 `.claude/workflows/`, Codex 전용 설정은 `.codex/`에 둔다.
 
 ## 검증 명령

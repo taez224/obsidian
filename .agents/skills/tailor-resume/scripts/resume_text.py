@@ -1,6 +1,6 @@
-"""Extract plain text from a resume HTML file for mock screening.
+"""모의 심사에 넘길 텍스트를 전용본 HTML에서 추출한다.
 
-Usage: python3 resume_text.py <resume.html> <output.txt>
+사용법: python3 resume_text.py <전용본.html> <출력.txt>
 """
 
 import html

@@ -1,0 +1,4 @@
+interface:
+  display_name: "개발 노트 정리"
+  short_description: "개발 경험·코드·조사를 개념·트러블슈팅·도구 노트로 정리하거나 재검토"
+  default_prompt: "Use $development-note to 이 개발 경험을 Concepts·Troubleshooting·Tools 가운데 맞는 곳에 개발 노트로 정리해줘. 확인하지 않은 원인이나 검증 결과는 만들지 마."

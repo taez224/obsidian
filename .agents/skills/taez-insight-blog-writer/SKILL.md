@@ -31,6 +31,8 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 
 ### vault 파이프라인 (`.claude/workflows/`)
 
+표의 `blog-*` 워크플로(`.js`)는 여러 에이전트를 띄우는 Workflow 스크립트라서, 사용자가 워크플로 실행을 명시했을 때만 돌린다. 명시가 없으면 같은 단계를 이 스킬의 절차와 `references/`로 직접 수행한다. `blog-slop-lint.mjs`와 `blog-structure-scan.mjs`는 LLM을 호출하지 않는 결정론 스크립트이므로 필요할 때 `node`로 바로 실행한다.
+
 | 단계 | 워크플로 | 핵심 산출 |
 | --- | --- | --- |
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
@@ -222,15 +224,7 @@ Run a title and heading pass before handing off the outline:
 
 ### 5.2 Draft natural Korean before polishing
 
-사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만 먼저 `references/korean-first-draft.md`를 읽고 다음을 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이다.
-
-- 정의·프레임보다 실제 장면, 구체 주어, 행동 동사로 문단을 시작한다.
-- `~에 대해`, `~를 통해`, `~에 있어서`, `~와 관련하여`, 불필요한 피동과 긴 관형어를 그대로 옮기지 않는다. 자연스러운 조사·능동형·짧은 문장으로 다시 쓴다.
-- `중요한 것은`, `주목할 점은`, `따라서`, `결론적으로`, `X가 아니라 Y` 같은 문장 공식으로 논지를 운반하지 않는다. 비용·장면·인과를 직접 쓴다.
-- 문단마다 같은 길이·종결어미·접속사 리듬을 반복하지 않는다. 다만 일부러 문학적인 표현, 비유, 구어체를 덧붙여 해결하지도 않는다.
-- 고유명사·수치·날짜·직접 인용·기술 약어는 바꾸지 않는다. 목록은 실제 단계·비교·선택지를 보여줄 때만 사용한다.
-
-초안을 쓴 뒤 30초 동안 문단 첫 문장, 문두 접속사, 추상 명사 연쇄, 독립해도 의미가 남는 안내 문장을 훑는다. 발견한 문제만 고친다. 처음부터 모든 문장을 휴머나이즈하거나, 이 기준을 문장 길이·종결어미의 기계적 균일화 규칙으로 사용하지 않는다.
+사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만, 쓰기 전에 `references/korean-first-draft.md`를 읽고 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이며, 초안을 쓴 뒤의 30초 자체 점검도 그 파일을 따른다.
 
 ### 6. Apply the anti-slop tests
 
@@ -253,14 +247,7 @@ For a substantial draft or review, check only the applicable questions:
 
 For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 다시 훑는다. 여기서 실제로 확인할 것은 하나다 - 직전 편과 이번 편을 이어 읽었을 때 같은 악장이 반복되는가. 소재만 바뀐 채 "오해 → 사실은 아니었다 → 원칙"이 다시 돌면 구조로 돌아간다.
 
-For company-tech-blog publication checks only, run a domestic-tech-blog rhythm pass:
-
-- Does the title point to the article's real climax or landing, and do the section headings answer the reader's next question without repeating the title?
-- Does the opening start from a concrete friction before naming a framework?
-- Does each paragraph do one job: scene, problem, cause, criterion, example, or landing?
-- Are 350+ character paragraphs split unless they are code, tables, or intentional bullets?
-- Is the main concept singular, with adjacent concepts demoted to symptoms, evidence, or operating criteria?
-- Does the article leave one usable criterion, question, or workflow instead of many abstract lessons?
+For company-tech-blog publication checks only, run the `Publication review checklist` in `references/domestic-tech-blog-benchmark.md`.
 
 ### 7. Editing stance
 

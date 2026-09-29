@@ -80,6 +80,6 @@ When alternatives help, produce 2–3 strategies rather than many cosmetic varia
 - Thesis: can the article be reduced to one sentence naming what changed and why it matters?
 - Concept load: is there one main frame and at most two supporting terms?
 - Evidence: does each citation, screenshot, code block, or metric directly support a nearby paragraph?
-- Paragraph density: are 350+ character prose paragraphs split or intentionally dense?
+- Paragraph density: does each paragraph do one job, and are 350+ character prose paragraphs split or intentionally dense?
 - Takeaway: does the reader leave with one usable question, standard, or workflow?
 - Ending: does the conclusion resolve the article's real problem instead of opening a new concept?
