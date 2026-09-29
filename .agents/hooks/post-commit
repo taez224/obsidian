@@ -87,7 +87,6 @@ mkdir "$LOCK" 2>/dev/null || exit 0
 (
 	trap '' HUP
 	trap 'rm -rf "$LOCK" 2>/dev/null' EXIT INT TERM
-	echo "$$" >"$LOCK/pid" 2>/dev/null
 	cd "$VAULT" || exit 0
 	{
 		echo "--- $(date '+%Y-%m-%d %H:%M:%S') $(git rev-parse --short HEAD)"
@@ -102,5 +101,11 @@ mkdir "$LOCK" 2>/dev/null || exit 0
 		rm -f "$LOG.tmp"
 	fi
 ) </dev/null >/dev/null 2>&1 &
+
+# PID는 부모에서 $!로 적는다. 서브셸 안의 $$는 서브셸이 아니라 곧 끝나는 이 훅의
+# PID라서, 그 값을 적으면 다음 훅이 살아 있는 색인의 잠금을 오래된 잠금으로 보고
+# 지운다(2026-09-29 연속 커밋에서 색인이 겹쳐 실행됨). 색인이 먼저 끝나 잠금이
+# 사라졌으면 쓰기가 실패하므로 오류는 버린다.
+{ echo "$!" >"$LOCK/pid"; } 2>/dev/null
 
 exit 0
