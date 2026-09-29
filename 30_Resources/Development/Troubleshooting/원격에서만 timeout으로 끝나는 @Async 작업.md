@@ -1,5 +1,5 @@
 ---
-summary: @Async 메서드가 반환한 Future를 executor가 기다리는 경로에서 그 Future가 끝나지 않아 worker가 점유된 것이며, 중단 경로에서도 Future를 완료·예외·취소 중 하나로 끝내야 한다.
+summary: '@Async 메서드가 반환한 Future를 executor가 기다리는 경로에서 그 Future가 끝나지 않아 worker가 점유된 것이며, 중단 경로에서도 Future를 완료·예외·취소 중 하나로 끝내야 한다.'
 created: 2026-07-15
 slug: spring-async-pool-starvation
 tags:
