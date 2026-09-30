@@ -11,7 +11,7 @@ my_take: ""
 ---
 
 > [!note] 저장 맥락
-> [[빠른 green은 validation을 건너뛰기 쉽게 만든다]]의 출처 후보. 요구사항 정의와 다른 층위의 문제에 붙은 용어(intent gap)를 확인하려고 저장.
+> [[verification이 빨라져도 validation을 대신하지 않는다]]의 출처 후보. 요구사항 정의와 다른 층위의 문제에 붙은 용어(intent gap)를 확인하려고 저장.
 
 ## 내용 요약
 
