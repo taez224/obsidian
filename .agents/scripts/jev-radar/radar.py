@@ -215,6 +215,13 @@ def main():
         except Exception as e:
             failures.append(f"본문 다시 판정: {type(e).__name__}: {e}")
     errors = [x for x in scored if "error" in x]
+    import central
+    central_cfg = central.settings(CONFIG)
+    if central_cfg["enabled"]:
+        try:
+            tokens.append(central.attach([x for x in scored if "error" not in x], interests, client, central_cfg))
+        except Exception as e:
+            failures.append(f"중심도: {type(e).__name__}: {e}")
     release_q = {"release": Noul(instructions=trend["release_question"])}
 
     def judge_release(x):
@@ -237,8 +244,8 @@ def main():
     for k in interests:
         picks = []
         for group, cap in (("arXiv", CONFIG["arxiv"]["per_interest"]), ("other", CONFIG["filtered_per_interest"])):
-            cand = sorted((x for x in scored if x.get(k, 0) >= CONFIG["threshold"]
-                           and (x["source"] == "arXiv") == (group == "arXiv")), key=lambda x: -x[k])
+            cand = sorted((x for x in scored if central.selectable(x, k, CONFIG["threshold"], central_cfg)
+                           and (x["source"] == "arXiv") == (group == "arXiv")), key=lambda x: central.rank_key(x, k, central_cfg))
             n = 0
             for x in cand:
                 u = norm_url(x["url"])
@@ -247,7 +254,12 @@ def main():
                 shown.add(u)
                 picks.append(x)
                 n += 1
-        sections[k] = sorted(picks, key=lambda x: -x[k])
+        sections[k] = sorted(picks, key=lambda x: central.rank_key(x, k, central_cfg))
+    trial = {}
+    if central_cfg["enabled"] and not central_cfg["apply"]:
+        for k in interests:
+            trial[k] = central.promoted(scored, k, CONFIG["threshold"], central_cfg, {x["url"] for x in sections[k]})
+            shown |= {norm_url(x["url"]) for x in trial[k]}
 
     topic_section = ""
     if CONFIG.get("topics", {}).get("enabled", False):
@@ -312,13 +324,18 @@ def main():
             failures.append(f"관심사 후보: {type(e).__name__}: {e}")
     for k, v in interests.items():
         lines += [f"## {v['label']}", "", f"관련 노트: {', '.join(v['notes'])}", ""]
-        for x in sections[k]:
-            lines.append(f"- [ ] {x[k]:.2f} [{x['title']}]({x['url']}) - {x['source']}")
+        # 내 주장과 같은 현상을 다룬 글을 먼저 둔다. 나머지 순서는 선정 순서를 따른다
+        for x in sorted(sections[k], key=lambda x: not links.get(x["url"])):
+            tag = central.label(x, k, central_cfg)
+            lines.append(f"- [ ] {x[k]:.2f}{' · ' + tag if tag else ''} [{x['title']}]({x['url']}) - {x['source']}")
             for f in links.get(x["url"], []):
                 s_ = f["sentence"] if len(f["sentence"]) <= 220 else f["sentence"][:217] + "..."
                 lines.append(f"    - → [[{f['claim']}]] ← \"{s_}\"")
         if not sections[k]:
             lines.append("- 없음")
+        if trial.get(k):
+            lines += ["", f"중심도 시험: {CONFIG['threshold']} 문턱 아래지만 중심 주제로 판정된 글", ""]
+            lines += [f"- [ ] {x[k]:.2f} · {central.label(x, k, central_cfg)} [{x['title']}]({x['url']}) - {x['source']}" for x in trial[k]]
         lines.append("")
     if backlog_section:
         lines += [backlog_section, ""]

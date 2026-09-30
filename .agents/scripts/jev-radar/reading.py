@@ -12,6 +12,8 @@ from pathlib import Path
 import re
 import unicodedata
 import uuid
+
+import central
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 HERE = Path(__file__).resolve().parent
@@ -205,7 +207,14 @@ def select_bundle(items, states, saved, today, cfg):
     counts = Counter(k for x in reference for k in feature_values(x, cfg))
     candidates = [x for x in items if eligible(x, states, saved, today, cfg)]
     selected, covered, kinds, spent = [], set(), set(), 0
-    remaining = [x for x in candidates if x.get(cfg['interest'], 0) >= cfg['relevance_floor']]
+    ccfg = cfg.get('central', central.DEFAULT)
+    remaining = [x for x in candidates if x.get(cfg['interest'], 0) >= cfg['relevance_floor']
+                 and (not ccfg['apply'] or central.passing(x, cfg['interest'], ccfg))]
+
+    def base(x):
+        # 적용 모드에서는 '다룬다고 확신하는 정도' 대신 '얼마나 중심으로 다루는가'를 기본 점수로 쓴다
+        v = central.value(x, cfg['interest'])
+        return v / 2 if ccfg['apply'] and v is not None else x[cfg['interest']]
     def utility(x):
         features = feature_values(x, cfg)
         # A zero reference count is a gap only within the observed reference pool.
@@ -214,7 +223,7 @@ def select_bundle(items, states, saved, today, cfg):
         diversity = .08 if kind != 'unknown' and kind not in kinds else 0
         redundancy = max((similarity(x, y) for y in selected), default=0)
         preference = sum(weights[k] - 1 for k in features) / len(FEATURES)
-        return x[cfg['interest']] + .35 * novelty + diversity + preference - .35 * redundancy
+        return base(x) + .35 * novelty + diversity + preference - .35 * redundancy
     while remaining and len(selected) < cfg['max_bundle']:
         fits = [x for x in remaining if spent + minutes(x, cfg) <= cfg['reading_minutes']]
         if not fits:
@@ -293,7 +302,7 @@ def history(out):
 
 
 def _make_report(scored, out, config, saved_urls=(), client=None, today=None, record_shown=False):
-    cfg = {**DEFAULT, **config.get('reading', {})}
+    cfg = {**DEFAULT, **config.get('reading', {}), 'central': central.settings(config)}
     today = today or date.today()
     aliases = source_aliases(VAULT)
     states = feedback_state([{**e, 'url': identity(e['url'], aliases)} for e in events_at(out)])
@@ -344,7 +353,7 @@ def _make_report(scored, out, config, saved_urls=(), client=None, today=None, re
     for i, x in enumerate(result['selected'], 1):
         present = ' · '.join(FEATURES[k][0] for k in sorted(feature_values(x, cfg))) or '명시된 연구 조건 없음/미확인'
         kind = KINDS.get(x.get('features', {}).get('kind', {}).get('choice'), '유형 미확인')
-        lines += [f"- [ ] {i}. [{x['title']}]({x['url']})", f"   - {x['reading_slot_minutes']}분 · {kind} · 관심 점수 {x[cfg['interest']]:.2f}",
+        lines += [f"- [ ] {i}. [{x['title']}]({x['url']})", f"   - {x['reading_slot_minutes']}분 · {kind} · 관심 점수 {x[cfg['interest']]:.2f}" + (' · ' + central.label(x, cfg['interest'], cfg['central']) if central.value(x, cfg['interest']) is not None else ''),
                   f"   - 제목·초록의 모델 판정: {present}",
                   f"   - 이번 묶음에 추가한 조건: {' · '.join(FEATURES[k][0] for k in x['new_features']) or '없음; 관련성·유형·중복을 함께 고려'}"]
     lines += ['', '### 기존 0.8 점수순과 비교', '']

@@ -39,7 +39,7 @@
       "label": "AI 산출물의 검증과 마찰",
       "notes": [
         "생성은 AI에게, 검증은 나에게",
-        "빠른 green은 validation을 건너뛰기 쉽게 만든다",
+        "verification이 빨라져도 validation을 대신하지 않는다",
         "AI 활용의 마찰은 위험도에 맞게 설계해야 한다"
       ],
       "question": "Does this item discuss how people such as developers, writers, researchers, or students check AI-generated output before accepting it, for example reviewing AI-written code or text, noticing tests that pass without real correctness, or friction that makes them think before accepting? Answer no if it is mainly about automating decisions in a specific industry or about governance of autonomous systems without people reviewing AI output.",
@@ -94,6 +94,15 @@
     "digest_match": "/issue-",
     "is_ai_question": "Is this item mainly about artificial intelligence, machine learning, AI models, or AI products?",
     "release_question": "Does this item announce a new AI model, product, feature, or research result from the company that published it, rather than a customer story, event recap, policy essay, or general promotion?"
+  },
+  "central": {
+    "enabled": true,
+    "apply": false,
+    "floor": 0.65,
+    "minimum": 1.0,
+    "central": 1.5,
+    "promote_max": 2,
+    "note": "2026-09-30: 관심 점수(Noul)는 다룬다는 확신이라 스쳐 언급도 높게 나온다. 두 주 후보 132쌍에서 Noul과 중심도의 순위 상관이 0.14였다. apply를 켜기 전까지는 선정은 그대로 두고 중심도 표시와 문턱 아래 중심 주제만 보여 준다."
   },
   "reading": {
     "enabled": true,
