@@ -36,6 +36,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 | 사이트 작업을 노트 이력에 반영 | [sweep-site-worklog](.agents/skills/sweep-site-worklog/SKILL.md) |
 | 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
 | 독자 시점으로 글의 이해·흐름 점검 | [reader-perspective-review](.agents/skills/reader-perspective-review/SKILL.md) |
+| 문장 단위 전수점검·문구 대안 | [sentence-audit](.agents/skills/sentence-audit/SKILL.md) |
 | 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
 | 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
 | TypeSafe·Jev 연동 설계·구현 | [typesafe-ai](.agents/skills/typesafe-ai/SKILL.md) |

@@ -1,0 +1,4 @@
+interface:
+  display_name: "문장 전수점검"
+  short_description: "문장마다 한 일·노트 안 표현·주어와 시제·번역투를 대조해 완성된 추천안을 제안"
+  default_prompt: "Use $sentence-audit to 이 노트의 문장을 하나씩 점검해서, 고칠 문장마다 완성된 추천안 하나와 이유를 표로 보여줘. 파일은 고치지 마."
