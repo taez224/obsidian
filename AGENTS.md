@@ -35,6 +35,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 | 프로젝트 상태·근거·허브 갱신 | [sweep-project-context](.agents/skills/sweep-project-context/SKILL.md) |
 | 사이트 작업을 노트 이력에 반영 | [sweep-site-worklog](.agents/skills/sweep-site-worklog/SKILL.md) |
 | 블로그 구성·작성·발행 검토 | [taez-insight-blog-writer](.agents/skills/taez-insight-blog-writer/SKILL.md) |
+| 독자 시점으로 글의 이해·흐름 점검 | [reader-perspective-review](.agents/skills/reader-perspective-review/SKILL.md) |
 | 속성·죽은 링크·vault 점검 | [vault-lint](.agents/skills/vault-lint/SKILL.md) |
 | 정확 검색·의미 검색 | [qmd](.agents/skills/qmd/SKILL.md) |
 | TypeSafe·Jev 연동 설계·구현 | [typesafe-ai](.agents/skills/typesafe-ai/SKILL.md) |
@@ -61,7 +62,7 @@ Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsi
 
 ## 글쓰기
 
-한국어 노트·글·보고는 [공통 글쓰기 기준](.agents/guides/writing.md)을 따른다. 짧게 쓰되 조사·어미와 의미를 생략하지 않는다. 장르와 종결체는 사용자 요청과 작업 스킬을 따른다. 공개 폴더 노트의 사이트 전용 표시(비교 callout, 글 카드, 캡션, 각주)도 이 기준에 있다.
+한국어 노트·글·보고는 [공통 글쓰기 기준](.agents/guides/writing.md)을 따른다. 짧게 쓰되 조사·어미와 의미를 생략하지 않는다. 장르와 종결체는 사용자 요청과 작업 스킬을 따른다. 콜아웃을 쓰는 기준과 공개 폴더 노트의 사이트 전용 표시(비교 callout, 글 카드, 캡션, 각주)도 이 기준에 있다.
 
 ## 검색과 확인
 

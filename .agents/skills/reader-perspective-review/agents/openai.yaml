@@ -1,0 +1,4 @@
+interface:
+  display_name: "독자 시점 점검"
+  short_description: "처음 읽는 독자에게 중심 생각·흐름·용어가 전달되는지 점검"
+  default_prompt: "Use $reader-perspective-review to 이 글을 처음 읽는 독자 입장에서 읽고, 중심 생각이 전달되는지와 흐름이 끊기는 곳을 알려줘. 파일은 고치지 마."

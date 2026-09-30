@@ -230,6 +230,8 @@ Run a title and heading pass before handing off the outline:
 
 구조부터 본다. 초안이 처음 완성됐거나 절을 추가·삭제·재배치한 뒤에는 `node .claude/workflows/blog-structure-scan.mjs "<file>"`를 돌리고 `references/structural-review.md`의 절차와 판정 목록을 따른다. **구조가 안 잡힌 글에 문장을 다듬으면 절을 옮길 때 그 문장이 통째로 버려진다.** 문장만 고치는 요청에는 이 단계를 넣지 않는다.
 
+초안이 완성되거나 구조를 크게 바꾼 뒤에는 문장 윤문 전에 `.agents/skills/reader-perspective-review/SKILL.md`의 독자 시점 점검도 적용한다. 이 공통 점검은 이 스킬의 구조·근거·발행 검토를 대체하지 않으며, 문장만 고치는 요청에는 반복하지 않는다. 같은 초안에 `blog-review-polish`의 light 검수를 돌린다면 그 처음 읽는 독자 재독이 이 점검을 겸한다.
+
 글의 논지를 도식·인포그래픽이 운반한다면 `references/visual-argument-review.md`도 읽고 실제 발행 크기의 렌더를 확인한다. 장식 이미지는 이 검토를 강제하지 않는다.
 
 그다음 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거한다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
@@ -253,6 +255,7 @@ For company-tech-blog publication checks only, run the `Publication review check
 
 When reviewing an existing draft:
 
+- When the request is limited to reader comprehension and flow, use `.agents/skills/reader-perspective-review/SKILL.md`. For a full blog review, this skill's article-specific review and publication requirements remain in force.
 - Lead with structural problems, repeated claims, weak transitions, and unsupported leaps. 어디를 볼지가 아니라 어떻게 볼지는 `references/structural-review.md`가 정본이다. 인상으로 구조를 진단하지 말고 역방향 아웃라인을 먼저 채운다.
 - Treat an external review as a hypothesis. Verify its factual claims and reject changes that displace TaeZ's thesis, scene, or publication contract even when the suggested sentence is locally polished.
 - Preserve strong local phrasing unless it damages clarity.
