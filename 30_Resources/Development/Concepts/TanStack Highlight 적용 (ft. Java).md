@@ -1,6 +1,6 @@
 ---
 created: 2026-09-16
-updated: 2026-09-17
+updated: 2026-10-05
 slug: tanstack-highlight-java
 summary: 기존 Markdown 렌더러에 TanStack Highlight를 연결하고, 기본 지원에 없는 Java 구문 강조를 사용자 정의 토크나이저로 보완한 과정
 tags:
@@ -11,9 +11,12 @@ tags:
 
 TanStack Markdown과 TanStack Highlight를 알게 되어 생각 정원에 적용할 수 있을지 살펴봤다. 우선 적용한 것은 코드의 키워드와 문자열 등에 색을 입히는 Highlight다. 개발 노트에 자주 쓰는 Java가 기본 지원 언어에 없어, 이 부분은 직접 언어 정의를 추가했다. 적용한 버전은 2026년 9월에 나온 `@tanstack/highlight` 0.1.0이다.
 
+> [!note] 1.0 공개
+> 이 글 작성 이후 2026-09-30에 `@tanstack/highlight` 1.0.0이 나왔지만 본문 내용은 여전히 유효하다.
+
 ## 두 라이브러리의 역할
 
-[공식 소개 글](https://tanstack.com/blog/introducing-tanstack-markdown-and-highlight)에 따르면 두 라이브러리는 TanStack Docs 사이트의 Markdown 처리와 구문 강조에 드는 의존성 부담을 줄이려다 나왔다고 한다. 두 패키지 모두 2026년 6월에 npm에 처음 올라왔고, 아직 1.0 이전이라 지원 범위와 API가 이후 달라질 수 있다. [Shiki](https://shiki.style/) 같은 기존 라이브러리가 Markdown 파싱과 Highlight를 하나의 파이프라인으로 묶어서 처리하던 방식에서 벗어나기 위해 Tanstack에서 의도적으로 역할을 명확히 분리하여 독립된 라이브러리로 설계했다.
+[공식 소개 글](https://tanstack.com/blog/introducing-tanstack-markdown-and-highlight)에 따르면 두 라이브러리는 TanStack Docs 사이트의 Markdown 처리와 구문 강조에 드는 의존성 부담을 줄이려다 나왔다고 한다. 두 패키지 모두 2026년 6월에 npm에 처음 올라왔고, 당시에는 1.0 이전이라 지원 범위와 API가 이후 달라질 수 있다. [Shiki](https://shiki.style/) 같은 기존 라이브러리가 Markdown 파싱과 Highlight를 하나의 파이프라인으로 묶어서 처리하던 방식에서 벗어나기 위해 Tanstack에서 의도적으로 역할을 명확히 분리하여 독립된 라이브러리로 설계했다.
 
 | 라이브러리 | 맡는 일 | 이 사이트의 적용 |
 | --- | --- | --- |

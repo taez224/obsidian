@@ -12,9 +12,9 @@ publish_date: 2026-09-10
 cover_url: https://image.yes24.com/goods/196293945/XL
 status: 읽는 중
 start_read_date: 2026-09-29
-finish_read_date: 2026-09-29
-my_rate: 0
-book_note: 한줄평..
+finish_read_date: 2026-10-02
+my_rate: 4.1
+book_note: 뒷챕터들도 활용할 날이 오기를
 ---
 
 
@@ -222,7 +222,7 @@ book_note: 한줄평..
 
 ## 📌 인용
 
-> 흠..
+> 
 
 
 ## 💡 내 생각
