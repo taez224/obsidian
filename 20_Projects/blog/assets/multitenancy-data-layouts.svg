@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="392" viewBox="0 0 720 392" role="img" aria-labelledby="t d">
+<title id="t">세 가지 데이터 분리 방식의 배치</title>
+<desc id="d">행 단위 분리는 DB 하나 안 casting 테이블의 행을 tenant_id로 나눈다. 스키마 분리는 shared DB 하나 안의 marvel_schema와 dc_schema에 casting 테이블을 둔다. DB 분리는 marvel_db와 dc_db 두 DB에 casting 테이블을 둔다.</desc>
+<rect width="720" height="392" fill="#fff"/>
+<text x="120" y="34" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="20" font-weight="700" fill="#1f2d3a" text-anchor="middle">행 단위 분리</text>
+<text x="360" y="34" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="20" font-weight="700" fill="#1f2d3a" text-anchor="middle">스키마 분리</text>
+<text x="600" y="34" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="20" font-weight="700" fill="#1f2d3a" text-anchor="middle">DB 분리</text>
+<path d="M15 68 V328 A105.0 12 0 0 0 225 328 V68" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/><ellipse cx="120.0" cy="68" rx="105.0" ry="12" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/>
+<text x="120" y="98" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="16" font-weight="700" fill="#1f2d3a" text-anchor="middle">하나의 DB</text>
+<rect x="27" y="112" width="186" height="178" rx="8" fill="#fff" stroke="#6b7a89" stroke-width="1.5"/>
+<text x="39" y="137" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#1f2d3a" text-anchor="start">casting</text>
+<line x1="27" y1="150" x2="213" y2="150" stroke="#6b7a89" stroke-width="1"/>
+<rect x="33" y="158" width="174" height="58" rx="6" fill="#fdecea" stroke="#c4473a" stroke-width="1.5"/>
+<text x="43" y="182" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#c4473a" text-anchor="start">tenant_id = marvel</text>
+<text x="43" y="205" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Deadpool</text>
+<rect x="33" y="222" width="174" height="58" rx="6" fill="#e6f4ec" stroke="#2e7d55" stroke-width="1.5"/>
+<text x="43" y="246" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#2e7d55" text-anchor="start">tenant_id = dc</text>
+<text x="43" y="269" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Green Lantern</text>
+<path d="M255 68 V328 A105.0 12 0 0 0 465 328 V68" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/><ellipse cx="360.0" cy="68" rx="105.0" ry="12" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/>
+<text x="360" y="98" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#1f2d3a" text-anchor="middle">shared DB</text>
+<rect x="267" y="112" width="186" height="98" rx="8" fill="#fdecea" stroke="#c4473a" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="279" y="135" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#c4473a" text-anchor="start">marvel_schema</text>
+<rect x="279" y="144" width="162" height="56" rx="6" fill="#fff" stroke="#6b7a89" stroke-width="1.5"/>
+<text x="291" y="166" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="start">casting</text>
+<text x="291" y="190" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Deadpool</text>
+<rect x="267" y="218" width="186" height="98" rx="8" fill="#e6f4ec" stroke="#2e7d55" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="279" y="241" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#2e7d55" text-anchor="start">dc_schema</text>
+<rect x="279" y="250" width="162" height="56" rx="6" fill="#fff" stroke="#6b7a89" stroke-width="1.5"/>
+<text x="291" y="272" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="start">casting</text>
+<text x="291" y="296" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Green Lantern</text>
+<path d="M495 68 V180 A105.0 12 0 0 0 705 180 V68" fill="#fdecea" stroke="#c4473a" stroke-width="2.5"/><ellipse cx="600.0" cy="68" rx="105.0" ry="12" fill="#fdecea" stroke="#c4473a" stroke-width="2.5"/>
+<text x="600" y="102" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#c4473a" text-anchor="middle">marvel_db</text>
+<rect x="519" y="114" width="162" height="56" rx="6" fill="#fff" stroke="#6b7a89" stroke-width="1.5"/>
+<text x="531" y="136" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="start">casting</text>
+<text x="531" y="160" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Deadpool</text>
+<path d="M495 216 V328 A105.0 12 0 0 0 705 328 V216" fill="#e6f4ec" stroke="#2e7d55" stroke-width="2.5"/><ellipse cx="600.0" cy="216" rx="105.0" ry="12" fill="#e6f4ec" stroke="#2e7d55" stroke-width="2.5"/>
+<text x="600" y="250" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#2e7d55" text-anchor="middle">dc_db</text>
+<rect x="519" y="262" width="162" height="56" rx="6" fill="#fff" stroke="#6b7a89" stroke-width="1.5"/>
+<text x="531" y="284" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="start">casting</text>
+<text x="531" y="308" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#1f2d3a" text-anchor="start">Green Lantern</text>
+<path d="M 120 350 l -7 11 h 14 z" fill="#5a6877"/>
+<text x="120" y="382" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">SQL의 tenant_id 조건</text>
+<path d="M 360 350 l -7 11 h 14 z" fill="#5a6877"/>
+<text x="360" y="382" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">커넥션에서 사용할 스키마</text>
+<path d="M 600 350 l -7 11 h 14 z" fill="#5a6877"/>
+<text x="600" y="382" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">커넥션을 얻을 DataSource</text>
+</svg>
