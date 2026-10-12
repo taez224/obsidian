@@ -4,7 +4,7 @@ slug: ai-generates-i-verify
 tags:
   - AI
 type: permanent
-status: seedling
+status: growing
 aliases:
   - 생성과 검증의 AI 분업
   - AI 생성 인간 검증

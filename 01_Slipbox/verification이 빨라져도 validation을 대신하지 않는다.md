@@ -5,7 +5,7 @@ tags:
   - AI
   - 개발
 type: permanent
-status: seedling
+status: growing
 aliases:
   - verification과 validation
 ---

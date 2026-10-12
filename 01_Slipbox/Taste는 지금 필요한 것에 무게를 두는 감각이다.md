@@ -5,7 +5,7 @@ tags:
   - 철학
   - AI
 type: permanent
-status: seedling
+status: growing
 aliases:
   - 상황에 맞는 taste
 used_in:
