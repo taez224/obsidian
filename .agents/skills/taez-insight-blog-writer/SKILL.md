@@ -50,7 +50,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 ### 런타임별 실행 경로
 
 - **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다. 최종 어셈블은 `blog-review-polish`의 발행 단계와 `references/final-assembly.md`의 조정 규칙을 함께 따른다.
-- **Codex**: 같은 근거와 글의 역할을 따르되, vault 검색 → 논지·구조 설계 → 사용자 집필에서 기본적으로 멈춘다. substantial review에서는 `blog-structure-scan.mjs`와 `references/structural-review.md`를 먼저 사용하고, 사용자가 전문이나 패치를 요청했을 때만 `blog-slop-lint.mjs`와 실제 수정으로 이어간다. 사용자가 최종 어셈블을 명시하면 `references/final-assembly.md`에 따라 격리된 좌석을 구성하고 교차 판정한다. 사람 게이트와 전체 검수는 발행 직전에만 사용한다.
+- **Codex**: 새 글은 자료 확인 → 유형에 맞는 구조 설계 → 사용자 집필에서 기본적으로 멈춘다. substantial review에서는 `references/structural-review.md`와 필요한 읽기 전용 구조·문체 검사를 수행한다. 실제 편집은 사용자가 요청한 범위에서만 한다. 사용자가 최종 어셈블을 명시하면 `references/final-assembly.md`에 따라 격리된 좌석을 구성하고 교차 판정한다. 사람 게이트와 전체 검수는 발행 직전에만 사용한다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -82,11 +82,11 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
-리뷰를 반영할 때도 사용자가 정한 글의 목적·독자·설명 깊이를 편집 기준으로 다시 확인한다. 대화나 기존 집필 계약에 있으면 그대로 사용하고 재질문하지 않는다. 현재 원고가 상세해졌거나 리뷰에서 새 질문이 나왔다는 이유로 설명 범위를 넓혀 잡지 않는다.
+집필·리뷰의 기준과 범위 판단은 [공통 글쓰기 기준의 작성 전후 대조](../../guides/writing.md#작성-전후-대조)를 따른다.
 
 If the user says they will write the article themselves, or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
 
-새 글 작성, 본문의 대규모 재작성, 발행 전 종합 검토, 기존 글의 제목·헤딩 종합 검토에서는 `references/voice-profile.md`를 읽는다. 단순 문장 단위 수정에는 불러오지 않는다.
+통찰형 글의 새 집필·대규모 재작성·발행 전 종합 검토·제목 종합 검토에서는 `references/voice-profile.md`를 읽는다. 기술 설명·학습·문제 해결 글은 사용자와 발행면의 톤을 따르며, 개인 관점이 글의 중심일 때만 이 reference를 사용한다. 단순 문장 단위 수정에는 불러오지 않는다.
 
 Choose the contract by publication surface before selecting a structure.
 
@@ -94,7 +94,7 @@ Choose the contract by publication surface before selecting a structure.
 - **Personal technical blog**: connect an actual technical decision or failure to a reusable criterion. Add artifact evidence where it carries the argument.
 - **Company technical blog**: prioritize reproducibility, factual accuracy, system context, and reader utility. Load the domestic benchmark only here or when explicitly requested.
 
-회사 기술 블로그나 개인 사이트의 블로그 글 중 기술 글이면 `references/tech-doc-types.md`를 읽고 문서 유형과 문서 계약을 먼저 정한다. 기존 요청과 대화에서 정한 목적·독자·범위는 그대로 사용한다. 절 구성이 달라질 만큼 불명확한 부분만 묻는다. 경험에서 판단을 끌어내는 통찰형 글은 이 단계를 건너뛰고 4단계로 간다.
+발행면과 별개로 글의 주된 목적을 구분한다. 경험에서 판단을 끌어내는 통찰형은 `references/tech-doc-types.md`를 읽지 않고 4~5단계로 간다. 개념·원리 설명, 학습, 특정 작업·문제 해결을 위한 기술 글은 이 reference로 문서 유형과 계약을 정한 뒤 5.1단계에서 유형에 맞는 아웃라인을 만든다. 절 구성이 달라질 만큼 불명확한 부분만 묻는다.
 
 블로그의 `summary`는 [속성 스키마](../../../99_Templates/_property-schema.md)의 Blog Posts 기준을 따른다. 제목을 보완하는 읽기 전 소개문으로 검토하며, 구체적인 소개형 표현을 결론 문장으로 바꾸도록 강제하지 않는다. 원고의 분량과 화면 표시 길이는 구분하고, 사이트의 표시 변경을 원고 윤문으로 대신하지 않는다.
 
@@ -141,7 +141,7 @@ Research should sharpen the user's claim, not turn the post into a literature re
 
 For company-facing Korean tech blog polish, or when the user mentions domestic tech blogs such as Toss, Woowahan, Banksalad, Kakao, Naver D2, LINE/LY, Daangn, or Hyperconnect, load `references/domestic-tech-blog-benchmark.md`. Use it as a rhythm and density benchmark, not as a template to imitate.
 
-### 4. State the article's claim in plain language
+### 4. 통찰형의 한 줄 논지
 
 Before drafting, state what this article leaves with the reader in one sentence. Several framings are available; pick the one the material actually supports rather than reaching for the first:
 
@@ -166,9 +166,9 @@ Do not force a conventional view, personal turn, or practical move into a reflec
 
 Make the claim specific with the subset that matters here: what changed, what cost moved, who pays it, what the user learned, or what structure prevents the failure.
 
-이 단계에서 `references/amplifier-lenses.md`의 생성형 렌즈(이해관계·통찰 독창성·브랜드)를 브레인스토밍으로 함께 돌린다. 이 요소들은 윤문으로 나중에 붙이지 않는다.
+통찰형에서 앵글을 더 탐색할 필요가 있을 때만 `references/amplifier-lenses.md`의 생성형 렌즈를 참고한다. 설명·학습·문제 해결 글에 이해관계·통찰 독창성·브랜드 탐색을 요구하지 않는다.
 
-### 5. Build only the structure this article needs
+### 5. 통찰형의 전개
 
 Choose the movement the material supports. This is a menu, not a ranking - the list exists because a writer who reaches for the same movement every time produces articles that feel identical even when the evidence is different.
 
@@ -206,7 +206,7 @@ Build an outline that gives TaeZ enough structure to write without pre-writing t
 ```
 
 - Do not require every field or impose a fixed number of sections.
-- 기술 글이면 `## 한 줄 논지` 대신 `references/tech-doc-types.md`의 `## 문서 계약`으로 시작하고, 절 필드의 `이 절의 주장`은 `독자의 다음 질문`으로 바꿔 쓸 수 있다.
+- 설명·학습·문제 해결형이면 `## 한 줄 논지` 대신 `references/tech-doc-types.md`의 `## 문서 계약`으로 시작하고, 절 필드의 `이 절의 주장`은 `독자의 다음 질문`으로 바꿔 쓸 수 있다.
 - Keep research as evidence notes attached to the claim it supports. Do not turn all gathered papers into body sections.
 - Mark missing personal evidence as a prompt for TaeZ to fill. Never invent a workplace scene, judgment change, result, or number.
 - Do not write polished opening paragraphs, transitions, or closing prose unless explicitly requested.
@@ -243,13 +243,13 @@ Run a title and heading pass before handing off the outline:
 
 글의 논지를 도식·인포그래픽이 운반한다면 `references/visual-argument-review.md`도 읽고 실제 발행 크기의 렌더를 확인한다. 장식 이미지는 이 검토를 강제하지 않는다.
 
-그다음 `node .claude/workflows/blog-slop-lint.mjs "<file>"`로 기계적 슬롭을 확인한다. high는 대체로 제거한다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
+그다음 필요한 문체 검토에 `node .claude/workflows/blog-slop-lint.mjs "<file>"`를 사용한다. 경고는 문맥에 따라 유지·수정 후보로 판단하며 검토 요청만으로 자동 수정하지 않는다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
 
 `humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 실행한다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
 
 For a substantial draft or review, check only the applicable questions:
 
-- Could a reader get this by asking ChatGPT a broad question? If yes, add personal evidence or a sharper claim.
+- For an insight article, could a reader get this by asking ChatGPT a broad question? If yes, check whether personal evidence or a sharper claim is needed. Explanation, tutorial, and how-to articles are assessed by their declared learning or task goal.
 - Does every research citation do work? Remove decorative citations.
 - If the article claims a changed judgment, is the before/after visible?
 - Is the practical takeaway about behavior or structure, not just attitude?
