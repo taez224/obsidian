@@ -26,7 +26,9 @@ interface OrderRepository extends JpaRepository<Order, Long> {
 
 이 조건을 빠뜨리면 다른 고객사의 데이터가 섞여 나올 수 있습니다. 수정·삭제 쿼리라면 다른 고객사의 데이터를 바꾸거나 지울 수도 있습니다.
 
-테넌트별로 스키마나 DB를 나누면, 쿼리마다 테넌트 조건을 붙이는 대신 데이터를 읽고 쓸 스키마나 DB를 선택할 수 있습니다. 이 글에서는 스키마 분리와 DB 분리를 Spring Boot와 JPA로 구현하고 간단한 예제로 살펴봅니다.
+테넌트별로 스키마나 DB를 나누면 데이터를 구분하는 방식이 달라집니다. 쿼리마다 테넌트 조건을 넣는 대신, 애플리케이션에서 각 요청에 맞는 스키마나 DB를 사용하도록 구성합니다.
+
+이 글에서는 두 방식을 Spring Boot와 JPA로 구현합니다. 엔티티와 Repository, 서비스 코드는 그대로 두고, 테넌트에 따라 조회·수정할 데이터가 어떻게 달라지는지 살펴봅니다.
 
 > **예제 환경**
 >
@@ -69,6 +71,7 @@ Marvel과 DC를 테넌트로 삼아 캐스팅 목록을 각각 준비했습니�
 DB와 스키마, 각 테넌트의 `casting` 테이블은 초기화 스크립트로 미리 만들었습니다. 두 방식 모두 다음 엔티티와 Repository를 사용합니다.
 
 ```java
+// Casting.java
 @Entity
 @Table(name = "casting")
 public class Casting {
@@ -79,6 +82,7 @@ public class Casting {
     private String characterName;
 }
 
+// CastingRepository.java
 public interface CastingRepository extends JpaRepository<Casting, String> {}
 ```
 
@@ -369,7 +373,15 @@ abstract class TenantApiTest {
 }
 ```
 
-`SchemaModeTest`와 `DatabaseModeTest`는 이 클래스를 상속하고, `@ActiveProfiles`로 각각의 프로파일을 지정해 같은 테스트를 실행합니다. 각 프로파일로 실행한 테스트는 PostgreSQL 17에서 모두 통과했습니다.
+```java
+@ActiveProfiles("schema")
+class SchemaModeTest extends TenantApiTest {}
+
+@ActiveProfiles("database")
+class DatabaseModeTest extends TenantApiTest {}
+```
+
+두 방식에서 같은 조회·수정 테스트가 PostgreSQL 17에서 모두 통과했습니다.
 
 스키마 분리에서는 커넥션을 재사용할 때도 테넌트에 맞는 배역이 조회되는지 확인했습니다. 커넥션을 반납한 뒤에는 스키마가 원래 값으로 복원됐습니다.
 
@@ -401,9 +413,9 @@ abstract class TenantApiTest {
 
 ## 마치며
 
-같은 엔티티와 Repository, 서비스 코드로 테넌트별 조회와 수정을 처리했습니다. 스키마 분리에서는 같은 DB 안에서 사용할 스키마를 정했고, DB 분리에서는 테넌트별 DataSource를 선택했습니다. 두 방식 모두 요청의 테넌트를 세션에 전달하고, 커넥션을 얻을 때 그 테넌트에 맞는 저장 위치를 선택하는 흐름으로 동작합니다.
+스키마 분리와 DB 분리 모두 엔티티와 Repository, 서비스 코드를 그대로 두고 테넌트별 데이터를 조회하고 수정할 수 있었습니다. 두 구현에서 달라진 것은 테넌트에 맞는 스키마나 DataSource를 선택하는 설정이었습니다.
 
-테넌트가 정해지는 시점은 세션이 열릴 때입니다. 이후 테넌트 컨텍스트를 바꿔도 이미 열린 세션의 테넌트는 바뀌지 않습니다. 여러 테넌트의 데이터를 다루는 기능에서도 원하는 테넌트를 먼저 바인딩하고 그 테넌트의 세션을 열도록, 바인딩과 트랜잭션의 경계를 맞춰야 합니다.
+테넌트 전달과 연결 선택을 공통으로 처리하면, 업무 코드마다 테넌트 조건을 반복하거나 데이터 분리 방식에 맞춰 조회·수정 코드를 바꾸는 부담을 줄일 수 있습니다.
 
 [^tenant-membership]: Wonkook Lee, [테넌트·테넌시 개념과 싱글테넌시·멀티테넌시 비교](https://blog.wonkooklee.com/docs/software-design-and-theory/tenancy-fundamentals/). 사용자와 테넌트의 소속 관계.
 [^hibernate]: Hibernate ORM, [A Short Guide to Hibernate 7: Multi-tenancy](https://docs.hibernate.org/orm/7.4/introduction/html_single/#multitenancy). 세 가지 분리 방식, `@TenantId`, 세션의 테넌트 지정과 Resolver·Provider의 역할.
