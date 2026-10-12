@@ -203,9 +203,15 @@ def check_frontmatter(rel, scalars, lists, today=None):
         for tag in lists.get("tags", []):
             if tag.startswith("#"):
                 issues.append(f"태그에 # 포함: {tag}")
+        # 허브(MOC)는 주장 노트가 아니라 성숙도 기준이 맞지 않으므로 status를 쓰지 않는다.
+        is_hub = prefix == "01_Slipbox/" and scalar_value(scalars.get("type")) == "hub"
         for key in rule.required:
+            if is_hub and key == "status":
+                continue
             if not scalars.get(key):
                 issues.append(f"필수 필드 누락 ({rule.required_label or prefix}): {key}")
+        if is_hub and scalars.get("status"):
+            issues.append("허브에는 status를 쓰지 않음")
         if needs_project_status(rel, scalars):
             issues.append("필수 필드 누락 (project): status")
         public_page = rule.public and has_public_blog_page(rel, scalars)

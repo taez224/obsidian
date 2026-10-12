@@ -5,7 +5,6 @@ tags:
   - AI
   - 개발
 type: hub
-status: growing
 aliases:
   - AI 활용 MOC
   - AI와 팀 역량

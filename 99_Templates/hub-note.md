@@ -2,7 +2,6 @@
 created: <% tp.date.now("YYYY-MM-DD") %>
 slug: ""
 type: hub
-status: seedling
 ---
 
 # 🗺 <% tp.file.title %>

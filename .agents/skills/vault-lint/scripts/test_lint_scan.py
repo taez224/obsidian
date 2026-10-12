@@ -93,7 +93,7 @@ def build_fixture(root):
     # Archive에서만 백링크를 받는 노트 → 고립 아님
     write(root, "30_Resources/고립 아님.md", fm + "---\n본문\n")
     # 허브 공백: 허브가 링크한 permanent 노트는 등록됨, 링크하지 않은 permanent 노트만 hub_gaps
-    write(root, "01_Slipbox/허브.md", fm + "type: hub\nstatus: seedling\n---\n[[연결된 노트]]\n")
+    write(root, "01_Slipbox/허브.md", fm + "type: hub\n---\n[[연결된 노트]]\n")
     # 진짜 고립 (Slipbox) → slipbox 플래그
     write(root, "01_Slipbox/고립 노트.md", slip_fm + "본문뿐\n")
     # frontmatter 위반: created 누락 + 태그에 # + Slipbox 필수(type/status) 누락
@@ -160,6 +160,8 @@ def test_folder_rules():
     created = {"created": "2026-06-12"}
     cases = [
         ("01_Slipbox/노트.md", dict(created, type="permanent", status="seedling", slug="note", custom="허용"), []),
+        ("01_Slipbox/허브.md", dict(created, type="hub", slug="hub"), []),
+        ("01_Slipbox/옛 허브.md", dict(created, type="hub", status="seedling", slug="hub"), ["허브에는 status를 쓰지 않음"]),
         ("30_Resources/References/Clippings/자료.md", dict(created, status="unread", clipper_extra="허용"), []),
         ("30_Resources/References/Articles/자료.md", created,
          [f"필수 필드 누락 (30_Resources/References/Articles/): {key}" for key in ("source", "published", "status")]),
