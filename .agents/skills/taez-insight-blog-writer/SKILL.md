@@ -1,6 +1,6 @@
 ---
 name: taez-insight-blog-writer
-description: Use when TaeZ explicitly asks to turn vault notes, work experience, engineering decisions, research, or a substantial draft into a Korean blog outline or article, substantially restructure or review an article for publication, review and select its title and section headings, or run a final-assembly/final publication panel review. Default to an outline-first collaboration that leaves prose authorship to TaeZ; write a full draft only when explicitly requested. Choose the writing contract by publication surface, including Brunch or personal essays and company technical blogs. Do not trigger for isolated sentence-level polish, ordinary Obsidian note editing, or exploratory conversation that has not become an article task.
+description: 사용자가 "이걸 블로그 글로 써보자", "아웃라인 짜줘", "튜토리얼·트러블슈팅·개념 설명 글로 정리해줘", "발행 전에 검토해줘", "제목이랑 소제목 골라줘", "최종 어셈블 돌려줘"처럼 vault 노트·업무 경험·설계 판단·리서치·초안을 한국어 블로그 글의 아웃라인이나 원고로 만들거나, 발행을 위해 크게 재구성·검토하려 할 때 사용한다. 경험에서 판단을 끌어내는 통찰형 글과 개념 설명·학습·문제 해결을 위한 기술 글을 모두 다루고, 브런치·개인 기술 블로그·회사 기술 블로그 같은 발행면에 맞춰 집필 계약을 고른다. 기본은 아웃라인까지 만들고 본문은 TaeZ가 쓰며, 전문 초안은 명시적으로 요청할 때만 쓴다. 문장 단위 다듬기는 sentence-audit, 이해·흐름만 보는 점검은 reader-perspective-review가 맡고, 일반 노트 편집이나 아직 글 작업이 되지 않은 탐색 대화에는 쓰지 않는다.
 ---
 
 # TaeZ Insight Blog Writer
@@ -41,7 +41,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 | ④ 사용자 집필 | 사람 게이트 | TaeZ가 아웃라인을 바탕으로 본문을 직접 쓴다. AI는 여기서 자동으로 전문을 이어 쓰지 않는다. |
 | ④' 공동 초안 | `blog-recompose`의 `writeFullDraft: true` 또는 직접 작성 | 사용자가 전문 초안을 명시적으로 요청했을 때만 실행한다. |
 | ⑤ 구조 검토 | `references/structural-review.md` + `blog-structure-scan.mjs` | 초안이 처음 완성됐거나 절을 재배치한 뒤. 문장을 다듬기 **전에** 뼈대를 본다. |
-| ⑤' 기본 검수 | `blog-review-polish`의 `light` | 처음 읽는 독자 재독 + 구조 스캔 관측 + 결정론적 lint + 편집 판단 1회. |
+| ⑤' 기본 검수 | `blog-review-polish`의 `light` | 처음 읽는 독자 재독 + 구조 스캔 관측 + 결정론적 lint + 편집 판단 1회. 기술 글이면 `docType`을 넘긴다. |
 | ⑥ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
 | ⑥' 최종 어셈블 | `references/final-assembly.md` | 사용자가 `final-assembly`, `완전 최종 어셈블`, `페르소나 패널 최종점검`처럼 다중 관점의 발행 사인오프를 명시했을 때만 실행. 파일은 승인 전 수정하지 않는다. |
 | 상시 | `blog-slop-lint.mjs` | 결정론적 슬롭 린트(문장·표기). |
@@ -66,6 +66,8 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - `amplifier-lenses.md` - 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
 - `domestic-tech-blog-benchmark.md` - 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
 - `tech-doc-types.md` - 기술 글의 문서 유형(설명·학습·문제 해결), 문서 계약, 유형별 기준.
+- `research-verification.md` - 외부 수치·인용·연구·정책 일정을 개요에 올리기 전 확인 기준.
+- `series.md` - 연재 허브 확인, 연재 글의 구조와 검수 항목.
 
 ## Workflow
 
@@ -96,16 +98,11 @@ Choose the contract by publication surface before selecting a structure.
 
 발행면과 별개로 글의 주된 목적을 구분한다. 경험에서 판단을 끌어내는 통찰형은 `references/tech-doc-types.md`를 읽지 않고 4~5단계로 간다. 개념·원리 설명, 학습, 특정 작업·문제 해결을 위한 기술 글은 이 reference로 문서 유형과 계약을 정한 뒤 5.1단계에서 유형에 맞는 아웃라인을 만든다. 절 구성이 달라질 만큼 불명확한 부분만 묻는다.
 
-블로그의 `summary`는 [속성 스키마](../../../99_Templates/_property-schema.md)의 Blog Posts 기준을 따른다. 제목을 보완하는 읽기 전 소개문으로 검토하며, 구체적인 소개형 표현을 결론 문장으로 바꾸도록 강제하지 않는다. 원고의 분량과 화면 표시 길이는 구분하고, 사이트의 표시 변경을 원고 윤문으로 대신하지 않는다.
+블로그의 `summary`는 [속성 스키마](../../../99_Templates/_property-schema.md)의 블로그 summary 작성 기준을 따른다.
 
-Before building the evidence base for a series article:
+연재 글이면 근거를 모으기 전에 `references/series.md`의 연재 허브 확인을 따른다.
 
-- Inspect the target article frontmatter and the user request for a `series` name.
-- If a series is identified, read `20_Projects/blog/<series>.md` first. If that exact file does not exist, search project-note titles and aliases for the series name rather than inventing a new hub.
-- Treat the series hub as the editorial source of truth for the central question, article role, order, and unresolved follow-ups. Do not silently change the series plan; report a proposed hub update when the article reveals a meaningful change.
-- When a series article is marked `published` with a confirmed `published` date, sync the hub's `last_published` to the latest known publication date. Change the hub's `status` or `ended` only when the user explicitly decides to pause or complete the series.
-
-### 2. Build the personal evidence base
+### 2. Build the personal evidence base### 2. Build the personal evidence base
 
 Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples when the claim needs them. Do not rely on a fixed anchor list; find the evidence that fits this article. The invariant is source-grounded authorial judgment, whether it changed or became clearer.
 
@@ -127,15 +124,9 @@ Extract only what the source material actually supports:
 
 Use current external research when claims are time-sensitive or trend-dependent. Prefer primary or high-signal sources: papers, official engineering posts, original case studies, standards, and respected practitioner essays.
 
-Verify claims before promoting them into the outline:
+개요에 올리기 전에 수치·인용·연구 결과·정책 일정은 `references/research-verification.md`의 기준으로 확인한다.
 
-- Confirm numbers, direct quotations, and named research findings in the primary source. A secondary source attaching an institution's name to a number is not enough.
-- Record the source publication date and, when relevant, the data-collection window, product or domain, sample, and stated limitations. Recent publication does not make a fast-changing product observation durable.
-- Treat 403 responses, JavaScript shells, paywalls, and missing search results as access failures, not evidence that a source or passage does not exist. Try an official PDF, DOI, repository, press release, RSS feed, or another first-party route; if still unresolved, label it `unresolved` rather than `false`.
-- For laws and policy schedules, distinguish proposal, provisional agreement, legislative adoption, final approval, official publication, entry into force, and application date. Verify the current stage in an official source.
-- A finding can be accurate and still be the wrong protagonist. Do not turn a source's observation into the article title or a section heading unless it expresses TaeZ's claim; otherwise keep it as nearby evidence with scope limits.
-
-Load `references/anti-slop-research.md` only when the topic touches AI slop, workslop, writing quality, developer content saturation, or "AI-generated but valuable" distinctions.
+Load `references/anti-slop-research.md`Load `references/anti-slop-research.md` only when the topic touches AI slop, workslop, writing quality, developer content saturation, or "AI-generated but valuable" distinctions.
 
 Research should sharpen the user's claim, not turn the post into a literature review.
 
@@ -210,7 +201,7 @@ Build an outline that gives TaeZ enough structure to write without pre-writing t
 - Do not require every field or impose a fixed number of sections.
 - 설명·학습·문제 해결형이면 `## 한 줄 논지` 대신 `references/tech-doc-types.md`의 `## 문서 계약`으로 시작하고, 절 필드의 `이 절의 주장`은 `독자의 다음 질문`으로 바꿔 쓸 수 있다.
 - Keep research as evidence notes attached to the claim it supports. Do not turn all gathered papers into body sections.
-- Mark missing personal evidence as a prompt for TaeZ to fill. Never invent a workplace scene, judgment change, result, or number.
+- Mark missing evidence as a prompt for TaeZ only when a section's claim cannot stand without it; otherwise narrow the claim to what the material supports. List details that would merely strengthen the article separately as optional, not as required fills. When TaeZ has said the given material is all that can be used, do not turn new facts into decisions to make either: narrow each claim to that material and keep any additions in the optional list. Never invent a workplace scene, judgment change, result, or number.
 - Do not write polished opening paragraphs, transitions, or closing prose unless explicitly requested.
 - After TaeZ writes prose, review structure, evidence, repetition, and unsupported leaps first. Rewrite only the named section or sentence range they authorize; preserve manually written thought flow elsewhere.
 
@@ -222,18 +213,9 @@ Run a title and heading pass before handing off the outline:
 - Do not require a proper noun, question, contrast, or experience suffix. For a company technical blog, compare with a current sample from `references/domestic-tech-blog-benchmark.md` and explain fit by article type.
 - When options are useful, produce 2-3 meaningfully different strategies and state what part of the article each foregrounds. Do not generate a quota of cosmetic variants.
 
-#### 연재 글의 구조
+연재의 한 편이면 `references/series.md`의 「연재 글의 구조」를 초안 전에 적용한다.
 
-연재의 한 편을 쓸 때는 직전 1~2편을 목차가 아니라 **본문으로** 읽는다. 아래는 초안 전 선택이자 검수 시 확인 항목이며, 연재 관련 판단은 여기 모아 둔다.
-
-- **각 편은 서로 다른 국소 결론에 착지한다.** 시즌의 중심 주제를 함께 밀 수는 있지만, 앞 편의 국소 결론을 새 소재로 다시 증명하는 데 그치면 별도 회차보다 각주에 가깝다.
-- **이어짐은 재진술이 아니라 다음 문제로 표시한다.** "앞 편에서 말한 X가 여기서 이어집니다" 같은 문장으로 연결을 설명하기보다, 앞 편이 남긴 미해결 질문·비용·예외·모순 중 하나를 이번 편의 출발점으로 삼는다.
-- **같은 움직임이 연속되면 재료 때문인지 습관 때문인지 확인한다.** 재료가 실제로 그렇다면 연속해도 된다. 다만 도입 장면과 마지막 문단의 역할까지 같아지면 독자에게는 같은 글이므로 둘 중 하나를 바꾼다. 다양성을 만들려고 재료에 없는 움직임을 씌우지는 않는다.
-- **원자료의 마찰을 지우지 않는다.** 실패·비용·한계·미해결 지점이 실제로 있는데 원칙이 매번 통하는 장면만 남기지 않았는지 확인한다. 없으면 만들지 않는다.
-- 허브의 회차 역할과 실제 초안의 착지점이 어긋나면 허브 갱신 후보로 보고한다.
-- 파일 단위 lint는 편 사이의 반복을 보지 못한다. 이 확인은 사람이나 검수 단계에서만 걸린다.
-
-### 5.2 Draft natural Korean before polishing
+### 5.2 Draft natural Korean before polishing### 5.2 Draft natural Korean before polishing
 
 사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만, 쓰기 전에 `references/korean-first-draft.md`를 읽고 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이며, 초안을 쓴 뒤의 30초 자체 점검도 그 파일을 따른다.
 
@@ -258,7 +240,7 @@ For a substantial draft or review, check only the applicable questions:
 - Are output metrics separated from actual capability, learning, reliability, or user value?
 - Are AI-generated phrases flattened out without making the prose bland?
 
-For a series article, 5단계의 `연재 글의 구조`를 검수 항목으로 다시 훑는다. 여기서 실제로 확인할 것은 하나다 - 직전 편과 이번 편을 이어 읽었을 때 같은 악장이 반복되는가. 소재만 바뀐 채 "오해 → 사실은 아니었다 → 원칙"이 다시 돌면 구조로 돌아간다.
+연재 글이면 `references/series.md`의 「검수」 항목으로 다시 훑는다.
 
 For company-tech-blog publication checks only, run the `Publication review checklist` in `references/domestic-tech-blog-benchmark.md`.
 
