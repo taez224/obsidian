@@ -20,6 +20,7 @@ export const meta = {
 //     toneRef:     "<톤 레퍼런스 URL 또는 본문 일부>",   // 선택
 //     targetReader:"<목표 독자 한 줄>",               // 선택
 //     publicationSurface:"brunch|personal-tech|company-tech", // 선택
+//     docType:     "insight|explanation|tutorial|howto", // 선택: 통찰형·설명형·학습형·문제 해결형
 //     stages:      ["light"],                         // 선택(기본 light)
 //     mode:        "publish",                         // 선택: 전체 발행 게이트
 //     reviewSeats: ["senior","skimmer","editor"],   // 선택(필요한 좌석만)
@@ -33,7 +34,7 @@ export const meta = {
 //   또는 stages를 ["factcheck","research","editorial","polish","gate"]로 명시한다.
 //
 // 설계에 반영한 이전 결함 보정:
-//  - 정확성 센티넬: 윤문 루프가 과장/근거없는 주장을 새로 만들면 루프 안에서 잡는다.
+//  - 정확성 센티넬: 윤문 루프가 원본 대비 주장을 근거 없이 키우거나(과장) 약화하면(방어적 헤지) 루프 안에서 잡는다.
 //  - 통독 패스: 조각편집 후 '처음 읽는 독자'로 전체 일관성 1회 점검(gate).
 //  - 거대 JSON synthesis 제거: 종합은 JS에서 압축(에이전트 hang 원인 차단), raw 결과도 항상 반환.
 //  - 구조 회귀검사: 마크다운/프론트매터/위키링크/keep자산 무결성 점검(gate).
@@ -53,6 +54,13 @@ const REQUESTED_REVIEW_SEATS = Array.isArray(A.reviewSeats) ? A.reviewSeats.map(
 const CLOSED_DECISIONS = Array.isArray(A.closedDecisions) ? A.closedDecisions.map(String) : []
 const APPLY_EDITORIAL_RISKS = A.applyEditorialRisks === true
 const SURFACE = A.publicationSurface || 'unspecified'
+// 문서 유형. 통찰형이 아니면 각도·독창성·목소리 판정을 돌리지 않는다(SKILL.md와 references/tech-doc-types.md).
+const DOC_TYPES = { insight: '통찰형', explanation: '설명형', tutorial: '학습형', howto: '문제 해결형' }
+const DOC_TYPE = DOC_TYPES[A.docType] ? A.docType : 'unspecified'
+const IS_TECH_DOC = ['explanation', 'tutorial', 'howto'].includes(DOC_TYPE)
+const DOC_NOTE = DOC_TYPE === 'unspecified'
+  ? '문서 유형: 지정되지 않음. 경험에서 판단을 끌어내는 통찰형인지, 개념 설명·학습·문제 해결을 위한 기술 글인지 원고에서 추정하고, 기술 글이면 그 유형이 독자에게 약속한 목표로 판정한다.'
+  : '문서 유형: ' + DOC_TYPES[DOC_TYPE] + (IS_TECH_DOC ? '. 이 유형이 독자에게 약속한 목표로 결함을 판정하고, 통찰형의 각도·독창성·목소리 기준은 결함으로 보지 않는다.' : '.')
 const READER = A.targetReader || (SURFACE === 'company-tech'
   ? '과장보다 재현 가능한 근거와 실무 효용을 보는 기술 독자'
   : '이 글이 실제로 상정하는 독자')
@@ -177,10 +185,10 @@ const LIGHT_REVIEW_SCHEMA = {
     reviewMode: { type: 'string', enum: ['fresh-reader', 'context-aware'] },
     readiness: { type: 'string', enum: ['ready', 'minor', 'needs-work'] },
     strengths: { type: 'array', items: { type: 'string' } },
-    preserveLines: { type: 'array', minItems: 3, maxItems: 5, items: { type: 'string' } },
+    preserveLines: { type: 'array', items: { type: 'string' }, description: '수정 판단에 도움이 될 때만 적는 보존할 실제 문장. 개수를 채우지 않는다' },
     issues: {
       type: 'array',
-      maxItems: 3,
+      description: '발행을 막는 문제를 영향이 큰 순서로. 없으면 빈 배열',
       items: {
         type: 'object', additionalProperties: false,
         properties: {
@@ -260,7 +268,7 @@ const DIFF_SCHEMA = {
         },
         required: ['where', 'how', 'why'],
       },
-      description: '각도가 weak/derivative일 때 비틀 지점 제안(최대 3개)',
+      description: '각도가 weak/derivative일 때 비틀 지점 제안(필요한 만큼)',
     },
   },
   required: ['differentiationVerdict', 'uniqueAngle', 'twists'],
@@ -294,11 +302,11 @@ function decisionContext() {
 // 정확성 센티넬: 윤문 루프 전용 7번째 좌석
 const ACCURACY_SENTINEL = {
   id: '정확성 센티넬', short: '정확성',
-  seat: '이번 윤문이 *새로* 만든 과장/근거없는 단정만 본다. 절대·전부·항상·0에 가깝게·100%·고스란히 류의 강한 양화, 상관을 인과로 둔갑시킨 표현, 교육/타도메인 연구를 엔지니어링에 무리하게 끌어온 비약을 high로 신고. 원래 정확하던 문장은 건드리지 마라. remaining[].fix 에 안전한 헤지 표현을 제시.',
+  seat: '원본(' + FILE + ')을 Read로 읽고 윤문본과 대조해, 이번 윤문이 *새로* 바꾼 주장의 강도만 본다. 양방향을 모두 신고한다. (1) 과장: 절대·전부·항상·0에 가깝게·100%·고스란히 류의 강한 양화, 상관을 인과로 둔갑시킨 표현, 교육/타도메인 연구를 엔지니어링에 무리하게 끌어온 비약. (2) 과소: 원본에서 근거가 있던 단정을 근거 없이 "~할 수 있다"·"일 수도 있다"·"경우에 따라" 류로 약화하거나 조건·범위를 좁힌 방어적 헤지. 원래 정확하던 문장은 건드리지 마라. remaining[].fix 에는 헤지를 덧붙이지 말고, 원본의 근거가 뒷받침하는 강도에 맞춘 문장(필요하면 원본 문장 복원)을 제시.',
 }
 
 function fileCtx(path) {
-  return ['대상 파일을 Read 도구로 먼저 전문 읽기(line 번호 확인): ' + path, '', GOAL, '목표 독자: ' + READER, TONE].join('\n')
+  return ['대상 파일을 Read 도구로 먼저 전문 읽기(line 번호 확인): ' + path, '', GOAL, '목표 독자: ' + READER, DOC_NOTE, TONE].join('\n')
 }
 
 // ── stage: light review (처음 읽는 독자 + 구조 스캔 + 편집 판단 + lint) ────────
@@ -316,8 +324,8 @@ async function runLightReview(path) {
       'node "' + structureScript + '" "' + path + '" --json',
       'sections로 절 비중과 역방향 아웃라인을 확인하고, repeats·headingEchoes·longParas는 사람이 의미를 확인한다. 스캐너에 없음이 나와도 의미 재진술과 제목 약속 불이행은 직접 본다.',
       '',
-      '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약만 최대 3개 issues에 적고 objective-defect/editorial-risk/preference를 구분한다. 숫자를 채우려고 문제를 만들지 않는다.',
-      '보존할 강점은 strengths에, 실제 문장 3~5개는 preserveLines에 적는다.',
+      '글의 장르와 발행 매체를 추정하되 기술블로그 구조를 에세이에 강제하지 않는다. 발행을 막는 구조·중복·비약을 영향이 큰 순서로 issues에 적고 objective-defect/editorial-risk/preference를 구분한다. 없으면 비워 둔다. 개수를 채우려고 문제를 만들거나, 개수 때문에 중요한 문제를 빼지 않는다.',
+      '보존할 강점은 strengths에 적는다. preserveLines에는 수정 판단에 도움이 될 때만 실제 문장을 옮기고 개수를 채우지 않는다.',
       '제목이 글의 실제 클라이맥스나 착지를 가리키는지, 제목과 절 제목이 그대로 겹치는지, 소제목이 각 절의 역할을 정직하게 보여주는지도 본다. 고유명사·질문형·대구형 같은 특정 패턴을 의무화하지 않는다.',
       '',
       '그 다음 Bash로 아래 결정론 lint를 정확히 한 번 실행하고 JSON 값을 그대로 옮겨라.',
@@ -380,12 +388,13 @@ async function runResearch(path) {
   ])
 
   log('[Research] 차별화·각도 종합')
-  const differentiation = await agent(
+  if (IS_TECH_DOC) log('[Research] 기술 글(' + DOC_TYPES[DOC_TYPE] + ')이라 차별화·각도 판정을 건너뜁니다')
+  const differentiation = IS_TECH_DOC ? null : await agent(
     ['너는 편집장이다. 아래 초안 프로필·경쟁 지형·트렌드 판정을 종합해 이 글의 차별화를 진단하라.', '',
       '## 초안', '주제: ' + profile.topic, '논지: ' + profile.thesis, '내세운 각도: ' + profile.claimedAngle, '골격: ' + (profile.skeleton || []).join(' > '), '',
       '## 경쟁 지형', landscape ? ('신선도: ' + landscape.verdict + ' / 가장 닮은 글: ' + landscape.mostSimilar + ' / 진부패턴: ' + (landscape.clicheSignals || []).join(', ')) : '(스캔 실패)', '',
       '## 트렌드', trend ? (trend.framingStatus + ' — ' + trend.evidence) : '(판정 실패)', '',
-      '이 글만의 각도가 distinct/weak/derivative 중 무엇인지 판정(uniqueAngle). 약하거나 없으면 어디(where)를 어떻게(how: 반례·재구성·범위축소) 비틀면 어떤 글과 차별화되는지(why) 구체 제안 최대 3개(twists).'].join('\n'),
+      '이 글만의 각도가 distinct/weak/derivative 중 무엇인지 판정(uniqueAngle). 약하거나 없으면 어디(where)를 어떻게(how: 반례·재구성·범위축소) 비틀면 어떤 글과 차별화되는지(why) 구체 제안을 필요한 만큼(twists).'].join('\n'),
     { label: 'differentiation', phase: 'Research', schema: DIFF_SCHEMA, agentType: AGENT }
   )
 
@@ -572,7 +581,7 @@ if (STAGES.includes('polish')) {
             .map(f => '- [' + f.kind + '/' + f.severity + '] line ' + f.line + ' "' + f.quote + '": ' + f.issue + ' → ' + f.suggestion).join('\n')].join('\n')
       : (out.editorial
           ? '적용 대상으로 분류된 진단이 없다. 작업 사본을 보존하고 changeCount=0으로 보고하라.'
-          : '에디토리얼 진단 없이 polish만 요청됐다. 원고를 한 번 통독하고 객관적 결함만 최대 3개 고쳐라. 실제 결함이 없으면 변경하지 않는다.')
+          : '에디토리얼 진단 없이 polish만 요청됐다. 원고를 한 번 통독하고 객관적 결함만 고쳐라. 실제 결함이 없으면 변경하지 않는다.')
     out.polish = await runPolish(WORK, brief, typeof keepList === 'string' ? keepList : (keepList || ''))
   }
 }
