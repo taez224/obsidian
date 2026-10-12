@@ -90,4 +90,4 @@ aliases:
 
 - [[voice-profile]] - 검사 기준이 되는 목소리 DNA
 - [[anti-slop-lexicon]] - 6번 기계 선검사의 금지표현·문장부호 단일 출처
-- 근거: 토스 라이팅 원칙(음독 테스트·잡초 제거) — [[korean-tech-writing-guide]] 참조
+- [공통 글쓰기 기준](../../../guides/writing.md) - 문장을 소리 내어 설명하듯 읽고, 문맥에 따라 표현을 판단한다.

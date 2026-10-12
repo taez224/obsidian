@@ -123,14 +123,14 @@ def build_fixture(root):
     # 문체 휴리스틱은 올바른 주장도 포착할 수 있으므로 형식 오류로 분류하지 않는다.
     write(root, "30_Resources/Development/Concepts/설명 모델.md",
           "---\ncreated: 2026-06-12\nslug: explanation-model\nsummary: 이 모델은 상태 전이를 설명한다.\n---\n[[대상 노트]]\n")
-    # 블로그 summary도 글이 하는 일("~를 소개한다", "~한 구현 기록")로 끝나면 검토 후보다. 관점을 말하면 통과한다.
+    # 블로그 summary는 소개문이다. 소개·기록·질문·관점 등의 문장형으로 검토 후보를 만들지 않는다.
     blog_fm = "---\ncreated: 2026-06-12\nslug: {}\nstatus: draft\nsummary: {}\n---\n[[대상 노트]]\n"
     write(root, "20_Projects/blog/소개하는 글.md", blog_fm.format("intro-post", "HEXACO의 여섯 성격 차원을 소개한다."))
     write(root, "20_Projects/blog/구현 기록 글.md", blog_fm.format("impl-post", "JWT 인증을 WebSocket에 연결한 구현 기록."))
     write(root, "20_Projects/blog/관점을 말하는 글.md", blog_fm.format("claim-post", "AI는 개인의 속도를 높였지만 팀의 진척은 늘지 않았다."))
-    # 목록에 없는 명사로 끝나도 관형형 뒤 명사구면 후보다. 질문으로 끝나는 summary는 통과한다.
     write(root, "20_Projects/blog/운영 경험 글.md", blog_fm.format("ops-post", "원문을 먼저 남기고 나중에 승격한 Obsidian 운영 경험."))
     write(root, "20_Projects/blog/질문하는 글.md", blog_fm.format("question-post", "AI가 쓴 노트는 누구의 지식인가."))
+    write(root, "20_Projects/blog/두 문장 소개 글.md", blog_fm.format("two-sentence-post", "고객사별 데이터를 어떻게 나눌까요? 스키마·DB 분리의 원리와 조회·수정 흐름을 살펴봅니다."))
     # 첨부파일 실물
     write(root, "_attachments/그림.png", "png-bytes")
     # 제외 대상: _ 파일, _workspace
@@ -275,10 +275,10 @@ def test_holds(root):
     write(root, "_workspace/holds.json", json.dumps({"holds": [
         {"kind": "dead_link", "source": "01_Slipbox/연결된 노트.md", "target": "없는노트", "reason": "쓸 예정"},
         {"kind": "orphan", "path": "01_Slipbox/고립 노트.md"},
-        {"kind": "summary", "path": "20_Projects/blog/소개하는 글.md",
-         "summary": "HEXACO의 여섯 성격 차원을 소개한다."},
+        {"kind": "summary", "path": "30_Resources/Development/Concepts/설명 모델.md",
+         "summary": "이 모델은 상태 전이를 설명한다."},
         # summary를 고친 뒤에는 키가 달라져 다시 제안되고, 이 보류는 stale로 남는다
-        {"kind": "summary", "path": "20_Projects/blog/구현 기록 글.md", "summary": "고치기 전 문장."},
+        {"kind": "summary", "path": "30_Resources/Development/Troubleshooting/증상 - 결론.md", "summary": "고치기 전 문장."},
         {"kind": "used_in", "note": "01_Slipbox/기록된 노트.md", "source": "30_Resources/미기록 문서.md"},
         {"kind": "없는 종류", "path": "x"},
     ]}, ensure_ascii=False))
@@ -289,8 +289,8 @@ def test_holds(root):
     assert r["priorities"]["meaning_review"]["dead_links"] == 2, r["priorities"]
     assert r["priorities"]["meaning_review"]["slipbox_orphans"] == 0, r["priorities"]
     suggestions = {x["path"]: x for x in r["style_suggestions"]}
-    assert "20_Projects/blog/소개하는 글.md" not in suggestions, suggestions
-    assert suggestions["20_Projects/blog/구현 기록 글.md"]["summary"] == "JWT 인증을 WebSocket에 연결한 구현 기록."
+    assert "30_Resources/Development/Concepts/설명 모델.md" not in suggestions, suggestions
+    assert suggestions["30_Resources/Development/Troubleshooting/증상 - 결론.md"]["summary"] == "원인을 확인한다."
     by_note = {unicodedata.normalize("NFC", e["path"]): e for e in r["reuse_by_note"]}
     assert by_note["01_Slipbox/기록된 노트.md"]["used_in_candidates"] == [], by_note["01_Slipbox/기록된 노트.md"]
 
@@ -358,9 +358,9 @@ def main():
         assert any("summary" in s for s in bad_style), bad_style
         assert "30_Resources/Development/Concepts/설명 모델.md" not in issues
         assert "30_Resources/Development/Concepts/설명 모델.md" in suggestions
-        for p in ("20_Projects/blog/소개하는 글.md", "20_Projects/blog/구현 기록 글.md", "20_Projects/blog/운영 경험 글.md"):
-            assert any("summary" in s for s in suggestions.get(p, [])), (p, suggestions.get(p))
-        for p in ("20_Projects/blog/관점을 말하는 글.md", "20_Projects/blog/질문하는 글.md"):
+        for p in ("20_Projects/blog/소개하는 글.md", "20_Projects/blog/구현 기록 글.md",
+                  "20_Projects/blog/운영 경험 글.md", "20_Projects/blog/관점을 말하는 글.md",
+                  "20_Projects/blog/질문하는 글.md", "20_Projects/blog/두 문장 소개 글.md"):
             assert p not in suggestions, (p, suggestions.get(p))
         assert "30_Resources/Development/Concepts/좋은 개념.md" not in issues, issues
         assert any("루트" in s for s in issues.get("30_Resources/Development/루트 노트.md", [])), issues

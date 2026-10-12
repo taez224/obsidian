@@ -65,6 +65,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - `visual-argument-review.md` - 논지를 운반하는 도식의 사실·위계·강조·실제 렌더 검토.
 - `amplifier-lenses.md` - 쓰기 전 앵글과 다듬기 단계의 가치 증폭 렌즈.
 - `domestic-tech-blog-benchmark.md` - 회사 기술 블로그의 최신 제목·구조·문장 리듬 표본.
+- `tech-doc-types.md` - 기술 글의 문서 유형(설명·학습·문제 해결), 문서 계약, 유형별 기준.
 
 ## Workflow
 
@@ -77,8 +78,11 @@ If missing, ask for only the information needed:
 - publication surface
 - source material
 - desired artifact: outline, draft, revision, review, or reusable workflow
+- document type, for a technical article (see below)
 
 If the user already provides direction, proceed without asking.
+
+리뷰를 반영할 때도 사용자가 정한 글의 목적·독자·설명 깊이를 편집 기준으로 다시 확인한다. 대화나 기존 집필 계약에 있으면 그대로 사용하고 재질문하지 않는다. 현재 원고가 상세해졌거나 리뷰에서 새 질문이 나왔다는 이유로 설명 범위를 넓혀 잡지 않는다.
 
 If the user says they will write the article themselves, or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
 
@@ -89,6 +93,10 @@ Choose the contract by publication surface before selecting a structure.
 - **Brunch·personal essay**: preserve the writer's question, lived texture, and reading rhythm. A named framework, research section, counterargument, or operating model is optional.
 - **Personal technical blog**: connect an actual technical decision or failure to a reusable criterion. Add artifact evidence where it carries the argument.
 - **Company technical blog**: prioritize reproducibility, factual accuracy, system context, and reader utility. Load the domestic benchmark only here or when explicitly requested.
+
+회사 기술 블로그나 개인 사이트의 블로그 글 중 기술 글이면 `references/tech-doc-types.md`를 읽고 문서 유형과 문서 계약을 먼저 정한다. 기존 요청과 대화에서 정한 목적·독자·범위는 그대로 사용한다. 절 구성이 달라질 만큼 불명확한 부분만 묻는다. 경험에서 판단을 끌어내는 통찰형 글은 이 단계를 건너뛰고 4단계로 간다.
+
+블로그의 `summary`는 [속성 스키마](../../../99_Templates/_property-schema.md)의 Blog Posts 기준을 따른다. 제목을 보완하는 읽기 전 소개문으로 검토하며, 구체적인 소개형 표현을 결론 문장으로 바꾸도록 강제하지 않는다. 원고의 분량과 화면 표시 길이는 구분하고, 사이트의 표시 변경을 원고 윤문으로 대신하지 않는다.
 
 Before building the evidence base for a series article:
 
@@ -198,6 +206,7 @@ Build an outline that gives TaeZ enough structure to write without pre-writing t
 ```
 
 - Do not require every field or impose a fixed number of sections.
+- 기술 글이면 `## 한 줄 논지` 대신 `references/tech-doc-types.md`의 `## 문서 계약`으로 시작하고, 절 필드의 `이 절의 주장`은 `독자의 다음 질문`으로 바꿔 쓸 수 있다.
 - Keep research as evidence notes attached to the claim it supports. Do not turn all gathered papers into body sections.
 - Mark missing personal evidence as a prompt for TaeZ to fill. Never invent a workplace scene, judgment change, result, or number.
 - Do not write polished opening paragraphs, transitions, or closing prose unless explicitly requested.
@@ -257,7 +266,10 @@ When reviewing an existing draft:
 
 - When the request is limited to reader comprehension and flow, use `.agents/skills/reader-perspective-review/SKILL.md`. For a full blog review, this skill's article-specific review and publication requirements remain in force.
 - Lead with structural problems, repeated claims, weak transitions, and unsupported leaps. 어디를 볼지가 아니라 어떻게 볼지는 `references/structural-review.md`가 정본이다. 인상으로 구조를 진단하지 말고 역방향 아웃라인을 먼저 채운다.
-- Treat an external review as a hypothesis. Verify its factual claims and reject changes that displace TaeZ's thesis, scene, or publication contract even when the suggested sentence is locally polished.
+- 외부 리뷰는 가설로 보고, 먼저 해당 지적이 사용자가 정한 목적을 달성하는 데 필요한지 판단한다. 사실 오류는 바로잡되, 그 오류를 확인하는 데 필요했던 조사·검증 과정을 모두 본문에 추가하지 않는다. 목적에 필요한 내용이면 보강하고, 보조 내용이면 요약·각주·제외 중 알맞은 방법을 고른다.
+- 구현 소개 글의 본문 코드는 독자가 사용할 경로를 우선한다. 계측·우회·재현 같은 검증용 코드는 검증 자체가 글의 주제이거나 결론을 이해하는 데 필요할 때만 보여 준다. 코드 축약으로 실행 의미가 달라지는 조건이나 동작은 보존한다.
+- 기술 글은 문서 계약에서 선언한 유형의 기준으로 결함을 판정한다. 다른 유형의 기준은 선택 사항으로만 보고한다.
+- 같은 부분에서 이해 질문이 반복되면 설명을 덧붙이기 전에 그 부분의 역할과 필요한 깊이를 다시 판단한다. 각 수정이 개별적으로 타당해도 합쳐진 글의 중심이 바뀌지 않았는지 본다.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
 - For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, image links, and `## 연관된 노트`.
@@ -277,13 +289,15 @@ For a review, produce:
 
 - first-read thesis and review mode (`fresh-reader` or `context-aware`)
 - publication-readiness verdict
-- top 3 structural issues
+- actual structural issues, ordered by impact; report none when no necessary correction is found
 - objective defects, editorial risks, and preferences kept distinct
-- 3-5 lines worth preserving for a substantial draft
+- strong passages worth preserving only when this helps assess a proposed revision; no fixed quota
 - concrete rewrite suggestions
 - optional direct patch
 
 For an explicitly requested final assembly, use `references/final-assembly.md` and report the panel composition, failed or omitted seats, cross-confirmed findings, rejected suggestions, deterministic gate results, and final readiness. Do not patch the article until TaeZ approves the selected findings.
+
+스킬을 보완할 때는 [평가 사례](evals/cases.md)와 [검토 결함 장부](evals/defect-log.md)를 참고한다. 일반 글 검토에서는 기존 검사가 놓친 재사용 가능한 결함을 실제로 발견했을 때만 장부 추가 후보를 짧게 보고한다. 후보를 채우려고 지적을 만들거나 장부를 자동 수정하지 않는다.
 
 For a new article or substantial revision, finish with a concise `지식 환류` report:
 

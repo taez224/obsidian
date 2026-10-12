@@ -48,7 +48,8 @@ DEVELOPMENT_RULE = FolderRule(
 FOLDER_RULES = {
     "": FolderRule(),  # 별도 규칙이 없는 폴더에만 적용한다.
     "01_Slipbox/": FolderRule(required=("type", "status"), public=True),  # Slipbox
-    "20_Projects/blog/": FolderRule(public=True, review_summary=True),  # Blog Posts: 공개 조건은 별도 검사
+    # 블로그 summary는 소개문이다. 구체성은 문맥으로 검토하며 문장 끝 표현으로 제안하지 않는다.
+    "20_Projects/blog/": FolderRule(public=True),  # Blog Posts: 공개 조건은 별도 검사
     "30_Resources/References/Articles/": FolderRule(required=("source", "published", "status")),
     "30_Resources/References/Clippings/": FolderRule(required=("status",)),
     "30_Resources/Development/DevLog/": FolderRule(created_key="date"),  # DevLog
@@ -61,7 +62,7 @@ DEV_ROOT = "30_Resources/Development/"  # 이 폴더 바로 아래에는 노트�
 PUBLIC_DATE_FIELDS = ("created", "published", "updated")
 DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 KST = timezone(timedelta(hours=9))
-# summary는 답·질문·용도·관점을 말하는 문장이다. 노트가 하는 일로 끝나면 보고한다. 표현 목록이 아니라 세 가지 형태로 본다.
+# 개발 노트 summary는 답·질문·용도·관점을 말한다. 노트가 하는 일로 끝나면 문맥 검토 후보로 보고한다.
 # 목록으로 맞춘 이전 정규식은 만들 때 보지 않은 summary에서 "~한 운영 경험"을 하나도 잡지 못했다(2026-09-24 검증).
 SUMMARY_TAIL_RE = re.compile(
     # 노트의 활동을 서술어로 쓴다: "~를 정리한다", "~를 살펴본다"
