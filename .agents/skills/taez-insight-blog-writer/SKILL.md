@@ -102,7 +102,7 @@ Choose the contract by publication surface before selecting a structure.
 
 연재 글이면 근거를 모으기 전에 `references/series.md`의 연재 허브 확인을 따른다.
 
-### 2. Build the personal evidence base### 2. Build the personal evidence base
+### 2. Build the personal evidence base
 
 Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples when the claim needs them. Do not rely on a fixed anchor list; find the evidence that fits this article. The invariant is source-grounded authorial judgment, whether it changed or became clearer.
 
@@ -126,7 +126,7 @@ Use current external research when claims are time-sensitive or trend-dependent.
 
 개요에 올리기 전에 수치·인용·연구 결과·정책 일정은 `references/research-verification.md`의 기준으로 확인한다.
 
-Load `references/anti-slop-research.md`Load `references/anti-slop-research.md` only when the topic touches AI slop, workslop, writing quality, developer content saturation, or "AI-generated but valuable" distinctions.
+Load `references/anti-slop-research.md` only when the topic touches AI slop, workslop, writing quality, developer content saturation, or "AI-generated but valuable" distinctions.
 
 Research should sharpen the user's claim, not turn the post into a literature review.
 
@@ -215,7 +215,7 @@ Run a title and heading pass before handing off the outline:
 
 연재의 한 편이면 `references/series.md`의 「연재 글의 구조」를 초안 전에 적용한다.
 
-### 5.2 Draft natural Korean before polishing### 5.2 Draft natural Korean before polishing
+### 5.2 Draft natural Korean before polishing
 
 사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만, 쓰기 전에 `references/korean-first-draft.md`를 읽고 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이며, 초안을 쓴 뒤의 30초 자체 점검도 그 파일을 따른다.
 
@@ -224,6 +224,8 @@ Run a title and heading pass before handing off the outline:
 구조부터 본다. 초안이 처음 완성됐거나 절을 추가·삭제·재배치한 뒤에는 `node .claude/workflows/blog-structure-scan.mjs "<file>"`를 돌리고 `references/structural-review.md`의 절차와 판정 목록을 따른다. **구조가 안 잡힌 글에 문장을 다듬으면 절을 옮길 때 그 문장이 통째로 버려진다.** 문장만 고치는 요청에는 이 단계를 넣지 않는다.
 
 초안이 완성되거나 구조를 크게 바꾼 뒤에는 문장 윤문 전에 `.agents/skills/reader-perspective-review/SKILL.md`의 독자 시점 점검도 적용한다. 이 공통 점검은 이 스킬의 구조·근거·발행 검토를 대체하지 않으며, 문장만 고치는 요청에는 반복하지 않는다. 같은 초안에 `blog-review-polish`의 light 검수를 돌린다면 그 처음 읽는 독자 재독이 이 점검을 겸한다.
+
+글 전체의 최종 검토에서는 독자 시점 점검에 이어 [sentence-audit](../sentence-audit/SKILL.md)로 문장을 점검하되, 이미 점검한 원고는 이후 바뀐 부분과 앞뒤 연결만 확인한다.
 
 글의 논지를 도식·인포그래픽이 운반한다면 `references/visual-argument-review.md`도 읽고 실제 발행 크기의 렌더를 확인한다. 장식 이미지는 이 검토를 강제하지 않는다.
 

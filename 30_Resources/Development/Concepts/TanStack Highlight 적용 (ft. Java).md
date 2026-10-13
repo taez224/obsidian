@@ -1,6 +1,6 @@
 ---
 created: 2026-09-16
-updated: 2026-10-05
+updated: 2026-10-13
 slug: tanstack-highlight-java
 summary: 기존 Markdown 렌더러에 TanStack Highlight를 연결하고, 기본 지원에 없는 Java 구문 강조를 사용자 정의 토크나이저로 보완한 과정
 tags:
@@ -11,8 +11,8 @@ tags:
 
 TanStack Markdown과 TanStack Highlight를 알게 되어 생각 정원에 적용할 수 있을지 살펴봤다. 우선 적용한 것은 코드의 키워드와 문자열 등에 색을 입히는 Highlight다. 개발 노트에 자주 쓰는 Java가 기본 지원 언어에 없어, 이 부분은 직접 언어 정의를 추가했다. 적용한 버전은 2026년 9월에 나온 `@tanstack/highlight` 0.1.0이다.
 
-> [!note] 1.0 공개
-> 이 글 작성 이후 2026-09-30에 `@tanstack/highlight` 1.0.0이 나왔지만 본문 내용은 여전히 유효하다.
+> [!note] 1.1.0에서 Java 공식 지원
+> 2026-10-08에 나온 `@tanstack/highlight` 1.1.0에 Java 언어 정의가 추가되어, 직접 만든 정의를 지우고 라이브러리 정의로 교체했다. 아래 Java 예시도 이제 라이브러리 정의로 색이 입혀진다. 이 글의 나머지 내용은 0.1.0에서 Java를 직접 정의했던 과정을 기록으로 남겨 둔 것이다.
 
 ## 두 라이브러리의 역할
 
