@@ -1,41 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="674" viewBox="0 0 720 674" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="790" viewBox="0 0 720 790" role="img" aria-labelledby="t d">
 <title id="t">요청의 테넌트가 스키마나 DataSource 선택까지 전달되는 경로</title>
-<desc id="d">X-Tenant-Id 헤더의 테넌트를 TenantFilter가 TenantContext.callChecked()로 바인딩한다. 서비스 트랜잭션이 세션을 열 때 TenantResolver가 테넌트를 반환하고, 세션은 이 테넌트를 끝까지 사용한다. 커넥션이 필요하면 Hibernate가 테넌트 식별자를 넘긴다. 애플리케이션 시작 시 정한 strategy에 따라 둘 중 하나가 쓰인다. strategy: SCHEMA에서는 TenantSchemaMapper가 shared DB 하나 안의 marvel_schema를, strategy: DATABASE에서는 MultiTenantConnectionProvider가 marvel_db와 dc_db 두 DB 중 marvel_db의 DataSource를 고르며, dc 쪽은 선택되지 않는다.</desc>
+<desc id="d">X-Tenant-Id 헤더의 테넌트를 TenantFilter가 TenantContext.callChecked()로 바인딩한다. @Transactional 서비스를 호출하면 트랜잭션을 시작하며 새 세션을 만들고, 세션을 만드는 중에 TenantResolver가 TenantContext의 marvel을 반환한다. 열린 세션은 끝까지 marvel을 사용하며, 커넥션이 필요하면 세션의 테넌트 ID를 넘긴다. 애플리케이션 시작 시 정한 strategy에 따라 둘 중 하나가 쓰인다. strategy: SCHEMA에서는 TenantSchemaMapper가 marvel을 marvel_schema로 바꾸고 Connection.setSchema()로 하나의 DB 안의 marvel_schema를 사용한다. strategy: DATABASE에서는 MultiTenantConnectionProvider가 marvel_db의 DataSource를 골라 getConnection()으로 커넥션을 얻는다. dc 쪽 스키마와 DB는 선택되지 않는다.</desc>
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5a6877"/></marker></defs>
-<rect width="720" height="674" fill="#fff"/>
-<text x="290" y="34" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="18" font-weight="700" fill="#1f2d3a" text-anchor="middle">요청 헤더  X-Tenant-Id: marvel</text>
-<line x1="290" y1="44" x2="290" y2="70" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<rect x="40" y="72" width="500" height="70" rx="10" fill="#ffffff" stroke="#3d6fb6" stroke-width="2.5"/><text x="290.0" y="101.0" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantFilter → TenantContext.callChecked()</text><text x="290.0" y="125.0" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#5a6877" text-anchor="middle">ScopedValue로 요청 처리 범위에 테넌트 바인딩</text>
-<line x1="290" y1="142" x2="290" y2="168" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<rect x="40" y="170" width="500" height="70" rx="10" fill="#eef1f4" stroke="#1f2d3a" stroke-width="3"/><text x="290.0" y="199.0" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="17" font-weight="700" fill="#1f2d3a" text-anchor="middle">@Transactional 서비스 호출 → 세션 열림</text><text x="290.0" y="223.0" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="400" fill="#5a6877" text-anchor="middle">이 세션은 끝까지 marvel을 사용</text>
-<rect x="552" y="177" width="162" height="56" rx="10" fill="#ffffff" stroke="#3d6fb6" stroke-width="2.5"/><text x="633.0" y="199" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantResolver</text>
-<line x1="552" y1="205" x2="543" y2="205" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<text x="633" y="223" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" font-weight="400" fill="#5a6877" text-anchor="middle">marvel 반환</text>
-<line x1="290" y1="240" x2="290" y2="266" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<rect x="40" y="268" width="500" height="52" rx="10" fill="#eef1f4" stroke="#8a97a5" stroke-width="1.8"/><text x="290.0" y="300.0" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="17" font-weight="700" fill="#1f2d3a" text-anchor="middle">커넥션이 필요하면 세션의 테넌트 식별자를 넘김</text>
-<path d="M290 320 V338 H185 V372" fill="none" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<path d="M290 338 H535 V372" fill="none" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<text x="175" y="362" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877" text-anchor="end">strategy: SCHEMA</text>
-<text x="545" y="362" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877" text-anchor="start">strategy: DATABASE</text>
-<text x="360" y="362" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" font-weight="400" fill="#5a6877" text-anchor="middle">또는</text>
-<rect x="20" y="374" width="330" height="70" rx="10" fill="#ffffff" stroke="#3d6fb6" stroke-width="2.5"/><text x="185.0" y="403.0" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantSchemaMapper</text><text x="185.0" y="427.0" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="400" fill="#5a6877" text-anchor="middle">marvel → marvel_schema</text>
-<rect x="370" y="374" width="330" height="70" rx="10" fill="#ffffff" stroke="#3d6fb6" stroke-width="2.5"/><text x="535.0" y="403.0" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">MultiTenantConnectionProvider</text><text x="535.0" y="427.0" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="400" fill="#5a6877" text-anchor="middle">selectDataSource(marvel)</text>
-<line x1="185" y1="444" x2="185" y2="490" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<line x1="535" y1="444" x2="535" y2="490" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
-<text x="197" y="472" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877" text-anchor="start">Connection.setSchema()</text>
-<text x="547" y="472" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" font-weight="700" fill="#5a6877" text-anchor="start">커넥션 획득</text>
-<path d="M30 506 V606 A155.0 12 0 0 0 340 606 V506" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/><ellipse cx="185.0" cy="506" rx="155.0" ry="12" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/>
-<text x="185" y="536" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">shared DB</text>
-<rect x="46" y="552" width="134" height="44" rx="6" fill="#fff" stroke="#1f2d3a" stroke-width="2"/>
-<text x="113" y="580" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#1f2d3a" text-anchor="middle">marvel_schema</text>
-<rect x="190" y="552" width="134" height="44" rx="6" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/>
-<text x="257" y="580" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="400" fill="#9aa5b1" text-anchor="middle">dc_schema</text>
-<path d="M380 506 V606 A75.0 12 0 0 0 530 606 V506" fill="#fff" stroke="#1f2d3a" stroke-width="2.5"/><ellipse cx="455.0" cy="506" rx="75.0" ry="12" fill="#fff" stroke="#1f2d3a" stroke-width="2.5"/>
-<text x="455" y="566" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">marvel_db</text>
-<path d="M550 506 V606 A75.0 12 0 0 0 700 606 V506" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/><ellipse cx="625.0" cy="506" rx="75.0" ry="12" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/>
-<text x="625" y="566" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="400" fill="#9aa5b1" text-anchor="middle">dc_db</text>
-<rect x="170" y="646" width="20" height="15" rx="4" fill="#ffffff" stroke="#3d6fb6" stroke-width="2.5"/>
-<text x="198" y="659" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" font-weight="400" fill="#5a6877" text-anchor="start">예제에서 구현한 부분</text>
-<rect x="370" y="646" width="20" height="15" rx="4" fill="#eef1f4" stroke="#8a97a5" stroke-width="1.8"/>
-<text x="398" y="659" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" font-weight="400" fill="#5a6877" text-anchor="start">Spring·Hibernate가 처리하는 부분</text>
+<rect width="720" height="790" fill="#fff"/>
+<text x="360" y="34" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="18" font-weight="700" fill="#1f2d3a" text-anchor="middle">요청 헤더 X-Tenant-Id: marvel</text>
+<line x1="360" y1="44" x2="360" y2="70" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<rect x="110" y="72" width="500" height="70" rx="10" fill="#fff" stroke="#3d6fb6" stroke-width="2.5"/><text x="360" y="101" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantFilter → TenantContext.callChecked()</text><text x="360" y="125" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" fill="#5a6877" text-anchor="middle">ScopedValue로 요청 처리 범위에 테넌트 바인딩</text>
+<line x1="360" y1="142" x2="360" y2="168" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<rect x="110" y="170" width="500" height="70" rx="10" fill="#eef1f4" stroke="#8a97a5" stroke-width="1.8"/><text x="360" y="199" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="17" font-weight="700" fill="#1f2d3a" text-anchor="middle">@Transactional 서비스 호출</text><text x="360" y="223" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" fill="#5a6877" text-anchor="middle">트랜잭션을 시작하며 새 세션 생성</text>
+<line x1="360" y1="240" x2="360" y2="266" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<rect x="110" y="268" width="500" height="70" rx="10" fill="#fff" stroke="#3d6fb6" stroke-width="2.5"/><text x="360" y="297" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantResolver</text><text x="360" y="321" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" fill="#5a6877" text-anchor="middle">세션을 만드는 중에 TenantContext의 marvel 반환</text>
+<line x1="360" y1="338" x2="360" y2="364" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<rect x="110" y="366" width="500" height="70" rx="10" fill="#eef1f4" stroke="#1f2d3a" stroke-width="3"/><text x="360" y="395" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="17" font-weight="700" fill="#1f2d3a" text-anchor="middle">세션 열림: 끝까지 marvel을 사용</text><text x="360" y="419" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" fill="#5a6877" text-anchor="middle">커넥션이 필요하면 세션의 테넌트 ID를 넘김</text>
+<g transform="translate(0,18)">
+<path d="M360 418 V436 H185 V470" fill="none" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<path d="M360 436 H535 V470" fill="none" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<text x="175" y="460" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877" text-anchor="end">strategy: SCHEMA</text>
+<text x="545" y="460" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877">strategy: DATABASE</text>
+<text x="360" y="460" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" fill="#5a6877" text-anchor="middle">또는</text>
+<rect x="20" y="472" width="330" height="70" rx="10" fill="#fff" stroke="#3d6fb6" stroke-width="2.5"/><text x="185" y="501" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">TenantSchemaMapper</text><text x="185" y="525" font-family="Menlo, Consolas, monospace" font-size="14" fill="#5a6877" text-anchor="middle">marvel → marvel_schema</text>
+<rect x="370" y="472" width="330" height="70" rx="10" fill="#fff" stroke="#3d6fb6" stroke-width="2.5"/><text x="535" y="501" font-family="Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#3d6fb6" text-anchor="middle">MultiTenantConnectionProvider</text><text x="535" y="525" font-family="Menlo, Consolas, monospace" font-size="14" fill="#5a6877" text-anchor="middle">marvel → marvel_db의 DataSource</text>
+<line x1="185" y1="542" x2="185" y2="588" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<line x1="535" y1="542" x2="535" y2="588" stroke="#5a6877" stroke-width="2" marker-end="url(#a)"/>
+<text x="197" y="570" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877">Connection.setSchema()</text>
+<text x="547" y="570" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#5a6877">getConnection()</text>
+<path d="M30 604 V704 A155 12 0 0 0 340 704 V604" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/><ellipse cx="185" cy="604" rx="155" ry="12" fill="#f6f8fa" stroke="#6b7a89" stroke-width="2"/>
+<text x="185" y="634" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">하나의 DB</text>
+<rect x="46" y="650" width="134" height="44" rx="6" fill="#fff" stroke="#1f2d3a" stroke-width="2"/><text x="113" y="678" font-family="Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#1f2d3a" text-anchor="middle">marvel_schema</text>
+<rect x="190" y="650" width="134" height="44" rx="6" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/><text x="257" y="678" font-family="Menlo, Consolas, monospace" font-size="14" fill="#9aa5b1" text-anchor="middle">dc_schema</text>
+<path d="M380 604 V704 A75 12 0 0 0 530 704 V604" fill="#fff" stroke="#1f2d3a" stroke-width="2.5"/><ellipse cx="455" cy="604" rx="75" ry="12" fill="#fff" stroke="#1f2d3a" stroke-width="2.5"/>
+<text x="455" y="664" font-family="Menlo, Consolas, monospace" font-size="15" font-weight="700" fill="#1f2d3a" text-anchor="middle">marvel_db</text>
+<path d="M550 604 V704 A75 12 0 0 0 700 704 V604" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/><ellipse cx="625" cy="604" rx="75" ry="12" fill="#f7f8fa" stroke="#9aa5b1" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="625" y="664" font-family="Menlo, Consolas, monospace" font-size="15" fill="#9aa5b1" text-anchor="middle">dc_db</text>
+<rect x="170" y="744" width="20" height="15" rx="4" fill="#fff" stroke="#3d6fb6" stroke-width="2.5"/><text x="198" y="757" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" fill="#5a6877">예제에서 구현한 부분</text>
+<rect x="370" y="744" width="20" height="15" rx="4" fill="#eef1f4" stroke="#8a97a5" stroke-width="1.8"/><text x="398" y="757" font-family="Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14" fill="#5a6877">Spring·Hibernate가 처리하는 부분</text>
+</g>
 </svg>
