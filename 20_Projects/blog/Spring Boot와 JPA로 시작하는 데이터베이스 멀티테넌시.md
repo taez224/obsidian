@@ -24,9 +24,7 @@ interface OrderRepository extends JpaRepository<Order, Long> {
 
 문제는 중복만이 아닙니다. 테넌트 조건을 빠뜨리면 다른 고객사의 데이터가 조회될 수 있습니다. 수정·삭제 쿼리라면 다른 고객사의 데이터를 바꾸거나 지울 수도 있습니다.
 
-테넌트 조건을 매번 직접 넣는 대신 JPA 구현체인 Hibernate가 자동으로 적용하도록 구성하면, 중복을 없애고 조건을 빠뜨리는 실수도 줄일 수 있습니다. 테넌트별로 스키마나 DB를 나누고 요청에 따라 연결 대상을 선택하는 방법도 있습니다.
-
-이 글에서는 먼저 `@TenantId`로 테넌트 조건을 자동 적용하는 방법을 살펴봅니다. 이어서 스키마·DB 분리를 간단한 예제로 구현하고 테넌트별 조회 결과를 확인합니다.
+이 글에서는 JPA 구현체인 Hibernate로 테넌트 조건을 자동 적용하는 방법과, 스키마·DB를 나누어 연결 대상을 선택하는 방법을 간단한 예제로 살펴봅니다.
 
 > **예제 환경**
 >
@@ -40,13 +38,11 @@ interface OrderRepository extends JpaRepository<Order, Long> {
 
 멀티테넌시는 여러 고객이 하나의 시스템을 공유하는 아키텍처입니다. 이때 고객사나 조직처럼 서비스 안에서 독립적으로 구분해 관리하는 고객 단위를 **테넌트**라고 합니다.
 
-한 테넌트에 여러 사용자가 속할 수 있고, 한 사용자가 여러 테넌트에 속할 수도 있습니다.[^tenant-membership]
-
 관계형 DB에서 테넌트별 데이터를 나누는 대표적인 방식은 행 분리, 스키마 분리, DB 분리입니다.[^hibernate] 스키마는 DB 안에서 테이블 등의 객체를 묶는 네임스페이스를 뜻합니다.
 
-![같은 캐스팅 데이터를 비교한 그림. 행 분리는 casting 테이블의 행을 tenant_id로 나누고, 스키마 분리는 하나의 DB 안의 marvel_schema와 dc_schema에 casting 테이블을 두며, DB 분리는 marvel_db와 dc_db에 casting 테이블을 둔 그림](assets/multitenancy-data-layouts.svg)
+![세 가지 데이터 분리 방식을 비교한 그림. 행 분리는 한 테이블에 테넌트 A와 테넌트 B의 행을 함께 저장하고 각 행의 tenant_id 열로 테넌트를 구분한다. 스키마 분리는 한 DB 안에 스키마 A와 스키마 B를 두고, DB 분리는 DB A와 DB B를 따로 둔다](assets/multitenancy-data-layouts.svg)
 
-*Ryan Reynolds의 배역 데이터를 행·스키마·DB 단위로 나눈 모습*
+*테넌트 데이터를 행·스키마·DB 단위로 나눈 모습*
 
 | 방식                             | 데이터 배치                    | 조회 범위를 정하는 지점             |
 | ------------------------------ | ------------------------- | ------------------------- |
@@ -56,7 +52,7 @@ interface OrderRepository extends JpaRepository<Order, Long> {
 
 ## 행 분리: `@TenantId`로 반복되는 조건 줄이기
 
-행 분리에서는 Hibernate의 `@TenantId`나 DB의 행 수준 보안(RLS) 정책으로 테넌트 조건을 자동 적용할 수 있습니다.[^hibernate][^postgres]
+행 분리에서는 Hibernate의 `@TenantId`나 DB의 행 수준 보안(RLS) 정책 등으로 테넌트 조건을 자동 적용할 수 있습니다.[^hibernate][^postgres]
 
 이번 글에서는 Hibernate의 `@TenantId`를 사용합니다. 테넌트 ID를 담는 엔티티 필드를 표시하는 어노테이션으로, `Order` 엔티티의 `tenantId` 필드에 이 어노테이션을 추가합니다.[^tenant-id]
 
@@ -93,7 +89,7 @@ interface OrderRepository extends JpaRepository<Order, Long> {
 }
 ```
 
-`findByOrderId()`를 호출하면 Hibernate가 생성하는 SQL에는 주문 ID와 테넌트 ID 조건이 함께 들어갑니다.
+`findByOrderId()`를 호출하면 Hibernate가 생성하는 SQL에는 `order_id`와 `tenant_id` 조건이 함께 들어갑니다.
 
 ```sql
 select ...
@@ -102,19 +98,19 @@ where tenant_id = ? and order_id = ?
 ```
 
 > [!warning] 네이티브 SQL의 테넌트 조건
-> `@Query(nativeQuery = true)` 등으로 실행하는 네이티브 SQL에는 `@TenantId`의 테넌트 조건이 자동으로 적용되지 않습니다.[^hibernate]
+> `@Query(nativeQuery = true)` 등으로 실행하는 네이티브 SQL에는 `@TenantId`의 테넌트 조건이 자동으로 적용되지 않습니다.
 
 ## 요청의 테넌트를 Hibernate 세션에 전달
 
 Hibernate는 JPA의 `EntityManager`를 통한 작업을 `Session`에서 처리합니다. 세션을 열 때 테넌트 ID를 받아, 그 테넌트의 데이터를 조회하거나 저장합니다.[^hibernate]
 
-세 가지 분리 방식에서 테넌트 ID를 세션에 전달하는 흐름은 같습니다.
+세 가지 분리 방식 모두 테넌트 ID를 세션에 전달하는 과정은 같습니다.
 
-> 요청 헤더에서 테넌트 ID 읽기 → 요청 처리 범위에 바인딩 → 새 세션을 여는 과정에서 Resolver로 테넌트 확인 → 그 테넌트의 데이터 조회
+> 요청에서 테넌트 ID 식별 → 요청 처리 범위에 바인딩 → 새 세션을 여는 과정에서 바인딩된 테넌트 ID 확인 → 그 테넌트의 데이터 조회
 
 ### 세션이 열리는 시점
 
-예제에서는 요청 전체에 `EntityManager`를 유지하는 OSIV 옵션을 껐습니다.
+Spring Boot는 요청 전체에 `EntityManager`를 유지하는 OSIV 옵션을 기본으로 켭니다.[^transactions] 예제에서는 이 옵션을 끄고 세션의 생명주기를 서비스 트랜잭션에 맞췄습니다. 기존 트랜잭션 없이 Spring 서비스 빈의 `@Transactional` 메서드를 호출하면 새 세션이 열리므로, 호출 전에 테넌트 ID를 바인딩해야 합니다.[^transactions]
 
 ```yaml
 # application.yaml
@@ -123,13 +119,11 @@ spring:
     open-in-view: false  # 요청 전체에 세션을 유지하지 않음
 ```
 
-이 설정에서 기존 트랜잭션 없이 Spring 서비스 빈의 `@Transactional` 메서드를 호출하면 새 세션이 열립니다.[^transactions] 따라서 이 메서드를 호출하기 전에 테넌트 ID를 바인딩해야 합니다.
-
 ### 요청 처리 범위에 테넌트 ID 바인딩
 
-요청에서 읽은 테넌트 ID를 요청 처리 범위에 바인딩해 두면, 하위 호출에서 같은 값을 읽을 수 있습니다. 서비스나 Repository 메서드마다 같은 값을 인자로 전달하지 않아도 됩니다.
+요청에서 읽은 테넌트 ID를 바인딩해 두면, 그 범위 안에서 호출되는 서비스나 Repository도 같은 값을 읽을 수 있습니다. 메서드마다 테넌트 ID를 인자로 전달하지 않아도 됩니다.
 
-이런 값은 흔히 `ThreadLocal`에 둡니다. 예제에서는 필터에서 정한 값을 하위 호출에서 읽기만 하므로 Java 25의 `ScopedValue`를 사용했습니다.[^scoped-value] 두 API의 차이는 부록에 정리했습니다.
+이런 값은 흔히 `ThreadLocal`에 두지만, 예제에서는 Java 25에서 정식 기능이 된 `ScopedValue`를 사용했습니다.[^scoped-value] `ScopedValue`는 바인딩한 값을 범위 안에서 변경할 수 없고, 실행 범위가 끝나면 바인딩이 자동으로 해제됩니다. 따라서 필터에서 정한 테넌트 ID를 이후 코드에서 읽기만 하는 이 예제에 잘 맞습니다. 두 API의 차이는 부록에 정리했습니다.
 
 ```java
 public final class TenantContext {
@@ -146,15 +140,13 @@ public final class TenantContext {
     }
 
     public static String required() {
-        if (!CURRENT.isBound()) {
-            throw new IllegalStateException("No tenant is bound");
-        }
-        return CURRENT.get();
+        return CURRENT.orElseThrow(
+                () -> new IllegalStateException("No tenant is bound"));
     }
 }
 ```
 
-`call()`과 `callChecked()`는 테넌트 ID를 바인딩한 범위에서 작업을 실행하고, `required()`는 그 범위의 테넌트 ID를 읽습니다. 실행 범위가 끝나면 바인딩이 해제됩니다.
+`call()`과 `callChecked()`는 테넌트 ID를 바인딩한 범위에서 작업을 실행하고, `required()`는 그 범위의 테넌트 ID를 읽습니다.
 
 `TenantFilter`는 헤더에서 읽은 테넌트 ID를 바인딩하고, 그 범위 안에서 필터 체인을 실행합니다.
 
@@ -165,9 +157,9 @@ public class TenantFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain) throws IOException, ServletException {
-        // 헤더 검증과 필터 체인의 예외 처리(try/catch) 등 생략
+        // 헤더 검증과 필터 체인의 예외 처리는 생략
         String tenant = request.getHeader("X-Tenant-Id");
-        // 필터 체인에서 발생한 checked exception을 전파한다.
+
         TenantContext.callChecked(tenant, () -> {
             chain.doFilter(request, response);
             return null;
@@ -198,8 +190,6 @@ public class TenantResolver implements CurrentTenantIdentifierResolver<String> {
 }
 ```
 
-새 세션을 열 때 테넌트 ID가 바인딩되지 않았거나 설정에 등록되지 않은 값이면 예외가 발생합니다.
-
 `TenantResolver`를 Spring Boot의 `HibernatePropertiesCustomizer`로 Hibernate에 등록합니다.
 
 ```java
@@ -219,58 +209,17 @@ public class TenantConfiguration {
 
 ## 행 분리 조회 결과 확인
 
-Repository가 현재 테넌트의 주문만 반환하는지 테스트로 확인하겠습니다. 서점(`bookshop`)과 음반점(`recordshop`)을 테넌트로 삼고, 두 테넌트에 주문 ID는 같지만 상태가 다른 주문을 저장합니다. 테스트마다 기존 데이터를 비우고, 저장과 조회는 `TenantContext.call()`로 테넌트 ID를 바인딩한 범위에서 실행합니다.
+앞의 주문 예제에서 서점(`bookshop`)과 음반점(`recordshop`)을 각각 하나의 테넌트로 두고, 같은 주문 ID로 상태가 다른 주문을 준비했습니다. `X-Tenant-Id` 헤더만 바꿔 같은 주문을 조회합니다.
 
-```java
-@SpringBootTest
-@ActiveProfiles("row")
-class RowModeTest {
-    @Autowired
-    OrderRepository orderRepository;
+![같은 ORDER-001을 bookshop과 recordshop 헤더로 조회한 터미널 캡처. bookshop은 PAID, recordshop은 PENDING 상태의 주문을 반환한다](assets/multitenancy-row.png)
 
-    @Test
-    void sameOrderIdReturnsEachTenantsOrder() {
-        // Given
-        TenantContext.call("bookshop", () ->
-                orderRepository.save(new Order("ORDER-001", "PAID")));
-        TenantContext.call("recordshop", () ->
-                orderRepository.save(new Order("ORDER-001", "PENDING")));
+*테넌트별 주문 조회 결과*
 
-        // When
-        var bookshopOrder = TenantContext.call("bookshop", () ->
-                orderRepository.findByOrderId("ORDER-001").orElseThrow());
-        var recordshopOrder = TenantContext.call("recordshop", () ->
-                orderRepository.findByOrderId("ORDER-001").orElseThrow());
-
-        // Then
-        assertThat(bookshopOrder.getStatus()).isEqualTo("PAID");
-        assertThat(recordshopOrder.getStatus()).isEqualTo("PENDING");
-    }
-
-    @Test
-    void findAllOnlyReturnsCurrentTenantsRows() {
-        // Given
-        TenantContext.call("bookshop", () ->
-                orderRepository.save(new Order("ORDER-001", "PAID")));
-        TenantContext.call("recordshop", () ->
-                orderRepository.save(new Order("ORDER-001", "PENDING")));
-
-        // When
-        var bookshopOrders = TenantContext.call("bookshop", orderRepository::findAll);
-        var recordshopOrders = TenantContext.call("recordshop", orderRepository::findAll);
-
-        // Then
-        assertThat(bookshopOrders).extracting(Order::getTenantId).containsExactly("bookshop");
-        assertThat(recordshopOrders).extracting(Order::getTenantId).containsExactly("recordshop");
-    }
-}
-```
-
-같은 `ORDER-001`을 조회한 결과, `bookshop` 주문의 상태는 `PAID`, `recordshop` 주문의 상태는 `PENDING`입니다. `findAll()`도 현재 테넌트의 주문만 반환합니다.
+같은 주문 ID로 조회해도, 헤더에 지정한 테넌트의 주문만 반환됩니다.
 
 ## 스키마·DB 분리의 공통 예제
 
-`@TenantId`를 사용해도 여러 테넌트의 데이터는 같은 테이블에 저장됩니다. 테넌트마다 별도의 테이블을 두려면 스키마나 DB를 나눌 수 있습니다.[^azure-patterns] 두 방식은 배우별 배역을 저장하는 예제로 비교하겠습니다.
+`@TenantId`를 적용해도 여러 테넌트의 데이터는 같은 테이블에 저장됩니다. 이번에는 테넌트마다 테이블을 따로 두는 스키마 분리와 DB 분리를 비교하겠습니다.[^azure-patterns]
 
 ### 같은 배우, 서로 다른 배역
 
@@ -318,7 +267,7 @@ public class CastingService {
 
 ![TenantFilter가 X-Tenant-Id 헤더의 marvel을 TenantContext에 바인딩하고, @Transactional 서비스 호출이 새 세션을 만드는 중에 TenantResolver가 marvel을 반환하며, 열린 세션은 끝까지 marvel을 사용한다. 커넥션이 필요하면 스키마 분리에서는 TenantSchemaMapper가 marvel_schema를, DB 분리에서는 MultiTenantConnectionProvider가 marvel_db의 DataSource를 정하는 흐름. 애플리케이션 시작 시 정한 strategy에 따라 둘 중 하나만 쓰이며, 이 요청에서 dc 쪽 스키마와 DB는 선택되지 않는다](assets/multitenancy-tenant-flow.svg)
 
-*세션을 열 때 테넌트를 정하고, 커넥션이 필요할 때 그 테넌트에 맞는 저장 위치를 선택합니다.*
+*테넌트 식별부터 스키마·DB 선택까지의 요청 처리 흐름*
 
 ## 스키마 분리: 같은 DB에서 사용할 스키마 선택
 
@@ -442,36 +391,31 @@ public class TenantConfiguration {
 }
 ```
 
-`selectDataSource()`는 테넌트 컨텍스트를 다시 읽지 않고, 세션이 전달한 ID로 DataSource를 선택합니다.
+`selectDataSource()`는 테넌트 컨텍스트를 다시 읽지 않고, 세션이 전달한 ID로 DataSource를 선택합니다. 같은 `findById("ryan-reynolds")`를 호출해도 Marvel 세션은 `marvel_db`에서, DC 세션은 `dc_db`에서 배역을 읽습니다.
 
-Hibernate가 테넌트 ID 없이 DB 종류·버전 등의 JDBC 메타데이터를 조회할 때는 `selectAnyDataSource()`가 반환한 DataSource를 사용합니다. 예제에서는 테넌트 데이터 테이블이 없는 `metadata_db`를 이 용도로 사용합니다.
-
-같은 `findById("ryan-reynolds")`를 호출해도 Marvel 세션은 `marvel_db`에서, DC 세션은 `dc_db`에서 배역을 읽습니다. Repository는 어떤 DataSource가 선택되었는지 알 필요가 없습니다.
+테넌트 ID 없이 JDBC 메타데이터를 조회할 때는 `selectAnyDataSource()`가 반환한 DataSource를 사용합니다. 예제에서는 테넌트 데이터 테이블이 없는 `metadata_db`를 이 용도로 사용합니다.
 
 ## 스키마·DB 분리의 조회 결과 확인
 
 ### 요청 헤더로 테넌트 지정
 
-`X-Tenant-Id` 헤더에 `marvel`을 지정해 Ryan Reynolds의 배역을 조회합니다.
+`X-Tenant-Id` 헤더를 `marvel`과 `dc`로 바꿔 같은 배우의 배역을 조회합니다.
 
-```bash
-curl -s -H 'X-Tenant-Id: marvel' http://localhost:8080/castings/ryan-reynolds
-# {"actorSlug":"ryan-reynolds","characterName":"Deadpool"}
-```
+![같은 배우 ID인 ryan-reynolds를 marvel과 dc 헤더로 조회한 터미널 캡처. marvel은 Deadpool, dc는 Green Lantern을 반환한다](assets/multitenancy-schema.png)
 
-### 서비스 호출로 조회 검증
+*`schema` 프로파일에서 실행한 테넌트별 배역 조회*
 
-테스트에서는 HTTP 요청 대신 `TenantContext.call()`로 테넌트 ID를 바인딩한 범위에서 서비스를 직접 호출합니다. 같은 테스트를 스키마 분리와 DB 분리에 각각 적용합니다.
+### 테스트로 두 방식의 조회 확인
 
-테스트마다 기존 데이터를 비웁니다. 테스트 전체를 트랜잭션으로 감싸지 않으므로 각 서비스 호출은 별도 세션에서 실행됩니다.
+스키마 분리와 DB 분리에서 테넌트에 맞는 배역을 반환하는지 테스트로 확인합니다. 데이터 준비와 조회·결과 확인 등 공통 부분은 추상 클래스에 두고, 두 하위 클래스는 프로파일만 다르게 지정합니다.
+
+테스트 전체를 트랜잭션으로 감싸지 않으므로 각 서비스 호출은 별도 세션에서 실행됩니다.
 
 ```java
 @SpringBootTest
 abstract class TenantApiTest {
-    @Autowired
-    CastingService castingService;
-    @Autowired
-    CastingRepository castingRepository;
+    @Autowired CastingService castingService;
+    @Autowired CastingRepository castingRepository;
 
     @Test
     void sameActorReturnsDifferentCharacters() {
@@ -492,11 +436,7 @@ abstract class TenantApiTest {
         assertThat(dcCasting.getCharacterName()).isEqualTo("Green Lantern");
     }
 }
-```
 
-두 테스트 클래스는 `TenantApiTest`를 상속하고 프로파일만 다르게 지정합니다.
-
-```java
 @ActiveProfiles("schema")
 class SchemaModeTest extends TenantApiTest {}
 
@@ -504,22 +444,45 @@ class SchemaModeTest extends TenantApiTest {}
 class DatabaseModeTest extends TenantApiTest {}
 ```
 
-두 방식 모두 PostgreSQL 17에서 같은 조회 테스트를 통과했습니다.
+![DatabaseModeTest와 SchemaModeTest에서 공통 조회 테스트가 각각 1개씩 성공하고 실패가 0개인 Gradle 테스트 보고서](assets/multitenancy-test.png)
+
+*두 프로파일에서 실행한 공통 조회 테스트*
 
 ## 테넌트 전환은 새 세션에서
 
-세션이 열린 뒤에는 테넌트 컨텍스트를 바꿔도 조회 대상이 바뀌지 않습니다. 하나의 `@Transactional` 메서드 안에서 다른 테넌트 ID를 바인딩하고 서비스를 호출해도, 기본 전파 속성인 `REQUIRED`에서는 기존 트랜잭션에 참여하므로 새 세션이 열리지 않습니다.[^transactions]
+이번에는 같은 배우의 Marvel·DC 배역을 한 메서드에서 모아 조회합니다.
 
-실험에서는 Marvel용 트랜잭션을 유지한 채 테넌트 컨텍스트만 DC로 바꾸고, 같은 배우의 배역을 다시 조회했습니다.
+```java
+// CastingComparison.java
+@Transactional(readOnly = true)
+public Map<String, String> charactersByTenant(String actorSlug) {
+    var result = new LinkedHashMap<String, String>();
 
-| 조회 시점 | 테넌트 컨텍스트 | 세션의 테넌트 | 반환값 |
-| --- | --- | --- | --- |
-| 첫 조회 | `marvel` | `marvel` | `Deadpool` |
-| DC로 바인딩 변경 후 | `dc` | `marvel` | `Deadpool` |
+    for (var tenant : List.of("marvel", "dc")) {
+        String character = TenantContext.call(tenant, () ->
+                castingService.findCharacterName(actorSlug));
+        result.put(tenant, character);
+    }
 
-DB 조회가 다시 실행돼도 세션의 테넌트 ID는 `marvel`로 유지됐습니다.
+    return result;
+}
+```
 
-테넌트를 바꾸려면 새 세션이 열리기 전에 원하는 테넌트 ID를 바인딩해야 합니다. OSIV를 끈 이 예제에서는 앞의 테스트처럼 외부 트랜잭션 없이 테넌트 ID를 바인딩한 범위에서 서비스를 호출합니다.
+`marvel`을 바인딩한 범위에서 이 메서드를 호출합니다.
+
+```java
+var characters = TenantContext.call("marvel", () ->
+        castingComparison.charactersByTenant("ryan-reynolds"));
+
+// 기대 결과: {marvel=Deadpool, dc=Green Lantern}
+// 실제 결과: {marvel=Deadpool, dc=Deadpool}
+```
+
+반복문에서 테넌트 ID를 `dc`로 바인딩했는데도 `Deadpool`이 반환됩니다. 바깥 메서드의 트랜잭션이 시작될 때 세션의 테넌트는 `marvel`로 정해집니다. 안쪽 서비스 호출도 기본 전파 속성인 `REQUIRED`에 따라 기존 트랜잭션에 참여하므로 같은 세션을 사용합니다.[^transactions]
+
+다른 테넌트의 데이터를 조회하려면, 원하는 테넌트 ID를 바인딩한 뒤 새 세션을 열어야 합니다. OSIV를 끈 이 예제에서는 바깥 메서드의 `@Transactional`을 빼고 외부 트랜잭션 없이 호출하면 됩니다. 안쪽 서비스가 호출될 때마다 새 트랜잭션과 세션이 열리므로, `dc`에서는 `Green Lantern`이 조회됩니다.
+
+OSIV가 켜져 있으면 요청 동안 같은 세션을 유지하므로, 바깥 메서드의 `@Transactional`만 빼서는 조회 대상이 바뀌지 않습니다.
 
 ## 예제의 범위와 한계
 
@@ -533,6 +496,8 @@ DB 조회가 다시 실행돼도 세션의 테넌트 ID는 `marvel`로 유지됐
 
 `Order` 예제에서는 `@TenantId`로 Repository의 반복되는 테넌트 인자를 없앴습니다. `Casting` 예제에서는 스키마나 DataSource를 고르는 코드만 바꿔, 같은 엔티티·Repository·서비스로 두 방식을 구현했습니다.
 
+어떤 분리 방식을 선택할지는 테넌트별 접근 권한과 커넥션 수, 백업·복구 단위 같은 서비스 요구사항을 함께 보고 판단해야 합니다.
+
 ## 부록: `ThreadLocal`과 `ScopedValue`
 
 | 구분 | `ThreadLocal` | `ScopedValue` |
@@ -543,11 +508,10 @@ DB 조회가 다시 실행돼도 세션의 테넌트 ID는 `marvel`로 유지됐
 
 `ThreadLocal`에서 `ScopedValue`로 컨텍스트 구현을 바꾸고, 서블릿 필터에 적용하는 과정은 넥스트리의 [컨텍스트 전파 리팩토링 영상 강좌](https://www.nextree.io/modeon-baegendeu-keontegseuteu-jeonpa-ripaegtoring-1/)에서 살펴볼 수 있습니다.
 
-[^tenant-membership]: Wonkook Lee, [테넌트·테넌시 개념과 싱글테넌시·멀티테넌시 비교](https://blog.wonkooklee.com/docs/software-design-and-theory/tenancy-fundamentals/). 사용자와 테넌트의 소속 관계.
 [^hibernate]: Hibernate ORM, [A Short Guide to Hibernate 7: Multi-tenancy](https://docs.hibernate.org/orm/7.4/introduction/html_single/#multitenancy). 세 가지 분리 방식, `@TenantId`, 세션의 테넌트 지정과 Resolver·Provider의 역할.
 [^tenant-id]: Hibernate ORM, [TenantId](https://docs.hibernate.org/orm/7.4/javadocs/org/hibernate/annotations/TenantId.html). 테넌트 ID를 담는 엔티티 필드 표시와 최초 저장 시 값 설정.
 [^postgres]: PostgreSQL 17, [Row Security Policies](https://www.postgresql.org/docs/17/ddl-rowsecurity.html), [Schemas](https://www.postgresql.org/docs/17/ddl-schemas.html). 행 접근 정책과 스키마별 접근 권한.
 [^transactions]: Spring Boot, [SQL Databases](https://docs.spring.io/spring-boot/reference/data/sql.html)의 OSIV 설정; Spring Framework, [Transaction Propagation](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html)의 `REQUIRED` 전파 동작.
-[^scoped-value]: Oracle, [Java 25 ScopedValue](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html). 범위 바인딩과 중첩 범위 종료 시 이전 바인딩의 복원. Java 17/21 환경에서는 같은 역할을 `ThreadLocal`로 구현할 수 있습니다.
+[^scoped-value]: Oracle, [Java 25 ScopedValue](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/ScopedValue.html); OpenJDK, [JEP 506: Scoped Values](https://openjdk.org/jeps/506). JDK 25의 정식 도입, 범위 종료 시 바인딩 자동 해제, 중첩 범위 종료 시 이전 바인딩의 복원. Java 17/21 환경에서는 같은 역할을 `ThreadLocal`로 구현할 수 있습니다.
 [^schema]: Hibernate ORM, [TenantSchemaMapper](https://docs.hibernate.org/orm/7.4/javadocs/org/hibernate/context/spi/TenantSchemaMapper.html), [MultiTenancySettings](https://docs.hibernate.org/orm/7.4/javadocs/org/hibernate/cfg/MultiTenancySettings.html#MULTI_TENANT_SCHEMA_MAPPER). 7.1 도입과 `@Incubating` 표시, 매퍼 등록에 따른 `Connection.setSchema()` 호출. Hibernate 7.1 이전에는 [`MultiTenantConnectionProvider`](https://docs.hibernate.org/orm/6.6/userguide/html_single/#multitenacy)에서 커넥션의 스키마 설정과 반납 시 복원을 처리하는 방식으로 구현할 수 있습니다.
 [^azure-patterns]: Microsoft Learn, [다중 테넌트 SaaS 데이터베이스 테넌시 패턴](https://learn.microsoft.com/ko-kr/azure/azure-sql/database/saas-tenancy-app-design-patterns?view=azuresql). 테넌트별 복구와 운영 방식.
