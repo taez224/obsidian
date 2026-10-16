@@ -137,7 +137,7 @@ related:
 물론 상세 구현은 전부 뜯어고쳐야하지만 어쨌든 데모로는 적당하다.
 
 이제부터는 실제 ONLYOFFICE 연동 흐름을 코드를 따라 정리해가며  
-왜 이 코드가 이렇게 동작하는지를 인간의 관점에서 파헤쳐보겠다.
+[[AI 코딩 도구는 이해 부채를 만든다|왜 이 코드가 이렇게 동작하는지]]를 인간의 관점에서 파헤쳐보겠다.
 
 > 예제 레포: [https://github.com/taez224/onlyoffice-demo](https://github.com/taez224/onlyoffice-demo)
 
