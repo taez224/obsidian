@@ -49,3 +49,7 @@ yarn add jotai
 # pnpm
 pnpm install jotai
 ```
+
+## 연관된 글
+
+- [[리액트 상태관리 트렌드의 변화]]

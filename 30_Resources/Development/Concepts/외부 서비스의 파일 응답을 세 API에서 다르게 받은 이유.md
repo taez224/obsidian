@@ -83,3 +83,7 @@ ZIP은 `ZipInputStream`으로 엔트리를 앞에서부터 순서대로 읽는�
 ## 확인 범위
 
 세 형태는 한 프로젝트의 세 기능에서 나온 것이고, 파일 응답을 처리하는 방법을 모두 나열한 것은 아니다. operator와 API의 동작은 Spring Framework와 Reactor의 현재 javadoc, [Data Buffers and Codecs](https://docs.spring.io/spring-framework/reference/core/databuffer-codec.html), Java 21 API 문서로 확인했다.
+
+## 연관된 글
+
+- [[ONLYOFFICE 04 - SDK, MinIO, Saga#Part 5: StreamingResponseBody로 Resource Leak 해결|ONLYOFFICE 04 - SDK, MinIO, Saga]] - Spring MVC에서 MinIO 파일을 내려주며 스트림 수명을 관리한 사례.

@@ -21,7 +21,7 @@ related:
 
 ## 들어가며
 
-이번 포스트는 [지난 포스트](https://velog.io/@taez224/Jotai-Tutorial-Write-Only-atom-Read-Write-atom) 에서 이어지는 글입니다.
+이번 포스트는 [[Jotai 04 - Write Only atom|지난 포스트]] 에서 이어지는 글입니다.
 
 ## 지난 포스트 복습
 
