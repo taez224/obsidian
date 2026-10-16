@@ -57,9 +57,9 @@ verification과 validation을 단순히 자동 테스트와 사람의 리뷰로 
 
 ## 연관된 노트
 
-- [[AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다]] - 테스트가 확인할 기준을 제품과 사용자의 맥락에서 정하는 일
-- [[생성은 AI에게, 검증은 나에게]] - 사람이 맡은 검증에 요구사항의 적합성까지 포함해야 하는 이유
-- [[AI 코딩 도구는 이해 부채를 만든다]] - 속도가 건너뛰게 하는 단계가 이해인 경우
+- [[AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다]]
+- [[생성은 AI에게, 검증은 나에게]]
+- [[AI 코딩 도구는 이해 부채를 만든다]]
 
 [^boehm]: Barry W. Boehm, [Verifying and Validating Software Requirements and Design Specifications](https://doi.org/10.1109/MS.1984.233702), IEEE Software 1(1), 1984.
 [^lahiri]: Shuvendu K. Lahiri, [Intent Formalization: A Grand Challenge for Reliable Coding in the Age of AI Agents](https://arxiv.org/abs/2603.17150), arXiv, 2026.

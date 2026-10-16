@@ -32,4 +32,4 @@ tasks.withType(JavaCompile).configureEach {
 
 ## 연관된 노트
 
-- [[ComponentScan 설정과 REGISTER_BEAN 조건의 충돌|REGISTER_BEAN 조건과 ComponentScan 충돌]] - 후보 빈의 선택이 모호한 오류와, 설정을 파싱하며 빈 등록 조건이 충돌하는 오류를 구분한다.
+- [[ComponentScan 설정과 REGISTER_BEAN 조건의 충돌|REGISTER_BEAN 조건과 ComponentScan 충돌]]

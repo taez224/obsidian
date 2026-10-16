@@ -441,6 +441,6 @@ tags:
    4. 기존 노트 마이그레이션 또는 폴백 로직 추가
 
 ## 연관된 노트
-- [[Obsidian 운영 워크플로]] - 사람이 주기적으로 실행하는 vault 운영 흐름
+- [[Obsidian 운영 워크플로]]
 - [[_dashboard]] - Projects base 쿼리
 - [[_index]] - Slipbox / Resources base 쿼리

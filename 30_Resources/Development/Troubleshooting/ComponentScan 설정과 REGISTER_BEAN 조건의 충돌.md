@@ -37,4 +37,4 @@ Spring 6.2의 [`ConfigurationClassParser`](https://github.com/spring-projects/sp
 
 ## 연관된 노트
 
-- [[모듈을 옮긴 뒤 빈 후보가 여러 개라 실패하는 Spring 6 기동]] - 설정·빈 정의를 처리하는 단계의 오류와, 이미 등록된 후보 중 주입 대상을 선택하는 오류를 구분한다.
+- [[모듈을 옮긴 뒤 빈 후보가 여러 개라 실패하는 Spring 6 기동]]
