@@ -131,7 +131,7 @@ SORT file.mtime DESC
 
 > 모든 대상이 아래 embed로 바로 보인다 — base 파일을 따로 열 필요 없음.
 
-- [ ] Inbox 7일+ 체류 노트 분류 (승격/Resources/삭제) — 위 "📥 Inbox에서" embed 참조
+- [ ] Inbox 7일+ 체류 노트 재검토. 체류 기간은 재검토 신호이며, 유지·자료 보관·프로젝트 흡수·새 영구 노트 승격·기존 노트 보강·삭제는 [[Obsidian 운영 워크플로]] 기준으로 판단. 위 "📥 Inbox에서" embed 참조
 - [ ] 프로젝트 허브 미갱신 → `sweep-project-context`로 근거를 대조하고 현재 상태·다음 액션 갱신 또는 on-hold 전환 검토
 
 ![[_global-health.base#🟢 프로젝트 허브 미갱신 (14일+)]]

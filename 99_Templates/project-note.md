@@ -1,7 +1,6 @@
 ---
 created: <% tp.date.now("YYYY-MM-DD") %>
-tags:
-  - 프로젝트/PROJECT_ID
+tags: []
 title: <% tp.file.title %>
 project_id: PROJECT_ID
 status: active
@@ -13,7 +12,7 @@ ended: null
 
 > [!warning]- 새 프로젝트 생성 체크리스트
 > 1. `project_id`를 kebab-case로 (예: `vizend-qra`) - **폴더명(`20_Projects/<id>/`)과 일치**해야 함
-> 2. `tags`의 `프로젝트/PROJECT_ID` 도 동일 값으로 교체. 도메인 태그(예: `개발/플랫폼`, `AI`)는 Properties UI에서 추가
+> 2. `tags`는 [[99_Templates/_property-schema#태그 사용 기준|속성 스키마의 태그 사용 기준]]에 따라 필요한 경우에만 추가. `프로젝트/<id>`를 붙이면 값은 `project_id`와 일치시킴
 > 3. `status`: `active` (진행 중) | `planning` (기획만) | `on-hold` (중단) | `completed` (완료)
 > 4. 완료 시 `ended` 채우고 → `40_Archive/`로 이동 검토
 > 5. 프로젝트 허브가 14일 이상 미수정되면 `_dashboard.base`의 "프로젝트 허브 미갱신 (14일+)" 뷰에 노출

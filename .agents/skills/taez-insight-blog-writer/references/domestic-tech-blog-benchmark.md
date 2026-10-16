@@ -78,7 +78,7 @@ When alternatives help, produce 2–3 strategies rather than many cosmetic varia
 - Headings: does each answer the reader's next question or expose the local artifact, rather than promote a supporting source into the thesis?
 - Opening: in the publication preview, can the reader quickly identify who the article is for and why to read it? Assess the first screen as a whole, including images, author introductions, and callouts between the title and opening; check whether they delay reaching the useful content. If no preview is available, leave this screen check unverified.
 - Thesis: can the article be reduced to one sentence naming what changed and why it matters?
-- Concept load: is there one main frame and at most two supporting terms?
+- Concept load: do the supporting concepts help the central point, and can the reader follow them without learning unrelated terms?
 - Evidence: does each citation, screenshot, code block, or metric directly support a nearby paragraph?
 - Paragraph density: does each paragraph do one job, and are 350+ character prose paragraphs split or intentionally dense?
 - Takeaway: does the reader leave with one usable question, standard, or workflow?

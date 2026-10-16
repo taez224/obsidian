@@ -64,7 +64,7 @@ SORT default(date(created), file.cday) DESC
 
 ## 🌱 Slipbox 성숙도 분포
 
-> 이번 달 작성/수정된 영구 노트의 status. seedling이 많고 evergreen이 적으면 결정화 부채.
+> 이번 달 작성/수정된 영구 노트의 status. 다시 읽고 다듬을 노트를 고르는 참고값이며, 분포만으로 부채를 판정하거나 성숙도를 올리지 않는다.
 
 ```dataview
 TABLE WITHOUT ID
@@ -129,14 +129,14 @@ SORT date(finish_read_date) DESC
 ```
 
 > [!tip]- 완독 후 처리
-> - [ ] 핵심 아이디어 1~2개 Slipbox로 승격
+> - [ ] 다른 글과 판단에 재사용할 내 주장이 생겼으면 영구 노트 후보로 검토
 > - [ ] 책 노트에 `my_rate` 입력 (0~5, 0.1 단위)
 
 ---
 
 ## 🗑️ 30일+ 미처리 Inbox (결정 필요)
 
-> SSOT: [[_inbox.base|_inbox]] 의 "🔴 결정 필요" view embed. **승격 or 삭제** 둘 중 하나만 선택.
+> SSOT: [[_inbox.base|_inbox]] 의 "🔴 결정 필요" view embed. 체류 기간은 재검토 신호다. 내용에 따라 Inbox 유지·자료 보관·프로젝트 흡수·새 영구 노트 승격·기존 노트 보강·삭제 중에서 판단한다.
 
 ![[_inbox.base#🔴 결정 필요 (30일+)]]
 
