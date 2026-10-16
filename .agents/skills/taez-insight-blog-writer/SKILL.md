@@ -258,7 +258,7 @@ When reviewing an existing draft:
 - 같은 부분에서 이해 질문이 반복되면 설명을 덧붙이기 전에 그 부분의 역할과 필요한 깊이를 다시 판단한다. 각 수정이 개별적으로 타당해도 합쳐진 글의 중심이 바뀌지 않았는지 본다.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
-- For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, image links, and `## 연관된 노트`.
+- For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, and image links. 하단 링크의 `## 연관된 노트`·`## 연관된 글` 구분과 중복 판단은 `99_Templates/_property-schema.md`의 연결 규칙을 따른다. 본문 링크와 겹친다는 이유만으로 다음 읽을거리인 블로그 글을 제거하지 않는다.
 
 ## Output Formats
 

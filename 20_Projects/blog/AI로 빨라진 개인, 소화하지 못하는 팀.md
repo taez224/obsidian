@@ -151,8 +151,11 @@ AI가 만든 산출물을 팀이 책임질 수 있는 지식으로 흡수하고 
 - Farach et al. (Microsoft), ["Scaffolding Human-AI Collaboration"](https://arxiv.org/abs/2604.08678) (arXiv, 2026-04) — Gap Inc. 직원 388명 현장 실험(탐색적). 협업 프로토콜 강제 시 산출물 품질 하락
 - Philippa Hardman, ["The 'Cognitive Offloading' Paradox"](https://drphilippahardman.substack.com/p/the-cognitive-offloading-paradox) (2026-04) — 912명 추적 연구 소개. 어중간한 위임이 가장 나쁜 결과
 
-## 연결된 노트
+## 연관된 노트
 
-- [[60일간의 AI 에이전틱 워크플로]] - AI를 팀 개발 흐름에 넣으며 책임 경계를 다듬은 실전 경험입니다.
 - [[AI 시대 플랫폼팀은 어떻게 진화하는가]] - AI 시대에 플랫폼팀이 조직의 학습과 전환을 설계해야 한다는 배경 관점입니다.
 - [[개인의 AI 활용을 팀의 역량으로 바꾸려면]] - 이 글의 출발점이 된 원문입니다.
+
+## 연관된 글
+
+- [[60일간의 AI 에이전틱 워크플로]]

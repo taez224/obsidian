@@ -110,7 +110,7 @@ Quick Capture의 `AI 생성`은 `AGENTS.md`의 핵심 경계대로 사용자의 
 - `Resources 보관`은 참고노트로 남기는 결정이다. Inbox 메모는 `next_action: archive-resources`로 표시하고, 실제 이동 위치는 승인 항목에서 정한다.
 - `프로젝트 흡수`는 프로젝트 하위 노트나 허브에 반영하는 결정이다. Inbox 메모는 `next_action: link-project/<id>`로 표시한다. 허브의 현재 상태와 다음 행동은 `sweep-project-context`가 맡고, 하위 노트 형식은 `99_Templates/_property-schema.md`의 프로젝트 하위 노트 절을 따른다.
 - 병합·분리는 승인된 표에 적은 옮길 내용, 남길 주장·출처, 영향을 받는 링크대로 적용한다. 옛 노트의 `aliases`와 `used_in`은 남기는 노트로 옮기고, 제목·파일명 변경과 공개 URL 보존은 `permanent-note`의 원본 처리 절을 따른다. 삭제되는 파일은 별도로 승인받는다.
-- 링크 위치는 원칙 4를 따르고, 본문에 넣기 어려운 관계는 `99_Templates/slipbox-template.md`의 `## 연관된 노트` 형식으로 둔다.
+- 링크 위치와 `## 연관된 노트`·`## 연관된 글`의 구분은 원칙 4의 속성 스키마 연결 규칙을 따른다. 노트 목록 형식은 `99_Templates/slipbox-template.md`를 참고한다.
 - `growing`과 `evergreen`은 사용자만 정하며, 길이·링크 수·AI 보강·재사용만으로 올리지 않는다. 재사용된 노트는 다시 읽을 후보로만 제안한다. 정의는 `99_Templates/_property-schema.md`의 Slipbox 절을 따른다.
 - 구조 노트는 설명문을 억지로 채우지 않고 링크 군집과 탐색 순서를 중심으로 작성한다.
   형식은 `99_Templates/hub-note.md`를 따른다 (frontmatter `type: hub`).
