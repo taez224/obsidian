@@ -4,6 +4,7 @@ created: 2026-06-01
 slug: fast-individual-slow-team
 published: 2026-07-10
 tags:
+  - 조직
   - AI
   - 개발/도구
   - 개발

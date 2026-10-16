@@ -4,9 +4,9 @@ created: 2025-11-28
 slug: onlyoffice-02-implementation
 published: 2025-11-28
 tags:
-  - 프로젝트/onlyoffice-demo
-  - 개발/인프라
   - AI/에이전트
+  - 개발/인프라
+  - 프로젝트/onlyoffice-demo
 status: published
 author: TaeZ
 publication: Velog

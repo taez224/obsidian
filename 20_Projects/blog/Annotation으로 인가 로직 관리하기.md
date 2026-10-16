@@ -4,7 +4,7 @@ created: 2023-04-13
 slug: custom-annotation-authorization
 published: 2023-04-13
 tags:
-  - 개발/Java
+  - 개발/Spring
 status: published
 author: TaeZ
 publication: Velog

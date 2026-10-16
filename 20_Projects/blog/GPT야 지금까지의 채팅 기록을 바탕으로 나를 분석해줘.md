@@ -4,7 +4,7 @@ created: 2025-07-02
 slug: gpt-analyze-me
 published: 2025-07-02
 tags:
-  - 심리/성격검사
+  - AI
 status: published
 author: TaeZ
 publication: Velog

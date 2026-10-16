@@ -4,8 +4,8 @@ created: 2026-01-14
 slug: onlyoffice-03-key-and-metadata
 published: 2026-01-14
 tags:
+  - 개발/설계
   - 프로젝트/onlyoffice-demo
-  - 개발/인프라
 status: published
 author: TaeZ
 publication: Velog

@@ -3,7 +3,7 @@ summary: 이벤트를 만든 인스턴스와 사용자 연결을 쥔 인스턴�
 created: 2026-08-12
 slug: sse-fanout-instance-mismatch
 tags:
-  - 개발/분산시스템
+  - 개발/설계
 ---
 
 # SSE 팬아웃 인스턴스 불일치

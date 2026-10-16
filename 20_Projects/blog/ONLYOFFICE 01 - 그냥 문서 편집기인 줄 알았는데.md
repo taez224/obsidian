@@ -5,8 +5,9 @@ aliases:
 created: 2025-11-24
 slug: onlyoffice-01-first-look
 tags:
-  - 프로젝트/onlyoffice-demo
+  - 개발/설계
   - 개발/인프라
+  - 프로젝트/onlyoffice-demo
 status: published
 author: TaeZ
 publication: Velog

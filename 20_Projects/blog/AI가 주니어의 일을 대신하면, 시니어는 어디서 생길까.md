@@ -2,6 +2,7 @@
 title: AI가 주니어의 일을 대신하면, 시니어는 어디서 생길까
 created: 2026-08-05
 tags:
+  - 조직
   - AI
   - 개발
 status: draft

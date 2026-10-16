@@ -2,8 +2,8 @@
 title: "AI에게 노트는 맡겼지만, 채택 권한은 넘기지 않았다"
 created: 2026-07-11
 tags:
-  - AI/에이전트
   - 지식관리
+  - AI/에이전트
 status: draft
 author: TaeZ
 summary: AI가 노트 초안과 연결 후보를 만들더라도, 무엇을 이해하고 내 지식으로 남길지는 사람이 결정해야 한다는 Obsidian 운영 경험.

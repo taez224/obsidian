@@ -3,8 +3,9 @@ title: "ONLYOFFICE 연동 4편: SDK, MinIO, Saga"
 created: 2026-01-22
 slug: onlyoffice-04-sdk-minio-saga
 tags:
-  - 프로젝트/onlyoffice-demo
+  - 개발/설계
   - 개발/인프라
+  - 프로젝트/onlyoffice-demo
 status: published
 author: TaeZ
 publication: Velog

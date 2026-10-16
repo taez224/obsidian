@@ -2,6 +2,7 @@
 created: 2026-07-11
 slug: ai-capability-is-recovery-rate
 tags:
+  - 조직
   - AI
   - 개발
 type: permanent

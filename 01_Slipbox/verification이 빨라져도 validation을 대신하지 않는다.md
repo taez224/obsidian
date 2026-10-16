@@ -2,8 +2,8 @@
 created: 2026-09-22
 slug: verification-not-validation
 tags:
-  - AI
   - 개발
+  - AI
 type: permanent
 status: growing
 aliases:

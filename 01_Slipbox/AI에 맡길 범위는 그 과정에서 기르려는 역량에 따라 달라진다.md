@@ -4,8 +4,8 @@ slug: delegate-by-skill-to-build
 type: permanent
 status: seedling
 tags:
-  - AI
   - 커리어/성장
+  - AI
 ---
 
 # AI에 맡길 범위는 그 과정에서 기르려는 역량에 따라 달라진다
