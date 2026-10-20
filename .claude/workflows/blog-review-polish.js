@@ -461,7 +461,8 @@ async function runPolish(workPath, initialBrief, keepList) {
   )
 
   const KEEP = ['## 절대 보존(건드리지 말 것)', keepList || '- 작가의 강점 문장/구체 사례/데이터/의도된 핵심 개념어/1인칭 메타',
-    '', '## 목소리 규칙', '- 존댓말+1인칭 유지. 외과적 최소 수정. 전체 리라이트·과교정(목소리 평탄화) 금지.',
+    '', '## 목소리 규칙', TONE,
+    '- 외과적 최소 수정. 전체 리라이트·과교정(목소리 평탄화) 금지.',
     '- 프론트매터/위키링크/이미지/표 구조 보존.'].join('\n')
 
   const reviewers = ACTIVE_PERSONAS.concat([ACCURACY_SENTINEL])

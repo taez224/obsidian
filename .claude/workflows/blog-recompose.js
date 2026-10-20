@@ -96,7 +96,7 @@ const OUTLINE_SCHEMA = {
   type: 'object', additionalProperties: false,
   properties: {
     thesis: { type: 'string', description: '독자에게 남길 판단 한 문장' },
-    movement: { type: 'string', enum: ['changed-judgment', 'follow-the-cost', 'failure-led', 'two-cases', 'changed-question'] },
+    movement: { type: 'string', enum: ['changed-judgment', 'follow-the-cost', 'failure-led', 'two-cases', 'changed-question', 'observation-led'] },
     titleOptions: {
       type: 'array',
       items: {
@@ -151,7 +151,7 @@ const MOVEMENT_PLAN_SCHEMA = {
   properties: {
     movements: {
       type: 'array',
-      items: { type: 'string', enum: ['changed-judgment', 'follow-the-cost', 'failure-led', 'two-cases', 'changed-question'] },
+      items: { type: 'string', enum: ['changed-judgment', 'follow-the-cost', 'failure-led', 'two-cases', 'changed-question', 'observation-led'] },
     },
     reason: { type: 'string' },
   },
@@ -221,6 +221,7 @@ const MOVEMENTS = [
   ['failure-led', '실제 실패가 있을 때: 무너진 장면 → 원인 → 바꾼 것 → 아직 남은 한계'],
   ['two-cases', '서로 다른 실제 사례가 있을 때: 통한 경우와 깨진 경우 → 경계선 → 적용 기준'],
   ['changed-question', '답보다 질문 재구성이 핵심일 때: 처음 질문 → 어긋남 → 새 질문 → 판단 기준'],
+  ['observation-led', '실제 관찰과 설명의 관계를 따라 구성한다. 판단 변화·실패·질문 전환을 요구하지 않는다.'],
 ]
 
 async function outline(mined) {
@@ -231,8 +232,9 @@ async function outline(mined) {
     '판단이 바뀌지 않았는데 changed-judgment를, 실패가 없는데 failure-led를 고르지 않는다. 하나만 강하면 하나만 반환해도 된다.',
     '자료: ' + JSON.stringify(mined),
   ].join('\n'), { label: 'outline:movements', phase: 'Outline', schema: MOVEMENT_PLAN_SCHEMA, agentType: AGENT })
-  const planned = ((movementPlan && movementPlan.movements) || []).slice(0, NUM_OUTLINES)
-  const chosenMovements = (planned.length ? planned : ['changed-question']).map((id) => MOVEMENTS.find((m) => m[0] === id)).filter(Boolean)
+  const planned = ((movementPlan && movementPlan.movements) || [])
+    .map((id) => MOVEMENTS.find((m) => m[0] === id)).filter(Boolean).slice(0, NUM_OUTLINES)
+  const chosenMovements = planned.length ? planned : [MOVEMENTS.find((m) => m[0] === 'observation-led')]
   log('[Outline] 움직임: ' + chosenMovements.map((m) => m[0]).join(', '))
 
   const candidates = (await parallel(chosenMovements.map((movement, index) => () => agent([

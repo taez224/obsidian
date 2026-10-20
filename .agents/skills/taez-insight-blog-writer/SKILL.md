@@ -168,6 +168,7 @@ Choose the movement the material supports. This is a menu, not a ranking - the l
 - **실패에서 시작하는 이야기** - 무너진 장면 → 무너진 이유 → 바꾼 것 → 아직 못 고친 것. 실제로 무언가 부러졌을 때.
 - **두 사례를 부딪히는 이야기** - 원칙이 통한 사례와 통하지 않은 사례 → 경계선 → 경계선의 근거. 진짜 반례가 재료에 있을 때.
 - **질문이 바뀌는 이야기** - 처음 던진 질문 → 답하다 질문이 틀렸음을 발견 → 새 질문. 글의 가치가 답이 아니라 재구성에 있을 때.
+- **관찰을 따라가는 글** - 실제 관찰과 설명의 관계를 따라 구성한다. 판단 변화·실패·질문 전환이 없는 자료에도 사용할 수 있으며, 전개 후보를 고르지 못했을 때도 이 방식으로 자료를 정리한다.
 
 Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
 
