@@ -39,7 +39,7 @@ aliases:
 | --- | --- | --- |
 | **developmental** | 논지, 절 배치, 반복, 공백, 독자 가치 | 이 문서 + `blog-structure-scan.mjs` |
 | **line** | 문장 구조, 흐름, 리듬 | [[korean-first-draft]], 편집 관점 리뷰 |
-| **copy** | 표기, 번역투, 금지표현 | [[anti-slop-lexicon]], `blog-slop-lint.mjs` |
+| **copy** | 표기, 번역투, 문맥상 불필요한 표현 | [[anti-slop-lexicon]], `blog-slop-lint.mjs` |
 
 developmental을 건너뛰고 line부터 손대면, 나중에 절을 옮길 때 다듬은 문장이 통째로 버려진다.
 
@@ -248,6 +248,6 @@ node .claude/workflows/blog-structure-scan.mjs "<파일>"
 ## 연관된 노트
 
 - [[slop-gate]] - 발행 전 사람 사인오프. 이 문서는 그 앞 단계다
-- [[anti-slop-lexicon]] - line·copy 층의 금지표현 단일 출처
+- [[anti-slop-lexicon]] - line·copy 층의 표현·문장부호 검사 패턴
 - [[domestic-tech-blog-benchmark]] - 문단 밀도와 절 제목의 비교 기준
 - [[voice-profile]] - 구조를 바꿀 때 지킬 목소리 DNA

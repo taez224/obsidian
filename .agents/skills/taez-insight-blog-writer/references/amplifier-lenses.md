@@ -78,4 +78,4 @@ aliases:
 
 - [[voice-profile]] - 저자의 반복 렌즈와 목소리 기준(A3이 여기를 참조)
 - [[slop-gate]] - 결함 제거 게이트(이 문서의 방어형 짝)
-- [[anti-slop-lexicon]] - 금지표현 단일 출처
+- [[anti-slop-lexicon]] - 표현·문장부호 검사 패턴

@@ -125,6 +125,27 @@ class DiscoveryTest(unittest.TestCase):
         self.assertEqual(extra["title"], "D")
         self.assertIn("활용 사례 여부와 별개", extra["discovery_reason"])
 
+    def test_claim_link_in_another_section_excludes_the_same_article(self):
+        for url, title in [
+            ("https://t.example/3", "T3"),
+            ("https://t.example/3/?utm_source=feed#part", "다른 제목"),
+            ("https://reprint.example/article", "T3"),
+        ]:
+            with self.subTest(url=url, title=title):
+                report = self.REPORT.replace(
+                    "## 이번 주 AI",
+                    '- [ ] 0.80 [T3](https://t.example/3) - GeekNews\n'
+                    '    - → [[기존 주장]] ← "관련 근거"\n\n## 이번 주 AI',
+                ).replace("[T3](https://t.example/3) - Author Three",
+                          f"[{title}]({url}) - Author Three")
+                report += "\n- [T4](https://t.example/4) - Author Four, 2026-10-04\n"
+                groups = parse_report(report, {"이해 부채"})
+                cfg = {**DEFAULT, "interest": 1}
+                sections = skim(groups, cfg)
+                selected = discover(sections, groups, cfg)
+                self.assertEqual([x["title"] for x in dict(selected)["다른 글도 한 편"]], ["T4"])
+                self.assertEqual(len(self.items(selected)), len(self.items(sections)))
+
     def test_saved_prepared_read_and_negative_feedback_are_not_rediscovered(self):
         url = canonical("https://t.example/3")
         today = date(2026, 10, 21)

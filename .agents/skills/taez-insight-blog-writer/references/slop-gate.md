@@ -89,5 +89,5 @@ aliases:
 ## 연관된 노트
 
 - [[voice-profile]] - 검사 기준이 되는 목소리 DNA
-- [[anti-slop-lexicon]] - 6번 기계 선검사의 금지표현·문장부호 단일 출처
+- [[anti-slop-lexicon]] - 6번 기계 선검사의 표현·문장부호 검사 패턴
 - [공통 글쓰기 기준](../../../guides/writing.md) - 문장을 소리 내어 설명하듯 읽고, 문맥에 따라 표현을 판단한다.

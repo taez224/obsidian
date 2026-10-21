@@ -57,7 +57,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 ### 단일 출처 파일 (`references/`)
 
 - `voice-profile.md` - 지킬 목소리 DNA.
-- `anti-slop-lexicon.md` - 금지표현·문장부호의 단일 출처. lint와 AI-티 감별사가 함께 사용한다.
+- `anti-slop-lexicon.md` - 표현·문장부호 검사 패턴의 정본. lint와 AI-티 감별사가 검토 후보를 찾는 데 함께 사용한다.
 - `korean-first-draft.md` - 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
 - `slop-gate.md` - 발행 전 사람 사인오프.
 - `final-assembly.md` - 명시적으로 요청한 발행 직전 다중 페르소나 검토와 교차 판정.

@@ -12,7 +12,8 @@ tags:
 [[<% moment(tp.file.title).subtract(1, 'days').format("YYYY-MM-DD") %>|◀ 어제]] · [[<% moment(tp.file.title).format("gggg-[W]WW") %>|🗓 주간]] · [[<% moment(tp.file.title).add(1, 'days').format("YYYY-MM-DD") %>|내일 ▶]]
 
 > [!note]  Capture  
-> - (아이디어, 링크 등 빠르게 기록)
+> 오늘 남겨두고 싶은 생각이 있으면 Inbox에 적는다. 오늘의 기록은 여기에 남긴다.
+> -
 
 > [!important]  Highlight of the day  
 > 
@@ -21,7 +22,6 @@ tags:
 
 ## ✅ Daily Checklist
 
-- [ ] #routine/daily Inbox or Slipbox 노트 작성
 - [ ] #routine/daily 8000+보 걷기
 - [ ] #routine/daily 운동 or 링피트!
 
@@ -63,7 +63,7 @@ tags:
 
 ## 📥 처리 대기 (Inbox)
 
-> 한 장씩 분류해서 비워 나가기. 30일 넘은 항목은 [[_inbox.base|_inbox]] base의 🔴 뷰에서 결정.
+> 지금 다시 쓸 노트를 살펴본다. 아직 판단할 재료가 부족하면 그대로 둔다. 30일 넘은 항목은 [[_inbox.base|_inbox]] base의 🔴 뷰에서 다시 살펴볼 수 있다.
 
 ![[_inbox.base#🃏 분류 도우미 (한 장씩 처리)]]
 

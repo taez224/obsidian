@@ -77,18 +77,19 @@ Daily Note와 Inbox에 같은 내용을 이중으로 적지 않는다. 오늘의
 
 ## 주간: 검토와 라우팅
 
-주 1회 20~30분 동안 [[00_Inbox/_inbox.base|Inbox Base]]에서 오래된 노트부터 처리한다. 각 노트에는 다음 중 하나만 결정한다.
+주 1회 20~30분 동안 [[00_Inbox/_inbox.base|Inbox Base]]에서 오래된 노트를 살펴본다. 체류 기간은 재검토 신호이며, 검토한 노트마다 다음 중 하나를 선택한다.
 
-1. 삭제
-2. Resources에 보관
-3. Project에 흡수
-4. 새 permanent note로 승격
-5. 기존 permanent note에 합치기
+1. 그대로 유지하거나 판단 보류
+2. 삭제
+3. Resources에 보관
+4. Project에 흡수
+5. 새 permanent note로 승격
+6. 기존 permanent note에 합치기
 
 의미 판단이 필요하면 `review-zettelkasten`을 사용한다.
 
 ```text
-이번 주 Inbox와 읽은 자료를 검토해서 삭제·보관·승격·기존 노트 보강 후보를 먼저 제안해줘
+이번 주 Inbox와 읽은 자료를 검토해서 유지·보류·삭제·보관·승격·기존 노트 보강 후보를 먼저 제안해줘
 ```
 
 AI는 후보, 제목, 중심 주장, 연결 이유를 먼저 제안한다. 승인 전에는 생성·이동·삭제하지 않는다.

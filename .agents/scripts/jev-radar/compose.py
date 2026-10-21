@@ -100,6 +100,10 @@ def discover(sections, groups, cfg, excluded=(), states=None, today=None, snooze
     if not baseline:
         return baseline
 
+    # 같은 글이 여러 절에 나오면 다른 절에서 확인한 주장 연결도 함께 적용한다.
+    linked = [x for items in groups.values() for x in items if x.get("claim_linked")]
+    linked_urls = {canonical(x["url"]) for x in linked}
+    linked_titles = {title_key(x["title"]) for x in linked if title_key(x["title"])}
     pool = []
     for key, items in groups.items():
         if key == ("trusted",):
@@ -109,8 +113,8 @@ def discover(sections, groups, cfg, excluded=(), states=None, today=None, snooze
         else:
             continue
         for x in items:
-            if (x.get("claim_linked") or canonical(x["url"]) in seen or
-                    (title_key(x["title"]) and title_key(x["title"]) in titles)):
+            url, title = canonical(x["url"]), title_key(x["title"])
+            if url in linked_urls or url in seen or (title and (title in linked_titles or title in titles)):
                 continue
             if eligible(x, states or {}, blocked, today or date.today(), {"snooze_days": snooze_days}):
                 pool.append((x, reason))
