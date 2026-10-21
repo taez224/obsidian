@@ -284,6 +284,8 @@ For a review, produce:
 - concrete rewrite suggestions
 - optional direct patch
 
+사용자가 직접 고친 문장과 선택 이유를 견본에 남길 때는 [문장 견본의 축적 기준](../../guides/writing-samples.md#견본을-축적하고-사용하는-기준)을 따른다. 글 검토마다 견본 후보를 채우거나 한 글의 선택을 목소리 프로필에 자동 반영하지 않는다.
+
 For an explicitly requested final assembly, use `references/final-assembly.md` and report the panel composition, failed or omitted seats, cross-confirmed findings, rejected suggestions, deterministic gate results, and final readiness. Do not patch the article until TaeZ approves the selected findings.
 
 스킬을 보완할 때는 [평가 사례](evals/cases.md)와 [검토 결함 장부](evals/defect-log.md)를 참고한다. 일반 글 검토에서는 기존 검사가 놓친 재사용 가능한 결함을 실제로 발견했을 때만 장부 추가 후보를 짧게 보고한다. 후보를 채우려고 지적을 만들거나 장부를 자동 수정하지 않는다.
