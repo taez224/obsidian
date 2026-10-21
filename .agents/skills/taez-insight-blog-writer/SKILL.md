@@ -108,6 +108,8 @@ Choose the contract by publication surface before selecting a structure.
 
 Search the vault before writing: the topic's project notes, previous posts in `20_Projects/blog/`, related Slipbox claims, and counterexamples when the claim needs them. Do not rely on a fixed anchor list; find the evidence that fits this article. The invariant is source-grounded authorial judgment, whether it changed or became clearer.
 
+아직 쓸 질문을 찾는 단계에서는 [탐색 목적에 따른 결과 제시](../qmd/SKILL.md#탐색-목적에-따른-결과-제시)의 글감 탐색 기준을 따른다. 이미 글의 질문과 산출물을 정했다면 그 범위의 근거를 모으며, 새 질문 후보나 별도 검색 보고서를 의무적으로 덧붙이지 않는다.
+
 Before deep research or outlining, run an adjacency check regardless of whether the article belongs to a series:
 
 - Use exact title/term search and semantic claim search to shortlist the 1-3 nearest canonical blog posts. Exclude archives and duplicate drafts.
