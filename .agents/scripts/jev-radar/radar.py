@@ -365,7 +365,8 @@ def main():
     if CONFIG.get("compose", {}).get("enabled", False):
         try:
             from compose import make_page
-            page, compose_tokens, compose_failures = make_page(VAULT, OUT, day, report_path.read_text(), client, CONFIG, report_path.stem)
+            page, compose_tokens, compose_failures = make_page(VAULT, OUT, day, report_path.read_text(), client, CONFIG,
+                                                              report_path.stem, excluded=skip)
             cost += compose_tokens * PRICE_PER_M / 1e6
             if compose_failures:
                 page += "\n" + "\n".join(f"- 짝 후보 실패: {f}" for f in compose_failures) + "\n"

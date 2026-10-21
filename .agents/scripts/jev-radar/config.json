@@ -168,6 +168,7 @@
   },
   "compose": {
     "enabled": true,
+    "discovery": true,
     "topic_cases": 2,
     "topic_news": 1,
     "hot": 10,

@@ -1,6 +1,12 @@
 import unittest
+import tempfile
+from datetime import date
+from pathlib import Path
+from unittest.mock import patch
 
-from compose import DEFAULT, josa, pair, parse_report, skim
+from compose import DEFAULT, discover, josa, make_page, pair, parse_report, render, skim
+from claims import checkbox_controls
+from reading import canonical
 
 REPORT = """# Jev 레이더 2026-09-28
 
@@ -76,6 +82,123 @@ class ComposeTest(unittest.TestCase):
     def test_josa(self):
         self.assertEqual(josa("만든다"), "와")
         self.assertEqual(josa("역량"), "과")
+
+
+class DiscoveryTest(unittest.TestCase):
+    REPORT = REPORT.replace("## 믿고 보는 저자\n\n- 없음", """## 믿고 보는 저자
+
+- [T1](https://t.example/1) - Author One, 2026-10-01
+- [T2](https://t.example/2) - Author Two, 2026-10-02
+- [T3](https://t.example/3) - Author Three, 2026-10-03
+""")
+
+    def setUp(self):
+        self.groups = parse_report(self.REPORT, {"이해 부채"})
+        self.sections = skim(self.groups, DEFAULT)
+
+    @staticmethod
+    def items(sections):
+        return [x for _, items in sections for x in items]
+
+    def test_replaces_one_slot_without_more_recommendations(self):
+        selected = discover(self.sections, self.groups, DEFAULT)
+        self.assertEqual(len(self.items(selected)), len(self.items(self.sections)))
+        extra = dict(selected)["다른 글도 한 편"]
+        self.assertEqual([x["title"] for x in extra], ["T3"])
+        self.assertEqual(len(dict(selected)["관심 질문 근처"]), 1)
+        self.assertIn("믿고 보는 저자", extra[0]["discovery_reason"])
+        self.assertEqual(len(dict(self.sections)["관심 질문 근처"]), 2)  # 원본을 바꾸지 않음
+
+    def test_known_claim_link_is_excluded_but_missing_link_is_not_a_rejection(self):
+        linked = self.REPORT.replace("- [T3](https://t.example/3) - Author Three, 2026-10-03",
+                                   '- [T3](https://t.example/3) - Author Three, 2026-10-03\n    - → [[기존 주장]] ← "s"')
+        groups = parse_report(linked, {"이해 부채"})
+        self.assertTrue(groups[("trusted",)][-1]["claim_linked"])
+        self.assertEqual(discover(skim(groups, DEFAULT), groups, DEFAULT), self.sections[: -1] + [
+            ("믿고 보는 저자", groups[("trusted",)][:2])])
+
+    def test_news_does_not_need_to_be_a_practical_case(self):
+        cfg = {**DEFAULT, "topic_news": 0, "trusted": 0}
+        groups = {k: v for k, v in self.groups.items() if k != ("trusted",)}
+        selected = discover(skim(groups, cfg), groups, cfg)
+        extra = dict(selected)["다른 글도 한 편"][0]
+        self.assertEqual(extra["title"], "D")
+        self.assertIn("활용 사례 여부와 별개", extra["discovery_reason"])
+
+    def test_saved_prepared_read_and_negative_feedback_are_not_rediscovered(self):
+        url = canonical("https://t.example/3")
+        today = date(2026, 10, 21)
+        for excluded, state in [
+            (["https://t.example/3/?utm_source=test#part"], {}),
+            ([], {url: {"read": "2026-10-20"}}),
+            ([], {url: {"saved": "2026-10-20"}}),
+            ([], {url: {"useful": "2026-10-20"}}),
+            ([], {url: {"already_known": "2026-10-20"}}),
+            ([], {url: {"rating": "off_topic"}}),
+            ([], {url: {"latest_action": "not_now", "not_now": "2026-10-20"}}),
+        ]:
+            with self.subTest(excluded=excluded, state=state):
+                result = discover(self.sections, self.groups, DEFAULT, excluded, state, today)
+                self.assertNotIn("다른 글도 한 편", dict(result))
+                self.assertEqual(result, self.sections)
+        expired = {url: {"latest_action": "not_now", "not_now": "2026-10-01"}}
+        self.assertIn("다른 글도 한 편", dict(discover(self.sections, self.groups, DEFAULT, states=expired, today=today)))
+
+    def test_count_budget_and_duplicate_urls_or_titles(self):
+        for interest in range(4):
+            for trusted in range(4):
+                cfg = {**DEFAULT, "interest": interest, "trusted": trusted}
+                sections = skim(self.groups, cfg)
+                selected = self.items(discover(sections, self.groups, cfg))
+                self.assertLessEqual(len(selected), len(self.items(sections)))
+                self.assertEqual(len({canonical(x["url"]) for x in selected}), len(selected))
+        cfg = {**DEFAULT, "interest": 0, "hot": 0, "topic_cases": 0, "topic_news": 0, "trusted": 0}
+        self.assertEqual(discover([], self.groups, cfg), [])
+        self.assertEqual(discover(self.sections, self.groups, {**DEFAULT, "discovery": False}), self.sections)
+        duplicate = {**self.groups[("trusted",)][-1], "title": "T1", "url": "https://other.example/reprint"}
+        groups = {**self.groups, ("trusted",): self.groups[("trusted",)][:2] + [duplicate]}
+        self.assertNotIn("다른 글도 한 편", dict(discover(self.sections, groups, DEFAULT)))
+
+    def test_render_preserves_reaction_controls_without_claim_pair(self):
+        selected = discover(self.sections, self.groups, DEFAULT)
+        page = render("2026-10-21", selected, {"https://t.example/3": ("참고노트", "주장")}, "전체")
+        extra = page.split("## 다른 글도 한 편", 1)[1]
+        self.assertIn("믿고 보는 저자", extra)
+        self.assertNotIn("↔", extra)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "2026-10-21.md"
+            path.write_text(page)
+            controls = checkbox_controls(path)
+            self.assertTrue(all(x["action"] is None for x in controls.values()))
+            path.write_text(page.replace('- [ ] [T3]', '- [x] [T3]'))
+            rated = [x for x in checkbox_controls(path).values() if x["url"] == canonical("https://t.example/3")]
+            self.assertEqual(rated[0]["action"], "useful")
+
+    def test_make_page_does_not_fetch_or_judge_the_discovery_item(self):
+        config = {"interests": {"test": {"label": "이해 부채"}}, "compose": {}, "backlog": {}, "claim_links": {}}
+        with tempfile.TemporaryDirectory() as directory, \
+                patch("claims.published_claims", return_value=[]), \
+                patch("compose.saved_refs", return_value=[]), \
+                patch("backlog.cached_text", return_value={"text": "x" * 500}) as fetch, \
+                patch("backlog.card_links", return_value=([], 0)):
+            root = Path(directory)
+            original, _, _ = make_page(root, root, "2026-10-21", self.REPORT, object(),
+                                       {**config, "compose": {"discovery": False}}, "전체")
+            old_calls = fetch.call_count
+            fetch.reset_mock()
+            page, tokens, errors = make_page(root, root, "2026-10-21", self.REPORT, object(), config, "전체")
+            self.assertEqual(page.count("- [ ] "), original.count("- [ ] "))
+            self.assertLessEqual(fetch.call_count, old_calls)
+            self.assertNotIn("https://t.example/3", [c.args[0]["url"] for c in fetch.call_args_list])
+            self.assertEqual((tokens, errors), (0, []))
+            (root / "2026-10-21-함께읽기.md").write_text("- [T3](https://t.example/3)")
+            page, _, _ = make_page(root, root, "2026-10-21", self.REPORT, object(), config, "전체")
+            self.assertNotIn("## 다른 글도 한 편", page)
+            self.assertEqual(page.count("https://t.example/3"), 1)
+            (root / "2026-10-21-함께읽기.md").write_text("- [T3](https://original.example/reposted)")
+            page, _, _ = make_page(root, root, "2026-10-21", self.REPORT, object(), config, "전체")
+            self.assertNotIn("https://t.example/3", page)
+            self.assertNotIn("## 다른 글도 한 편", page)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 """한 화면 레이더: 전체 목록에서 훑어볼 항목만 추리고, 같은 주장에 닿은 저장 자료를 짝 후보로 붙인다.
 
 전체 목록(`날짜-전체.md`)을 읽어 요즘 관심사·화제·관심 질문·믿고 보는 저자에서 몇 건씩 고른다.
-고른 글의 원문을 2,500자 조각으로 나눠 게시된 주장과 잇고, 안 읽은 자료카드와 참고노트 중 같은 주장에 닿은 것을 짝 후보로 보인다.
+기존 자리 하나는 믿고 보는 저자나 관심사의 소식·논의에서 주장 연결과 별개로 골라 대체한다.
+이 탐색용 글을 제외한 원문을 2,500자 조각으로 나눠 게시된 주장과 잇고, 안 읽은 자료카드와 참고노트 중 같은 주장에 닿은 것을 짝 후보로 보인다.
 짝은 후보일 뿐이라 결론 대신 질문으로 보인다. 같이 읽을 이유와 읽을 대목은 Claude가 미리 준비한 묶음(`날짜-함께읽기.md`)이나 사용자가 고른 항목에만 붙인다.
 외부로는 공개 글과 저장 자료의 원문(원문 URL에서 새로 가져온 공개 텍스트)과 게시된 주장 제목만 나간다.
 
@@ -10,21 +11,27 @@
 import math
 import re
 from concurrent.futures import ThreadPoolExecutor
+from datetime import date
+
+from reading import canonical, eligible, events_at, feedback_state, title_key
 
 DEFAULT = dict(enabled=True, topic_cases=2, topic_news=1, hot=10, interest=4, trusted=2,
-               item_floor=0.8, item_confidence=0.6, ref_floor=0.8, max_pairs=5)
+               item_floor=0.8, item_confidence=0.6, ref_floor=0.8, max_pairs=5, discovery=True)
 ITEM = re.compile(r"^- (?:\[[ xX]\] )?(.*?)\[(.+?)\]\((https?://[^)\s]+)\) - (.+)$")
 
 
 def parse_report(text, interest_labels):
     """전체 목록에서 절별 항목을 꺼낸다. 각 항목: {group, title, url, line}."""
-    groups, sec, sub = {}, None, None
+    groups, sec, sub, current = {}, None, None, None
     for line in text.splitlines():
         if line.startswith("## "):
-            sec, sub = line[3:].strip(), None
+            sec, sub, current = line[3:].strip(), None, None
             continue
         if line.startswith("### "):
-            sub = line[4:].strip()
+            sub, current = line[4:].strip(), None
+            continue
+        if current is not None and line.startswith("    - → [["):
+            current["claim_linked"] = True
             continue
         m = ITEM.match(line)
         if not m or sec is None:
@@ -41,7 +48,9 @@ def parse_report(text, interest_labels):
             continue
         head = m[1].strip()
         body = f"{head} [{m[2]}]({m[3]}) - {m[4]}" if head else f"[{m[2]}]({m[3]}) - {m[4]}"
-        groups.setdefault(key, []).append({"title": m[2], "url": m[3], "line": body, "head": head})
+        current = {"title": m[2], "url": m[3], "line": body, "head": head,
+                   "source": m[4].strip().split(", ", 1)[0], "claim_linked": False}
+        groups.setdefault(key, []).append(current)
     return groups
 
 
@@ -69,6 +78,54 @@ def skim(groups, cfg):
     out.append(("관심 질문 근처", sorted(groups.get(("interest",), []), key=lambda x: -score(x))[: cfg["interest"]]))
     out.append(("믿고 보는 저자", groups.get(("trusted",), [])[: cfg["trusted"]]))
     return [(h, xs) for h, xs in out if xs]
+
+
+def discover(sections, groups, cfg, excluded=(), states=None, today=None, snooze_days=7, excluded_titles=()):
+    """기존 자리 하나를 주장 연결 없이 고른 글로 대체한다. 추가 호출·피드백 쓰기 없음."""
+    if not cfg.get("discovery", True):
+        return sections
+    blocked = {canonical(u) for u in excluded}
+    seen, titles, baseline = set(), {title_key(t) for t in excluded_titles if title_key(t)}, []
+    for head, items in sections:
+        kept = []
+        for x in items:
+            url, title = canonical(x["url"]), title_key(x["title"])
+            if url in blocked or url in seen or (title and title in titles):
+                continue
+            seen.add(url)
+            titles.add(title)
+            kept.append(x)
+        if kept:
+            baseline.append((head, kept))
+    if not baseline:
+        return baseline
+
+    pool = []
+    for key, items in groups.items():
+        if key == ("trusted",):
+            reason = "믿고 보는 저자의 글을 관심 질문 점수와 별개로 골랐다."
+        elif key[0] == "topic" and key[2] == "news":
+            reason = f"요즘 관심사 '{key[1]}'의 소식·논의를 활용 사례 여부와 별개로 골랐다."
+        else:
+            continue
+        for x in items:
+            if (x.get("claim_linked") or canonical(x["url"]) in seen or
+                    (title_key(x["title"]) and title_key(x["title"]) in titles)):
+                continue
+            if eligible(x, states or {}, blocked, today or date.today(), {"snooze_days": snooze_days}):
+                pool.append((x, reason))
+    if not pool:
+        return baseline
+    sources = {x.get("source") for _, items in baseline for x in items}
+    chosen, reason = min(pool, key=lambda candidate: candidate[0].get("source") in sources)
+    # 관심 질문의 마지막 자리부터 빌리고, 없으면 기존 다른 절의 마지막 자리를 쓴다.
+    priority = ["관심 질문 근처", "화제", "믿고 보는 저자"]
+    victim = min(range(len(baseline)), key=lambda i: priority.index(baseline[i][0])
+                 if baseline[i][0] in priority else len(priority))
+    head, items = baseline[victim]
+    baseline[victim] = (head, items[:-1])
+    return [(h, xs) for h, xs in baseline if xs] + [
+        ("다른 글도 한 편", [{**chosen, "discovery_reason": reason}])]
 
 
 def pair(items, refs, cfg):
@@ -121,7 +178,9 @@ def render(day, sections, pairs, full_name, prepared=""):
         lines += [f"## {head}", ""]
         for x in xs:
             lines.append(f"- [ ] {x['line']}")
-            if x["url"] in pairs:
+            if x.get("discovery_reason"):
+                lines.append(f"    - {x['discovery_reason']}")
+            elif x["url"] in pairs:
                 ref, claim = pairs[x["url"]]
                 lines.append(f"    - ↔ [[{ref}]]: 두 글은 [[{claim}]]{josa(claim)} 닿는 현상을 어디서 다르게 볼까?")
         lines.append("")
@@ -140,7 +199,7 @@ def saved_refs(vault):
     return refs
 
 
-def make_page(vault, out, day, full_text, client, config, full_name):
+def make_page(vault, out, day, full_text, client, config, full_name, excluded=()):
     """(page, 토큰, 실패)."""
     from backlog import DEFAULT as BDEF, cached_text, card_links
     from claims import published_claims
@@ -150,7 +209,8 @@ def make_page(vault, out, day, full_text, client, config, full_name):
     cache = out / "backlog-cache"
     cache.mkdir(parents=True, exist_ok=True)
     labels = {v["label"] for v in config["interests"].values()}
-    sections = skim(parse_report(full_text, labels), cfg)
+    groups = parse_report(full_text, labels)
+    sections = skim(groups, cfg)
     claims = published_claims(vault)
     failures, tokens = [], []
 
@@ -168,10 +228,14 @@ def make_page(vault, out, day, full_text, client, config, full_name):
 
     prep = out / f"{day}-함께읽기.md"  # Claude가 미리 준비한 묶음이 있으면 맨 위에 두고, 훑어보기에서는 뺀다
     prepared = prep.read_text() if prep.exists() else ""
-    taken = set(re.findall(r"\]\((https?://[^)\s]+)\)", prepared))
+    prepared_links = re.findall(r"\[([^\]\n]+)\]\((https?://[^)\s]+)\)", prepared)
+    taken = {url for _, url in prepared_links}
     sections = [(h, [x for x in xs if x["url"] not in taken]) for h, xs in sections]
     sections = [(h, xs) for h, xs in sections if xs]
-    items = [x for _, xs in sections for x in xs]
+    sections = discover(sections, groups, cfg, set(excluded) | taken, feedback_state(events_at(out)),
+                        date.fromisoformat(day), config.get("reading", {}).get("snooze_days", 7),
+                        excluded_titles=[title for title, _ in prepared_links])
+    items = [x for _, xs in sections for x in xs if not x.get("discovery_reason")]
     used = set(re.findall(r"\[\[([^\]|#]+)", prepared))  # 함께 읽기에 이미 쓴 저장 자료는 짝 후보에서 뺀다
     refs = [r for r in saved_refs(vault) if r["card"] not in used]
     with ThreadPoolExecutor(4) as ex:
@@ -191,6 +255,7 @@ if __name__ == "__main__":
         radar.api_key()
     day = sys.argv[1]
     full = radar.OUT / f"{day}-전체.md"
-    page, tokens, failures = make_page(radar.VAULT, radar.OUT, day, full.read_text(), TypeSafeClient(), radar.CONFIG, full.stem)
+    page, tokens, failures = make_page(radar.VAULT, radar.OUT, day, full.read_text(), TypeSafeClient(), radar.CONFIG,
+                                      full.stem, excluded=radar.saved_sources())
     print(page)
     print(f"(${tokens * radar.PRICE_PER_M / 1e6:.4f}, 실패 {failures})", file=sys.stderr)
