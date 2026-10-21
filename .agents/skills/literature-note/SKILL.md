@@ -93,3 +93,5 @@ obsidian open path="30_Resources/References/Articles/<파일명>.md"
 - 책은 이 스킬 대상이 아니다 (`99_Templates/book-note.md`).
 - Web Clipper나 `capture-reference-card`가 만든 Clippings 노트를 이 스킬 형식으로 재작성하지 않는다. 기존 카드가 있고 반응이 한 줄 평이면 `my_take`와 읽음 상태만 갱신하고, 별도 참고노트를 작성할 때는 클리핑을 링크한다.
 - 원문에서 확인되지 않는 사실·인용을 만들지 않는다. 자동 자막의 고유명사 오류는 문맥으로 보정하되, 불확실하면 이름을 특정하지 않는다.
+
+스킬을 보완할 때는 [참고노트 평가](evals/cases.md)를 참고한다. 일반 참고노트 작성에서는 평가 자료를 읽지 않는다.

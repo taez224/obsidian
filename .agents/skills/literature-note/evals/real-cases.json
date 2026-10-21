@@ -1,0 +1,185 @@
+{
+  "description": "실제 참고노트와 AI 분석 노트에 기록된 발췌·반응·채택 표시를 고정한 귀속 구분 평가. 웹 원문 전체의 정확성이나 당시 대화 재현을 보장하지 않는다.",
+  "cases": [
+    {
+      "id": "short-creativity-reaction",
+      "skill": "literature-note",
+      "prompt": "기존 참고노트의 아래 기록으로 literature-note 초안을 만들어줘. 실제 파일을 저장하거나 수정하지 말고 Markdown 완성안과 확인 한계만 보여줘. 원문은 아래 발췌 범위까지만 확인한 것으로 다루고 웹·vault 검색은 하지 마. 기존 파일과의 중복 처리는 끝났고, 새 문서가 아니라 해당 참고노트의 본문을 고칠 안이야. 내부 링크는 추가하지 마.",
+      "artifact": "자료: SK, AI 창작 시대에도 성공하는 작품의 비밀. source: https://youtu.be/OgCYk2qzw7E, published: 2026-07-10.\n기존 노트에 기록된 원문 발췌:\n- 31:54–32:26: “계속해서 자기를 트레이닝해야 되고, 쌓여야 되고”\n- 15:57–16:14: “흐리게 봐야지만 … 공통된 핵심이 보이거든요.”\n- 33:27–33:33: “창의성의 다른 말은 지루함이래요.”\n기록된 사용자 반응: 다 보고 나니 공감도 가고 재밌었다. 특히 창의성 관련 부분.\n이것이 이번에 사용할 반응의 전부야.",
+      "provenance": {
+        "ref": "e58ca81377b5c6ba3e3dca42a7d7679c672cfef2",
+        "sources": [
+          {
+            "path": "30_Resources/References/Articles/AI 창작 시대에도 성공하는 작품의 비밀 - SK.md",
+            "excerpt": "my_take: 다 보고 나니 공감도 가고 재밌었다. 특히 창의성 관련 부분."
+          },
+          {
+            "path": "30_Resources/References/Articles/AI 창작 시대에도 성공하는 작품의 비밀 - SK.md",
+            "excerpt": "“계속해서 자기를 트레이닝해야 되고, 쌓여야 되고”"
+          }
+        ],
+        "request_origin": "실제 노트에 기록된 원문 발췌와 반응을 사용한 재구성 요청. 원래 대화나 웹 원문 전체의 재현은 아님."
+      },
+      "selection": {
+        "recorded_reaction": "다 보고 나니 공감도 가고 재밌었다. 특히 창의성 관련 부분.",
+        "rationale_scope": "한 줄 반응만 사용한다. 기존 노트의 긴 내 생각·나의 해석을 추가로 채택한 것으로 간주하지 않는다.",
+        "editorial_observation": "짧은 공감이 훈련 계획이나 AI 의존에 대한 새 사용자 주장으로 확장되는지 본다."
+      },
+      "process_checks": [
+        "제공한 스킬 사본과 고정 입력만 읽고 웹·실제 vault·파일 편집을 하지 않는다."
+      ],
+      "result_checks": [
+        {
+          "id": "brief-reaction",
+          "check": "공감하고 재미있었다는 짧은 반응과 창의성에 주목했다는 범위만 my_take·내 생각에 쓴다. 훈련 필요성·취향 구축·개발에의 적용을 사용자가 채택한 주장으로 더하지 않는다."
+        },
+        {
+          "id": "source-boundary",
+          "check": "자료 내용은 자료의 발췌나 설명으로 구분한다. 사용자가 반응하지 않은 다른 대목들을 사용자 해석이나 긴 전체 요약으로 채우지 않는다."
+        },
+        {
+          "id": "no-repeat-confirmation",
+          "check": "반응을 다시 묻거나 채택 확인·평가·추가 자료 확보를 완성안 제공의 조건으로 요구하지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "partial-glue-work-agreement",
+      "skill": "literature-note",
+      "prompt": "기존 참고노트의 아래 기록으로 literature-note 초안을 만들어줘. 실제 파일을 저장하거나 수정하지 말고 Markdown 완성안과 확인 한계만 보여줘. 원문은 아래 발췌 범위까지만 확인한 것으로 다루고 웹·vault 검색은 하지 마. 기존 파일과의 중복 처리는 끝났고, 새 문서가 아니라 해당 참고노트의 본문을 고칠 안이야. 내부 링크는 추가하지 마.",
+      "artifact": "자료: Doing nothing at work, Sean Goedecke. source: https://www.seangoedecke.com/doing-nothing-at-work/, published: 2026-06-08.\n기존 노트의 원문 발췌:\n- High-impact opportunities: “You also have to not already be busy.”\n- Deliberately not doing specific things: “engineers should generally avoid glue work.”\n기록된 사용자 반응:\n나는 문서화, 온보딩, 멘토링을 종종 맡았다. 누가 시켜서 한 일도 있고 답답해서 먼저 한 일도 있다.\n다행히 이런 일을 알아주고 드러내 준 PM을 만난 적은 있다. 그래도 이 기여는 성과로 측정하기 어렵고, 계속 쌓이면 커리어가 정체되는 느낌으로 이어질 수 있다는 점에는 공감한다.",
+      "provenance": {
+        "ref": "e58ca81377b5c6ba3e3dca42a7d7679c672cfef2",
+        "sources": [
+          {
+            "path": "30_Resources/References/Articles/일터에서 아무것도 하지 않기 - Sean Goedecke.md",
+            "excerpt": "“engineers should generally avoid glue work.”"
+          },
+          {
+            "path": "30_Resources/References/Articles/일터에서 아무것도 하지 않기 - Sean Goedecke.md",
+            "excerpt": "나는 문서화, 온보딩, 멘토링을 종종 맡았다. 누가 시켜서 한 일도 있고 답답해서 먼저 한 일도 있다."
+          },
+          {
+            "path": "30_Resources/References/Articles/일터에서 아무것도 하지 않기 - Sean Goedecke.md",
+            "excerpt": "다행히 이런 일을 알아주고 드러내 준 PM을 만난 적은 있다. 그래도 이 기여는 성과로 측정하기 어렵고, 계속 쌓이면 커리어가 정체되는 느낌으로 이어질 수 있다는 점에는 공감한다."
+          }
+        ],
+        "request_origin": "원문 발췌와 기존 내 생각에서 재구성. 기록된 반응의 최초 작성자를 Git diff만으로 확정하지 않음."
+      },
+      "selection": {
+        "recorded_reaction": "성과로 측정하기 어렵고, 계속 쌓이면 커리어가 정체되는 느낌으로 이어질 수 있다는 점에는 공감한다.",
+        "rationale_scope": "성과 측정과 정체감에 대한 부분 공감이다. 문서화·온보딩·멘토링을 모두 피하겠다는 결론은 입력에 없다.",
+        "editorial_observation": "인정해 준 PM 경험과 부분 공감이 저자의 일반적 회피 권고에 대한 전면 동의로 바뀌는지 본다."
+      },
+      "process_checks": [
+        "제공한 스킬 사본과 고정 입력만 읽고 웹·실제 vault·파일 편집을 하지 않는다."
+      ],
+      "result_checks": [
+        {
+          "id": "limited-agreement",
+          "check": "저자의 회피 권고와 사용자의 성과 측정·정체감 공감을 구분한다. 사용자가 일을 줄이거나 문서화·멘토링을 피하기로 했다고 쓰지 않는다."
+        },
+        {
+          "id": "experience-preservation",
+          "check": "PM이 알아주고 드러내 준 경험을 보존한다. 사용자 경험을 저자의 관측으로 쓰거나 모든 기여가 인정받지 못했다는 식으로 바꾸지 않는다."
+        },
+        {
+          "id": "no-repeat-confirmation",
+          "check": "주어진 반응을 다시 묻지 않고 완성안을 제공하며 전체 원문 확보나 새 판단 채택을 필수로 요구하지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "rich-role-reaction",
+      "skill": "literature-note",
+      "prompt": "기존 참고노트의 아래 기록으로 literature-note 초안을 만들어줘. 실제 파일을 저장하거나 수정하지 말고 Markdown 완성안과 확인 한계만 보여줘. 원문은 아래 발췌 범위까지만 확인한 것으로 다루고 웹·vault 검색은 하지 마. 기존 파일과의 중복 처리는 끝났고, 새 문서가 아니라 해당 참고노트의 본문을 고칠 안이야. 내부 링크는 추가하지 마.",
+      "artifact": "자료: Boris Cherny, As engineering, product, design, DS, etc. melt into a new kind of role (X 게시물). source: https://x.com/bcherny/status/2071379474277613732, published: 2026-06-28.\n기존 노트에 기록된 원문 발췌:\n- 본문 후반: “Many people span across 2 roles, and sometimes 3 roles.”\n기록된 사용자 반응:\n- my_take: 나는 Builder-Sweeper에 가깝고 Maintainer 관점도 가진다. 이 분류는 AI가 새로 만든 유형이라기보다 원래 있던 업무 성향을 읽는 렌즈에 가깝다. 개발계의 MBTI 같은데.. 개인의 강점과 팀의 역할 균형을 이야기할 때는 유용하지만, 사람을 고정된 유형으로 분류하거나 평가하는 도구가 되어서는 안 된다.\n- 위 발췌에 대한 내 생각: 하나의 직무명으로 나를 고정하기보다, 어떤 일을 잘하고 어떤 단계에서 에너지가 나는지로 보는 구분이 더 맞다.\n이것이 이번에 사용할 반응의 전부야.",
+      "provenance": {
+        "ref": "55b6c34c980ee036047188c30d03b0eab7b6d367",
+        "sources": [
+          {
+            "path": "30_Resources/References/Articles/AI 시대의 다섯 역할 아키타입 - Boris Cherny.md",
+            "excerpt": "my_take: 나는 Builder-Sweeper에 가깝고 Maintainer 관점도 가진다. 이 분류는 AI가 새로 만든 유형이라기보다 원래 있던 업무 성향을 읽는 렌즈에 가깝다. 개발계의 MBTI 같은데.. 개인의 강점과 팀의 역할 균형을 이야기할 때는 유용하지만, 사람을 고정된 유형으로 분류하거나 평가하는 도구가 되어서는 안 된다."
+          },
+          {
+            "path": "30_Resources/References/Articles/AI 시대의 다섯 역할 아키타입 - Boris Cherny.md",
+            "excerpt": "“Many people span across 2 roles, and sometimes 3 roles.”"
+          },
+          {
+            "path": "30_Resources/References/Articles/AI 시대의 다섯 역할 아키타입 - Boris Cherny.md",
+            "excerpt": "- 내 생각: 하나의 직무명으로 나를 고정하기보다, 어떤 일을 잘하고 어떤 단계에서 에너지가 나는지로 보는 구분이 더 맞다."
+          }
+        ],
+        "request_origin": "실제 노트에 기록된 원문 발췌와 반응을 사용한 재구성 요청. 원래 대화나 웹 원문 전체의 재현은 아님. 하루 뒤 작성된 AI 역할 분석 노트는 입력에 넣지 않음."
+      },
+      "selection": {
+        "recorded_reaction": "나는 Builder-Sweeper에 가깝고 Maintainer 관점도 가진다. 이 분류는 AI가 새로 만든 유형이라기보다 원래 있던 업무 성향을 읽는 렌즈에 가깝다. 개발계의 MBTI 같은데.. 개인의 강점과 팀의 역할 균형을 이야기할 때는 유용하지만, 사람을 고정된 유형으로 분류하거나 평가하는 도구가 되어서는 안 된다.",
+        "rationale_scope": "자기 분류, 렌즈라는 해석, 개발계의 MBTI라는 비유, 사람을 고정된 유형으로 평가하지 말라는 단서까지 모두 사용자의 반응이다.",
+        "editorial_observation": "풍부한 반응이 역할 분류가 유용하다는 중립 요약으로 줄어들거나 비유·단서가 빠지는지 본다. short-creativity-reaction과 반대 방향의 실패다."
+      },
+      "process_checks": [
+        "제공한 스킬 사본과 고정 입력만 읽고 웹·실제 vault·파일 편집을 하지 않는다."
+      ],
+      "result_checks": [
+        {
+          "id": "full-reaction",
+          "check": "자기 분류, 렌즈라는 해석, 고정 유형으로 평가하지 말라는 단서를 모두 사용자 반응으로 남긴다. 역할 분류가 유용하다는 일반 요약으로 줄이지 않는다."
+        },
+        {
+          "id": "voice-kept",
+          "check": "'개발계의 MBTI 같은데..' 같은 사용자 표현을 설명문으로 바꾸거나 빼지 않는다. 띄어쓰기·문장부호 정도만 고친다."
+        },
+        {
+          "id": "no-added-analysis",
+          "check": "Grower 경험이 부족하다거나 Builder가 중심이라는 식으로 입력에 없는 자기 평가를 더하지 않는다. 자료가 말하지 않은 역할 정의를 저자의 주장으로 만들지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "adopted-ai-candidates",
+      "skill": "permanent-note",
+      "prompt": "아래는 AI가 내 성격검사 결과를 분석하며 낸 영구 노트 승격 후보 체크리스트야. 체크한 항목은 내가 채택한 거야. 채택한 후보로 영구 노트 초안을 만들어줘. 실제 파일은 만들지 말고 제목·중심 주장·본문 초안과 확인 한계만 보여줘. 웹·vault 검색은 하지 마. 기존 노트와의 중복 확인은 끝났고 내부 링크는 추가하지 마.",
+      "artifact": "AI 분석 노트의 「Slipbox 승격 후보」 체크리스트. 체크 표시는 사용자가 채택한 항목이다.\n- [x] \"생성자와 검증자가 한 몸 — AI 시대엔 생성은 AI에, 검증은 나에게 분업\"\n- [ ] \"구조화된 매체를 거쳐 상호작용한다 — 신뢰는 주고받는 만큼, 표현은 결과물로, 이의는 문서로\" (크로스도메인 종합)\n이것이 이번에 사용할 입력의 전부야.",
+      "provenance": {
+        "ref": "55b6c34c980ee036047188c30d03b0eab7b6d367",
+        "sources": [
+          {
+            "path": "30_Resources/References/etc/HEXACO 성격검사 결과 - 2026-07-09 (claude).md",
+            "excerpt": "- [x] \"생성자와 검증자가 한 몸 — AI 시대엔 생성은 AI에, 검증은 나에게 분업\""
+          },
+          {
+            "path": "30_Resources/References/etc/HEXACO 성격검사 결과 - 2026-07-09 (claude).md",
+            "excerpt": "- [ ] \"구조화된 매체를 거쳐 상호작용한다 — 신뢰는 주고받는 만큼, 표현은 결과물로, 이의는 문서로\" (크로스도메인 종합)"
+          },
+          {
+            "path": "01_Slipbox/생성은 AI에게, 검증은 나에게.md",
+            "excerpt": "내게 맞는 AI 분업은 생성의 일부를 AI에 맡기고 검증 책임은 내가 유지하는 방식이다."
+          }
+        ],
+        "request_origin": "체크 표시와 실제로 승격된 영구 노트를 근거로 재구성. 체크한 시점과 당시 대화는 이관 커밋(45623dd) 때문에 Git 기록만으로 확정하지 않음. 원본의 승격 링크는 정답 노출을 막으려고 입력에서 뺌."
+      },
+      "selection": {
+        "recorded_reaction": "체크한 후보: 생성자와 검증자가 한 몸 — AI 시대엔 생성은 AI에, 검증은 나에게 분업",
+        "rationale_scope": "체크한 후보 하나만 사용자가 채택한 주장이다. 체크하지 않은 후보와 분석 노트의 점수·원인 해석은 채택하지 않았다.",
+        "editorial_observation": "채택한 AI 후보를 다시 확인받으려 하거나 사용자 주장으로 쓰기를 주저하는지, 반대로 체크하지 않은 후보까지 영구 노트로 올리는지 함께 본다."
+      },
+      "process_checks": [
+        "제공한 스킬 사본과 고정 입력만 읽고 웹·실제 vault·파일 편집을 하지 않는다."
+      ],
+      "result_checks": [
+        {
+          "id": "adopted-used",
+          "check": "체크한 후보를 사용자의 주장으로 삼아 영구 노트 초안을 낸다. 채택 여부를 다시 묻거나 추가 근거·문답을 초안의 조건으로 요구하지 않는다."
+        },
+        {
+          "id": "unadopted-separated",
+          "check": "체크하지 않은 후보로 영구 노트를 만들지 않는다. 언급한다면 채택하지 않은 후보로 구분한다."
+        },
+        {
+          "id": "no-extra-claims",
+          "check": "입력에 없는 성격 점수·원인 설명·일반 처방을 사용자 주장으로 더하지 않는다. 초안을 누구에게나 맞는 보편 권고로 넓히지 않는다."
+        }
+      ]
+    }
+  ]
+}
