@@ -1,4 +1,4 @@
 interface:
   display_name: "영구 노트 정제·보강"
-  short_description: "메모·참고노트·승인된 문답을 기존 Slipbox와 대조해 보강하거나 새 주장으로 정제"
-  default_prompt: "Use $permanent-note to 이 메모를 기존 Slipbox와 먼저 대조해서, 같은 주장이 있으면 기존 노트 보강을 제안하고 없으면 내 생각의 흐름을 평평하게 만들지 않는 새 영구 노트로 정제해줘."
+  short_description: "메모·참고노트를 기존 Slipbox와 대조해 정제하고 채택한 주장 수정·철회를 반영"
+  default_prompt: "Use $permanent-note to 이 메모를 기존 Slipbox와 먼저 대조해서, 같은 질문의 답이면 근거 보강·주장 수정·철회를 검토하고 독립적인 새 주장이면 내 생각의 흐름을 평평하게 만들지 않는 영구 노트로 정제해줘. 이미 채택한 판단은 다시 묻지 마."
