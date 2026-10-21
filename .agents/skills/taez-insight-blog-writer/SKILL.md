@@ -86,7 +86,9 @@ If the user already provides direction, proceed without asking.
 
 집필·리뷰의 기준과 범위 판단은 [공통 글쓰기 기준의 작성 전후 대조](../../guides/writing.md#작성-전후-대조)를 따른다.
 
-If the user says they will write the article themselves, or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
+AI가 맡을 범위는 [작업 목적과 AI의 역할](../../guides/writing.md#작업-목적과-ai의-역할)에 맞춘다. 구성 연습을 원하면 사용자가 세운 논지·절 배치에 피드백하고, 문장 연습을 원하면 직접 쓰겠다고 한 부분을 대신 완성하지 않는다. 완성이 목적이면 요청한 구성·초안·윤문을 제공하되, 아래의 전문 작성 조건을 유지한다. 이미 정한 목적이나 직접 쓸 범위를 다시 묻지 않는다.
+
+For ordinary article-creation requests, if the user says they will write the article themselves or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
 
 통찰형 글의 새 집필·대규모 재작성·발행 전 종합 검토·제목 종합 검토에서는 `references/voice-profile.md`를 읽는다. 기술 설명·학습·문제 해결 글은 사용자와 발행면의 톤을 따르며, 개인 관점이 글의 중심일 때만 이 reference를 사용한다. 단순 문장 단위 수정에는 불러오지 않는다.
 
