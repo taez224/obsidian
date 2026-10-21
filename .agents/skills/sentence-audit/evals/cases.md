@@ -18,3 +18,5 @@
 - 실행 결과는 `_workspace/`에 두고, 이 폴더에는 입력과 기준만 보관한다.
 
 기존 문장 라우팅·재시도 조건 회귀는 공통 평가 폴더에 유지한다.
+
+실제 문장과 선택 이유를 활용한 비교는 [실제 글 평가](../../taez-insight-blog-writer/evals/cases.md#실제-글과-선택으로-비교하기)를 따른다. 고정 입력의 `rss-specific-purpose`와 `guideline-choice-preservation`이 이 스킬의 사례다. 일반 문장 점검에 추가 평가를 붙이지 않는다.
