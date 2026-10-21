@@ -37,15 +37,17 @@ allowed-tools: Bash(qmd:*), mcp__qmd__*
 
 - 모호한 요청을 bare `qmd query`에 그대로 넘기지 않는다. `intent`에는 무엇을 찾는지와 피하려는 **개념적 오탐**을 적는다. `intent`는 검색 필터가 아니라 query expansion·청크 선택·rerank에 쓰이는 의미 문맥이다.
 - 연결·승격처럼 누락 비용이 큰 검색은 후보를 15개(`-n 15` 또는 `limit: 15`) 가져온다.
-- 범위 제한은 QMD collection이 분리돼 있으면 `collections`로 적용한다. 현재처럼 단일 `PKM` collection 안의 폴더를 좁힐 때는 반환된 `file` 필드를 직접 검사한다 (예: Slipbox 대조는 `01_Slipbox/`만 남긴다).
+- 현재 노트의 개념·주장을 찾을 때는 `collections: ["PKM"]`을 지정한다. 작업 보고서·집필 아웃라인은 `PKM-workspace`, 보관 자료는 `PKM-archive`로 분리하며, 해당 기록을 찾거나 과거와 비교하는 요청에서만 추가한다. 설정과 복구 절차는 [검색 범위 관리](references/search-scope.md)를 따른다.
+- `PKM` 안에서 Slipbox처럼 특정 폴더로 더 좁힐 때는 반환된 `file` 경로를 검사한다. 결과 경로에서 컬렉션 접두사를 분리한 뒤 판단하며, 도구 안내의 컬렉션 목록이 오래됐거나 범위가 없다는 오류가 나면 MCP `status`로 실제 구성을 확인한다.
 - 기본 검색에서는 rerank를 유지한다. 경로 필터 후 적절한 후보가 없을 때만 MCP `rerank: false`(CLI 모델 실행이 허용된 환경은 `--no-rerank`)로 재확인한다.
 
 ## 판단과 검증
 
 - 중요한 판단은 `rg`의 정확 후보와 QMD의 의미 후보를 병합한다. 실제 사용한 방식을 정확 검색·의미 검색으로 짧게 밝히며, 실행하지 못한 검색까지 수행했다고 보고하지 않는다.
 - 검색 snippet은 후보 탐색에만 사용하고, 판단하기 전에 상위 후보 원문을 MCP `get`·`multi_get`으로 가져와 읽는다.
-- `_workspace/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 현재 지식 연결 후보에서 제외한다. 로컬 스냅샷은 검색 근거가 아니라 개인 열람용 원문 보관본이다.
+- `_workspace/`, `20_Projects/blog/_outlines/`, `40_Archive/`, `30_Resources/References/Clippings/_local-snapshots/`는 현재 지식 연결 후보에서 제외한다. 이 경로가 `PKM` 결과에 나오면 검색 범위 설정을 확인하고, 후보만 버린 뒤 검색을 끝내지 않는다. 설정을 바로 고칠 수 없으면 현재 파일을 `rg`로 보완해 확인한다. 로컬 스냅샷은 검색 근거가 아니라 개인 열람용 원문 보관본이다.
 - `qmd update && qmd embed` 수동 실행은 사용자가 QMD 갱신·재인덱싱을 직접 요청했을 때만 한다. 대량 이동·삭제·병합 뒤 검색 결과가 오래되었으면 갱신 필요성을 알리되, 요청 전에는 현재 파일과 `rg`로 확인하고 평소 갱신은 post-commit hook에 맡긴다.
+- 검색 범위·질의 절차를 바꿀 때는 [실제 질문 평가](evals/cases.md)로 수정 전후의 핵심 노트 순위와 작업 자료 혼입을 함께 확인한다. 일반 검색마다 평가를 실행하지 않는다.
 
 ### 재색인 트리거: git post-commit
 
