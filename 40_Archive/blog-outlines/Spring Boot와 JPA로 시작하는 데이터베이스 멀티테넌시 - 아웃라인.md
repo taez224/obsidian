@@ -30,7 +30,7 @@ tags:
 **역할:** 테넌트를 정의하고, 행·스키마·DB의 데이터 배치와 선택 지점을 비교한다.
 
 - 그림은 테넌트 A·B의 데이터를 행·스키마·DB 단위로 나눈 모습을 비교한다.
-- 시각 자료: `../assets/multitenancy-data-layouts.svg`.
+- 시각 자료: `../../20_Projects/blog/assets/multitenancy-data-layouts.svg`.
 
 ## 3. 행 분리: `@TenantId`로 반복되는 조건 줄이기
 
@@ -52,7 +52,7 @@ tags:
 
 **역할:** 같은 주문 URL에 헤더의 테넌트 ID만 바꿔 요청해, 테넌트에 맞는 주문을 반환하는 동작을 보여 준다.
 
-- `bookshop`·`recordshop`에 같은 주문 ID와 다른 상태의 주문을 준비하고, `X-Tenant-Id` 헤더만 바꾼 두 요청과 응답을 `../assets/multitenancy-row.png` 캡처로 보여 준다.
+- `bookshop`·`recordshop`에 같은 주문 ID와 다른 상태의 주문을 준비하고, `X-Tenant-Id` 헤더만 바꾼 두 요청과 응답을 `../../20_Projects/blog/assets/multitenancy-row.png` 캡처로 보여 준다.
 - 단건 조회·`findAll()` 통합 테스트는 예제 소스에 둔다. 초기 데이터의 `tenant_id`는 SQL로 지정하므로 응답을 자동 채움의 증거로 설명하지 않는다.
 
 ## 6. 스키마·DB 분리의 공통 예제
@@ -61,7 +61,7 @@ tags:
 
 - Marvel·DC에 같은 배우 ID와 다른 배역을 저장한다. `actorSlug`를 기본 키로 사용하는 공통 엔티티·Repository·조회 서비스를 보여 준다.
 - 그림 앞에서 프로파일로 설정 파일을 불러오고 `demo.strategy`로 구현을 선택하는 관계를 설명한다.
-- 요청 바인딩 → 서비스 세션 → 스키마·DataSource 선택을 `../assets/multitenancy-tenant-flow.svg`로 연결한다.
+- 요청 바인딩 → 서비스 세션 → 스키마·DataSource 선택을 `../../20_Projects/blog/assets/multitenancy-tenant-flow.svg`로 연결한다.
 
 ## 7. 스키마 분리: 같은 DB에서 사용할 스키마 선택
 
@@ -81,9 +81,9 @@ tags:
 
 **역할:** 공통 조회 코드가 두 설정에서 테넌트별 데이터를 반환하는지 확인한다.
 
-- `schema` 프로파일에서 Marvel·DC 헤더로 조회한 두 요청·응답을 `../assets/multitenancy-schema.png` 캡처로 보여 주고, 캡션에 실행한 프로파일을 밝힌다.
+- `schema` 프로파일에서 Marvel·DC 헤더로 조회한 두 요청·응답을 `../../20_Projects/blog/assets/multitenancy-schema.png` 캡처로 보여 주고, 캡션에 실행한 프로파일을 밝힌다.
 - 「테스트로 두 방식의 조회 확인」에서는 확인할 동작을 먼저 밝힌 뒤, `TenantApiTest`의 Given·When·Then과 프로파일만 다른 두 하위 클래스를 한 코드 블록에 모은다. 테넌트별 데이터 준비·조회·기대 결과를 직접 보여 주고, 연결 설정과 나머지 테스트는 예제 소스에 둔다.
-- 코드 뒤에는 `../assets/multitenancy-test.png`로 두 프로파일에서 같은 조회 테스트를 실행한 결과를 보여 준다. 보고서의 두 클래스 결과 표만 남겨 코드와 실행 결과를 연결한다.
+- 코드 뒤에는 `../../20_Projects/blog/assets/multitenancy-test.png`로 두 프로파일에서 같은 조회 테스트를 실행한 결과를 보여 준다. 보고서의 두 클래스 결과 표만 남겨 코드와 실행 결과를 연결한다.
 
 ## 10. 테넌트 전환은 새 세션에서
 

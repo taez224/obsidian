@@ -5,9 +5,12 @@ slug: spring-jpa-database-multitenancy
 tags:
   - 개발/데이터베이스
   - 개발/Spring
-status: draft
+status: published
 author: TaeZ
 summary: 하나의 애플리케이션에서 테넌트별 데이터를 어떻게 분리할까요? Spring Boot와 JPA 예제로 행·스키마·DB 분리의 원리와 테넌트별 조회 흐름을 살펴봅니다.
+publication: Nextree 기술 블로그
+source: https://www.nextree.io/spring-bootwa-jparo-sijaghaneun-deiteobeiseu-meoltiteneonsi/
+published: 2026-10-21
 ---
 
 # Spring Boot와 JPA로 시작하는 데이터베이스 멀티테넌시

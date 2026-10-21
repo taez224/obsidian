@@ -178,7 +178,7 @@ Add a framework, technical evidence, counterargument, or operating model only wh
 
 ### 5.1 Stop at a writer-owned outline by default
 
-아웃라인의 위치·갱신·보관은 [블로그 운영 기준의 아웃라인 관리](../../../20_Projects/blog/blog.md#아웃라인-관리)를 따른다.
+아웃라인의 위치·갱신·보관은 [블로그 운영 기준의 아웃라인 관리](../../../20_Projects/blog/blog.md#아웃라인-관리)를 따른다. 발행 상태를 반영할 때는 해당 아웃라인도 `40_Archive/blog-outlines/`로 옮긴다. 마지막 집필 기준을 그대로 보관하고, 이동에 따른 상대 경로만 고친다. 큰 개편을 시작할 때는 작업 폴더로 되돌리는 절차를 따른다. 사용자가 승인한 이동 범위만 적용한다.
 
 Build an outline that gives TaeZ enough structure to write without pre-writing the article for them. Use only the fields each section needs:
 
