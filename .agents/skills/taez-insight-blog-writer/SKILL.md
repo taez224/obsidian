@@ -236,7 +236,7 @@ Run a title and heading pass before handing off the outline:
 
 그다음 필요한 문체 검토에 `node .claude/workflows/blog-slop-lint.mjs "<file>"`를 사용한다. 경고는 문맥에 따라 유지·수정 후보로 판단하며 검토 요청만으로 자동 수정하지 않는다. `references/slop-gate.md`는 사용자가 발행 전 최종 검수를 요청했을 때만 읽고, 글의 장르와 근거에 맞는 항목만 사람이 판단한다.
 
-`humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 실행한다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
+`humanize-korean` 전체 워크플로는 기본 단계가 아니다. 사용자가 명시적으로 윤문을 요청했거나, 발행 직전 사람이 번역투·정형 문장을 확인했을 때만 사용 여부를 판단한다. 현재 환경에서의 스킬 선택과 대체 경로는 [외부 윤문 스킬 선택](../sentence-audit/SKILL.md#외부-윤문-스킬-선택)을 따른다. 이때도 의미·사실·인용은 보존하고, 초안의 논지나 장르를 바꾸지 않는다.
 
 For a substantial draft or review, check only the applicable questions:
 
