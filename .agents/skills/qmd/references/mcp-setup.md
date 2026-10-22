@@ -49,51 +49,25 @@ qmd mcp stop                # Stop daemon
 
 ## Tools
 
-### structured_search
+Read the connected MCP tools' input schemas before calling them. Those schemas are authoritative for tool names, parameters, and defaults; the example below is not a complete API reference. Follow the vault routing and collection scope in [SKILL.md](../SKILL.md).
 
-Search with pre-expanded queries.
+- `query`: search with structured `searches` and retrieval `intent`; select collections with `collections`.
+- `get`: read one source using its returned `file` path or `#docid` in the `file` parameter.
+- `multi_get`: read multiple sources by `pattern`.
+- `status`: inspect index health and available collections.
+
+Example `query` input:
 
 ```json
 {
   "searches": [
-    { "type": "lex", "query": "keyword phrases" },
-    { "type": "vec", "query": "natural language question" },
-    { "type": "hyde", "query": "hypothetical answer passage..." }
+    { "type": "vec", "query": "노트 연결을 판단하는 기준은 무엇인가?" }
   ],
-  "limit": 10,
-  "collection": "optional",
-  "minScore": 0.0
+  "intent": "Obsidian 노트 사이의 의미 관계를 판단하는 기준을 찾는다.",
+  "collections": ["PKM"],
+  "limit": 10
 }
 ```
-
-| Type | Method | Input |
-|------|--------|-------|
-| `lex` | BM25 | Keywords (2-5 terms) |
-| `vec` | Vector | Question |
-| `hyde` | Vector | Answer passage (50-100 words) |
-
-### get
-
-Retrieve document by path or `#docid`.
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `path` | string | File path or `#docid` |
-| `full` | bool? | Return full content |
-| `lineNumbers` | bool? | Add line numbers |
-
-### multi_get
-
-Retrieve multiple documents.
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `pattern` | string | Glob or comma-separated list |
-| `maxBytes` | number? | Skip large files (default 10KB) |
-
-### status
-
-Index health and collections. No params.
 
 ## Troubleshooting
 

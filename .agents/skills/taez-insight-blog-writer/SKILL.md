@@ -37,7 +37,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 | --- | --- | --- |
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
 | ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
-| ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 한 줄 논지, 절별 역할, 근거와 경계를 담은 사용자 집필용 아웃라인. |
+| ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 통찰형은 한 줄 논지, 기술 글은 문서 계약과 독자의 다음 질문을 담은 사용자 집필용 아웃라인. 유형을 정했다면 `docType`을 넘긴다. |
 | ④ 사용자 집필 | 사람 게이트 | TaeZ가 아웃라인을 바탕으로 본문을 직접 쓴다. AI는 여기서 자동으로 전문을 이어 쓰지 않는다. |
 | ④' 공동 초안 | `blog-recompose`의 `writeFullDraft: true` 또는 직접 작성 | 사용자가 전문 초안을 명시적으로 요청했을 때만 실행한다. |
 | ⑤ 구조 검토 | `references/structural-review.md` + `blog-structure-scan.mjs` | 초안이 처음 완성됐거나 절을 재배치한 뒤. 문장을 다듬기 **전에** 뼈대를 본다. |

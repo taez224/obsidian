@@ -1,6 +1,6 @@
 export const meta = {
   name: 'blog-recompose',
-  description: '여러 소스의 경험·개념·근거를 대조해 새 글의 논지와 저자 소유 아웃라인을 만든다. 기본은 Outline에서 멈추며, 전문은 writeFullDraft: true일 때만 작성한다.',
+  description: '제공된 소스의 경험·개념·근거를 대조해 글 유형에 맞는 사용자 집필용 아웃라인을 만든다. 기본은 Outline에서 멈추며, 전문은 writeFullDraft: true일 때만 작성한다.',
   whenToUse: '기존 자료를 한 글로 재구성하거나 초안의 구조를 크게 바꿀 때. 전문 작성 여부와 발행면·재사용 정책을 args로 명시한다.',
   phases: [
     { title: 'Mine' },
@@ -12,15 +12,16 @@ export const meta = {
 
 // 사용법 (args):
 // {
-//   experienceSource: "<경험 자료 절대경로>",
+//   experienceSource: "<경험 자료 절대경로>",     // 소스 셋 중 하나 이상. 개인 경험은 필수가 아님
 //   conceptSource: "<개념 자료 절대경로>",
 //   substanceSource: "<현재 초안/리서치 절대경로>",
 //   output: "<전문을 쓸 절대경로>",             // writeFullDraft=true일 때만 필수
 //   writeFullDraft: false,                      // 기본 false
 //   publicationSurface: "company-tech|personal-tech|brunch|other",
+//   docType: "insight|explanation|tutorial|howto", // 선택. 없으면 소스 종합에서 한 번 추정
 //   reusePolicy: "detect|intentional-adaptation",
 //   brandLead: "<이번 글에서 특히 살릴 저자 관점>", // 선택
-//   outlineCandidates: 3                       // 선택, 1~5
+//   outlineCandidates: 3                       // 통찰형 움직임 후보 수, 선택, 1~5
 // }
 //
 // 원칙:
@@ -37,6 +38,8 @@ const SUBSTANCE = A.substanceSource
 const OUT = A.output || ''
 const WRITE_FULL_DRAFT = A.writeFullDraft === true
 const SURFACE = A.publicationSurface || 'unspecified'
+const DOC_TYPES = ['insight', 'explanation', 'tutorial', 'howto']
+const REQUESTED_DOC_TYPE = A.docType || 'unspecified'
 const REUSE_POLICY = A.reusePolicy || 'detect'
 const BRAND = A.brandLead || ''
 const NUM_OUTLINES = Math.max(1, Math.min(5, A.outlineCandidates || 3))
@@ -44,10 +47,16 @@ const AGENT = 'general-purpose'
 const VAULT = A.vaultRoot || '/Users/taez/Projects/obsidian'
 const VOICE = VAULT + '/.agents/skills/taez-insight-blog-writer/references/voice-profile.md'
 const KOREAN = VAULT + '/.agents/skills/taez-insight-blog-writer/references/korean-first-draft.md'
+const TECH = VAULT + '/.agents/skills/taez-insight-blog-writer/references/tech-doc-types.md'
+const WRITING = VAULT + '/.agents/guides/writing.md'
+const SOURCES = [['experience', EXP], ['concept', CONCEPT], ['substance', SUBSTANCE]].filter(([, path]) => path)
 
-if (!EXP || !CONCEPT || !SUBSTANCE || (WRITE_FULL_DRAFT && !OUT)) {
-  log('❌ args 필요: experienceSource, conceptSource, substanceSource. writeFullDraft=true이면 output도 필요합니다.')
+if (!SOURCES.length || (WRITE_FULL_DRAFT && !OUT)) {
+  log('❌ args 필요: experienceSource, conceptSource, substanceSource 중 하나 이상. writeFullDraft=true이면 output도 필요합니다.')
   return { error: 'missing required args', got: A }
+}
+if (REQUESTED_DOC_TYPE !== 'unspecified' && !DOC_TYPES.includes(REQUESTED_DOC_TYPE)) {
+  return { error: 'invalid docType', got: REQUESTED_DOC_TYPE }
 }
 
 const MATERIAL_SCHEMA = {
@@ -56,11 +65,11 @@ const MATERIAL_SCHEMA = {
     sourcePath: { type: 'string' },
     role: { type: 'string', enum: ['experience', 'concept', 'substance'] },
     publicationStatus: { type: 'string', enum: ['published', 'draft', 'note', 'unknown'] },
-    localClaim: { type: 'string', description: '이 소스가 실제로 착지한 국소 주장' },
+    localClaim: { type: 'string', description: '실제 국소 주장 또는 설명·작업의 목표. 없으면 "none"' },
     openingScene: { type: 'string', description: '도입 장면/질문, 없으면 "none"' },
-    climaxEvidence: { type: 'string', description: '핵심 경험·사례·자료, 없으면 "none"' },
-    landing: { type: 'string', description: '마지막에 남긴 결론/기준' },
-    episodes: { type: 'array', items: { type: 'string' }, description: '실제로 적힌 경험·판단 변화·마찰' },
+    climaxEvidence: { type: 'string', description: '핵심 경험·사례·자료·구현 근거, 없으면 "none"' },
+    landing: { type: 'string', description: '마지막 결론·기준 또는 확인 결과. 없으면 "none"' },
+    episodes: { type: 'array', items: { type: 'string' }, description: '실제로 적힌 경험·판단 변화·마찰. 없으면 빈 배열' },
     artifacts: { type: 'array', items: { type: 'string' }, description: '커맨드·PR·도표·워크플로 등 확인 가능한 실행 증거' },
     reusableClaims: {
       type: 'array',
@@ -75,7 +84,7 @@ const MATERIAL_SCHEMA = {
       },
     },
     authorLanguage: { type: 'array', items: { type: 'string' }, description: '그대로 보존할 가치가 있는 실제 표현' },
-    boundaries: { type: 'array', items: { type: 'string' }, description: '이 소스만으로 말할 수 없는 것과 빠진 개인 근거' },
+    boundaries: { type: 'array', items: { type: 'string' }, description: '이 소스만으로 말할 수 없는 것과 미검증 조건' },
   },
   required: ['sourcePath', 'role', 'publicationStatus', 'localClaim', 'openingScene', 'climaxEvidence', 'landing', 'episodes', 'artifacts', 'reusableClaims', 'authorLanguage', 'boundaries'],
 }
@@ -83,13 +92,14 @@ const MATERIAL_SCHEMA = {
 const SYNTHESIS_SCHEMA = {
   type: 'object', additionalProperties: false,
   properties: {
-    candidateTheses: { type: 'array', items: { type: 'string' }, description: '소스가 실제로 지지하는 논지 후보' },
-    evidenceMap: { type: 'array', items: { type: 'string' }, description: '논지와 경험·아티팩트·외부 근거의 연결' },
+    docType: { type: 'string', enum: REQUESTED_DOC_TYPE === 'unspecified' ? DOC_TYPES : [REQUESTED_DOC_TYPE] },
+    candidateTheses: { type: 'array', items: { type: 'string' }, description: '통찰형에서 소스가 실제로 지지하는 논지 후보. 기술 글이면 빈 배열' },
+    evidenceMap: { type: 'array', items: { type: 'string' }, description: '주장·개념·절차와 실제 근거의 연결' },
     overlapRisks: { type: 'array', items: { type: 'string' }, description: '같은 주장+장면/증거+착지 조합의 반복 위험' },
     safeReuse: { type: 'array', items: { type: 'string' }, description: '반복 가능한 렌즈·어휘·맥락과 그 이유' },
     unresolved: { type: 'array', items: { type: 'string' }, description: '저자가 채우거나 검증해야 할 빈칸' },
   },
-  required: ['candidateTheses', 'evidenceMap', 'overlapRisks', 'safeReuse', 'unresolved'],
+  required: ['docType', 'candidateTheses', 'evidenceMap', 'overlapRisks', 'safeReuse', 'unresolved'],
 }
 
 const OUTLINE_SCHEMA = {
@@ -134,6 +144,40 @@ const OUTLINE_SCHEMA = {
   },
   required: ['thesis', 'movement', 'opening', 'sections', 'climax', 'landing', 'overlapDecision', 'authorPrompts'],
 }
+
+const technicalOutlineSchema = (docType) => ({
+  type: 'object', additionalProperties: false,
+  properties: {
+    title: { type: 'string', description: '독자가 이해하거나 수행할 일을 약속하는 제목' },
+    documentContract: {
+      type: 'object', additionalProperties: false,
+      properties: {
+        docType: { type: 'string', enum: [docType] },
+        goal: { type: 'string' },
+        reader: { type: 'string' },
+        outOfScope: { type: 'string', description: '독자가 포함된다고 오해할 만한 범위만 필요할 때 명시' },
+        exampleEnvironment: { type: 'string', description: '원자료에 있을 때만 사용' },
+      },
+      required: ['docType', 'goal'],
+    },
+    sections: {
+      type: 'array', items: {
+        type: 'object', additionalProperties: false,
+        properties: {
+          heading: { type: 'string' },
+          role: { type: 'string' },
+          readerQuestion: { type: 'string' },
+          evidence: { type: 'array', items: { type: 'string' } },
+          procedure: { type: 'string', description: '작업 절차가 필요한 절에만 사용' },
+          expectedResult: { type: 'string', description: '자료로 뒷받침되는 결과 확인이 필요한 절에만 사용' },
+        },
+        required: ['heading', 'role', 'readerQuestion', 'evidence'],
+      },
+    },
+    authorPrompts: { type: 'array', items: { type: 'string' }, description: '목표 달성에 꼭 필요하지만 자료로 확인할 수 없는 정보만. 없으면 빈 배열' },
+  },
+  required: ['title', 'documentContract', 'sections', 'authorPrompts'],
+})
 
 const SELECTION_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -183,11 +227,20 @@ const GATE_SCHEMA = {
   required: ['voiceMatch', 'titleAndHeadingIssues', 'unsupportedClaims', 'accidentalOverlap', 'structureOk', 'topFixes'],
 }
 
+function technicalSchema(schema, voiceField, contractField) {
+  const { [voiceField]: voice, ...properties } = schema.properties
+  return {
+    ...schema,
+    properties: { ...properties, [contractField]: voice },
+    required: schema.required.map((field) => field === voiceField ? contractField : field),
+  }
+}
+
 function minePrompt(path, role) {
   return [
     'Read 도구로 대상 파일을 전문 읽어라: ' + path,
     '이 자료의 역할은 ' + role + '이지만, 실제 내용이 역할 설명과 다르면 내용이 우선이다.',
-    'frontmatter와 본문을 근거로 publicationStatus를 판정하고, 제목/목차가 아니라 본문이 실제로 한 국소 주장·도입 장면·클라이맥스 증거·착지를 기록한다.',
+    'frontmatter와 본문을 근거로 publicationStatus를 판정하고, 본문이 실제로 한 주장·설명·절차·결과와 이를 받치는 근거를 기록한다. 개인 장면이나 판단 변화가 없으면 none 또는 빈 배열로 두며 결손으로 보지 않는다.',
     '실제로 적힌 경험, 커맨드·PR·도표·워크플로 같은 아티팩트, 재사용 가능한 주장과 귀속, 보존할 저자 표현, 이 자료만으로 말할 수 없는 경계를 분리한다.',
     '수치·인용·외부 연구가 본문 안에서 1차 출처까지 검증되었는지 알 수 없으면 verificationStatus="not_checked" 또는 "unresolved"로 둔다. 추정으로 verified를 주지 않는다.',
     '사건·판단 변화·성과를 만들지 않는다. sourcePath="' + path + '", role="' + role + '".',
@@ -195,19 +248,18 @@ function minePrompt(path, role) {
 }
 
 async function mine() {
-  log('[Mine] 세 소스의 본문·증거·착지 병렬 채굴')
-  const materials = (await parallel([
-    () => agent(minePrompt(EXP, 'experience'), { label: 'mine:experience', phase: 'Mine', schema: MATERIAL_SCHEMA, agentType: AGENT }),
-    () => agent(minePrompt(CONCEPT, 'concept'), { label: 'mine:concept', phase: 'Mine', schema: MATERIAL_SCHEMA, agentType: AGENT }),
-    () => agent(minePrompt(SUBSTANCE, 'substance'), { label: 'mine:substance', phase: 'Mine', schema: MATERIAL_SCHEMA, agentType: AGENT }),
-  ])).filter(Boolean)
+  log('[Mine] 제공된 ' + SOURCES.length + '개 소스의 본문·근거 채굴')
+  const materials = (await parallel(SOURCES.map(([role, path]) => () =>
+    agent(minePrompt(path, role), { label: 'mine:' + role, phase: 'Mine', schema: MATERIAL_SCHEMA, agentType: AGENT })
+  ))).filter(Boolean)
 
   const synthesis = await agent([
-    '너는 자료 편집자다. 저자 목소리 기준을 먼저 Read하라: ' + VOICE,
-    '아래 소스들을 대조해 소스가 실제로 지지하는 논지 후보, 논지-증거 연결, 인접 글 중복 위험, 안전하게 반복할 수 있는 렌즈, 미검증/미작성 빈칸을 정리하라.',
+    '너는 자료 편집자다. 요청된 문서 유형: ' + REQUESTED_DOC_TYPE + '. 지정된 유형을 유지하고, unspecified일 때만 소스의 주된 목적에서 docType을 추정한다. 발행면만으로 유형을 정하지 않는다.',
+    'insight는 경험에서 판단을 끌어내는 글, explanation은 개념·원리를 이해하는 글, tutorial은 처음부터 따라 배우는 글, howto는 배경지식이 있는 독자가 특정 작업·문제를 해결하는 글이다.',
+    '아래 소스들을 대조해 주장·설명·절차와 근거의 연결, 인접 글 중복 위험, 재사용할 내용, 미검증 조건을 정리하라. 통찰형에서만 candidateTheses에 논지 후보를 넣고 기술 글에서는 빈 배열로 둔다. 개인 경험이 없다는 이유로 빈칸을 만들지 않는다.',
     '발행면: ' + SURFACE + ' / 재사용 정책: ' + REUSE_POLICY + (BRAND ? ' / 이번 글의 강조점: ' + BRAND : ''),
     '중복은 같은 어휘가 아니라 같은 국소 주장에 같은 장면 또는 증거를 쓰고 같은 결론에 착지하는 경우다. 반복 렌즈와 저자 캐릭터는 허용한다.',
-    'reusePolicy="intentional-adaptation"이면 다른 지면을 위한 자립형 재구성을 허용하되 무엇을 재사용하는지 밝힌다. 그 밖에는 새 질문·경계·반례·증거가 필요하다.',
+    'reusePolicy="intentional-adaptation"이면 다른 지면을 위한 자립형 재구성을 허용하되 무엇을 재사용하는지 밝힌다. 통찰형의 비의도적 반복에는 새 질문·경계·반례·증거가 필요하지만, 기술 글에는 통찰 독창성을 요구하지 않는다.',
     '외부 자료의 발견을 저자의 제목이나 결론으로 자동 승격하지 않는다.',
     JSON.stringify(materials),
   ].join('\n'), { label: 'mine:synthesis', phase: 'Mine', schema: SYNTHESIS_SCHEMA, agentType: AGENT })
@@ -225,6 +277,18 @@ const MOVEMENTS = [
 ]
 
 async function outline(mined) {
+  if (mined.synthesis.docType !== 'insight') {
+    const selected = await agent([
+      '너는 한국어 기술 글의 구조 편집자다. 문서 유형과 계약 기준을 Read하라: ' + TECH,
+      '문서 유형: ' + mined.synthesis.docType + '. 이 유형을 documentContract.docType에 그대로 쓰고 해당 유형의 독자 목표로 아웃라인을 구성한다.',
+      '발행면: ' + SURFACE + ' / 재사용 정책: ' + REUSE_POLICY + (BRAND ? ' / 강조점: ' + BRAND : ''),
+      '자료: ' + JSON.stringify(mined),
+      '문서 계약과 절별 독자의 다음 질문·근거를 집필 메모로 만든다. 필요한 절에만 절차와 확인 결과를 둔다. 전문 산문은 쓰지 않는다.',
+      '개인 장면·판단 변화·성과 수치는 필수가 아니다. 원자료에 없는 환경·코드·경험을 채울 것으로 요구하지 않는다. 목표에 꼭 필요한 정보만 authorPrompts에 남기고 나머지는 자료가 받치는 범위로 구성한다.',
+      '외부 자료는 귀속을 밝히고 개념·원리 설명의 중심 근거로 사용할 수 있다. 제목은 문서 목표와 맞추며, 문제 해결형은 결과 확인에서 끝내고 교훈 절을 덧붙이지 않는다.',
+    ].join('\n'), { label: 'outline:technical', phase: 'Outline', schema: technicalOutlineSchema(mined.synthesis.docType), agentType: AGENT })
+    return { movementPlan: null, candidates: selected ? [selected] : [], selection: null, selected: selected || null }
+  }
   log('[Outline] 재료에 맞는 움직임 후보 ' + NUM_OUTLINES + '개 선택')
   const movementPlan = await agent([
     '아래 자료가 실제로 지지하는 글의 움직임을 최대 ' + NUM_OUTLINES + '개 고른다. 다양성보다 근거 적합성이 우선이다.',
@@ -272,45 +336,56 @@ async function outline(mined) {
 }
 
 async function compose(mined, selectedOutline) {
+  const isTech = mined.synthesis.docType !== 'insight'
   log('[Compose] 명시적으로 요청된 전문 작성 → ' + OUT)
   return agent([
-    '너는 TaeZ의 한국어 블로그 공동 집필자다. 먼저 목소리와 한국어 초안 기준을 Read하라: ' + VOICE + ' / ' + KOREAN,
-    '세 원자료를 다시 Read해 사실·장면·표현을 확인한 뒤, 최종 아웃라인에 따라 새 글을 ' + OUT + ' 에 Write 도구로 저장한다.',
+    '너는 TaeZ의 한국어 블로그 공동 집필자다. 문서 유형: ' + mined.synthesis.docType + '. 다음 기준을 Read하라: ' + (isTech ? TECH + ' / ' + WRITING + ' / ' + KOREAN : VOICE + ' / ' + KOREAN),
+    '제공된 원자료를 다시 Read해 사실·근거·표현을 확인한 뒤, 최종 아웃라인에 따라 새 글을 ' + OUT + ' 에 Write 도구로 저장한다. 원자료: ' + JSON.stringify(SOURCES.map(([, path]) => path)),
     '발행면: ' + SURFACE + ' / 재사용 정책: ' + REUSE_POLICY,
     '소스에 없는 사건·대화·판단 변화·성과·수치를 만들지 않는다. verificationStatus가 verified가 아닌 외부 주장은 확정 사실처럼 쓰지 않는다.',
     '같은 렌즈와 경험을 다시 다룰 수 있다. 다만 의도 없이 같은 국소 주장+장면/증거+착지를 복제하지 않는다. intentional-adaptation이면 해당 지면에서 이해되도록 필요한 맥락을 자립적으로 쓴다.',
-    '외부 연구는 저자의 판단을 받치는 만큼만 쓴다. 제목이나 절 제목이 출처의 관찰을 저자의 논지로 가장하지 않게 한다.',
+    isTech
+      ? '문서 계약의 독자 목표를 기준으로 설명·절차·결과 확인을 쓴다. 출처가 있는 개념 설명에 개인 경험이나 새 교훈을 요구하지 않는다. 사용자와 발행면의 톤을 따르고 contractNote에 목표 충족 여부를 남긴다.'
+      : '외부 연구는 저자의 판단을 받치는 만큼만 쓴다. 제목이나 절 제목이 출처의 관찰을 저자의 논지로 가장하지 않게 한다.',
     'frontmatter와 링크 형식은 발행면과 대상 경로의 기존 형식을 따른다. Obsidian 정본이면 wikilink를 보존하고, 외부 발행용 원고면 공개 링크나 자립적인 맥락을 쓴다.',
     '최종 아웃라인: ' + JSON.stringify(selectedOutline),
     '채굴 자료: ' + JSON.stringify(mined),
     '다 쓴 뒤 작성 결과와 남겨둔 미검증 빈칸을 반환한다.',
-  ].join('\n'), { label: 'compose', phase: 'Compose', schema: COMPOSE_SCHEMA, agentType: AGENT })
+  ].join('\n'), { label: 'compose', phase: 'Compose', schema: isTech ? technicalSchema(COMPOSE_SCHEMA, 'voiceNote', 'contractNote') : COMPOSE_SCHEMA, agentType: AGENT })
 }
 
-async function gate(mined) {
-  log('[Gate] 전문의 목소리 · 근거 · 제목 · 인접 글 중복 점검')
+async function gate(mined, selectedOutline) {
+  const isTech = mined.synthesis.docType !== 'insight'
+  log('[Gate] 문서 유형에 따른 목표 · 근거 · 제목 · 인접 글 중복 점검')
   return agent([
     'Read 도구로 완성 원고를 전문 읽어라: ' + OUT,
-    '저자 목소리 기준도 Read하라: ' + VOICE,
+    isTech
+      ? '문서 유형: ' + mined.synthesis.docType + '. 유형별 기준을 Read하라: ' + TECH + '. 확정된 문서 계약과 대조해 contractMatch를 판정한다. 다른 유형의 기준이나 개인 경험 부족을 결함으로 잡지 않는다. 아웃라인: ' + JSON.stringify(selectedOutline)
+      : '저자 목소리 기준도 Read하라: ' + VOICE,
     '아래 채굴 자료와 대조한다: ' + JSON.stringify(mined),
-    '제목이 글의 실제 클라이맥스/착지를 가리키는지, 제목과 절 제목이 겹치는지, 소제목이 각 절의 역할과 맞는지 확인한다.',
+    (isTech ? '제목이 문서 계약의 목표를 약속하는지' : '제목이 글의 실제 클라이맥스/착지를 가리키는지') + ', 제목과 절 제목이 겹치는지, 소제목이 각 절의 역할과 맞는지 확인한다.',
     '소스에 없는 장면·대화·판단 변화·성과·수치, unresolved/not_checked를 확정 사실처럼 쓴 부분을 unsupportedClaims에 기록한다.',
     'accidentalOverlap에는 같은 국소 주장+같은 장면/증거+같은 착지를 의도 없이 반복한 경우만 기록한다. 반복 어휘·렌즈만으로 신고하지 않는다. reusePolicy=' + REUSE_POLICY + '를 반영한다.',
     'Bash로 프론트매터, 마크다운 링크/이미지/표의 기본 구조 무결성도 확인한다.',
-  ].join('\n'), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, agentType: AGENT })
+  ].join('\n'), { label: 'gate', phase: 'Gate', schema: isTech ? technicalSchema(GATE_SCHEMA, 'voiceMatch', 'contractMatch') : GATE_SCHEMA, agentType: AGENT })
 }
 
 const out = { output: WRITE_FULL_DRAFT ? OUT : null, writeFullDraft: WRITE_FULL_DRAFT, publicationSurface: SURFACE, reusePolicy: REUSE_POLICY }
 out.mined = await mine()
+out.docType = out.mined.synthesis && out.mined.synthesis.docType
+if (!DOC_TYPES.includes(out.docType) || (REQUESTED_DOC_TYPE !== 'unspecified' && out.docType !== REQUESTED_DOC_TYPE)) {
+  log('[Mine] 문서 유형 확정 실패 - 정지')
+  return { ...out, error: 'invalid synthesis docType' }
+}
 out.outline = await outline(out.mined)
 if (!out.outline.selected) { log('[Outline] 후보 생성 실패 — 정지'); return out }
-log('[Outline] 기본 산출물 완성: ' + out.outline.selected.thesis)
+log('[Outline] 기본 산출물 완성: ' + (out.docType === 'insight' ? out.outline.selected.thesis : out.outline.selected.documentContract.goal))
 
 out.compose = null
 out.gate = null
 if (WRITE_FULL_DRAFT) {
   out.compose = await compose(out.mined, out.outline.selected)
-  out.gate = await gate(out.mined)
+  out.gate = await gate(out.mined, out.outline.selected)
   log('[완료] 전문 작성 및 게이트 완료 → ' + OUT)
 } else {
   log('[완료] 아웃라인에서 종료. 전문 작성은 writeFullDraft: true일 때만 실행합니다.')

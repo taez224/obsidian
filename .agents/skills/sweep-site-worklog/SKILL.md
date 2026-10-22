@@ -71,7 +71,7 @@ git log origin/main --no-merges --since="$SINCE 00:00" --until="$UNTIL 23:59:59"
 
 - 편집 직전에 노트를 다시 읽는다. 사용자가 이미 직접 쓴 항목을 덮어쓰지 않는다.
 - `## 작업 이력` 목록의 맨 위에 항목을 넣는다.
-- frontmatter `updated`를 항목 날짜로 갱신한다.
+- frontmatter `updated`는 [속성 스키마](../../../99_Templates/_property-schema.md)의 공통 필드 기준을 따른다. 갱신 대상이면 실제로 본문을 고친 날을 쓰고, 과거 작업의 날짜나 날짜 범위는 이력 항목에만 둔다.
 - 다른 절의 설명은 고치지 않는다. 구성이 바뀌어 본문 설명이 틀렸다면 후보로만 보고한다.
 
 ## 기계 확인

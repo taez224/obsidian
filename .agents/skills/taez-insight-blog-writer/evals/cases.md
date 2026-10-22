@@ -19,6 +19,8 @@
 
 ## 실행과 판정
 
+`blog-recompose.js`의 입력·유형 분기·산출물 스키마를 바꿨다면 `node .agents/scripts/test_blog_recompose.mjs`로 실행 흐름도 확인한다. LLM 호출을 대체하는 검사이므로 원고 품질이나 실제 도구 실행을 확인한 것으로 세지 않는다.
+
 1. 변경 전 스킬과 reference를 보존한다. 변경 전후에 같은 요청·원자료·모델·도구 제한을 사용한다.
 2. 각 사례는 앞선 평가 맥락이 없는 새 세션에서 실행한다. 평가자에게는 `prompt`와 `artifact`만 전달하고 `process_checks`·`result_checks`, 의심되는 결함, 기대 답변, 이전 결과는 주지 않는다. 실행 환경에서는 스킬 사본과 원자료 밖의 파일, 실제 vault를 읽지 않게 하고, 스킬이 vault 검색을 요구하면 확인하지 못했다고 적게 한다.
 3. 문장 라우팅 사례는 블로그 스킬과 sentence-audit의 description만 먼저 제공한다. 선택한 스킬의 본문만 읽게 한다. 조건 구분 회귀 사례는 sentence-audit를 사용한다. 나머지는 해당 버전의 블로그 스킬과 필요한 reference를 사용한다.
