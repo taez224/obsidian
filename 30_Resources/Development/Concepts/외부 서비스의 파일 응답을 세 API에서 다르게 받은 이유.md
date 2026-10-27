@@ -86,4 +86,5 @@ ZIP은 `ZipInputStream`으로 엔트리를 앞에서부터 순서대로 읽는�
 
 ## 연관된 글
 
-- [[ONLYOFFICE 04 - SDK, MinIO, Saga#Part 5: StreamingResponseBody로 Resource Leak 해결|ONLYOFFICE 04 - SDK, MinIO, Saga]] - Spring MVC에서 MinIO 파일을 내려주며 스트림 수명을 관리한 사례.
+> [!article] Spring MVC에서 MinIO 파일을 내려주며 스트림 수명을 관리한 사례.
+> [[ONLYOFFICE 04 - SDK, MinIO, Saga#Part 5: StreamingResponseBody로 Resource Leak 해결|ONLYOFFICE 04 - SDK, MinIO, Saga]]
