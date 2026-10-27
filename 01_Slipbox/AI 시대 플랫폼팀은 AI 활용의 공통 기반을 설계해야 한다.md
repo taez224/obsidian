@@ -25,11 +25,13 @@ used_in:
 
 ## 출처
 
-- [[AI 시대 플랫폼팀은 어떻게 진화하는가#^ai-design-thinking|AI 시대 플랫폼팀은 어떻게 진화하는가]] - 플랫폼팀의 역할이 조직 전체의 AI 활용 체계와 거버넌스 설계로 확장된다는 원문 맥락
 - [Microsoft Learn - Shadow AI discovery](https://learn.microsoft.com/en-us/entra/global-secure-access/concept-shadow-ai-discovery) - Shadow AI를 조직이 승인하지 않은 생성형 AI 도구 사용으로 정의하는 참고자료
 - [[사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법#^fundamental-attribution-error-workslop|사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법]] - Workslop을 개인의 태도보다 조직의 시스템 문제로 다뤄야 한다는 근거
 
 ## 연관된 글
+
+> [!article] 플랫폼팀의 역할이 조직 전체의 AI 활용 체계와 거버넌스 설계로 확장된다는 원문 맥락
+> [[AI 시대 플랫폼팀은 어떻게 진화하는가#^ai-design-thinking|AI 시대 플랫폼팀은 어떻게 진화하는가]]
 
 > [!article]
 > [[60일간의 AI 에이전틱 워크플로]]

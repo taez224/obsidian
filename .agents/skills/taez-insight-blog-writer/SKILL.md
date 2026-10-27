@@ -1,6 +1,6 @@
 ---
 name: taez-insight-blog-writer
-description: 사용자가 "이걸 블로그 글로 써보자", "아웃라인 짜줘", "튜토리얼·트러블슈팅·개념 설명 글로 정리해줘", "발행 전에 검토해줘", "제목이랑 소제목 골라줘", "최종 어셈블 돌려줘"처럼 vault 노트·업무 경험·설계 판단·리서치·초안을 한국어 블로그 글의 아웃라인이나 원고로 만들거나, 발행을 위해 크게 재구성·검토하려 할 때 사용한다. 경험에서 판단을 끌어내는 통찰형 글과 개념 설명·학습·문제 해결을 위한 기술 글을 모두 다루고, 브런치·개인 기술 블로그·회사 기술 블로그 같은 발행면에 맞춰 집필 계약을 고른다. 기본은 아웃라인까지 만들고 본문은 TaeZ가 쓰며, 전문 초안은 명시적으로 요청할 때만 쓴다. 문장 단위 다듬기는 sentence-audit, 이해·흐름만 보는 점검은 reader-perspective-review가 맡고, 일반 노트 편집이나 아직 글 작업이 되지 않은 탐색 대화에는 쓰지 않는다.
+description: 사용자가 "이걸 블로그 글로 써보자", "아웃라인 짜줘", "튜토리얼·트러블슈팅·개념 설명 글로 정리해줘", "발행 전에 검토해줘", "제목이랑 소제목 골라줘", "최종 어셈블 돌려줘"처럼 vault 노트·업무 경험·설계 판단·리서치·초안을 한국어 블로그 글의 아웃라인이나 원고로 만들거나, 발행을 위해 크게 재구성·검토하려 할 때 사용한다. 경험에서 판단을 끌어내는 통찰형 글과 개념 설명·학습·문제 해결을 위한 기술 글을 모두 다루고, 브런치·개인 기술 블로그·회사 기술 블로그 같은 발행면에 맞춰 집필 계약을 고른다. 기본은 아웃라인을 만들어 TaeZ의 확정을 받고, 확정한 아웃라인에 따라 AI가 절 단위 초안을 쓰면 TaeZ가 다듬는다. 문장 단위 다듬기는 sentence-audit, 이해·흐름만 보는 점검은 reader-perspective-review가 맡고, 일반 노트 편집이나 아직 글 작업이 되지 않은 탐색 대화에는 쓰지 않는다.
 ---
 
 # TaeZ Insight Blog Writer
@@ -15,7 +15,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - Preserve TaeZ's recurring lenses when relevant, but do not force them: platform-as-enablement, workflow as operating system, team capability over individual output, evidence-backed reflection, dogfooding, responsibility boundaries, learning loops.
 - Treat AI assistance as acceptable. Slop is not "AI was used"; slop is "no authorial judgment, no context, no accountable takeaway."
 - Structure before sentence polish. If the argument is weak, do not run a humanizing pass yet.
-- Default to outline-first collaboration. Leave the sentences, transitions, and final emphasis to TaeZ unless they explicitly request a full draft or a named-section rewrite.
+- Default to outline-first collaboration. TaeZ sets the topic and direction and confirms the outline. After the outline is confirmed, draft section by section for TaeZ to revise; TaeZ owns the claims, final emphasis, and adoption. Never draft before the outline is confirmed, and leave any part TaeZ says they will write themselves.
 - Treat external research and editorial reviews as evidence and proposals, not authority. Check them against the article contract and TaeZ's actual thesis before applying them.
 - Draft natural Korean from the first pass. Do not rely on a later humanizing pass to repair translationese, templated pivots, or inflated abstraction.
 - Keep Korean technically literate. Avoid over-explaining familiar engineering ideas.
@@ -37,9 +37,10 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 | --- | --- | --- |
 | ① 앵글 | `blog-angle-mine` | 앵글 후보. 사람이 seed 노트를 직접 만든다. |
 | ② 리서치 | `blog-research-gather` | Resources 리서치 노트와 반례 수집. |
-| ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 통찰형은 한 줄 논지, 기술 글은 문서 계약과 독자의 다음 질문을 담은 사용자 집필용 아웃라인. 유형을 정했다면 `docType`을 넘긴다. |
-| ④ 사용자 집필 | 사람 게이트 | TaeZ가 아웃라인을 바탕으로 본문을 직접 쓴다. AI는 여기서 자동으로 전문을 이어 쓰지 않는다. |
-| ④' 공동 초안 | `blog-recompose`의 `writeFullDraft: true` 또는 직접 작성 | 사용자가 전문 초안을 명시적으로 요청했을 때만 실행한다. |
+| ③ 구조 | `blog-recompose`의 outline-only 기본값 또는 직접 구조화 | 통찰형은 한 줄 논지, 기술 글은 문서 계약과 독자의 다음 질문을 담은 아웃라인. 유형을 정했다면 `docType`을 넘긴다. |
+| ③' 아웃라인 확정 | 사람 게이트 | TaeZ가 아웃라인을 고치거나 확정한다. 확정 전에는 초안을 쓰지 않는다. |
+| ④ AI 초안 | 직접 작성 | 확정한 아웃라인에 따라 절 단위로 쓴다. 쓰기 전에 `references/korean-first-draft.md`와 `references/editing-rubric.md`를 적용한다. TaeZ가 직접 쓰겠다고 한 절은 비워 둔다. `blog-recompose`의 `writeFullDraft: true`는 확정한 아웃라인을 입력받지 않고 아웃라인부터 다시 만든 뒤 전문을 쓰므로 이 단계에 쓰지 않는다. |
+| ④' TaeZ 다듬기 | 사람 게이트 | TaeZ가 초안을 다듬고 주장과 강조를 확정한다. AI는 요청받은 문장·절만 고치고, TaeZ가 고친 부분을 되돌리지 않는다. |
 | ⑤ 구조 검토 | `references/structural-review.md` + `blog-structure-scan.mjs` | 초안이 처음 완성됐거나 절을 재배치한 뒤. 문장을 다듬기 **전에** 뼈대를 본다. |
 | ⑤' 기본 검수 | `blog-review-polish`의 `light` | 처음 읽는 독자 재독 + 구조 스캔 관측 + 결정론적 lint + 편집 판단 1회. 기술 글이면 `docType`을 넘긴다. |
 | ⑥ 발행 게이트 | `references/slop-gate.md` + `blog-review-polish` 선택 단계 | 사용자가 발행 전 최종 검수를 요청할 때만 실행. 브런치는 `light`에 필요한 fact-check만 더하고, 회사 기술 블로그의 전체 검수에만 `mode: "publish"`를 사용. |
@@ -50,7 +51,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 ### 런타임별 실행 경로
 
 - **Claude Code**: 위 `.claude/workflows/`는 Claude 런타임에서 파이프라인을 가속하는 실행 자산이다. 최종 어셈블은 `blog-review-polish`의 발행 단계와 `references/final-assembly.md`의 조정 규칙을 함께 따른다.
-- **Codex**: 새 글은 자료 확인 → 유형에 맞는 구조 설계 → 사용자 집필에서 기본적으로 멈춘다. substantial review에서는 `references/structural-review.md`와 필요한 읽기 전용 구조·문체 검사를 수행한다. 실제 편집은 사용자가 요청한 범위에서만 한다. 사용자가 최종 어셈블을 명시하면 `references/final-assembly.md`에 따라 격리된 좌석을 구성하고 교차 판정한다. 사람 게이트와 전체 검수는 발행 직전에만 사용한다.
+- **Codex**: 새 글은 자료 확인 → 유형에 맞는 구조 설계 → 아웃라인 확정에서 멈추고, 확정 뒤에 절 단위 초안을 쓴다. substantial review에서는 `references/structural-review.md`와 필요한 읽기 전용 구조·문체 검사를 수행한다. 실제 편집은 사용자가 요청한 범위에서만 한다. 사용자가 최종 어셈블을 명시하면 `references/final-assembly.md`에 따라 격리된 좌석을 구성하고 교차 판정한다. 발행 게이트(사람 사인오프)와 전체 검수는 발행 직전에만 사용한다. 아웃라인 확정과 TaeZ 다듬기 게이트는 이와 별개로 글마다 거친다.
 
 두 런타임 모두 이 스킬의 `references/`와 본문의 판단 기준을 공유한다.
 
@@ -59,6 +60,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 - `voice-profile.md` - 지킬 목소리 DNA.
 - `anti-slop-lexicon.md` - 표현·문장부호 검사 패턴의 정본. lint와 AI-티 감별사가 검토 후보를 찾는 데 함께 사용한다.
 - `korean-first-draft.md` - 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
+- `editing-rubric.md` - TaeZ의 실제 교정에서 채택한 블로그 편집 질문. 초안 작성과 다듬기 검토에 함께 쓴다.
 - `slop-gate.md` - 발행 전 사람 사인오프.
 - `final-assembly.md` - 명시적으로 요청한 발행 직전 다중 페르소나 검토와 교차 판정.
 - `structural-review.md` - 문장이 아니라 뼈대를 보는 developmental 층. 역방향 아웃라인 절차와 판정 목록.
@@ -86,9 +88,9 @@ If the user already provides direction, proceed without asking.
 
 집필·리뷰의 기준과 범위 판단은 [공통 글쓰기 기준의 작성 전후 대조](../../guides/writing.md#작성-전후-대조)를 따른다.
 
-AI가 맡을 범위는 [작업 목적과 AI의 역할](../../guides/writing.md#작업-목적과-ai의-역할)에 맞춘다. 구성 연습을 원하면 사용자가 세운 논지·절 배치에 피드백하고, 문장 연습을 원하면 직접 쓰겠다고 한 부분을 대신 완성하지 않는다. 완성이 목적이면 요청한 구성·초안·윤문을 제공하되, 아래의 전문 작성 조건을 유지한다. 이미 정한 목적이나 직접 쓸 범위를 다시 묻지 않는다.
+AI가 맡을 범위는 [작업 목적과 AI의 역할](../../guides/writing.md#작업-목적과-ai의-역할)에 맞춘다. 구성 연습을 원하면 사용자가 세운 논지·절 배치에 피드백하고, 문장 연습을 원하면 직접 쓰겠다고 한 부분을 대신 완성하지 않는다. 완성이 목적이면 요청한 구성·초안·윤문을 제공하되, 아래의 초안 작성 조건(아웃라인 확정 뒤)을 유지한다. 이미 정한 목적이나 직접 쓸 범위를 다시 묻지 않는다.
 
-For ordinary article-creation requests, if the user says they will write the article themselves or does not explicitly ask for full prose, choose `outline` as the default artifact. Stop after delivering or saving the outline. Do not continue into a full draft in the same turn merely because enough material exists.
+For ordinary article-creation requests, deliver or save the outline first and stop for TaeZ to edit or confirm it. Do not continue into a draft in the same turn merely because enough material exists. Once TaeZ confirms the outline, draft section by section. If TaeZ says they will write the article or a section themselves, leave that part to them.
 
 통찰형 글의 새 집필·대규모 재작성·발행 전 종합 검토·제목 종합 검토에서는 `references/voice-profile.md`를 읽는다. 기술 설명·학습·문제 해결 글은 사용자와 발행면의 톤을 따르며, 개인 관점이 글의 중심일 때만 이 reference를 사용한다. 단순 문장 단위 수정에는 불러오지 않는다.
 
@@ -176,11 +178,11 @@ Choose the movement the material supports. This is a menu, not a ranking - the l
 
 Add a framework, technical evidence, counterargument, or operating model only when it carries the claim. Do not report omitted sections or fill them with boilerplate.
 
-### 5.1 Stop at a writer-owned outline by default
+### 5.1 Confirm the outline before drafting
 
 아웃라인의 위치·갱신·보관은 [블로그 운영 기준의 아웃라인 관리](../../../20_Projects/blog/blog.md#아웃라인-관리)를 따른다. 발행 상태를 반영할 때는 해당 아웃라인도 `40_Archive/blog-outlines/`로 옮긴다. 마지막 집필 기준을 그대로 보관하고, 이동에 따른 상대 경로만 고친다. 큰 개편을 시작할 때는 작업 폴더로 되돌리는 절차를 따른다. 사용자가 승인한 이동 범위만 적용한다.
 
-Build an outline that gives TaeZ enough structure to write without pre-writing the article for them. Use only the fields each section needs:
+Build an outline that TaeZ can edit and confirm, and that a section-by-section draft can follow without inventing the argument. Use only the fields each section needs:
 
 ```markdown
 ## 한 줄 논지
@@ -196,7 +198,7 @@ Build an outline that gives TaeZ enough structure to write without pre-writing t
 ### 절 제목
 
 - 역할:
-- 직접 쓸 장면·경험:
+- 다룰 장면·경험:
 - 이 절의 주장:
 - 사용할 근거:
 - 경계·반론:
@@ -207,8 +209,8 @@ Build an outline that gives TaeZ enough structure to write without pre-writing t
 - 설명·학습·문제 해결형이면 `## 한 줄 논지` 대신 `references/tech-doc-types.md`의 `## 문서 계약`으로 시작하고, 절 필드의 `이 절의 주장`은 `독자의 다음 질문`으로 바꿔 쓸 수 있다.
 - Keep research as evidence notes attached to the claim it supports. Do not turn all gathered papers into body sections.
 - Mark missing evidence as a prompt for TaeZ only when a section's claim cannot stand without it; otherwise narrow the claim to what the material supports. List details that would merely strengthen the article separately as optional, not as required fills. When TaeZ has said the given material is all that can be used, do not turn new facts into decisions to make either: narrow each claim to that material and keep any additions in the optional list. Never invent a workplace scene, judgment change, result, or number.
-- Do not write polished opening paragraphs, transitions, or closing prose unless explicitly requested.
-- After TaeZ writes prose, review structure, evidence, repetition, and unsupported leaps first. Rewrite only the named section or sentence range they authorize; preserve manually written thought flow elsewhere.
+- Do not write polished opening paragraphs, transitions, or closing prose inside the outline. Prose belongs to the draft after the outline is confirmed.
+- After TaeZ revises the draft, review structure, evidence, repetition, and unsupported leaps first. Rewrite only the named section or sentence range they authorize; preserve TaeZ's revisions and manually written thought flow elsewhere.
 
 Run a title and heading pass before handing off the outline:
 
@@ -222,7 +224,7 @@ Run a title and heading pass before handing off the outline:
 
 ### 5.2 Draft natural Korean before polishing
 
-사용자가 전문 초안이나 본문의 대규모 재작성을 명시적으로 요청했을 때만, 쓰기 전에 `references/korean-first-draft.md`를 읽고 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이며, 초안을 쓴 뒤의 30초 자체 점검도 그 파일을 따른다.
+확정한 아웃라인으로 초안을 쓰거나 본문을 대규모로 재작성하기 전에 `references/korean-first-draft.md`와 `references/editing-rubric.md`를 읽고 적용한다. 이는 사후 윤문이 아니라 초안의 기본 품질 기준이며, 초안을 쓴 뒤의 30초 자체 점검도 그 파일을 따른다.
 
 ### 6. Apply the anti-slop tests
 
@@ -261,20 +263,21 @@ When reviewing an existing draft:
 - 구현 소개 글의 본문 코드는 독자가 사용할 경로를 우선한다. 계측·우회·재현 같은 검증용 코드는 검증 자체가 글의 주제이거나 결론을 이해하는 데 필요할 때만 보여 준다. 코드 축약으로 실행 의미가 달라지는 조건이나 동작은 보존한다.
 - 기술 글은 문서 계약에서 선언한 유형의 기준으로 결함을 판정한다. 다른 유형의 기준은 선택 사항으로만 보고한다.
 - 같은 부분에서 이해 질문이 반복되면 설명을 덧붙이기 전에 그 부분의 역할과 필요한 깊이를 다시 판단한다. 각 수정이 개별적으로 타당해도 합쳐진 글의 중심이 바뀌지 않았는지 본다.
+- 다듬기 검토에서는 `references/editing-rubric.md`의 질문 가운데 해당하는 것만 적용하고, 걸린 문장을 가리켜 보고한다.
 - Preserve strong local phrasing unless it damages clarity.
 - Make small patches when the draft is close; suggest restructuring only when the argument is genuinely confused.
 - For Obsidian posts, preserve frontmatter, wikilinks, markdown tables, and image links. 하단 링크의 `## 연관된 노트`·`## 연관된 글` 구분과 중복 판단은 `99_Templates/_property-schema.md`의 연결 규칙을 따른다. 본문 링크와 겹친다는 이유만으로 다음 읽을거리인 블로그 글을 제거하지 않는다.
 
 ## Output Formats
 
-For a new article, produce by default:
+For a new article, produce first:
 
 - one-line thesis
 - title options only if needed
-- writer-owned outline
+- outline for TaeZ to confirm
 - source notes attached to relevant claims
 
-Produce a full draft or prose patch only when explicitly requested. An outline request is complete when the structure, evidence placement, open decisions, and author prompts are clear.
+After TaeZ confirms the outline, produce a section-by-section draft. Produce a prose patch on TaeZ's revised text only for the range they request. An outline request is complete when the structure, evidence placement, open decisions, and author prompts are clear.
 
 For a review, produce:
 
