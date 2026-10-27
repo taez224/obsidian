@@ -222,5 +222,37 @@ class DiscoveryTest(unittest.TestCase):
             self.assertNotIn("## 다른 글도 한 편", page)
 
 
+
+class EngineeringTest(unittest.TestCase):
+    def test_independent_section_is_balanced_and_bounded(self):
+        text = "## 관련 없는 섹션\n"
+        text += "- [무시할 글](https://ignored.example) - Other\n"
+        text += "## 엔지니어링 읽을거리\n"
+        text += "- [A1](https://a/1) - A, 2026-10-20\n"
+        text += "- [A2](https://a/2) - A, 2026-10-22\n"
+        text += "- [B1](https://b/1) - B, 2026-10-21\n"
+        groups = parse_report(text, set())
+        selected = dict(skim(groups, {**DEFAULT, "engineering": 2}, "2026-10-23"))["엔지니어링 읽을거리"]
+        self.assertEqual({x["source"] for x in selected}, {"A", "B"})
+        self.assertNotIn("무시할 글", [x["title"] for x in selected])
+        self.assertIn("A2", [x["title"] for x in selected])
+
+class InterestBalanceTest(unittest.TestCase):
+    def test_high_scoring_axis_does_not_hide_career_or_writing(self):
+        text = '''## 설계
+- 0.99 [A](https://a.example) - Engineering, 2026-10-20
+- 0.98 [B](https://b.example) - Engineering, 2026-10-22
+## 글쓰기
+- 0.85 [C](https://c.example) - Writer
+## 커리어
+- 0.81 [D](https://d.example) - Career
+'''
+        groups = parse_report(text, {'설계', '글쓰기', '커리어'})
+        cfg = {**DEFAULT, 'interest_balanced': True, 'interest': 3}
+        got = dict(skim(groups, cfg, '2026-10-23'))['관심 질문 근처']
+        self.assertEqual({x['title'] for x in got}, {'A', 'C', 'D'})
+        self.assertEqual(len({x['url'] for x in got}), 3)
+
+
 if __name__ == "__main__":
     unittest.main()

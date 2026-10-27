@@ -1,5 +1,5 @@
 {
-  "note": "관심 질문은 01_Slipbox의 주장 묶음에서 뽑았다(2026-09-25). Slipbox의 관심사가 바뀌면 여기를 고친다. question은 Jev Noul 지시문이라 영어로 둔다.",
+  "note": "2026-10-23: 직접 쓴 노트·블로그와 독서 반응에서 7개 관심 축으로 확장. AI는 필수 조건이 아니다. 기존 AI 세부 질문은 detail_questions에 유지하며 읽기 묶음은 comprehension_debt 판정을 계속 사용한다.",
   "threshold": 0.8,
   "arxiv": {
     "categories": [
@@ -26,52 +26,77 @@
     "HBR": "http://feeds.harvardbusiness.org/harvardbusiness?format=xml"
   },
   "interests": {
-    "comprehension_debt": {
-      "label": "AI 도구가 이해·역량을 어떻게 바꾸나",
+    "writing": {
+      "label": "글쓰기·설명·브랜딩",
       "notes": [
-        "AI 코딩 도구는 이해 부채를 만든다",
-        "AI에 맡길 범위는 그 과정에서 기르려는 역량에 따라 달라진다",
-        "기술 부채, 이해 부채, 역량 부채"
+        "퍼스널 브랜딩형 기술 블로그 작성 워크플로",
+        "초안을 완성도로 검열하면 발산이 일찍 끝난다"
       ],
-      "question": "Does this item discuss how using AI assistants, especially coding assistants, affects people's own understanding of the work, their skill development, or their skill decline?"
+      "question": "Does this item offer substantive practices or evidence about developing original ideas into writing, explaining technical concepts to readers, editing structure or prose, or building a professional voice through publishing? Include non-AI writing. Exclude generic content marketing or product announcements.",
+      "detail_questions": []
     },
-    "verification": {
-      "label": "AI 산출물의 검증과 마찰",
+    "career": {
+      "label": "커리어·성장",
       "notes": [
-        "생성은 AI에게, 검증은 나에게",
-        "verification이 빨라져도 validation을 대신하지 않는다",
-        "AI 활용의 마찰은 위험도에 맞게 설계해야 한다"
+        "성장은 '해야 하는 것'이 아니다.",
+        "채용은 실제 업무 상황에서의 판단을 봐야 한다"
       ],
-      "question": "Does this item discuss how people such as developers, writers, researchers, or students check AI-generated output before accepting it, for example reviewing AI-written code or text, noticing tests that pass without real correctness, or friction that makes them think before accepting? Answer no if it is mainly about automating decisions in a specific industry or about governance of autonomous systems without people reviewing AI output.",
-      "revised": "2026-09-25: 다른 분야의 에이전트 거버넌스 논문이 0.96으로 걸려 사람이 AI 산출물을 확인하는 장면으로 좁혔다"
+      "question": "Does this item offer substantive guidance or evidence about software engineering career direction, IC versus management paths, professional growth, mentoring, hiring, interviews, or making work visible? Include career decisions unrelated to AI. Exclude job advertisements and generic motivational slogans.",
+      "detail_questions": []
     },
-    "team_absorption": {
-      "label": "팀·조직의 AI 흡수",
+    "leadership": {
+      "label": "리더십·협업·조직",
       "notes": [
-        "AI 시대에는 개인에게도 흡수 역량이 중요하다",
-        "팀의 AI 역량은 사용량이 아니라 회수율로 드러난다",
-        "AI 도입 압박이 만드는 저품질 산출물을 개인 탓으로 돌리기 쉽다",
-        "AI 시대 플랫폼팀은 AI 활용의 공통 기반을 설계해야 한다"
+        "위임은 사람이 아니라 업무 단위로 판단해야 한다",
+        "기술은 성과의 바닥을 다지고, 관계는 천장을 올린다"
       ],
-      "question": "Does this item discuss how teams or organizations adopt and absorb AI tools, such as effects on team workflows, low-quality AI output passed to coworkers, knowledge sharing, or organizational learning?"
+      "question": "Does this item explain how teams delegate, give feedback, build trust, share knowledge, coordinate work, or learn from change? Include practical leadership and organizational decisions with or without AI. Exclude generic business promotion.",
+      "detail_questions": [
+        "team_absorption"
+      ]
     },
-    "thinking_partner": {
-      "label": "사람의 사고를 지키는 AI 활용",
+    "self_management": {
+      "label": "자기이해·지속 가능한 일",
       "notes": [
-        "AI와의 스파링으로 내 생각을 끌어내고 다듬는다",
-        "Human Agency는 판단을 실제 선택으로 옮기는 힘이다",
-        "AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다"
+        "기준을 지키기 힘들면 의지가 아니라 시스템을 만든다",
+        "내 번아웃 신호는 불안보다 냉소와 개선 제안 감소에 가깝다"
       ],
-      "question": "Does this item discuss whether people's own thinking, judgment, or skills are preserved or strengthened when they use AI, for example reflection prompts, Socratic questioning, or designs that make people think before relying on AI?"
+      "question": "Does this item explain self-understanding, motivation, perfectionism, burnout, attention, habits, or sustainable ways of working, with practical reasoning or evidence? AI is not required. Exclude unsupported personality stereotypes and generic productivity product promotion.",
+      "detail_questions": []
     },
-    "pkm": {
-      "label": "개인 지식 관리와 글쓰기",
+    "learning": {
+      "label": "학습·지식관리·사고",
       "notes": [
-        "세컨드 브레인은 퍼스트 브레인의 사고를 보조해야 한다",
         "제텔카스텐은 상향식으로 글감을 성장시키는 시스템이다",
+        "템플릿은 내용을 채우는 틀이 아니라 생각을 확장하는 질문이어야 한다",
         "노트는 작성할 때 다시 찾을 상황까지 고려해야 한다"
       ],
-      "question": "Does this item discuss personal knowledge management, note-taking, or writing practices, including AI-assisted note-taking, sensemaking, or drafting?"
+      "question": "Does this item discuss how people learn, reason, develop skills, take and connect notes, retrieve knowledge, or turn reading into understanding and reusable ideas? Include non-AI learning and knowledge management as well as effects of AI on understanding and independent judgment.",
+      "detail_questions": [
+        "comprehension_debt",
+        "thinking_partner"
+      ]
+    },
+    "system_design": {
+      "label": "소프트웨어 설계·운영",
+      "notes": [
+        "멀티테넌시에서 무엇을 격리해야 하는가",
+        "멀티테넌시의 데이터 격리 방식과 선택 기준",
+        "verification이 빨라져도 validation을 대신하지 않는다"
+      ],
+      "question": "Does this item explain concrete software architecture, data modeling, databases, authorization or isolation boundaries, distributed systems, testing, debugging, performance, observability, reliability, or incident recovery? Prefer decisions, mechanisms, tradeoffs and measured outcomes, not a bare product announcement. AI is optional.",
+      "detail_questions": [
+        "verification"
+      ]
+    },
+    "platform": {
+      "label": "도구·플랫폼·작업 방식",
+      "notes": [
+        "좋은 기술은 불필요한 마찰을 줄인다",
+        "산출물이 팀의 자산이 되려면 판단·추적·복구가 가능해야 한다"
+      ],
+      "question": "Does this item explain how developer tooling, internal platforms, automation, delivery workflows or documentation reduce repeated work and cognitive load, or how people adopt and operate them? Include non-AI tools and their tradeoffs. Exclude feature announcements without implementation or adoption lessons.",
+      "detail_questions": []
     }
   },
   "trusted_note": "2026-09-26: 최근 8호를 문단 단위로 관심 질문에 판정해 골랐다. 관련 문단 비율 Addy Osmani 14%, One Useful Thing 10%, Pragmatic Engineer 8%. AI 트렌드 뉴스레터 7곳은 0~1%",
@@ -171,12 +196,106 @@
     "discovery": true,
     "topic_cases": 2,
     "topic_news": 1,
-    "hot": 10,
-    "interest": 4,
+    "hot": 3,
+    "interest": 7,
     "trusted": 2,
     "item_floor": 0.8,
     "item_confidence": 0.6,
     "ref_floor": 0.8,
-    "max_pairs": 5
+    "max_pairs": 5,
+    "engineering": 4,
+    "interest_balanced": true
+  },
+  "engineering": {
+    "Cloudflare": "https://blog.cloudflare.com/rss/",
+    "Netflix": "https://netflixtechblog.com/feed",
+    "GitHub Engineering": "https://github.blog/engineering/feed/",
+    "Spotify Engineering": "https://engineering.atspotify.com/feed/",
+    "Meta Engineering": "https://engineering.fb.com/feed/",
+    "Stripe": "https://stripe.com/blog/feed.rss",
+    "Slack Engineering": "https://slack.engineering/feed/",
+    "Datadog Engineering": "https://www.datadoghq.com/blog/engineering/index.xml",
+    "Will Larson": "https://lethain.com/feeds/",
+    "Julia Evans": "https://jvns.ca/atom.xml",
+    "Hillel Wayne": "https://www.hillelwayne.com/index.xml",
+    "Charity Majors": "https://charity.wtf/feed/",
+    "ByteByteGo": "https://blog.bytebytego.com/feed",
+    "InfoQ": "https://feed.infoq.com/"
+  },
+  "engineering_limit": 40,
+  "engineering_note": "2026-10-23: RSS XML 수집을 확인한 기업·개인·큐레이션 출처. 최근 7일 글을 출처별로 고르게 최대 40건 수집하고 한 화면에는 4건 표시. 별도 읽을거리에는 품질 판정 없이 표시하며 제품 소식도 포함될 수 있다. 최대 40건을 관심 축 판정에도 합치므로 Jev 호출 비용은 늘어날 수 있다.",
+  "engineering_pending": {
+    "Uber Engineering": {
+      "url": "https://www.uber.com/blog/engineering/feed/",
+      "reason": "curl: (56) The requested URL returned error: 406\n"
+    },
+    "Shopify Engineering": {
+      "url": "https://shopify.engineering/blog.atom",
+      "reason": "no element found: line 2865, column 240"
+    },
+    "LinkedIn Engineering": {
+      "url": "https://www.linkedin.com/blog/engineering/feed",
+      "reason": "curl: (28) Connection timed out after 22004 milliseconds\n"
+    },
+    "Marc Brooker": {
+      "url": "https://brooker.co.za/blog/rss.xml",
+      "reason": "curl: (28) Operation timed out after 75003 milliseconds with 573138 out of 1619904 bytes received\n"
+    },
+    "Dan Luu": {
+      "url": "https://danluu.com/atom.xml",
+      "reason": "curl: (28) Operation timed out after 75005 milliseconds with 104022 bytes received\n"
+    },
+    "Brendan Gregg": {
+      "url": "https://www.brendangregg.com/blog/rss.xml",
+      "reason": "no element found: line 1, column 0"
+    },
+    "The New Stack": {
+      "url": "https://thenewstack.io/feed/",
+      "reason": "no element found: line 1, column 0"
+    },
+    "High Scalability": {
+      "url": "https://highscalability.com/rss/",
+      "reason": "unclosed CDATA section: line 1, column 485834"
+    }
+  },
+  "detail_questions": {
+    "comprehension_debt": {
+      "label": "AI 도구가 이해·역량을 어떻게 바꾸나",
+      "notes": [
+        "AI 코딩 도구는 이해 부채를 만든다",
+        "AI에 맡길 범위는 그 과정에서 기르려는 역량에 따라 달라진다",
+        "기술 부채, 이해 부채, 역량 부채"
+      ],
+      "question": "Does this item discuss how using AI assistants, especially coding assistants, affects people's own understanding of the work, their skill development, or their skill decline?"
+    },
+    "verification": {
+      "label": "AI 산출물의 검증과 마찰",
+      "notes": [
+        "생성은 AI에게, 검증은 나에게",
+        "verification이 빨라져도 validation을 대신하지 않는다",
+        "AI 활용의 마찰은 위험도에 맞게 설계해야 한다"
+      ],
+      "question": "Does this item discuss how people such as developers, writers, researchers, or students check AI-generated output before accepting it, for example reviewing AI-written code or text, noticing tests that pass without real correctness, or friction that makes them think before accepting? Answer no if it is mainly about automating decisions in a specific industry or about governance of autonomous systems without people reviewing AI output.",
+      "revised": "2026-09-25: 다른 분야의 에이전트 거버넌스 논문이 0.96으로 걸려 사람이 AI 산출물을 확인하는 장면으로 좁혔다"
+    },
+    "team_absorption": {
+      "label": "팀·조직의 AI 흡수",
+      "notes": [
+        "AI 시대에는 개인에게도 흡수 역량이 중요하다",
+        "팀의 AI 역량은 사용량이 아니라 회수율로 드러난다",
+        "AI 도입 압박이 만드는 저품질 산출물을 개인 탓으로 돌리기 쉽다",
+        "AI 시대 플랫폼팀은 AI 활용의 공통 기반을 설계해야 한다"
+      ],
+      "question": "Does this item discuss how teams or organizations adopt and absorb AI tools, such as effects on team workflows, low-quality AI output passed to coworkers, knowledge sharing, or organizational learning?"
+    },
+    "thinking_partner": {
+      "label": "사람의 사고를 지키는 AI 활용",
+      "notes": [
+        "AI와의 스파링으로 내 생각을 끌어내고 다듬는다",
+        "Human Agency는 판단을 실제 선택으로 옮기는 힘이다",
+        "AI 시대의 판단력은 맥락을 실행 기준으로 바꾸는 능력이다"
+      ],
+      "question": "Does this item discuss whether people's own thinking, judgment, or skills are preserved or strengthened when they use AI, for example reflection prompts, Socratic questioning, or designs that make people think before relying on AI?"
+    }
   }
 }

@@ -13,9 +13,10 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
+from feeds import balanced
 from reading import canonical, eligible, events_at, feedback_state, title_key
 
-DEFAULT = dict(enabled=True, topic_cases=2, topic_news=1, hot=10, interest=4, trusted=2,
+DEFAULT = dict(enabled=True, topic_cases=2, topic_news=1, hot=10, interest=4, trusted=2, engineering=4,
                item_floor=0.8, item_confidence=0.6, ref_floor=0.8, max_pairs=5, discovery=True)
 ITEM = re.compile(r"^- (?:\[[ xX]\] )?(.*?)\[(.+?)\]\((https?://[^)\s]+)\) - (.+)$")
 
@@ -42,6 +43,8 @@ def parse_report(text, interest_labels):
             key = ("interest",)
         elif sec == "이번 주 AI" and sub == "화제" and m[4].strip() == "Hacker News":
             key = ("hot",)
+        elif sec == "엔지니어링 읽을거리":
+            key = ("engineering",)
         elif sec == "믿고 보는 저자":
             key = ("trusted",)
         else:
@@ -51,10 +54,12 @@ def parse_report(text, interest_labels):
         current = {"title": m[2], "url": m[3], "line": body, "head": head,
                    "source": m[4].strip().split(", ", 1)[0], "claim_linked": False}
         groups.setdefault(key, []).append(current)
+        if key == ("interest",):
+            groups.setdefault(("axis", sec), []).append(current)
     return groups
 
 
-def skim(groups, cfg):
+def skim(groups, cfg, day=None):
     """훑어볼 항목. (절 제목, [항목]) 목록."""
     out = []
     for (kind, *rest), items in groups.items():
@@ -75,8 +80,16 @@ def skim(groups, cfg):
             out.append((f"요즘 관심사: {rest[0]}", items[: cfg["topic_news"]]))
     score = lambda x: float(x["head"]) if re.fullmatch(r"\d\.\d+", x["head"]) else 0
     out.append(("화제", groups.get(("hot",), [])[: cfg["hot"]]))
-    out.append(("관심 질문 근처", sorted(groups.get(("interest",), []), key=lambda x: -score(x))[: cfg["interest"]]))
-    out.append(("믿고 보는 저자", groups.get(("trusted",), [])[: cfg["trusted"]]))
+    interest_items = sorted(groups.get(("interest",), []), key=lambda x: -score(x))
+    if cfg.get("interest_balanced"):
+        candidates = []
+        for (kind, *rest), items in groups.items():
+            if kind == "axis":
+                candidates.extend({**x, "source": rest[0], "original": x} for x in sorted(items, key=lambda x: -score(x)))
+        interest_items = [x["original"] for x in balanced(candidates, cfg["interest"], day, newest=False)]
+    out.append(("관심 질문 근처", interest_items[: cfg["interest"]]))
+    out.append(("믿고 보는 저자", balanced(groups.get(("trusted",), []), cfg["trusted"], day)))
+    out.append(("엔지니어링 읽을거리", balanced(groups.get(("engineering",), []), cfg.get("engineering", 4), day)))
     return [(h, xs) for h, xs in out if xs]
 
 
@@ -180,6 +193,8 @@ def render(day, sections, pairs, full_name, prepared=""):
         lines += ["## 이번 주 함께 읽기", "", prepared.strip(), ""]
     for head, xs in sections:
         lines += [f"## {head}", ""]
+        if head == "엔지니어링 읽을거리":
+            lines += ["최근 RSS에서 출처별로 고른 수집 후보다. AI 관심 질문·품질 판정은 거치지 않았다.", ""]
         for x in xs:
             lines.append(f"- [ ] {x['line']}")
             if x.get("discovery_reason"):
@@ -214,7 +229,7 @@ def make_page(vault, out, day, full_text, client, config, full_name, excluded=()
     cache.mkdir(parents=True, exist_ok=True)
     labels = {v["label"] for v in config["interests"].values()}
     groups = parse_report(full_text, labels)
-    sections = skim(groups, cfg)
+    sections = skim(groups, cfg, day)
     claims = published_claims(vault)
     failures, tokens = [], []
 
@@ -239,7 +254,7 @@ def make_page(vault, out, day, full_text, client, config, full_name, excluded=()
     sections = discover(sections, groups, cfg, set(excluded) | taken, feedback_state(events_at(out)),
                         date.fromisoformat(day), config.get("reading", {}).get("snooze_days", 7),
                         excluded_titles=[title for title, _ in prepared_links])
-    items = [x for _, xs in sections for x in xs if not x.get("discovery_reason")]
+    items = [x for _, xs in sections for x in xs if not x.get("discovery_reason") and x not in dict(sections).get("엔지니어링 읽을거리", [])]
     used = set(re.findall(r"\[\[([^\]|#]+)", prepared))  # 함께 읽기에 이미 쓴 저장 자료는 짝 후보에서 뺀다
     refs = [r for r in saved_refs(vault) if r["card"] not in used]
     with ThreadPoolExecutor(4) as ex:

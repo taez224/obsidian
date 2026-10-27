@@ -135,6 +135,7 @@ def main():
     skip = saved_sources() | set(state["shown"])
 
     failures, trusted, pool = [], [], []
+    engineering = []
     feedback_added = []
     try:  # 지난 목록의 체크박스와 반응 표시를 먼저 기록한다
         from claims import import_checkbox_feedback
@@ -152,6 +153,14 @@ def main():
             trusted += rss(s, u)
         except Exception as e:
             failures.append(f"{s}: {e!r}")
+    for source, url in CONFIG.get("engineering", {}).items():
+        try:
+            engineering += rss(source, url)
+        except Exception as e:
+            failures.append(f"{source}: {e!r}")
+    from feeds import balanced
+    engineering = balanced([x for x in engineering if norm_url(x["url"]) not in skip],
+                           CONFIG.get("engineering_limit", 40), time.strftime("%Y-%m-%d"))
     trend = CONFIG["trend"]
     papers, community, official, digest = [], [], [], []
     for name, fn in [("Hugging Face Papers", hf_papers)] + \
@@ -174,8 +183,14 @@ def main():
     pool = [x for x in pool if norm_url(x["url"]) not in skip]
     trusted = [x for x in trusted if norm_url(x["url"]) not in skip]
 
+    # 새 피드에서도 관심 축에 맞는 글을 찾되 판정 대상은 engineering_limit 이내다.
+    by_url = {norm_url(x["url"]): x for x in pool}
+    for item in engineering:
+        by_url.setdefault(norm_url(item["url"]), item)
+    pool = list(by_url.values())
     interests = CONFIG["interests"]
     questions = {k: Noul(instructions=v["question"]) for k, v in interests.items()}
+    questions.update({k: Noul(instructions=v["question"]) for k, v in CONFIG.get("detail_questions", {}).items()})
     questions["is_ai"] = Noul(instructions=trend["is_ai_question"])
     client, tokens = TypeSafeClient(), []
 
@@ -352,6 +367,10 @@ def main():
     lines.append("")
     lines += ["## 믿고 보는 저자", ""]
     lines += [f"- [{x['title']}]({x['url']}) - {x['source']}, {x['date']}" for x in sorted(trusted, key=lambda x: x["source"])] or ["- 없음"]
+    engineering = [x for x in engineering if norm_url(x["url"]) not in shown | {norm_url(y["url"]) for y in hn_ai + trusted}]
+    lines += ["", "## 엔지니어링 읽을거리", "",
+              "RSS의 최근 7일 글을 출처별로 고르게 모았다. AI 관심 질문·품질 판정을 거치지 않은 수집 후보이며 제품 소식도 포함될 수 있다.", ""]
+    lines += [f"- [{x['title']}]({x['url']}) - {x['source']}, {x['date']}" for x in engineering] or ["- 없음"]
     lines += ["", "## 실행 기록", "",
               f"- 출처별 건수: {', '.join(f'{s} {n}' for s, n in counts.items())}",
               f"- 판정 {len(scored)}건, 오류 {len(errors)}건, {time.time() - started:.0f}초, ${cost:.4f}",
@@ -376,9 +395,9 @@ def main():
             (OUT / f"{day}.md").write_text(f"# Jev 레이더 {day}\n\n한 화면 목록을 만들지 못했다({type(e).__name__}: {e}). [[{report_path.stem}]]를 본다.\n")
 
     trend_urls = {norm_url(x["url"]) for x in hn_ai + papers + community + official + digest}
-    state["shown"] = sorted(set(state["shown"]) | shown | trend_urls | {norm_url(x["url"]) for x in trusted})
+    state["shown"] = sorted(set(state["shown"]) | shown | trend_urls | {norm_url(x["url"]) for x in trusted + engineering})
     state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
-    (OUT / f"{day}.json").write_text(json.dumps({"scored": scored, "trusted": trusted}, ensure_ascii=False))
+    (OUT / f"{day}.json").write_text(json.dumps({"scored": scored, "trusted": trusted, "engineering": engineering}, ensure_ascii=False))
     total = sum(len(v) for v in sections.values())
     notify(f"{total}건을 골랐습니다 ({len(pool)}건 판정, ${cost:.3f})" + (" · 일부 출처/분류 실패" if failures or errors or reading_usage["errors"] else ""))
     print(f"{OUT / f'{day}.md'}: picked {total}, pool {len(pool)}, cost ${cost:.4f}, failures {failures}")
