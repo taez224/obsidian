@@ -36,7 +36,7 @@
 1. `blog-structure-scan.mjs` — 절 비중·반복·밀도 관측
 2. `blog-slop-lint.mjs` — high/medium/low와 밀도
 3. `git diff --check` — 편집 회귀
-4. frontmatter, 링크, 표, 이미지 임베드 — 발행 형식 무결성
+4. frontmatter, 링크, 표, 이미지 임베드 — 발행 형식 무결성. 사이트 발행은 [공개 화면 확인](../../../guides/writing.md#공개-화면-확인)으로 본문과 실제 표시를 대조하고, 미확인 화면은 따로 밝힌다
 5. 논지를 운반하는 도식이 있으면 `visual-argument-review.md`에 따라 실제 발행 폭으로 렌더
 6. 수치·연구·기술 주장은 1차 자료 또는 근거 원장과 대조
 

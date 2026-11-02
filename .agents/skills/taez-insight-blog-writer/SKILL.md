@@ -57,7 +57,7 @@ Help TaeZ turn grounded experience and judgment into Korean articles that fit th
 
 ### 단일 출처 파일 (`references/`)
 
-- `voice-profile.md` - 지킬 목소리 DNA.
+- `voice-profile.md` - 기존 글에서 관찰한 목소리와 사용자가 채택한 편집 사례. 글의 목적과 재료에 맞는 선택만 참고한다.
 - `anti-slop-lexicon.md` - 표현·문장부호 검사 패턴의 정본. lint와 AI-티 감별사가 검토 후보를 찾는 데 함께 사용한다.
 - `korean-first-draft.md` - 새 글을 쓸 때 읽는 번역투·정형 문장 예방 규칙. 윤문용 전체 분류표가 아니다.
 - `editing-rubric.md` - TaeZ의 실제 교정에서 채택한 블로그 편집 질문. 초안 작성과 다듬기 검토에 함께 쓴다.
@@ -86,7 +86,7 @@ If missing, ask for only the information needed:
 
 If the user already provides direction, proceed without asking.
 
-집필·리뷰의 기준과 범위 판단은 [공통 글쓰기 기준의 작성 전후 대조](../../guides/writing.md#작성-전후-대조)를 따른다.
+집필·리뷰의 기준과 범위 판단은 [공통 글쓰기 기준의 작성 전후 대조](../../guides/writing.md#작성-전후-대조)를 따른다. 개성과 표시 요소를 다듬을 때는 [개성을 살리는 편집](../../guides/writing.md#개성을-살리는-편집)을 함께 적용한다. 기존 글 편집에서는 어떤 표현을 남기고 무엇의 배치를 바꿨는지 설명하며, 새 표현을 보태야 개선한 것으로 보지 않는다.
 
 AI가 맡을 범위는 [작업 목적과 AI의 역할](../../guides/writing.md#작업-목적과-ai의-역할)에 맞춘다. 구성 연습을 원하면 사용자가 세운 논지·절 배치에 피드백하고, 문장 연습을 원하면 직접 쓰겠다고 한 부분을 대신 완성하지 않는다. 완성이 목적이면 요청한 구성·초안·윤문을 제공하되, 아래의 초안 작성 조건(아웃라인 확정 뒤)을 유지한다. 이미 정한 목적이나 직접 쓸 범위를 다시 묻지 않는다.
 
@@ -248,6 +248,8 @@ For a substantial draft or review, check only the applicable questions:
 - Is the practical takeaway about behavior or structure, not just attitude?
 - Are output metrics separated from actual capability, learning, reliability, or user value?
 - Are AI-generated phrases flattened out without making the prose bland?
+
+사이트 발행 전 검수나 반영 요청이면 [공개 화면 확인](../../guides/writing.md#공개-화면-확인)에 따라 사용한 표시 요소와 실제 미리보기를 확인한다. 일반 초안·문장 검토를 발행 검수로 확대하지 않는다.
 
 연재 글이면 `references/series.md`의 「검수」 항목으로 다시 훑는다.
 
