@@ -7,10 +7,6 @@ description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, 
 
 Create and edit valid Obsidian Flavored Markdown. Obsidian extends CommonMark and GFM with wikilinks, embeds, callouts, properties, comments, and other syntax. This skill covers only Obsidian-specific extensions -- standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) is assumed knowledge.
 
-## 이 vault에서의 적용
-
-이 파일은 Obsidian 문법 참고용이다. 속성은 [속성 스키마](../../../99_Templates/_property-schema.md), 작성·편집 선택은 해당 작업 스킬과 [공통 글쓰기 기준](../../guides/writing.md)을 따른다. 아래 워크플로는 링크·콜아웃·임베드를 모든 노트에 추가하라는 요구가 아니다. 공개 사이트의 지원 문법과 표시는 [AUTHORING.md](../../../../taez224.github.io/AUTHORING.md)가 정본이며 Obsidian 읽기 화면의 확인만으로 사이트 표시를 검증했다고 하지 않는다.
-
 ## Workflow: Creating an Obsidian Note
 
 1. **Add frontmatter** with properties (title, tags, aliases) at the top of the file. See [PROPERTIES.md](references/PROPERTIES.md) for all property types.

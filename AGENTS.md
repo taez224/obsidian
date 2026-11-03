@@ -21,7 +21,7 @@
 
 ## 작업별 진입점
 
-Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsidian-markdown](.agents/skills/obsidian-markdown/SKILL.md)을 함께 읽는다.
+Obsidian Markdown을 만들거나 수정할 때는 아래 작업 스킬과 [obsidian-markdown](.agents/skills/obsidian-markdown/SKILL.md)을 함께 읽는다. obsidian-markdown은 문법 참고용이며, 콜아웃 사용 여부와 공개 사이트 표시는 [공통 글쓰기 기준](.agents/guides/writing.md)을 따른다.
 
 | 요청 | 먼저 읽을 스킬 |
 | --- | --- |
