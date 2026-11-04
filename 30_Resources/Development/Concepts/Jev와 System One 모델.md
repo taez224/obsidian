@@ -91,22 +91,23 @@ print(answer.choice, answer.confidence)  # 개발 0.44
 
 Jev는 딱 맞는 답이 없어도 주어진 선택지 중 하나를 고르므로 "해당 없음"(`none_of_the_above`)을 선택지에 넣었다. 선택지 이름과 설명은 그대로 모델에 들어가므로, [Choice 문서](https://docs.typesafe.ai/primitives/choice)가 권하는 대로 서로 겹치지 않게 쓴다.
 
-이 노트의 실제 판정 결과다.
-
-```json
-"topic": {
-  "type": "choice",
-  "choice": "개발",
-  "confidence": 0.44,
-  "probabilities": {
-    "개발": 0.51,
-    "커리어": 0.34,
-    "철학": 0.08,
-    // 나머지 선택지들...
-    "none_of_the_above": 0.0
-  }
-}
-```
+> [!example]- 실제 Choice 응답
+> 이 노트의 실제 판정 결과다.
+>
+> ```json
+> "topic": {
+>   "type": "choice",
+>   "choice": "개발",
+>   "confidence": 0.44,
+>   "probabilities": {
+>     "개발": 0.51,
+>     "커리어": 0.34,
+>     "철학": 0.08,
+>     // 나머지 선택지들...
+>     "none_of_the_above": 0.0
+>   }
+> }
+> ```
 
 Jev의 *choice*는 `개발`이었지만 *probabilities*를 보면 `커리어`일 가능성도 0.34라고 봤고 최종 *confidence*는 0.44에 그쳤다. 해당 노트에 내가 실제로 붙인 태그는 `커리어`였다. 확신도가 이렇게 낮으면 Jev의 답을 그대로 믿지 않고 직접 확인한다.
 
