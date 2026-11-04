@@ -19,14 +19,9 @@ used_in:
 
 플랫폼팀은 전사 여러 팀이 함께 사용하는 개발 환경과 배포 경로, 운영 기준을 공통 기반으로 설계해 온 조직이다. AI가 업무의 일부가 된 지금은 이 책임의 범위도 AI 활용까지 확장되어야 한다.
 
-개인이 각자 AI를 탐색하고 실험하는 과정은 필요하다. 그러나 조직의 승인이나 관리 밖에서 AI 도구가 확산되는 Shadow AI는 데이터와 보안, 규정 준수의 위험을 만들 수 있다. 사용 기준과 검증 경계 없이 만들어진 저품질 산출물은 Workslop이 되어 동료에게 해석과 수습 비용을 넘길 수도 있다. 두 문제는 같지 않지만, AI 활용을 개인의 선택과 주의에만 맡겼을 때 조직의 역량으로 이어지기 어렵다는 공통점이 있다.
+개인이 각자 AI를 탐색하고 실험하는 과정은 필요하다. 그러나 조직의 승인이나 관리 밖에서 AI 도구가 확산되는 Shadow AI는 데이터와 보안, 규정 준수의 위험을 만들 수 있다.[^shadow-ai] 사용 기준과 검증 경계 없이 만들어진 저품질 산출물은 Workslop이 되어 동료에게 해석과 수습 비용을 넘길 수도 있다.[^workslop] 두 문제는 같지 않지만, AI 활용을 개인의 선택과 주의에만 맡겼을 때 조직의 역량으로 이어지기 어렵다는 공통점이 있다.
 
 해결은 모든 AI 사용을 막거나 하나의 방식만 강제하는 데 있지 않다. 플랫폼팀은 승인된 도구와 데이터 경계, 안전하게 시작할 수 있는 기본 경로, [[산출물이 팀의 자산이 되려면 판단·추적·복구가 가능해야 한다|산출물의 검증과 책임 기준]], 시행착오를 문서와 피드백으로 회수하는 경로를 제공해야 한다. 사람들이 우회할 필요가 없는 공통 기반을 만들 때 개인의 AI 실험이 조직의 학습과 재사용 가능한 역량으로 전환될 수 있다.
-
-## 출처
-
-- [Microsoft Learn - Shadow AI discovery](https://learn.microsoft.com/en-us/entra/global-secure-access/concept-shadow-ai-discovery) - Shadow AI를 조직이 승인하지 않은 생성형 AI 도구 사용으로 정의하는 참고자료
-- [[사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법#^fundamental-attribution-error-workslop|사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법]] - Workslop을 개인의 태도보다 조직의 시스템 문제로 다뤄야 한다는 근거
 
 ## 연관된 글
 
@@ -44,3 +39,7 @@ used_in:
 - [[AI 도입 압박이 만드는 저품질 산출물을 개인 탓으로 돌리기 쉽다]]
 - [[AI 활용의 마찰은 위험도에 맞게 설계해야 한다]]
 - [[팀의 AI 역량은 사용량이 아니라 회수율로 드러난다]]
+
+[^shadow-ai]: [Microsoft Learn - Shadow AI discovery](https://learn.microsoft.com/en-us/entra/global-secure-access/concept-shadow-ai-discovery) - Shadow AI를 조직이 승인하지 않은 생성형 AI 도구 사용으로 정의하는 참고자료
+
+[^workslop]: Kate Niederhoffer 외, [Why People Create AI ‘Workslop’ — and How to Stop It](https://mediapool.hm.edu/media/fk10/fk10_lokal/relaunch_3/masterstudiengaenge_1/hrm/eignungspruefung/why-people-create-ai-workslop-and-how-to-stop-it-EBSCO-FullText-01_30_2026.pdf), Harvard Business Review. 겉보기에는 완성됐지만 받는 사람이 해석하고 수습해야 하는 AI 산출물을 설명한다. 참고 노트: [[사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법#^fundamental-attribution-error-workslop|사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법]].
