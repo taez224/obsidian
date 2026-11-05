@@ -48,4 +48,4 @@ used_in:
 - [[팀의 AI 역량은 사용량이 아니라 회수율로 드러난다]]
 - [[AI 코딩 도구는 이해 부채를 만든다]]
 
-[^absorptive-capacity]: Cohen & Levinthal, [Absorptive Capacity: A New Perspective on Learning and Innovation](https://doi.org/10.2307/2393553) (1990) - 흡수 역량의 조직 수준 원개념
+[^absorptive-capacity]: Cohen & Levinthal, [Absorptive Capacity](https://doi.org/10.2307/2393553) (1990). 조직 수준의 흡수 역량을 제시한 논문이다.

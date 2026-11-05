@@ -40,6 +40,10 @@ used_in:
 - [[AI 활용의 마찰은 위험도에 맞게 설계해야 한다]]
 - [[팀의 AI 역량은 사용량이 아니라 회수율로 드러난다]]
 
-[^shadow-ai]: [Microsoft Learn - Shadow AI discovery](https://learn.microsoft.com/en-us/entra/global-secure-access/concept-shadow-ai-discovery) - Shadow AI를 조직이 승인하지 않은 생성형 AI 도구 사용으로 정의하는 참고자료
+## 참고 자료
 
-[^workslop]: Kate Niederhoffer 외, [Why People Create AI ‘Workslop’ — and How to Stop It](https://mediapool.hm.edu/media/fk10/fk10_lokal/relaunch_3/masterstudiengaenge_1/hrm/eignungspruefung/why-people-create-ai-workslop-and-how-to-stop-it-EBSCO-FullText-01_30_2026.pdf), Harvard Business Review. 겉보기에는 완성됐지만 받는 사람이 해석하고 수습해야 하는 AI 산출물을 설명한다. 참고 노트: [[사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법#^fundamental-attribution-error-workslop|사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법]].
+- [[사람들이 AI '워크슬롭'을 만드는 이유와 이를 막는 방법]]
+
+[^shadow-ai]: Microsoft Learn, [Shadow AI discovery](https://learn.microsoft.com/en-us/entra/global-secure-access/concept-shadow-ai-discovery). Shadow AI를 조직이 승인하지 않은 생성형 AI 도구 사용으로 정의한다.
+
+[^workslop]: Kate Niederhoffer 외, [AI 워크슬롭의 원인과 대응](https://mediapool.hm.edu/media/fk10/fk10_lokal/relaunch_3/masterstudiengaenge_1/hrm/eignungspruefung/why-people-create-ai-workslop-and-how-to-stop-it-EBSCO-FullText-01_30_2026.pdf), Harvard Business Review. 겉보기에는 완성됐지만 받는 사람이 해석하고 수습해야 하는 AI 산출물을 설명한다.

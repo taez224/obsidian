@@ -390,6 +390,6 @@ AI가 개발자의 역량을 증폭시킨다면, 플랫폼 팀은 조직의 지�
 - **Stripe & Harris Poll**, [**The Developer Coefficient**](https://stripe.com/files/reports/the-developer-coefficient.pdf) (2018)
 
 [^stripe-developer-coefficient]: [The Developer Coefficient](https://stripe.com/files/reports/the-developer-coefficient.pdf)
-[^microsoft-time-warp]: [Time Warp: The Gap Between Developers’ Ideal and Actual Workweeks in an AI-Driven Era](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/11/Time-Warp-Developer-Productivity-Study.pdf)
+[^microsoft-time-warp]: [Time Warp: 개발자의 이상적인 일주일과 실제 일주일](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/11/Time-Warp-Developer-Productivity-Study.pdf)
 [^spotify-backstage-onboarding]: [How Backstage Made Our Developers More Effective](https://engineering.atspotify.com/2021/9/how-backstage-made-our-developers-more-effective-and-how-it-can-help-yours-too)
 [^google-productivity]: [What Predicts Software Developers’ Productivity?](https://storage.googleapis.com/gweb-research2023-media/pubtools/4894.pdf)

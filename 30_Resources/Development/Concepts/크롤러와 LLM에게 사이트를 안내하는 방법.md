@@ -35,13 +35,13 @@ HTML만으로는 `<h1>`이 글 제목인지 사이트 이름인지 기계가 알
 
 ## 화면에 없는 정보의 위험
 
-구조화 데이터에는 페이지가 이미 가진 제목·요약·날짜·주소만 넣는다. 값이 없으면 빈 문자열을 넣지 않고 필드 자체를 만들지 않는다. Google은 화면에 보이지 않는 내용을 구조화 데이터로 표시하지 말라고 하며, 어기면 리치 결과로 표시되지 않거나 스팸으로 분류될 수 있다고 밝힌다.^[Google Search Central, [General structured data guidelines](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)의 Quality guidelines 절.]
+구조화 데이터에는 페이지가 이미 가진 제목·요약·날짜·주소만 넣는다. 값이 없으면 빈 문자열을 넣지 않고 필드 자체를 만들지 않는다. Google은 화면에 보이지 않는 내용을 구조화 데이터로 표시하지 말라고 하며, 어기면 리치 결과로 표시되지 않거나 스팸으로 분류될 수 있다고 밝힌다.^[Google Search Central, [구조화 데이터 일반 가이드라인](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)의 품질 가이드라인 절.]
 
 ## llms.txt의 채택 상태
 
 llms.txt는 [Jeremy Howard가 2024년 9월에 제안](https://llmstxt.org/)했고 아직 표준이 아니다.
 
-Google은 2026년 6월에 갱신한 AI 최적화 안내에서 llms.txt를 검색에 쓰지 않으며 검색에 노출되려고 별도의 기계 판독 파일을 만들 필요도 없다고 밝혔다.^[Google Search Central, [Optimizing your website for generative AI features on Google Search](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)의 "Mythbusting generative AI search: what you don't need to do" 절. 2026년 6월 15일 갱신은 [문서 업데이트 이력](https://developers.google.com/search/updates)에 있다.] 서버 로그를 공개한 실험들에서도 AI 크롤러가 llms.txt를 요청한 경우는 드물었다.^[OtterlyAI, [llms.txt and AI Visibility: Results from OtterlyAI's GEO Study](https://otterly.ai/blog/the-llms-txt-experiment/), 2026. 사이트 한 곳의 90일 로그에서 AI 크롤러 요청 6만 2천여 건 중 84건(0.1%)이 llms.txt였다. wislr, [AI Bot Traffic Is Accelerating Fast. 48 Days of Server Logs Expose What GPTBot, ChatGPT, ClaudeBot, and 16 Others Are Doing.](https://www.wislr.com/articles/ai-bot-behavior-log-analysis/), 2026. 사이트 한 곳의 48일 로그에서 봇 요청 12,099건 중 llms.txt 요청은 없었다.]
+Google은 2026년 6월에 갱신한 AI 최적화 안내에서 llms.txt를 검색에 쓰지 않으며 검색에 노출되려고 별도의 기계 판독 파일을 만들 필요도 없다고 밝혔다.^[Google Search Central, [Google 검색의 생성형 AI 최적화 안내](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)의 불필요한 최적화를 다룬 절. [2026년 6월 15일 업데이트 이력](https://developers.google.com/search/updates)도 참고했다.] 서버 로그를 공개한 실험들에서도 AI 크롤러가 llms.txt를 요청한 경우는 드물었다.^[OtterlyAI의 [llms.txt 실험](https://otterly.ai/blog/the-llms-txt-experiment/), 2026. 사이트 한 곳의 90일 로그에서 AI 크롤러 요청 6만 2천여 건 중 84건(0.1%)이 llms.txt였다. wislr의 [AI 봇 로그 분석](https://www.wislr.com/articles/ai-bot-behavior-log-analysis/), 2026. 사이트 한 곳의 48일 로그에서 봇 요청 12,099건 중 llms.txt 요청은 없었다.]
 
 OpenAI와 Anthropic이 자사 개발자 문서에 llms.txt를 두고 있지만, 그렇다고 그 모델들이 탐색할 때 다른 사이트의 llms.txt를 꼭 읽는다는 것은 아니다.
 
