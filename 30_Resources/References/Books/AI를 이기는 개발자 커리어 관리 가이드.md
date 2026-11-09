@@ -10,7 +10,7 @@ category: eBook
 total_page: 347
 publish_date: 2026-09-10
 cover_url: https://image.yes24.com/goods/196293945/XL
-status: 읽는 중
+status: 완독
 start_read_date: 2026-09-29
 finish_read_date: 2026-10-02
 my_rate: 4.1
