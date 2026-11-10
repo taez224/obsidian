@@ -16,6 +16,8 @@ AI 코딩 도구를 쓰면서 테스트를 작성하고 통과시키는 데 드�
 
 하지만 테스트 통과는 테스트에 담긴 조건을 만족했다는 뜻일 뿐이다. 구현과 테스트 자체가 잘못된 전제에서 출발했다면, 사용자의 필요와 어긋난 기능도 테스트를 통과할 수 있다.
 
+![모니터의 네모 부품은 검사를 통과했지만, 실제 둥근 구멍을 막자 틈이 남아 마법사가 손을 멈춘다.|480](../_attachments/illustrations/verification-not-validation.webp)
+
 ## verification과 validation
 
 Boehm은 1984년 논문[^boehm]에서 *verification*과 *validation*을 다음과 같이 구분했다.
