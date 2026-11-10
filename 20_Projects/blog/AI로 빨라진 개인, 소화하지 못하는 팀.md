@@ -12,8 +12,8 @@ status: published
 author: TaeZ
 publication: Nextree 기술 블로그
 source: https://www.nextree.io/airo-bbalrajin-gaein-sohwahaji-moshaneun-tim/
-thumbnail: "[[ai-fast-team-slow-thumbnail.png]]"
-thumbnail_style: soft
+thumbnail: "[[_attachments/illustrations/fast-individual-slow-team.webp]]"
+thumbnail_style: plain
 summary: AI는 개인의 작업 속도를 높였지만, 그것이 곧바로 팀의 진척이 되지는 않는다. 팀의 책임으로 넘어오는 경계에서 판단·추적·복구 가능성을 확인해야한다.
 related:
   - "[[개인의 AI 활용을 팀의 역량으로 바꾸려면]]"
